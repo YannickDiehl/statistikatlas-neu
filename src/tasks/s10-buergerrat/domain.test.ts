@@ -1,0 +1,496 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { fakeSav, fixtureSav } from '../../sandbox/testData';
+import { linkinv, logitOf, type LogitFit } from '../kit/logit';
+import { hints, R_SOLUTION, TOOLBOX_SCRIPT } from './content';
+import { rStyleProblems } from '../kit/rStyle';
+import {
+  ameCandidates, answerNotes, cellCandidates, cellsOk, chainOk, checkAme, checkCells, checkChain, checkLikelihood, checkModel, checkReport, detect,
+  initialS10, janaCandidates, likelihoodCandidates, orCandidates, readEntries, known, languages, likelihoodOk, likelihoodReveal, modelOk, parseS10, personNumbers, plenumLines, prepare,
+  compareJana, janaOutOf100, janaRevealed, readEntry, recogniseReport, sentenceNotes, statusS10, tafel, tafelNotes, tafelReady, tafelSentences, TIMES_LIKELY, type S10State,
+  AGE_STEP, clampCurve, CURVE_START, curveProb, curveStep, LOGIT_MAX, midAge, sameCurve, shiftMid, smartphoneData,
+} from './domain';
+
+const p = prepare(fixtureSav());
+const m = p.main as LogitFit;
+const fit = (id: keyof typeof p.models) => p.models[id] as LogitFit;
+/** Deutsche Schreibweise, wie Studierende sie eintippen. */
+const fmt = (x: number, d = 3) => x.toFixed(d).replace('.', ',').replace('-', '−');
+const texts = (notes: { text: string }[]) => notes.map(n => n.text).join(' | ');
+const jana = personNumbers(m, p.profiles.jana), wiegand = personNumbers(m, p.profiles.wiegand);
+const right = {
+  or: { pflicht: fmt(m.expB[1]), interesse: fmt(m.expB[2]) },
+  jana: { logit: fmt(jana.logit[0]), odds: fmt(jana.odds[0]), prob: fmt(jana.prob[0]) },
+  odds: { janaUp: fmt(jana.odds[1], 2), wiegand: fmt(wiegand.odds[0], 2), wiegandUp: fmt(wiegand.odds[1], 2) },
+  prob: { janaUp: fmt(jana.prob[1]), wiegand: fmt(wiegand.prob[0]), wiegandUp: fmt(100 * wiegand.prob[1], 1) + ' %' },
+};
+const solved = (patch: Partial<S10State> = {}): S10State => ({ ...initialS10(), ...right, campaign: 'depends', answer3: 'Kommt auf die Sprache an.', ...patch });
+
+test('prepares the variables like rec() and fits every model variant once', () => {
+  assert.ok(p.main && !p.problem);
+  assert.deepEqual(p.profiles, { jana: [2, 2], wiegand: [3, 4] });
+  assert.deepEqual(p.rawProfiles, { jana: [3, 4], wiegand: [2, 2] });
+  assert.deepEqual(p.pflichtRange, [1, 4]);
+  for (const id of Object.keys(p.models) as (keyof typeof p.models)[]) assert.ok(p.models[id].ok, id);
+  // Gegenrichtung: gleiche Beträge, umgekehrte Vorzeichen
+  assert.ok(Math.abs(fit('nonvote').coef[1] + m.coef[1]) < 1e-9);
+  assert.ok(Math.abs(fit('pa02a').coef[1] - m.coef[1]) < 1e-9);
+  assert.equal(p.ame.length, 2);
+  // pv01: 1–90 wählen, 91 nicht, fehlende Codes (auch −50) NA; rev über die beobachtete Spannweite (wie mariposa 0.7.3)
+  const sav = fakeSav({
+    pv01: { values: [1, 91, -50, 42, 91, 2, 3, 91, 4, 6, 1, 91], missingFrom: -1 },
+    pe09: { values: [1, 4, 1, 2, 3, 2, 1, 2, 4, 1, 3, 4], missingFrom: -1 },
+    pa02a: { values: [2, 5, 1, 3, 2, 1, 4, 3, 2, 5, 1, 4], missingFrom: -1 },
+    wghtpew: { values: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] },
+  });
+  const q = prepare(sav);
+  assert.ok(q.main);
+  assert.equal(q.main!.cases, 11);
+  assert.deepEqual(q.profiles.jana, [2, 2]);
+});
+
+test('a model that cannot be estimated gives an explanation instead of numbers', () => {
+  const sav = fakeSav({
+    pv01: { values: [1, 1, 1, 91, 91, 91, 2, 2], missingFrom: -1 },
+    pe09: { values: [1, 1, 1, 4, 4, 4, 1, 1], missingFrom: -1 },
+    pa02a: { values: [1, 2, 3, 1, 2, 3, 4, 5], missingFrom: -1 },
+    wghtpew: { values: [1, 1, 1, 1, 1, 1, 1, 1] },
+  });
+  const q = prepare(sav);
+  assert.equal(q.main, null);
+  assert.match(q.problem!, /trennen die beiden Ausgänge/);
+  assert.deepEqual(checkModel(q, right.or), []);
+  assert.deepEqual(janaCandidates(q), { logit: [], odds: [], prob: [] });
+  assert.deepEqual(tafel(q), []);
+  assert.equal(tafelReady(q, solved()), false);
+  assert.deepEqual(checkReport(q, '3,77', 'times', true), []);
+});
+
+test('reads entries with a tolerance of half a unit of the last digit', () => {
+  assert.deepEqual(readEntry('3,77'), { x: 3.77, tol: 0.005 + 1e-9, percent: false });
+  assert.deepEqual(readEntry('76,4 %'), { x: 76.4, tol: 0.05 + 1e-9, percent: true });
+  // „1.122“: wie R gedruckt (1,122) oder deutsch mit Tausenderpunkt (1122) – beide Lesarten, die aus R zuerst
+  assert.deepEqual(readEntries('1.122').map(r => [r.x, r.tol]), [[1.122, 0.0005 + 1e-9], [1122, 0.5 + 1e-9]]);
+  assert.deepEqual(readEntries('0.764').map(r => r.x), [0.764]);
+  assert.deepEqual(readEntries('1.122.278').map(r => r.x), [1122278]);
+  const ll = likelihoodCandidates(p).nullLL, orP = orCandidates(p, 1);
+  assert.equal(detect(fmt(m.minus2LLNull, 3).replace(',', '.'), ll, 0.5)!.hits[0].id, 'ok');
+  assert.equal(detect(fmt(m.expB[1], 3).replace(',', '.'), orP, 0.005)!.hits[0].id, 'ok');
+  assert.equal(detect('27.396', ll, 0.5)!.hits[0].id, 'ok');
+  assert.equal(readEntry('1122,3')!.tol, 0.05 + 1e-9);
+  assert.equal(readEntry('−0,27')!.x, -0.27);
+  assert.equal(readEntry('0.764')!.tol, 0.0005 + 1e-9);
+  assert.equal(readEntry('abc'), null);
+  // angehängte Einheiten
+  assert.deepEqual(readEntry('22,2 Pp.'), { x: 22.2, tol: 0.05 + 1e-9, percent: false });
+  assert.equal(readEntry('2,61-fach')!.x, 2.61);
+  assert.equal(readEntry('68 Prozent')!.percent, true);
+  assert.equal(readEntry(''), null);
+  // Prozent und Anteil werden beide als Wahrscheinlichkeit gelesen, eine Chance nie als Prozent
+  const probs = janaCandidates(p).prob;
+  assert.equal(detect(fmt(100 * jana.prob[0], 1), probs, 0.005)!.hits[0].id, 'ok');
+  assert.equal(detect(`${fmt(100 * jana.prob[0], 1)} %`, probs, 0.005)!.hits[0].id, 'ok');
+  assert.equal(detect(fmt(jana.odds[0], 2), probs, 0.005)!.hits[0].id, 'isOdds');
+  assert.equal(detect('0,5', probs, 0.005)!.imprecise, true);
+  // Wer den Wert rundet, den mariposa druckt (1.405 → 1,41), liegt richtig, auch wenn der genaue Wert 1,4049 ist
+  const or = [{ id: 'ok', value: 1.40491, note: () => ({ tone: 'ok' as const, text: '' }) }];
+  assert.equal(detect('1,41', or, 0.005)!.hits[0]?.id, 'ok');
+  assert.equal(detect('1,40', or, 0.005)!.hits[0]?.id, 'ok');
+  assert.equal(detect('1,42', or, 0.005)!.hits.length, 0);
+});
+
+test('station 1: both Exp(B) together name the way that was computed', () => {
+  const orOf = (id: keyof typeof p.models) => ({ pflicht: fmt(fit(id).expB[1]), interesse: fmt(fit(id).expB[2] ?? NaN) });
+  const ok = texts(checkModel(p, right.or));
+  assert.match(ok, /^Stimmt: Exp\(B\) = 2,615 für Pflichtgefühl und 2,417 für Interesse, gewichtet\. Auf der Folie stand 3,77 – deine Datei liefert einen anderen Wert\./);
+  assert.equal(modelOk(p, right.or), true);
+  assert.match(texts(checkModel(p, orOf('unweighted'))), /^Ungewichtet\?/);
+  assert.match(texts(checkModel(p, orOf('nonvote'))), /^Gegenrichtung: .*1\/0,382 ≈ 2,62\.$/);
+  assert.match(texts(checkModel(p, orOf('pe09'))), /^pe09 läuft von „stimme voll zu“/);
+  assert.match(texts(checkModel(p, orOf('pa02a'))), /^pa02a läuft von „sehr stark“/);
+  assert.match(texts(checkModel(p, orOf('dontknow'))), /„Weiß nicht“ als Nichtwahl gezählt/);
+  assert.match(texts(checkModel(p, orOf('ineligible'))), /Nicht Wahlberechtigte \(−50\)/);
+  assert.match(texts(checkModel(p, orOf('allMissing'))), /else=0/);
+  assert.match(texts(checkModel(p, { pflicht: fmt(fit('pflichtOnly').expB[1]), interesse: '' })), /^Pflichtgefühl: Das ist das Modell nur mit dem Pflichtgefühl/);
+  assert.match(texts(checkModel(p, { pflicht: fmt(m.coef[1]), interesse: fmt(m.coef[2]) })), /^Das ist B, der Logit-Koeffizient/);
+  // eines richtig, das andere leer bzw. falsch
+  assert.match(texts(checkModel(p, { pflicht: right.or.pflicht, interesse: '' })), /^Pflichtgefühl: stimmt\. Trag auch das andere Exp\(B\) ein/);
+  const mixed = checkModel(p, { pflicht: right.or.pflicht, interesse: '9,999' });
+  assert.deepEqual(mixed.map(n => n.tone), ['ok', 'warn']);
+  assert.doesNotMatch(texts(mixed), /Trag auch das andere/);
+  assert.match(texts(checkModel(p, { pflicht: '2,6', interesse: '' })), /genauer/);
+  assert.match(texts(checkModel(p, { pflicht: 'viel', interesse: '' })), /keine Zahl/);
+  assert.equal(modelOk(p, { pflicht: right.or.pflicht, interesse: '' }), false);
+  // Falsche Werte verraten die richtigen nicht
+  for (const wrong of [orOf('unweighted'), orOf('pe09'), { pflicht: '9,999', interesse: '9,999' }]) {
+    const t = texts(checkModel(p, wrong));
+    assert.ok(!t.includes('2,615') && !t.includes('2,417') && !t.includes('2,61 ') && !t.includes('2,42'), t);
+  }
+});
+
+test('station 2: the chain logit → odds → probability and its detours', () => {
+  const k = janaCandidates(p);
+  const note = (field: 'logit' | 'odds' | 'prob', id: string, d = 3) => texts(checkChain(p, { logit: '', odds: '', prob: '', [field]: fmt(k[field].find(c => c.id === id)!.value, d) }));
+  assert.equal(texts(checkChain(p, right.jana)), 'Logit: stimmt. | Chance: stimmt. | Wahrscheinlichkeit: stimmt.');
+  assert.equal(chainOk(p, right.jana), true);
+  assert.match(note('logit', 'rawCodes'), /Originalcodes eingesetzt \(pe09 = 3, pa02a = 4\)/);
+  assert.match(note('logit', 'rawPflicht'), /Originalcode von pe09/);
+  assert.match(note('logit', 'rawInteresse'), /Originalcode von pa02a/);
+  assert.match(note('logit', 'noConst'), /Konstante fehlt/);
+  assert.match(note('logit', 'expB'), /Exp\(B\) eingesetzt/);
+  assert.match(note('logit', 'sign'), /Vorzeichen/);
+  assert.match(note('logit', 'unweighted'), /ohne Gewicht/);
+  assert.match(note('odds', 'isLogit'), /^Chance: Das ist der Logit/);
+  assert.match(note('odds', 'isProb'), /Das ist die Wahrscheinlichkeit/);
+  assert.match(note('odds', 'inverse'), /nicht zu wählen/);
+  assert.match(note('prob', 'isOdds', 2), /^Wahrscheinlichkeit: Das ist die Chance, nicht die Wahrscheinlichkeit\. Wahrscheinlichkeiten liegen zwischen 0 und 1/);
+  assert.match(note('prob', 'complement'), /nicht zu wählen/);
+  assert.match(note('prob', 'rawCodes'), /Originalcodes/);
+  assert.match(texts(checkChain(p, { logit: '', odds: '', prob: fmt(100 * jana.prob[0], 1) })), /^Wahrscheinlichkeit: stimmt/);
+  assert.match(texts(checkChain(p, { logit: '9,99', odds: '', prob: '' })), /finde ich auf keinem Weg/);
+  // B schon auf zwei Stellen gerundet (−3,67 + 0,96·2 + 0,88·2 = 0,01): eigener Hinweis statt „auf keinem Weg“
+  const b2 = m.coef.map(v => Math.round(v * 100) / 100), L2 = b2[0] + 2 * b2[1] + 2 * b2[2];
+  const early = checkChain(p, { logit: fmt(L2, 2), odds: fmt(Math.exp(L2), 3), prob: fmt(linkinv(L2), 3) });
+  assert.deepEqual(early.map(n => n.tone), ['hint', 'hint', 'hint']);
+  for (const n of early) assert.match(n.text, /B zu früh gerundet\? Rechne mit drei Nachkommastellen/);
+  assert.equal(chainOk(p, { ...right.jana, odds: '9,99' }), false);
+});
+
+test('rule-based counter-questions to written answers', () => {
+  for (const t of ['3,77-mal so wahrscheinlich', 'fast viermal so wahrscheinlich', 'die 3,77-fache Wahrscheinlichkeit', 'Die Wahrscheinlichkeit ist 3,77-mal so hoch', '3,77 mal wahrscheinlicher'])
+    assert.ok(TIMES_LIKELY.test(t), t);
+  for (const t of ['3,77-mal so oft wählen', 'Ja, 3,77-mal häufiger.', 'viermal öfter']) assert.ok(TIMES_LIKELY.test(t), t);
+  for (const t of ['manchmal wahrscheinlich', 'Die Chance ist 3,77-mal so hoch', 'wahrscheinlich nicht', 'Sie gehen oft wählen']) assert.ok(!TIMES_LIKELY.test(t), t);
+  const none = { or: null, pJana: null }, some = known(p, { or: right.or, jana: right.jana });
+  assert.ok(some.or !== null && some.pJana !== null);
+  const times = answerNotes('Ja, 3,77-mal so wahrscheinlich.', none);
+  assert.equal(times[0].tone, 'warn');
+  assert.doesNotMatch(times[0].text, /\d+,\d/);
+  assert.match(answerNotes('Ja, 3,77-mal so wahrscheinlich.', some)[0].text, /^Probier es an Jana: 50,5 % × 2,61 = 132 % – geht das\?/);
+  assert.equal(answerNotes('Nein, nicht 3,77-mal so wahrscheinlich – die Chance ist 3,77-mal so hoch.', some)[0].tone, 'ok');
+  // Richtig abgelehnt – auch ohne das Wort „Chance“; mit Zahlen erst, wenn die eigenen Werte stimmen
+  const rejections = ['Nein, das heißt nicht 3,77-mal so wahrscheinlich.', 'Nein. Nicht 3,77-mal so wahrscheinlich – Wahrscheinlichkeiten können nicht über 100 % steigen.',
+    'Nicht 3,77-mal so wahrscheinlich – die Chance ist 3,77-mal so hoch.', '3,77-mal so wahrscheinlich? Das stimmt nicht.', '3,77-mal so wahrscheinlich? Das ist falsch.',
+    'Keinesfalls 3,77-mal so wahrscheinlich.', 'Auf keinen Fall 3,77-mal so wahrscheinlich.', 'Sie wählen nicht 3,77-mal so oft.',
+    'Die Wahrscheinlichkeit steigt nicht um das 3,77-fache.', 'Ich glaube nicht, dass sie 3,77-mal so wahrscheinlich wählen.',
+    'Nein, 3,77-mal so wahrscheinlich wäre falsch; es geht um die Odds.', 'Nein, 3,77-mal so wahrscheinlich heißt es nicht.',
+    'Das heißt nicht, dass sie 3,77-mal so wahrscheinlich wählen.', 'Es ist nicht so, dass sie 3,77-mal so wahrscheinlich wählen.'];
+  for (const t of rejections) {
+    const [first] = answerNotes(t, some);
+    assert.equal(first.tone, 'ok', t);
+    assert.match(first.text, /^Richtig abgelehnt – die Probe an Jana zeigt, warum: 50,5 % × 2,61 = 132 %\./, t);
+    assert.match(answerNotes(t, none)[0].text, /^Richtig abgelehnt\. /);
+    assert.doesNotMatch(answerNotes(t, none)[0].text, /\d+,\d/);
+  }
+  // Zustimmung, doppelte Verneinung, „sondern“ und Unsicherheit bleiben eine Warnung – auch nach „Nein,“ wenn der Satz die Lesart behauptet
+  const misreadings = ['Ja, 3,77-mal so wahrscheinlich, man kann es nicht anders sagen.', 'Ja, sie gehen 3,77-mal so oft wählen.', 'Ja, 3,77-mal häufiger.',
+    'Nein, die Wahrscheinlichkeit ist 3,77-mal so hoch.', 'Ja, das kann man nicht bestreiten: 3,77-mal so wahrscheinlich.',
+    'Das ist kein Zufall: Sie wählen 3,77-mal so wahrscheinlich.', 'Ja, 3,77-mal so wahrscheinlich – falsch ist das nicht.',
+    'Nicht nur doppelt, sondern 3,77-mal so wahrscheinlich.', 'Keine Ahnung, vielleicht 3,77-mal so wahrscheinlich?',
+    'Ich bin nicht sicher, aber vermutlich 3,77-mal so wahrscheinlich.', 'Ich weiß nicht, ob es 3,77-mal so wahrscheinlich heißt.',
+    'Stimmt, 3,77-mal so wahrscheinlich.', 'Nein, 3,77-mal so wahrscheinlich.'];
+  for (const t of misreadings) {
+    const [first] = answerNotes(t, some);
+    assert.equal(first.tone, 'warn', t);
+    assert.match(first.text, /^Probier es an Jana: 50,5 % × 2,61 = 132 % – geht das\?/, t);
+  }
+  assert.equal(sentenceNotes('Nein, die Wahrscheinlichkeit ist 3,77-mal so hoch.', 'times', some)[0].tone, 'warn');
+  assert.match(texts(sentenceNotes('Nein, nicht 3,77-mal so wahrscheinlich.', 'times', some)), /^Richtig abgelehnt/);
+  assert.match(texts(answerNotes('Die Kampagne bewirkt, dass mehr wählen.', none)), /vergleicht Menschen/);
+  assert.match(texts(answerNotes('Jana wird wählen.', some)), /Von 100 Menschen, die so antworten wie Jana, würden etwa 50 wählen gehen/);
+  assert.doesNotMatch(texts(answerNotes('Jana wird wählen.', none)), /etwa \d/);
+  // abgeschwächte Sätze sind keine deterministische Aussage
+  for (const t of ['Jana würde wahrscheinlich wählen.', 'Menschen wie Jana: sie geht eher wählen.', 'Herr Wiegand wird vermutlich wählen.'])
+    assert.doesNotMatch(texts(answerNotes(t, some)), /sagt nichts über Jana persönlich/, t);
+  assert.match(texts(answerNotes('Herr Wiegand wird sicher wählen.', some)), /sagt nichts über Jana persönlich/);
+  assert.match(texts(answerNotes('Das ist so.', none)), /Gegenprobe/);
+  assert.deepEqual(answerNotes('  ', none), []);
+  assert.deepEqual(sentenceNotes('Das ist so.', 'pp', none), []);
+  assert.match(texts(sentenceNotes('Im Schnitt 5 Prozent mehr.', 'pp', none)), /gemeint sind Prozentpunkte/);
+  assert.deepEqual(known(p, { or: { pflicht: '9,999', interesse: '9,999' }, jana: { logit: '', odds: '', prob: '0,999' } }), none);
+});
+
+test('station 4: one step more, in odds and in probabilities', () => {
+  assert.equal(texts(checkCells(p, right.odds, 'odds')), 'Jana, eine Stufe mehr: stimmt. | Herr Wiegand: stimmt. | Herr Wiegand, eine Stufe mehr: stimmt.');
+  assert.equal(cellsOk(p, right.odds, 'odds') && cellsOk(p, right.prob, 'prob'), true);
+  const val = (cell: 'janaUp' | 'wiegand' | 'wiegandUp', lang: 'odds' | 'prob', id: string) => cellCandidates(p, cell, lang).find(c => c.id === id)!.value;
+  const one = (cell: 'janaUp' | 'wiegand' | 'wiegandUp', lang: 'odds' | 'prob', input: string) => texts(checkCells(p, { janaUp: '', wiegand: '', wiegandUp: '', [cell]: input }, lang));
+  // Umweg 6: Wahrscheinlichkeit mal Exp(B), als Anteil oder in Prozent
+  assert.match(one('janaUp', 'prob', fmt(val('janaUp', 'prob', 'timesLikely'), 2)), /mal Exp\(B\)\. Exp\(B\) vervielfacht die Chance/);
+  assert.match(one('janaUp', 'prob', fmt(100 * val('janaUp', 'prob', 'timesLikely'), 0)), /nicht über 100 % steigen/);
+  assert.match(one('wiegandUp', 'prob', fmt(val('wiegandUp', 'prob', 'plusAme'), 3)), /linear gedacht/);
+  assert.match(one('janaUp', 'prob', fmt(val('janaUp', 'prob', 'isOdds'), 2)), /Das ist die Chance/);
+  assert.match(one('janaUp', 'odds', fmt(val('janaUp', 'odds', 'additive'), 2)), /Chance × Exp\(B\), nicht Chance \+ Exp\(B\)/);
+  assert.match(one('janaUp', 'odds', fmt(val('janaUp', 'odds', 'swap'), 2)), /ohne die Stufe mehr/);
+  assert.match(one('wiegand', 'odds', fmt(val('wiegand', 'odds', 'rawCodes'), 2)), /Originalcodes eingesetzt \(pe09 = 2, pa02a = 2\)/);
+  assert.match(one('wiegand', 'prob', fmt(val('wiegand', 'prob', 'complement'), 3)), /nicht zu wählen/);
+  assert.match(one('wiegand', 'prob', '0,123'), /predict\(\) mit type = "response"/);
+  assert.equal(cellsOk(p, { ...right.prob, janaUp: '' }, 'prob'), false);
+});
+
+test('the interpreter board waits for Jana, all six cells and the answer to question 3', () => {
+  assert.equal(tafelReady(p, solved()), true);
+  for (const patch of [{ campaign: '' as const }, { answer3: ' ' }, { jana: { ...right.jana, logit: '' } }, { odds: { ...right.odds, wiegand: '9,99' } },
+    { prob: { ...right.prob, wiegandUp: '' } }, { or: { pflicht: '', interesse: '' }, jana: { ...right.jana, prob: '0,999' } }])
+    assert.equal(tafelReady(p, solved(patch)), false, JSON.stringify(patch));
+  const [j, w] = tafel(p);
+  assert.deepEqual(j.prob, jana.prob);
+  assert.ok(Math.abs((j.logit[1] - j.logit[0]) - m.coef[1]) < 1e-12 && Math.abs(w.odds[1] / w.odds[0] - m.expB[1]) < 1e-9);
+  const s = tafelSentences(p);
+  assert.match(s.prob, /^In Wahrscheinlichkeiten gewinnt Jana mehr: \+22,2 gegenüber \+3,6 Prozentpunkten/);
+  assert.match(s.odds, /mit 2,61 multipliziert \(Jana 1,02 → 2,66, Herr Wiegand 15,6 → 40,7\)/);
+  assert.match(s.risk, /\(−45 %\).*\(−60 %\)/);
+  assert.deepEqual(languages('Die Chance steigt, in Prozentpunkten mehr, der Logit gleich'), ['odds', 'prob', 'logit']);
+  assert.deepEqual(languages('Bei Jana.'), []);
+  assert.match(texts(tafelNotes(p, 'jana', 'Bei Jana steigt die Wahrscheinlichkeit mehr.')), /stimmt in Wahrscheinlichkeiten.*Deine Antwort spricht Wahrscheinlichkeiten\. Die anderen Sprachen: In Chancen gewinnen beide gleich/);
+  assert.match(texts(tafelNotes(p, 'same', 'Gleich.')), /Chancen und Logits.*Ich erkenne nicht, in welcher Sprache/);
+  assert.equal(tafelNotes(p, 'depends', 'x')[0].tone, 'ok');
+  assert.match(texts(tafelNotes(p, 'wiegand', 'Die Kampagne bewirkt bei ihm mehr.')), /relativ betrachtet.*Vorsicht mit „bewirkt“/);
+});
+
+test('station 5: the AME and the size behind the report number', () => {
+  assert.match(texts(checkAme(p, fmt(p.ame[0]))), /^Stimmt: Im Mittel über alle Befragten steigt die Wahrscheinlichkeit je Stufe Pflichtgefühl um 10,3 Prozentpunkte\.$/);
+  assert.match(texts(checkAme(p, fmt(100 * p.ame[0], 1))), /^Stimmt/);
+  assert.match(texts(checkAme(p, fmt(p.ame[1]))), /Interesses/);
+  assert.match(texts(checkAme(p, fmt(p.ame[1]))), /Interesses/);
+  assert.match(texts(checkAme(p, fmt(m.coef[1]))), /Das ist B/);
+  assert.match(texts(checkAme(p, '0,1')), /genauer/);
+  assert.equal(ameCandidates(p)[0].id, 'ok');
+  const kind = (x: string, unit: Parameters<typeof recogniseReport>[2], revealed = true) => recogniseReport(p, x, unit, revealed)?.kind;
+  assert.equal(kind(fmt(m.expB[1], 2), 'times'), 'or');
+  assert.equal(kind(fmt(100 * (m.expB[1] - 1), 0), 'pct'), 'orPct');
+  assert.equal(kind(fmt(m.coef[1], 2), 'logit'), 'b');
+  assert.equal(kind(fmt(100 * p.ame[0], 1), 'pp'), 'amePp');
+  assert.equal(kind(fmt(p.ame[0], 3), 'none'), 'ame');
+  assert.equal(kind(fmt(100 * (jana.prob[1] - jana.prob[0]), 1), 'pp'), 'jana');
+  assert.equal(kind(fmt(100 * (wiegand.prob[1] - wiegand.prob[0]), 1), 'pp'), 'wiegand');
+  const [j] = tafel(p);
+  assert.equal(kind(fmt(100 * (j.risk[1] - j.risk[0]) / j.risk[0], 0), 'pct'), 'riskJana');
+  assert.equal(kind(fmt(m.expB[2], 2), 'times'), 'orInt');
+  // Vor der Tafel ordnet das Feld Zahlen der Ratsmitglieder nicht ein – sonst wäre es ein Orakel für Station 2 und 4
+  for (const [x, unit] of [[fmt(100 * (jana.prob[1] - jana.prob[0]), 1), 'pp'], [fmt(100 * wiegand.prob[0], 0), 'pct'], [fmt(100 * jana.prob[0], 0), 'pct'],
+    [fmt(100 * (j.risk[1] - j.risk[0]) / j.risk[0], 0), 'pct']] as const) assert.equal(kind(x, unit, false), undefined, x);
+  assert.equal(kind(fmt(100 * p.ame[0], 1), 'pp', false), 'amePp');
+  assert.match(texts(checkReport(p, fmt(100 * wiegand.prob[0], 0), 'pct', false)), /erkenne ich nicht.*erst ein, wenn die Dolmetscher-Tafel offen ist/);
+  assert.doesNotMatch(texts(checkReport(p, fmt(100 * wiegand.prob[0], 0), 'pct', false)), /Wahrscheinlichkeit, kein Effekt/);
+  assert.match(texts(checkReport(p, fmt(100 * wiegand.prob[0], 0), 'pct', true)), /Wahrscheinlichkeit, kein Effekt/);
+  // So wie die App Zuwächse und Faktoren druckt: „+22,2“ und „×2,61“
+  assert.equal(kind(`+${fmt(100 * (jana.prob[1] - jana.prob[0]), 1)}`, 'pp'), 'jana');
+  assert.equal(kind(`×${fmt(m.expB[1], 2)}`, 'times'), 'or');
+  assert.match(texts(checkReport(p, `×${fmt(m.expB[1], 2)}`, 'times', true)), /^Das ist Exp\(B\), das Chancenverhältnis\./);
+  assert.match(texts(checkAme(p, `+${fmt(p.ame[0])}`)), /^Stimmt/);
+  assert.match(texts(checkAme(p, `+${fmt(100 * p.ame[0], 1)}`)), /^Stimmt/);
+  assert.equal(kind('12345', 'pp'), undefined);
+  // Einheit falsch gewählt: Prozent statt Prozentpunkte, Faktor als Prozentpunkte, Anteil als Prozentpunkte
+  const amePp = fmt(100 * p.ame[0], 1);
+  assert.match(texts(checkReport(p, amePp, 'pct', false)), /Prozent oder Prozentpunkte\?/);
+  assert.match(texts(checkReport(p, fmt(m.expB[1], 2), 'pp', false)), /Exp\(B\) ist ein Faktor.*Die Chance steigt um 161 %/);
+  assert.match(texts(checkReport(p, fmt(p.ame[0], 3), 'pp', false)), /wären winzig/);
+  assert.match(texts(checkReport(p, amePp, '', false)), /Wähl eine Einheit/);
+  assert.match(texts(checkReport(p, fmt(m.coef[1], 2), 'pp', false)), /Logit-Einheiten/);
+  // Was die Zahl verschweigt: Zahlen der Ratsmitglieder erst nach der Tafel
+  const hidden = texts(checkReport(p, amePp, 'pp', false)), shown = texts(checkReport(p, amePp, 'pp', true));
+  assert.doesNotMatch(hidden, /22,2|3,6/);
+  assert.match(shown, /für Menschen wie Jana 22,2, wie Herrn Wiegand 3,6 Prozentpunkte/);
+  assert.match(texts(checkReport(p, fmt(m.classification.overall, 1), 'pct', true)), /Trefferquote/);
+  assert.match(texts(checkReport(p, '999', 'pct', true)), /erkenne ich nicht/);
+  assert.match(texts(checkReport(p, 'viel', 'pct', true)), /keine Zahl/);
+  assert.match(texts(checkReport(p, fmt(m.expB[1], 2), 'times', true)), /Zeigt: eine Zahl, die für alle gilt.*„2,61-mal so wahrscheinlich“/);
+});
+
+test('station 6: hit rate against likelihood', () => {
+  const c = m.classification;
+  const e = { hitModel: fmt(c.overall, 1), hitAll: fmt(100 * Math.round(c.n1) / (Math.round(c.n0) + Math.round(c.n1)), 1), nullLL: fmt(m.minus2LLNull, 1), modelLL: fmt(m.minus2LL, 1), sentence: '' };
+  assert.equal(texts(checkLikelihood(p, e)), 'Trefferquote des Modells: stimmt. | Regel „alle wählen“: stimmt. | −2LL Nullmodell: stimmt. | −2LL Modell: stimmt.');
+  assert.equal(likelihoodOk(p, e), true);
+  const one = (patch: Partial<typeof e>) => texts(checkLikelihood(p, { hitModel: '', hitAll: '', nullLL: '', modelLL: '', sentence: '', ...patch }));
+  assert.match(one({ hitModel: fmt(c.pct1, 1) }), /nur bei den Wählenden/);
+  assert.match(one({ hitModel: fmt(c.pct0, 1) }), /Nichtwählenden/);
+  assert.match(one({ hitAll: fmt(c.overall, 1) }), /Trefferquote des Modells – sie gehört ins erste Feld/);
+  assert.match(one({ nullLL: fmt(m.minus2LL, 1) }), /−2LL deines Modells.*Chi-square des Omnibus-Tests höher/);
+  assert.match(one({ nullLL: fmt(m.omnibus.chi2, 1) }), /Chi-square des Omnibus-Tests.*Zähl es zum −2LL deines Modells dazu/);
+  assert.match(one({ modelLL: fmt(m.omnibus.chi2, 1) }), /Chi-square des Omnibus-Tests, die Differenz/);
+  // −2LL des Nullmodells, wie man es aus summary() bekommt: −2 Log Likelihood plus Chi-square (je drei Nachkommastellen)
+  const r3 = (x: number) => Math.round(1000 * x) / 1000;
+  assert.match(one({ nullLL: fmt(r3(m.minus2LL) + r3(m.omnibus.chi2), 3) }), /stimmt/);
+  assert.doesNotMatch(texts(checkLikelihood(p, { ...e, hitAll: '1' })), /null\.deviance|\$/);
+  assert.match(one({ hitModel: '85' }), /genauer/);
+  assert.equal(likelihoodOk(p, { ...e, modelLL: '' }), false);
+  const reveal = likelihoodReveal(p).join(' ');
+  assert.match(reveal, /Modell 84,9 % gegen 80,5 % für die Regel „alle wählen“ \(\+4,4 Prozentpunkte\)\. Von 5 Nichtwählenden erkennt das Modell 2/);
+  assert.match(reveal, /von 27,4 auf 19,4 \(−29 %, McFadden-R² = 0,293\)/);
+});
+
+test('restores state defensively, reports status and builds the council card', () => {
+  assert.deepEqual(parseS10(null), initialS10());
+  assert.deepEqual(parseS10('kaputt'), initialS10());
+  const s = parseS10({ mode: 'pair', or: { pflicht: 3.77, interesse: '1,405' }, campaign: 'alle', report: { unit: 'kg', number: 'x'.repeat(50) }, odds: { janaUp: '12,2', extra: '1' }, answer1: 7 });
+  assert.equal(s.mode, 'pair');
+  assert.deepEqual(s.or, { pflicht: '', interesse: '1,405' });
+  assert.equal(s.campaign, '');
+  assert.equal(s.report.unit, '');
+  assert.equal(s.report.number.length, 24);
+  assert.equal(parseS10({ report: { number: '+22,2 Prozentpunkte' } }).report.number, '+22,2 Prozentpunkte');
+  assert.deepEqual(s.odds, { janaUp: '12,2', wiegand: '', wiegandUp: '' });
+  assert.equal(s.answer1, '');
+  assert.equal(statusS10(initialS10()), 'open');
+  assert.equal(statusS10({ ...initialS10(), campaign: 'jana' }), 'running');
+  assert.equal(statusS10({ ...initialS10(), likelihood: { ...initialS10().likelihood, hitModel: '95' } }), 'running');
+  const done = solved({ answer1: 'Nein, die Chance.', report: { number: '10,3', unit: 'pp', sentence: 'Im Schnitt 10 Prozentpunkte mehr.' } });
+  assert.equal(statusS10(done), 'done');
+  assert.equal(statusS10({ ...done, report: { ...done.report, sentence: '' } }), 'running');
+  const lines = plenumLines({ ...done, joint: 'Gemeinsam.', likelihood: { hitModel: '84,9 %', hitAll: '80,5', nullLL: '27,4', modelLL: '19,4', sentence: '' } }, p);
+  assert.deepEqual(lines, [
+    ['Frage 3 · Bei wem bewirkt die Kampagne mehr?', 'kommt auf die Sprache an – Kommt auf die Sprache an.'],
+    ['Gemeinsamer Satz für den Rat', 'Gemeinsam.'],
+    ['Die eine Zahl für den Bericht', '10,3 Prozentpunkte · AME'],
+    ['Satz für den Bericht', 'Im Schnitt 10 Prozentpunkte mehr.'],
+    ['Frage 1 · „3,77-mal so wahrscheinlich?“', 'Nein, die Chance.'],
+    ['Zusatz · Trefferquote gegen −2LL', 'Modell 84,9 % · „alle wählen“ 80,5 % · −2LL 27,4 → 19,4'],
+  ]);
+  assert.equal(plenumLines(initialS10())[2][1], '');
+  assert.equal(plenumLines({ ...done, report: { ...done.report, number: '2,61', unit: 'times' } }, p)[2][1], '2,61-fach · Exp(B)');
+  assert.equal(plenumLines({ ...done, report: { ...done.report, number: '2,61', unit: 'none' } }, p)[2][1], '2,61 · Exp(B)');
+  // eine eingetippte Einheit wird nicht verdoppelt
+  const line = (number: string, unit: S10State['report']['unit']) => plenumLines({ ...done, report: { ...done.report, number, unit } }, p)[2][1];
+  assert.equal(line('2,61-fach', 'times'), '2,61-fach · Exp(B)');
+  assert.equal(line('×2,61', 'times'), '2,61-fach · Exp(B)');
+  assert.equal(line('10,3 Prozent', 'pct'), '10,3 Prozent · AME');
+  assert.equal(line('10,3 %', 'pct'), '10,3 Prozent · AME');
+  assert.equal(line('10,3 Pp.', 'pp'), '10,3 Prozentpunkte · AME');
+  assert.equal(line('+10,3 Prozentpunkte', 'pp'), '+10,3 Prozentpunkte · AME');
+  assert.equal(line('10,3 %', ''), '10,3 % · AME');
+  // Größen der Ratsmitglieder erscheinen auf der Karte erst mit offener Tafel
+  const jPp = fmt(100 * (jana.prob[1] - jana.prob[0]), 1);
+  assert.equal(plenumLines({ ...done, report: { ...done.report, number: jPp, unit: 'pp' } }, p)[2][1], `${jPp} Prozentpunkte · Jana`);
+  assert.equal(plenumLines({ ...done, campaign: '', report: { ...done.report, number: jPp, unit: 'pp' } }, p)[2][1], `${jPp} Prozentpunkte`);
+});
+
+test('predicted probabilities are the logistic of the linear predictor', () => {
+  assert.ok(Math.abs(linkinv(logitOf(m, p.profiles.jana)) - jana.prob[0]) < 1e-15);
+  assert.ok(Math.abs(jana.odds[1] / jana.odds[0] - m.expB[1]) < 1e-9);
+});
+
+test('the guess for 100 people like Jana: defensive parse, status and one line of feedback', () => {
+  assert.deepEqual([initialS10().janaGuess, initialS10().janaGuessLocked], [null, false]);
+  assert.deepEqual([parseS10({ janaGuess: 63.4, janaGuessLocked: true }).janaGuess, parseS10({ janaGuess: 63.4, janaGuessLocked: true }).janaGuessLocked], [63, true]);
+  for (const bad of [-1, 101, '70', null]) assert.deepEqual([parseS10({ janaGuess: bad, janaGuessLocked: true }).janaGuess, parseS10({ janaGuess: bad, janaGuessLocked: true }).janaGuessLocked], [null, false]);
+  assert.equal(statusS10({ ...initialS10(), janaGuess: 40, janaGuessLocked: true }), 'running');
+  assert.equal(statusS10({ ...initialS10(), janaGuess: 40 }), 'open');
+  const real = janaOutOf100(p)!;
+  assert.equal(compareJana(p, real + 5)[0].tone, 'ok');
+  assert.match(compareJana(p, real - 30)[0].text, /du hast um 30 unterschätzt\.$/);
+  assert.equal(compareJana(p, real + 30).length, 1);
+});
+
+test('the comparison “Dein Tipp / Laut Modell” appears only after a locked guess and the right probability', () => {
+  const base = { janaGuess: 70, janaGuessLocked: true, jana: { logit: '', odds: '', prob: right.jana.prob } };
+  assert.equal(janaRevealed(p, base), true);
+  assert.equal(janaRevealed(p, { ...base, janaGuessLocked: false }), false);
+  assert.equal(janaRevealed(p, { ...base, janaGuess: null }), false);
+  assert.equal(janaRevealed(p, { ...base, jana: { ...base.jana, prob: '0,999' } }), false);
+  assert.equal(janaRevealed(p, { ...base, jana: { ...base.jana, prob: '' } }), false);
+});
+
+/** Funktionen, die bis Sitzung 11 nicht eingeführt sind – sie dürfen in keinem Code der Sitzung stehen. Die Pipe ist %>% (Sitzung 4), nie |>. */
+const NOT_INTRODUCED = /\|>|\bcoef\(|\$|null\.deviance|\bcrosstab\(|\bgroup_by\(|\bc\(logit|library\(dplyr\)|codebook\(allbus,|suffix =/;
+const codes = { toolbox: TOOLBOX_SCRIPT, full: R_SOLUTION.full, ...Object.fromEntries(Object.entries(hints).flatMap(([k, h]) => [[`${k}.scaffold`, h.scaffold], [`${k}.solution`, h.solution]])) };
+
+test('toolbox: every function of the session on a neutral example, tidyverse before mariposa', () => {
+  assert.match(TOOLBOX_SCRIPT, /^library\(tidyverse\)\nlibrary\(mariposa\)\n/);
+  for (const fn of ['mutate(', 'rec(', 'logistic_regression(', 'summary(', 'exp(', 'tibble(', 'predict(', 'type = "response"', 'marginal_effects(', 'weights = wghtpew'])
+    assert.ok(TOOLBOX_SCRIPT.includes(fn), fn);
+  // neutral: keine Variable der Aufgaben
+  assert.doesNotMatch(TOOLBOX_SCRIPT, /pv01|pe09|pa02a|waehlen|pflicht|interesse|Jana|Wiegand/);
+  assert.match(R_SOLUTION.full, /^library\(tidyverse\)\nlibrary\(mariposa\)\n/);
+});
+
+test('every R snippet uses only introduced tools; the null model comes from summary()', () => {
+  for (const [name, code] of Object.entries(codes)) {
+    assert.doesNotMatch(code, NOT_INTRODUCED, name);
+    // Pipe-Stil: jeder Aufruf mit dem Datensatz läuft über %>%, rec() steht nur in mutate()
+    assert.doesNotMatch(code.replace(/codebook\(allbus\)/g, ''), /\w+\(allbus\b/, name);
+    for (const line of code.split('\n').map(l => l.replace(/#.*$/, '')).filter(l => /\brec\(/.test(l))) assert.match(line, /^\s+\w+\s+= rec\(|mutate\(\w+ = rec\(/, `${name}: ${line}`);
+    assert.doesNotMatch(code, /marginal_effects\(modell\)|marginal_effects\(beispiel\)/, name);
+  }
+  assert.match(R_SOLUTION.model, /allbus <- allbus %>%\n  mutate\(\n    waehlen   = rec\(pv01, [^\n]+\),\n    pflicht   = rec\(pe09, rules = "rev"\),\n    interesse = rec\(pa02a, rules = "rev"\)\n  \)/);
+  assert.match(R_SOLUTION.model, /modell <- allbus %>%\n  logistic_regression\(waehlen ~ pflicht \+ interesse, weights = wghtpew\)\n\nmodell %>%\n  summary\(\)$/);
+  assert.match(R_SOLUTION.profiles, /profile <- tibble\(\n  pflicht   = c\(2, 3, 3, 4\),\n  interesse = c\(2, 2, 4, 4\)\n\)\n\nmodell %>%\n  predict\(newdata = profile, type = "response"\)$/);
+  assert.match(R_SOLUTION.ame, /modell %>%\n  marginal_effects\(\) %>%\n  summary\(\)$/);
+  assert.match(TOOLBOX_SCRIPT, /beispiel <- allbus %>%\n  logistic_regression\(abitur ~ age, weights = wghtpew\)/);
+  assert.match(hints.ame.scaffold, /modell %>%\n  ___\(\) %>%\n  summary\(\)/);
+  assert.doesNotMatch(hints.likelihood.pointer + hints.likelihood.think, /null\.deviance|\$/);
+  assert.match(hints.likelihood.pointer, /Omnibus-Test zeigt mit Chi-square/);
+  assert.match(hints.likelihood.solution, /856\.448 \+ 265\.831/);
+});
+
+test('every R code of the session follows the uniform layout (kit/rStyle), also the station scripts joined to the model', () => {
+  const all: Record<string, string> = {
+    ...codes, model: R_SOLUTION.model, jana: R_SOLUTION.jana, profiles: R_SOLUTION.profiles, ame: R_SOLUTION.ame, likelihood: R_SOLUTION.likelihood,
+    // wie scripts/export-task-scripts.ts die Stationen 4 und 5 mit dem Modell verbindet (mit Leerzeile dazwischen)
+    modelProfiles: `${R_SOLUTION.model}\n\n${R_SOLUTION.profiles}`, modelAme: `${R_SOLUTION.model}\n\n${R_SOLUTION.ame}`,
+  };
+  for (const [name, code] of Object.entries(all)) assert.deepEqual(rStyleProblems(code), [], name);
+});
+
+/* ---------- Einstieg: Konstante und B selbst einstellen ---------- */
+
+test('curve lab: starts flat at 50 %, stays inside the picture, constant shifts and B turns', () => {
+  assert.deepEqual(CURVE_START, { a: 0, b: 0 });
+  assert.equal(curveProb(CURVE_START, 24), 0.5);
+  assert.equal(midAge(CURVE_START), null);
+  // Konstante verschieben: B bleibt; die Gerade bleibt bei Alter 0 und 100 zwischen −8 und 8
+  assert.deepEqual(clampCurve({ a: 12, b: 0 }, 'b'), { a: LOGIT_MAX, b: 0 });
+  assert.deepEqual(clampCurve({ a: 5, b: -1 }, 'b'), { a: 5, b: -1 });
+  assert.deepEqual(clampCurve({ a: -6, b: -1 }, 'b'), { a: 2, b: -1 });
+  // B drehen: die Konstante bleibt
+  assert.deepEqual(clampCurve({ a: 2, b: 3 }, 'a'), { a: 2, b: 0.6 });
+  assert.deepEqual(clampCurve({ a: 2, b: -3 }, 'a'), { a: 2, b: -1 });
+  assert.deepEqual(clampCurve({ a: 1.234, b: 0.5678 }, 'a'), { a: 1.23, b: 0.57 });
+  assert.ok(sameCurve(clampCurve(CURVE_START), CURVE_START));
+  // Mitte der S-Kurve: Logit 0 bei −a/b Jahrzehnten; verschieben ändert nur die Konstante
+  assert.equal(midAge({ a: -5, b: 1 }), 50);
+  assert.deepEqual(shiftMid({ a: -5, b: 1 }, 30), { a: -3, b: 1 });
+  assert.deepEqual(shiftMid({ a: 0, b: 0 }, 30), { a: 0, b: 0 });
+  assert.deepEqual(shiftMid({ a: 6, b: -1.5 }, 90), clampCurve({ a: 13.5, b: -1.5 }, 'b'));
+});
+
+test('curve lab: one step of ten years – same logit change and same factor for the chance, different percentage points', () => {
+  const c = { a: 7.84, b: -1 };
+  const jana = curveStep(c, 24), wiegand = curveStep(c, 67);
+  assert.equal(AGE_STEP, 10);
+  assert.deepEqual(jana.age, [24, 34]);
+  assert.deepEqual(wiegand.age, [67, 77]);
+  for (const s of [jana, wiegand]) {
+    assert.ok(Math.abs(s.logit[1] - s.logit[0] - c.b) < 1e-12);
+    assert.ok(Math.abs(s.odds[1] / s.odds[0] - Math.exp(c.b)) < 1e-12);
+    assert.ok(Math.abs(s.prob[0] - s.odds[0] / (1 + s.odds[0])) < 1e-12);
+  }
+  // Oben auf der Kurve ändert sich fast nichts, in der Mitte viel
+  const pp = (s: typeof jana) => 100 * (s.prob[1] - s.prob[0]);
+  assert.equal(Math.round(10 * pp(jana)) / 10, -0.7);
+  assert.equal(Math.round(10 * pp(wiegand)) / 10, -22.3);
+  // Flache Kurve: kein Unterschied, nirgends eine Änderung
+  assert.deepEqual(curveStep(CURVE_START, 67).prob, [0.5, 0.5]);
+});
+
+test('curve lab: real shares and the R curve from lm30 × age (−10 = no internet counts as 0)', () => {
+  // Fixture ohne lm30: keine Daten, das Element läuft ohne Punkte
+  assert.equal(smartphoneData(fixtureSav()), null);
+  const sav = fakeSav({
+    lm30: { values: [1, 1, 1, 0, 1, 1, 0, -10, 1, 0, -10, -10, -9, 1], missingFrom: -1 },
+    age: { values: [20, 22, 30, 31, 50, 52, 70, 72, 80, 88, 90, 86, 40, -32], missingFrom: -1 },
+    wghtpew: { values: [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1] },
+  });
+  const d = smartphoneData(sav)!;
+  // −9 (keine Angabe) und das fehlende Alter fallen heraus
+  assert.equal(d.cases, 12);
+  assert.deepEqual(d.groups.map(g => [g.from, g.n, Math.round(1000 * g.share) / 1000]), [[18, 2, 1], [25, 2, 0.5], [45, 2, 1], [65, 2, 0], [75, 1, 1], [85, 3, 0]]);
+  // gewichtetes mittleres Alter; Anteile 0 und 1 haben keinen Logit
+  assert.equal(d.groups[5].meanAge, (88 * 2 + 90 + 86) / 4);
+  assert.equal(d.groups[0].logit, null);
+  assert.equal(d.groups[1].logit, 0);
+  assert.ok(d.fit && d.fit.coef[1] < 0, 'mit dem Alter seltener');
+  assert.equal(d.fit!.cases, 12);
+  assert.equal(smartphoneData(fakeSav({ age: { values: [20, 30] } })), null);
+});

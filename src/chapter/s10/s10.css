@@ -1,0 +1,75 @@
+/* Sitzung 10 „Regression vertiefen“: Stile nur dieser Sitzung (Umschalter, Ausgabe, Bausteine der Formeln, Raster). */
+
+.chapter .s10-gewicht{font-size:14.5px;color:var(--mute);margin:10px 0 0}
+
+/* Umschalter mit aria-pressed */
+.chapter .s10-schalter{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.chapter .s10-schalter button{border:2px solid var(--rand);background:#fff;border-radius:10px;padding:3px 10px;font:inherit;font-weight:800;font-size:14px;color:var(--ink);cursor:pointer}
+.chapter .s10-schalter button[aria-pressed="true"]{border-color:var(--k2);background:var(--kh)}
+.chapter .s10-schalter button[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+
+/* Ausgabe von summary() mit Blöcken */
+.chapter pre.s10-ausgabe{margin-top:12px;font-size:13px;line-height:1.55}
+.chapter pre.s10-ausgabe .blk{display:block;position:relative;border:2px solid transparent;border-radius:8px;padding:0 6px;margin:0 -8px}
+.chapter pre.s10-ausgabe .blk.blass{opacity:.45}
+.chapter pre.s10-ausgabe .blk.gewaehlt{border-color:var(--k2);background:var(--kh)}
+.chapter pre.s10-ausgabe .s10-schild{position:absolute;right:8px;top:4px;font:800 13px/1.4 var(--sans);background:#E5E9EE;color:var(--mute);border-radius:6px;padding:0 6px}
+
+/* Text unter einem Bild, Fußzeilen */
+.chapter .s10-text{margin-top:10px;font-weight:400;color:var(--txt)}
+.chapter .s10-fuss{font-size:13.5px;color:var(--mute);margin:6px 0 0}
+.chapter .s10-fest{font-size:14.5px;margin:8px 0 0}
+.chapter .s10-karte{margin:14px 0 0;font-weight:700;color:var(--blaud)}
+.chapter .kue{font-weight:800}
+.chapter .rueck .aufloesung{margin-top:6px;color:var(--ink);font-weight:700}
+
+/* Formeln als Bausteine */
+.chapter .s10-formel{flex-direction:column;align-items:flex-start;gap:8px}
+.chapter .s10-bausteine{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start}
+.chapter .s10-bausteine .bs{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.chapter .s10-bausteine .bs b{border-radius:8px;padding:3px 9px;font-weight:700;white-space:nowrap}
+.chapter .s10-bausteine .bs small{font-size:13px;font-weight:800;color:var(--mute);max-width:12em;text-align:center;line-height:1.3}
+.chapter .s10-bausteine .bs.op b{background:transparent;padding:3px 2px}
+.chapter .s10-bausteine .bs.gray b{background:#E5E9EE}
+.chapter .s10-bausteine .bs.blue b{background:var(--blauh);box-shadow:inset 0 0 0 1.5px var(--blau)}
+.chapter .s10-bausteine .bs.green b{background:var(--gruenh);box-shadow:inset 0 0 0 1.5px var(--gruen)}
+.chapter .s10-bausteine .bs.orange b{background:var(--kh);box-shadow:inset 0 0 0 1.5px var(--k2)}
+.chapter .s10-bausteine .bs.code b{font-family:var(--mono);background:#FBF8F3;box-shadow:inset 0 0 0 1.5px var(--line)}
+.chapter .s10-bausteine .bs.new b{font-family:var(--mono);background:var(--kh)}
+.chapter .s10-bausteine .bs.ring b{box-shadow:inset 0 0 0 2.5px var(--k2)}
+.chapter .s10-bausteine.klein{font-size:15px}
+.chapter .s10-ring{border:2px solid var(--k2);border-radius:6px;padding:0 3px}
+.chapter .s10-rechnung{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.chapter .s10-reihen{display:grid;gap:6px}
+.chapter .s10-klammer{border-left:3px solid var(--k2);padding:4px 10px;font-weight:800;color:var(--kd)}
+.chapter .s10-schild-text{margin:0;font-size:14.5px;font-weight:700;color:var(--mute)}
+.chapter .s10-pfeil{margin:0;font-weight:800;color:var(--kd)}
+.chapter .s10-eingesetzt{margin:0;font-weight:700}
+
+/* Tabellen */
+.chapter table.s10-dummies{font-size:14px}
+.chapter table.s10-dummies :is(th,td){text-align:center;padding:3px 6px}
+.chapter table.s10-dummies .eins{background:var(--kh);font-weight:800}
+.chapter table.s10-dummies .ref{background:repeating-linear-gradient(45deg,#F1F2F4 0 4px,#E3E6EA 4px 8px);color:var(--mute)}
+.chapter .s10-ref-schild{display:block;font-size:13px;font-weight:800;color:var(--mute)}
+.chapter table.s10-koeff{align-self:start}
+.chapter table.s10-koeff tr.grau{color:var(--mute)}
+.chapter .s10-zweispaltig{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-items:start}
+
+/* Raster der vier Gruppen */
+.chapter .s10-raster{display:grid;grid-template-columns:auto 1fr 1fr;gap:6px;margin-top:6px;max-width:640px}
+.chapter .s10-raster .kopf{text-align:center;font-size:14.5px}
+.chapter .s10-raster .zeile{font-size:14.5px;align-self:center}
+.chapter .s10-raster .zelle{display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid var(--line);border-radius:12px;padding:10px;font-weight:800;background:#fff;text-align:center}
+.chapter .s10-raster .zelle.ref{background:#EEF0F2}
+.chapter .s10-raster .zelle small{font-size:13px;color:var(--mute)}
+.chapter .s10-pfeile{display:flex;flex-wrap:wrap;gap:6px 24px;margin:8px 0 0;font-size:14.5px;font-weight:700;color:var(--kd)}
+
+.chapter .s10-wuerfel-leiste{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:12px}
+.chapter .s10-wuerfel-leiste .reihe-knoepfe{margin-top:0}
+
+@media (max-width:700px){
+  .chapter .s10-raster{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .chapter .s10-raster>span:first-child{display:none}
+  .chapter .s10-raster .zeile{grid-column:1 / -1}
+}

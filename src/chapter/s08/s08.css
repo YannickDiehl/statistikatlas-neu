@@ -1,0 +1,77 @@
+/* Sitzung 8 „Index und Skala“: eigene Stile der Bilder. Nur src/main.tsx importiert diese Datei. */
+
+.chapter .s8-gewicht{margin-top:10px;font-size:14.5px}
+.chapter .s8-roh{white-space:pre-wrap}
+.chapter .s8-karte{color:var(--mute);font-weight:700}
+
+/* Umschalter (aria-pressed) */
+.chapter .s8-umschalter{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chapter .s8-umschalter button{border:2px solid var(--rand);background:#fff;border-radius:10px;padding:3px 10px;font-weight:800;font-size:14px;color:var(--ink)}
+.chapter .s8-umschalter button[aria-pressed="true"]{border-color:#C25E2E;background:var(--kh)}
+
+/* Formeln als Bausteine */
+.chapter .s8-formel .frac{font-size:16px}
+.chapter .s8-bedingung{background:var(--gelbh);border:2px solid #E0C46A;border-radius:10px;padding:4px 10px;font-size:15px;color:var(--ink)}
+.chapter .s8-eingesetzt{flex-basis:100%;font-family:var(--mono);font-size:14px;color:var(--ink)}
+.chapter .s8-eingesetzt.klein{font-family:var(--sans);font-size:14px;color:var(--mute)}
+.chapter .s8-baustein{background:var(--blauh);border:2px solid var(--blau);border-radius:10px;padding:2px 10px;font-family:var(--rund);color:var(--ink)}
+.chapter .s8-k{color:var(--blaud)}
+.chapter .s8-r{color:#B4541F}
+.chapter .s8-legende{font-size:14px;color:var(--mute)}
+.chapter .s8-legende b{margin-left:8px}
+
+/* B4 Korrelationstabelle */
+.chapter table.s8-matrix :is(td,th){text-align:center;padding:4px 10px;border:2px solid transparent}
+.chapter table.s8-matrix th[scope="row"]{text-align:left}
+.chapter table.s8-matrix td.hell{background:#EAF5FC;color:var(--ink)}
+.chapter table.s8-matrix td.mittel{background:#BFE3F7;color:var(--ink)}
+.chapter table.s8-matrix td.kraeftig{background:#2C6CA8;color:#fff;font-weight:700}
+.chapter table.s8-matrix td.diag{background:#EEF0F2;color:var(--mute)}
+.chapter table.s8-matrix tr.wahl :is(td,th),.chapter table.s8-matrix .wahl{border-color:#C25E2E}
+
+/* B6 Ausgabe von reliability() */
+.chapter table.s8-r-aus{font-family:var(--mono);font-size:13.5px;margin-top:12px}
+.chapter table.s8-r-aus caption{font-family:var(--mono)}
+.chapter table.s8-r-aus th{font-weight:600}
+.chapter table.s8-r-aus .wahl{outline:3px solid #C25E2E;outline-offset:-3px;background:var(--kh)}
+.chapter table.s8-r-aus .wahl.stark{background:#FFD2BC}
+.chapter table.s8-r-aus tr.wahl :is(th,td){background:var(--kh)}
+.chapter table.s8-r-aus .gestrichelt{outline:2px dashed #C25E2E;outline-offset:-3px}
+
+/* B8 Umpol-Labor */
+.chapter .s8-schalter{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:8px}
+.chapter .s8-schalter button{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:center;width:100%;text-align:left;border:2px solid var(--rand);background:#fff;border-radius:12px;padding:8px 10px;color:var(--ink);font-weight:700;font-size:14.5px}
+.chapter .s8-schalter small{grid-column:2;font-weight:600;color:var(--mute)}
+.chapter .s8-knopf{grid-row:span 2;width:38px;height:22px;border-radius:11px;background:#D5DADF;position:relative;border:2px solid var(--rand)}
+.chapter .s8-knopf::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;border:1.5px solid var(--rand)}
+.chapter .s8-schalter button[aria-checked="true"]{border-color:var(--gruend);background:var(--gruenh)}
+.chapter .s8-schalter button[aria-checked="true"] .s8-knopf{background:var(--gruen);border-color:var(--gruend)}
+.chapter .s8-schalter button[aria-checked="true"] .s8-knopf::after{left:18px}
+
+/* B-A3 zwei Diagramme nebeneinander, schmal untereinander */
+.chapter .s8-paar{display:flex;flex-wrap:wrap;gap:12px}
+.chapter .s8-paar svg{flex:1 1 300px;max-width:100%;height:auto}
+
+/* B10 Inglehart */
+.chapter .s8-plaetze{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
+.chapter .s8-plaetze li{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;background:#fff;border:2px solid var(--blau);border-radius:12px;padding:8px 10px}
+.chapter .s8-plaetze li.p{border-color:var(--gruen)}
+.chapter .s8-plaetze li.zaehlt{box-shadow:0 0 0 3px #FFE7A3}
+.chapter .s8-platz{font-family:var(--rund);font-size:20px;color:var(--ink);width:28px;text-align:center}
+.chapter .s8-mp{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--blauh);color:var(--blaud);font-size:13px}
+.chapter .s8-plaetze li.p .s8-mp{background:var(--gruenh);color:var(--gruend)}
+.chapter .s8-zaehlt{grid-column:3;grid-row:1;font-size:13px;font-weight:800;color:var(--gelbd);background:var(--gelbh);border-radius:8px;padding:0 8px;justify-self:end}
+.chapter .s8-pfeile{grid-column:2 / 4;display:flex;gap:6px;flex-wrap:wrap}
+.chapter .s8-pfeile button{border:2px solid var(--rand);background:#fff;border-radius:9px;padding:1px 10px;font-weight:700;font-size:13.5px;color:var(--ink)}
+.chapter .s8-pfeile button:disabled{opacity:.45}
+
+/* Ü1 fünf Schritte */
+.chapter .s8-ablauf{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.chapter .s8-ablauf li{display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px;font-size:14.5px;line-height:1.4;position:relative}
+.chapter .s8-ablauf li code{font-size:13px;white-space:normal;overflow-wrap:anywhere}
+.chapter .s8-ablauf li+li::before{content:"→";position:absolute;left:-12px;top:12px;color:var(--rand);font-weight:800}
+@media (max-width:760px){
+  .chapter .s8-ablauf{grid-template-columns:1fr}
+  .chapter .s8-ablauf li+li::before{content:"↓";left:14px;top:-16px}
+}
+.chapter .s8-formel .frac.s8-gross-frac{font-size:22px}

@@ -1,0 +1,384 @@
+/* Erklärungen der freien Karte: Formelwerkstatt, Formel als Satz, Werkzeug (src/components/explain).
+   Textregeln stehen unter .xw, damit sie die allgemeinen Inspector-Regeln (z. B. .package-inspector p) schlagen. */
+:root{--xw-neg:#8a4a2c;--xw-pos-fill:#2f7a4f2e;--xw-neg-fill:#8a4a2c33;--xw-card:#FFF6EC}
+
+/* Werkbank (Stand 1. Oktober 2026): In „Ausführlich“ dockt der Inspector rechts über die volle Höhe an.
+   Die Breite setzt App.tsx als --xw-panel (Standard 64 % bis 1100 px, an der linken Kante ziehbar);
+   Kartenhinweise rücken mit (Gegenstück zu den .has-inspector-Regeln in styles.css mit 440 + 26 px). */
+.workbench-handle{display:none}
+@media(min-width:1101px){
+.explain-wide .network-inspector{top:0;right:0;bottom:0;width:var(--xw-panel);border-width:0 0 0 1px;border-radius:0;box-shadow:-14px 0 32px #1e2d3c1a;padding:28px 40px 56px;background:var(--paper)}
+.explain-wide .workbench-handle{display:block;position:absolute;top:0;bottom:0;right:calc(var(--xw-panel) - 8px);width:16px;z-index:6;cursor:col-resize;touch-action:none;outline:none}
+.workbench-handle>span{position:absolute;left:5px;top:50%;width:6px;height:56px;margin-top:-28px;border-radius:3px;background:var(--line);box-shadow:0 0 0 3px var(--paper);transition:background .15s}
+.workbench-handle:hover>span,.workbench-dragging .workbench-handle>span{background:var(--green)}
+.workbench-handle:focus-visible>span{background:var(--green);outline:2px solid var(--green);outline-offset:3px}
+.explain-wide.has-inspector .react-flow__minimap,.explain-wide.has-inspector .react-flow__attribution{right:calc(var(--xw-panel) + 16px)}
+.explain-wide.has-inspector .map-direction-key{right:calc(var(--xw-panel) + 14px);max-width:calc(100% - var(--xw-panel) - 82px)}
+.explain-wide.has-inspector .organic-zoom-note{display:none}
+.explain-wide.has-inspector .organic-edge-caption{left:calc((100% - var(--xw-panel))/2);max-width:calc(100% - var(--xw-panel) - 48px)}
+.explain-wide.has-inspector .network-map-note{max-width:calc(100% - var(--xw-panel) - 131px)}
+.explain-wide .network-inspector:is(p,li){max-width:78ch}
+}
+.workbench-dragging,.workbench-dragging body{cursor:col-resize;user-select:none}
+.network-inspector{container-type:inline-size}
+
+.xw-mode{display:inline-flex;border:2px solid var(--line);border-radius:10px;overflow:hidden;margin-left:auto;margin-right:12px;flex-shrink:0}
+.xw-mode button{border:0;background:var(--paper);padding:4px 9px;font:13px/1.4 var(--sans);color:var(--muted);cursor:pointer}
+.xw-mode button+button{border-left:2px solid var(--line)}
+.xw-mode button[aria-pressed=true]{background:var(--wash);color:var(--green)}
+
+.xw{margin-top:16px;font:16px/1.6 var(--sans);color:var(--ink)}
+.xw button{font:14px/1.4 var(--sans);cursor:pointer;color:var(--ink)}
+.xw p{margin:4px 0;font-size:16.5px;line-height:1.6}
+.xw h3,.xw h4{font:13px/1.4 var(--sans);text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:12px 0 2px;font-weight:400}
+.xw .xw-note{font:14px/1.5 var(--sans);color:var(--muted)}
+.xw .xw-section{margin-top:20px}
+.xw .xw-section>h2,.xw .xw-wofuer>h2{font:20px/1.3 var(--rund);margin:0 0 4px}
+.xw .xw-wofuer p{font-size:17px;line-height:1.65}
+.xw-presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}
+.xw .xw-presets button,.xw .xw-button,.xw .xw-options button,.xw .xw-people button,.xw .xw-check-row button,.xw .xw-rule button{border:2px solid var(--line);border-radius:10px;background:var(--paper);padding:5px 10px}
+.xw .xw-presets button[aria-pressed=true],.xw .xw-people button[aria-pressed=true]{background:var(--wash);border-color:var(--green);color:var(--green)}
+.xw-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.xw-metrics>div{background:var(--xw-card);border-radius:10px;padding:8px 10px}
+.xw-metrics span{display:block;font-size:13px;color:var(--muted)}
+.xw-metrics strong{font:24px/1.3 var(--rund);color:var(--green);font-weight:400}
+
+.xw-kurz{border:2px solid var(--line-soft);border-radius:10px;background:#FFFDF9;padding:8px 12px;margin:10px 0}
+.xw-kurz>strong{display:block;font:13px/1.4 var(--sans);letter-spacing:.6px;text-transform:uppercase;color:var(--green)}
+.xw .xw-kurz>p{font-size:17px;line-height:1.6}
+.xw .xw-kurz>.xw-fach{font-size:15px;color:var(--muted)}
+
+.xw-formula{font-family:var(--rund);text-align:center;color:var(--ink)}
+.xw-symbolic{font-size:28px;margin:18px 0 6px}
+.xw-numeric{font-size:17px;line-height:1.9;margin:0 0 12px}
+.xw-fp{color:var(--muted);border-radius:3px;padding:0 2px;cursor:pointer;transition:background .2s,color .2s}
+.xw-fp.done{color:var(--ink)}
+.xw-fp.on,.xw .xw-fp.on{background:var(--wash);color:var(--green)}
+.xw .xw-inline{border:0;background:none;padding:0 2px;font:inherit;color:var(--ink);text-decoration:underline dotted var(--line);text-underline-offset:4px}
+.xw-big{font-size:1.3em}
+.xw-frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px}
+.xw-num{border-bottom:1.5px solid var(--muted);padding:0 6px 3px}
+.xw-frac.done>.xw-num{border-bottom-color:var(--ink)}
+.xw-frac.on>.xw-num{border-bottom-color:var(--green)}
+.xw-den{padding-top:3px}
+.xw-rad{display:inline-block;border-top:1.5px solid var(--muted);padding:4px 4px 0}
+.xw-rad.done{border-top-color:var(--ink)}
+.xw-rad.on{border-top-color:var(--green)}
+
+.xw-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}
+.xw .xw-legend>button,.xw-legend-item{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;border:2px solid var(--line);border-radius:10px;background:var(--paper);padding:7px 9px}
+.xw .xw-legend>button.on{border-color:var(--green);background:var(--wash)}
+.xw-legend-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.xw-legend .xw-sym,.xw-legend code{font:20px var(--rund)}
+.xw-legend small{font-size:13px;color:var(--muted)}
+.xw-legend strong{font-size:14px}
+.xw-legend span:not(.xw-legend-head):not(.xw-sym){font-size:14px;color:var(--muted);line-height:1.45}
+/* Lange Fachwörter („Gegenwahrscheinlichkeit“, „Erfolgswahrscheinlichkeit“) trennt der Browser deutsch (lang="de" an <html>); fehlt ihm das Wörterbuch, bricht overflow-wrap das Wort, statt es über den Knopf laufen zu lassen. */
+.xw-legend>button,.xw-legend-item{min-width:0}
+.xw-legend>button>*,.xw-legend-item>*,.xw-legend-head>*{max-width:100%;hyphens:auto;hyphenate-limit-chars:12 5 5;overflow-wrap:anywhere}
+
+.xw-steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px;margin:6px 0 10px}
+.xw .xw-steps button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;border:2px solid var(--line);border-radius:10px;background:var(--paper);padding:4px 8px;min-width:0}
+.xw-steps small{font-size:13px;color:var(--muted)}
+/* Lange Wörter wie „zusammenzählen“ trennen statt über den Rand zu laufen (IB38, 360 bis 390 px); kurze Wörter bleiben ganz. */
+.xw .xw-steps .xw-step-name{font:14px/1.3 var(--sans);color:var(--ink);max-width:100%;hyphens:auto;hyphenate-limit-chars:12 5 5;overflow-wrap:break-word}
+.xw-steps .xw-step-sym{font:17px/1.3 var(--rund);color:var(--muted);overflow-wrap:anywhere}
+.xw .xw-steps button[aria-pressed=true]{background:var(--wash);border-color:var(--green)}
+.xw-steps button[aria-pressed=true] span{color:var(--green)}
+.xw-arrows{display:inline-flex;gap:4px}
+.xw .xw-arrows button{border:2px solid var(--line);border-radius:10px;background:var(--paper);padding:3px 6px;display:flex}
+.xw .xw-arrows button[aria-disabled=true]{opacity:.4;cursor:default}
+
+.xw-card{background:var(--xw-card);border:2px solid var(--line-soft);border-radius:10px;padding:12px 14px;margin:8px 0}
+.xw-card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.xw-label{font-size:13px;color:var(--muted)}
+.xw-progress{display:flex;flex-direction:column;gap:4px;min-width:0}
+.xw-progress-bar{display:flex;gap:3px}
+.xw-progress-bar>span{width:22px;height:5px;border-radius:3px;background:var(--line)}
+.xw-progress-bar>span.done{background:#A89C8A}
+.xw-progress-bar>span.on{background:var(--green)}
+.xw .xw-step-title{font:22px/1.3 var(--rund);text-transform:none;letter-spacing:0;color:var(--ink);margin:8px 0 4px;outline:none;border-radius:10px}
+.xw .xw-step-title:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.xw .xw-card p.xw-rechnung{font:20px/1.55 var(--rund);color:var(--ink);margin:2px 0 8px;overflow-wrap:anywhere}
+.xw-name{background:var(--paper);border:2px solid var(--line-soft);border-left:3px solid var(--green);border-radius:10px;padding:8px 12px;margin:10px 0 4px}
+.xw .xw-name-term{display:flex;align-items:baseline;gap:4px 10px;flex-wrap:wrap;margin:2px 0}
+.xw-name-term strong{font:20px/1.3 var(--rund);font-weight:400}
+.xw-name-term .xw-sym{font:20px var(--rund);color:var(--green)}
+.xw-name-term small{font-size:14px;color:var(--muted)}
+.xw .xw-name .xw-fach{font-size:15px;line-height:1.5;color:var(--muted)}
+.xw .xw-mut{background:var(--wash);color:var(--green);border-radius:10px;padding:10px 14px;margin:10px 0;font-size:16.5px;line-height:1.6;max-width:none}
+.xw .xw-link{border:0;background:none;padding:2px 0;color:var(--green);border-bottom:1px dotted var(--line);display:inline-flex;align-items:center;gap:4px;margin-left:6px}
+.xw .xw-links-row{display:flex;flex-wrap:wrap;gap:4px 14px;margin:2px 0}
+.xw .xw-links-row .xw-link{margin-left:0}
+.xw-worked-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.xw-worked-head h3{margin:0}
+.xw-people{display:inline-flex;gap:4px;flex-wrap:wrap}
+.xw .xw-people button{padding:2px 9px}
+.xw h3.xw-warn-head{color:#8a4a2c}
+.xw p.xw-open{margin-top:10px}
+
+.xw-table-wrap{overflow-x:auto}
+.xw-table{width:auto;min-width:min(100%,360px);border-collapse:collapse;font:16px/1.4 var(--sans);font-variant-numeric:tabular-nums}
+.xw-table th,.xw-table td{padding:4px 12px;min-width:56px;border-bottom:2px solid var(--line-soft);text-align:right;font-weight:400}
+.xw-table thead th{font:14px var(--sans);color:var(--muted)}
+.xw-table th:first-child{text-align:left;min-width:0}
+.xw .xw-table th button{border:0;background:none;padding:0;font:16px var(--sans)}
+.xw-table .on{background:var(--wash);color:var(--green)}
+.xw-table td.pos{color:var(--green)}
+.xw-table td.neg{color:var(--xw-neg)}
+.xw-table tr.sel{background:#EFE6DA}
+.xw-table tfoot td,.xw-table tfoot th{border-bottom:0}
+.xw-table small{font:13px var(--sans);color:var(--muted)}
+.xw .xw-lines p{font:17px/1.8 var(--rund);margin:0}
+.xw .xw-lines p.on{color:var(--green)}
+
+.xw-svg{display:block;max-width:100%;height:auto;margin-top:4px}
+.xw-drag{touch-action:none;user-select:none}
+.xw-t{font:14px var(--sans);fill:var(--ink)}
+.xw-strong{font-weight:600}
+.xw-pos-t{fill:var(--green)}
+.xw-neg-t{fill:var(--xw-neg);font-size:18px}
+.xw-guide{stroke:#EFE6DA;stroke-width:1}
+.xw-axis{stroke:var(--muted);stroke-width:1}
+.xw-mean{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
+.xw-pos{stroke:var(--green)}
+.xw-neg{stroke:var(--xw-neg)}
+.xw-band{fill:var(--wash);opacity:.9}
+.xw-fulcrum{fill:var(--ink)}
+.xw-dot{cursor:grab;outline:none}
+.xw-dot .xw-hit{fill:transparent;stroke:none}
+.xw-dot circle:not(.xw-hit){fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+.xw-dot text{font:13px var(--sans);fill:var(--ink);pointer-events:none}
+.xw-dot.sel circle:not(.xw-hit){fill:var(--wash);stroke:var(--green);stroke-width:2.5}
+.xw-dot:focus-visible circle:not(.xw-hit){stroke:var(--red);stroke-width:3}
+.xw-square{fill:#CDEFD9;stroke:var(--green);stroke-width:1}
+.xw-square.sel{stroke-width:2.5}
+.xw-grid{stroke:#E0D3BE;stroke-width:.6}
+.xw-typical{fill:#FFF6EC;stroke-dasharray:5 4}
+.xw-side{stroke:var(--green);stroke-width:4}
+.xw-rect-pos{fill:var(--xw-pos-fill);stroke:var(--green);stroke-width:1}
+.xw-rect-neg{fill:var(--xw-neg-fill);stroke:var(--xw-neg);stroke-width:1}
+.xw-rect-pos.sel,.xw-rect-neg.sel{stroke-width:2.5}
+.xw-max{fill:none;stroke:var(--muted);stroke-dasharray:5 4}
+/* Baukasten (src/components/explain/pictures/kit.tsx) */
+.xw-bar-pos{fill:var(--xw-pos-fill);stroke:var(--green);stroke-width:1}
+.xw-bar-neg{fill:var(--xw-neg-fill);stroke:var(--xw-neg);stroke-width:1}
+.xw-bar-plain{fill:#CDEFD9;stroke:var(--muted);stroke-width:1}
+:is(.xw-bar-pos,.xw-bar-neg,.xw-bar-plain).sel{stroke-width:2.5}
+.xw-curve{fill:none;stroke:var(--ink);stroke-width:1.8}
+.xw-area-pos{fill:var(--xw-pos-fill);stroke:none}
+.xw-area-neg{fill:var(--xw-neg-fill);stroke:none}
+.xw-area-plain{fill:#CDEFD9;stroke:none}
+.xw-cell{stroke:var(--line);stroke-width:1}
+.xw-cell-plain{fill:var(--paper)}
+.xw-cell-pos{fill:var(--xw-pos-fill)}
+.xw-cell-neg{fill:var(--xw-neg-fill)}
+.xw-cell.sel{stroke:var(--green);stroke-width:2.5}
+.xw-devs line{stroke:var(--muted);stroke-width:1;stroke-dasharray:2 3}
+.xw-devs.sel line{stroke:var(--ink);stroke-width:2;stroke-dasharray:none}
+
+.xw-check{background:var(--xw-card);border:2px solid var(--line-soft);border-radius:10px;padding:12px 14px;margin-top:18px}
+.xw-check h3{margin-top:0}
+.xw-check-row,.xw-rule{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.xw-check-row input{width:120px;border:2px solid var(--line);border-radius:10px;padding:6px 8px;font:16px var(--sans);background:var(--paper)}
+.xw p.xw-error{font-size:14px;color:var(--red);min-height:18px;margin:2px 0}
+.xw-right{color:var(--green)}
+.xw-wrong{color:#8a4a2c}
+.xw-right .xw-link{margin-left:8px}
+
+.xw-question{background:var(--xw-card);border:2px solid var(--line-soft);border-radius:10px;padding:10px 14px;margin:8px 0}
+.xw-options{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.xw .xw-options button.right{border-color:var(--green);color:var(--green)}
+.xw .xw-options button.wrong{border-color:#8a4a2c;color:#8a4a2c}
+.xw-answer .xw-kurz{background:var(--paper)}
+
+.xw-genau,.xw-glyphs{border-top:2px solid var(--line-soft);margin-top:18px;padding-top:12px}
+.xw-genau>summary,.xw-glyphs>summary{font:15px/1.5 var(--sans);color:var(--green);cursor:pointer}
+.xw-glyphs .xw-legend{margin-top:6px}
+.xw p.xw-deutung{font:18px/1.6 var(--sans);color:var(--ink)}
+.xw p.xw-fach-line{font-size:15px;line-height:1.55;color:var(--muted)}
+.xw-options-column{flex-direction:column;align-items:stretch}
+.xw .xw-options-column button{text-align:left;line-height:1.45}
+.xw-check .xw-options button[aria-pressed=true].wrong{background:#FFF6DA}
+.xw-check .xw-options button[aria-pressed=true].right{background:var(--wash)}
+
+/* Begriffskarte und Tabellen-Werkzeug */
+.xw-regler{background:var(--xw-card);border:2px solid var(--line-soft);border-radius:10px;padding:10px 14px;margin:8px 0}
+.xw-regler>label{display:block;font:16px/1.5 var(--sans);font-weight:600}
+.xw-regler-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;margin:6px 0}
+.xw-regler-row input{accent-color:var(--green);min-width:0}
+.xw-regler-row output{font:17px var(--rund);color:var(--green);white-space:nowrap}
+.xw .xw-regler-text{font-size:16px}
+.xw-data td,.xw-data th{text-align:left}
+.xw-data td.on,.xw-data th.on{text-align:center}
+.xw .xw-genau>p{font:16px/1.6 var(--sans)}
+
+.xw-dataset-heading{font:22px/1.3 var(--rund);border-top:3px double var(--line);padding-top:16px;margin:26px 0 4px}
+.xw-compact .xw-section{margin-top:12px}
+.xw-stepcard{margin-top:12px}
+
+/* Stufe 2 */
+.xw p.xw-sentence{font:18px/1.8 var(--rund)}
+.xw-worked-steps,.xw-walk{list-style:none;padding:0;margin:6px 0}
+.xw-worked-steps li,.xw-walk li{display:flex;gap:10px;align-items:baseline;margin:4px 0;flex-wrap:wrap}
+.xw-worked-steps small,.xw-walk small{font-size:13px;color:var(--muted);min-width:58px}
+.xw-worked-steps strong{font-size:15px;min-width:0}
+.xw-worked-steps span{font:17px var(--rund);flex-basis:100%;padding-left:68px}
+.xw-slider{display:grid;grid-template-columns:190px 1fr 70px;gap:10px;align-items:center;margin:6px 0;font-size:15px}
+.xw-slider input{accent-color:var(--green);min-width:0}
+.xw-slider output{text-align:right;font-weight:600}
+
+/* Stufe 3 */
+.xw-legend.static{margin-bottom:4px}
+.xw-rule input{flex:1;min-width:160px;font:15px var(--mono);border:2px solid var(--line);border-radius:10px;padding:6px 8px;background:var(--paper)}
+.xw-rule label{font:14px var(--mono);color:var(--muted)}
+.xw-rule-line{display:flex;gap:10px;margin:6px 0}
+.xw-rule-line small{font-size:13px;color:var(--muted);min-width:56px;padding-top:2px}
+.xw-rule-line code{font:14.5px var(--mono);overflow-wrap:anywhere}
+.xw-rule-line>div{min-width:0}
+.xw-alert{overflow-wrap:anywhere}
+.xw-map{display:grid;grid-template-columns:minmax(0,1fr) 80px minmax(0,1fr);align-items:start}
+.xw-links{display:block;width:100%}
+.xw-row{height:34px;display:flex;align-items:center;gap:6px;font-size:15px;white-space:nowrap;overflow:hidden;--bar:64px}
+.xw-row.sel .xw-row-label{font-weight:600}
+.xw-row.bad{color:var(--red)}
+.xw-code{font:14px var(--mono);min-width:24px;text-align:right}
+.xw-row-label{flex:1;min-width:3.5em;overflow:hidden;text-overflow:ellipsis}
+.xw-bar{height:8px;width:max(2px,calc(var(--w) * var(--bar)));background:var(--green);border-radius:2px;flex:none}
+.xw-row.bad .xw-bar{background:var(--red)}
+.xw-count{font-size:14px;color:var(--muted);min-width:40px;text-align:right}
+.xw-links path{fill:none;stroke:#A89C8A;stroke-opacity:.85}
+.xw-links path.bad{stroke:var(--red)}
+.xw-links path.warn{stroke:#8a4a2c}
+.xw-links path.sel{stroke:var(--green)}
+.xw-alert{border-radius:10px;padding:8px 12px;margin-top:8px}
+.xw .xw-alert p{font-size:15.5px}
+.xw-alert.bad{background:#FDEEEA;color:#a0452f}
+.xw-alert.warn{background:#FFF6DA;color:#8a4a2c}
+.xw-alert code{font:14px var(--mono)}
+.xw-metrics.wide{grid-template-columns:repeat(2,minmax(0,1fr))}
+.xw-code-block{background:var(--xw-card);border-radius:10px;padding:10px 12px;font:14.5px/1.6 var(--mono);overflow-x:auto;white-space:pre}
+
+/* Zweispaltige Werkbank (ab 800 px Inhaltsbreite, useWorkbenchLayout): links Formel und Bild, rechts Lernkarte,
+   Rechentabelle und Kurz prüfen. Die linke Spalte bleibt stehen, solange sie ganz in den Inspector passt. */
+.xw p{max-width:78ch}
+.xw-work.wide{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:36px;margin-top:22px;border-top:2px solid var(--line-soft);padding-top:6px}
+.xw-work.wide .xw-study{align-self:start}
+.xw-work.wide .xw-stage-formula{display:flow-root}
+.xw-stage.stick{align-self:start;position:sticky;top:0}
+.xw-stage-formula.stick{position:sticky;top:0;z-index:2;background:var(--paper);box-shadow:0 10px 10px -10px #1e2d3c2e}
+.xw-wide .xw-symbolic{font-size:36px;margin:22px 0 10px}
+.xw-wide .xw-steps{margin-bottom:4px}
+.xw-wide .xw-steps{gap:4px}
+.xw-wide .xw-steps button{padding:3px 6px}
+.xw-wide .xw-study>.xw-card:first-child{margin-top:18px}
+.xw-wide .xw-study .xw-check{margin-top:22px}
+.xw-wide .xw-legend{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.xw-wide .xw-metrics{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.xw-wide .xw-table th,.xw-wide .xw-table td{padding:4px 8px}
+
+/* Breite Werkbank: die Häufigkeitsbalken beim Rekodieren dürfen länger werden. */
+@container (min-width:760px){.xw-row{--bar:150px}}
+
+/* Schmaler Inspector (Kompakt, 1000 px, Telefon) */
+@container (max-width:560px){
+.xw-symbolic{font-size:24px}
+.xw-slider{grid-template-columns:minmax(0,1fr) 64px}
+.xw-slider>label{grid-column:1/-1}
+.xw-worked-steps span{padding-left:0}
+.xw-map{grid-template-columns:minmax(0,1fr) 36px minmax(0,1fr)}
+.xw-row{--bar:26px;gap:4px;font-size:13px}
+.xw-row-label{white-space:normal;line-height:1.15;max-height:2.3em}
+.xw-count{min-width:34px;font-size:13px}
+.xw-code{min-width:18px}
+}
+
+/* Reiter (Spezifikation Lehrdatensatz und R, Abschnitt 5.1): Verstehen, Mit 200 Befragten, In R, Weiter.
+   Auf schmalen Bildschirmen lässt sich die Leiste seitlich schieben; die Panels bleiben eingehängt (hidden). */
+.xw-top-kurz{margin-top:6px}
+.xw-top-kurz .xw-kurz{margin:4px 0 8px}
+/* Alle Reiter bleiben sichtbar: Bei wenig Platz schrumpfen sie und die Beschriftung bricht zwischen den Wörtern um,
+   statt abgeschnitten zu werden; kein Reiter wird schmaler als sein längstes Wort. */
+.xw-tabs{display:flex;align-items:flex-end;gap:4px;border-bottom:1px solid var(--line);margin:14px 0 0;padding:0 2px}
+.xw-tabs [role=tab]{flex:0 1 auto;min-width:min-content;border:1px solid transparent;border-bottom:0;border-radius:5px 5px 0 0;background:none;padding:8px 12px 7px;font:15px/1.3 var(--sans);color:var(--muted);cursor:pointer;white-space:normal;text-align:center;overflow-wrap:normal;word-break:normal;hyphens:manual;margin-bottom:-1px}
+.xw-tabs [role=tab].xw-tab-short{white-space:nowrap;flex-shrink:0}
+.xw-tabs .xw-nowrap{white-space:nowrap}
+.xw-tabs [role=tab]:hover{color:var(--green);background:#FFF6EC}
+.xw-tabs [role=tab][aria-selected=true]{background:var(--paper);border-color:var(--line);color:var(--green);font-weight:600}
+.xw-tabs [role=tab]:focus-visible{outline:2px solid var(--green);outline-offset:-2px}
+.xw-tabpanel{outline:none}
+.xw-tabpanel:focus-visible{outline:2px solid var(--green);outline-offset:4px;border-radius:10px}
+.xw-tabpanel>.xw:first-child{margin-top:10px}
+.xw p.xw-onward{margin:22px 0 4px}
+.xw .xw-button{border:2px solid var(--line);border-radius:10px;background:var(--paper);padding:5px 10px}
+.xw-onward .xw-button{border-color:var(--green);color:var(--green);font-weight:600}
+
+/* Mit 200 Befragten */
+.xw-fp.xw-who{outline:1.5px solid var(--green);outline-offset:1px;border-radius:3px}
+.xw-s-dot{fill:#A89C8A;stroke:none;opacity:.75}
+.xw-s-dot.pos{fill:var(--green);opacity:.55}
+.xw-s-dot.neg{fill:var(--xw-neg);opacity:.6}
+.xw-s-dot.sel{fill:var(--wash);stroke:var(--green);stroke-width:2.5;opacity:1}
+.xw-sample-plot{cursor:pointer}
+.xw-person{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;margin:12px 0 4px}
+.xw-person label{font:15px/1.4 var(--sans);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.xw-person select{border:2px solid var(--line);border-radius:10px;background:#FFFDF9;padding:4px 6px;font:15px var(--sans)}
+.xw-person .xw-note{flex-basis:100%;margin:0}
+.xw-modified{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;background:#FFF6DA;color:#8a4a2c;border-radius:10px;padding:8px 12px;margin:10px 0}
+.xw .xw-modified{font-size:15.5px}
+.xw-sample .column-picker{margin-top:12px}
+
+/* In R */
+.xw .xw-rcode,.xw .xw-routput{margin:8px 0 10px}
+.xw .xw-routput{white-space:pre;overflow-x:auto;overflow-wrap:normal;font:13.5px/1.45 var(--mono);scrollbar-width:thin}
+.xw .xw-tok,.xw .xw-num{font:inherit;color:inherit;background:none;border:0;padding:0 1px;border-radius:3px;border-bottom:1px dotted #A89C8A;cursor:pointer}
+.xw .xw-tok:hover,.xw .xw-num:hover{background:#2f7a4f}
+.xw .xw-tok.on,.xw .xw-num.on{background:#EFE6DA;color:#2f7a4f;border-bottom-color:transparent}
+.xw .xw-tok:focus-visible,.xw .xw-num:focus-visible{outline:2px solid #FFF6EC;outline-offset:1px}
+.xw-token code,.xw-map-card code,.xw-options code{font:15px var(--mono)}
+.xw-map-card{border-left:3px solid var(--green)}
+.xw .xw-small{font-size:14px;border:0;background:none;color:var(--green);border-bottom:1px dotted var(--line);padding:2px 0}
+.xw-other,.xw-help{border-top:2px solid var(--line-soft);margin-top:18px;padding-top:12px}
+.xw-other>summary,.xw-help>summary,.xw-more>summary{font:15px/1.5 var(--sans);color:var(--green);cursor:pointer}
+.xw-other .mariposa-panel.embedded{margin:8px 0;padding:8px 0;border:0}
+.xw-other-output h3{margin-top:10px}
+
+/* Weiter */
+.xw-next .relations-heading{margin-top:14px}
+.xw-next-main{background:var(--wash);border-radius:10px;padding:8px 12px 2px;margin:14px 0 6px}
+.xw-next-main .xw-label{color:var(--green);text-transform:uppercase;letter-spacing:.6px}
+.xw .xw-next-link.main strong{font-size:20px}
+.xw .xw-next-link small{font-size:14px}
+.xw-more{margin-top:16px}
+.xw-more .package-conditions h2{font:18px/1.3 var(--rund)}
+.xw-halo{paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round}
+.xw p.xw-plot-caption{margin:10px 0 0}
+.xw-next.inspector-relations{border-top:0;padding-top:0;margin-top:6px}
+
+/* Reiterleiste auf dem Desktop oben festhalten; die stehende Formel der Werkbank rückt darunter (--xw-tabs-h aus ExplainTabs). */
+@media(min-width:761px){
+/* Klebende Elemente halten am Inhaltsrand. Erst wenn die Leiste klebt (Klasse xw-stuck aus ExplainTabs), deckt ihr
+   Schatten den Innenabstand darüber ab; vorher bliebe er über „Kurz gesagt“ liegen. --xw-pad und --xw-tabs-bottom
+   (Innenabstand plus Höhe der Leiste) misst ExplainTabs, damit Sprungziele und Fokus unter der Leiste frei bleiben. */
+.network-inspector .xw-tabs{position:sticky;top:0;z-index:4;background:var(--paper);padding-top:6px}
+.network-inspector .xw-tabs.xw-stuck{box-shadow:0 calc(-1 * var(--xw-pad, 28px)) 0 var(--paper)}
+.network-inspector.has-tabs{scroll-padding-top:calc(var(--xw-tabs-bottom, 76px) + 12px)}
+.xw-tabbed .xw-stage.stick,.xw-tabbed .xw-stage-formula.stick{top:var(--xw-tabs-h,0px)}
+}
+/* Telefon: Die Reiter stehen direkt unter dem Titel, damit sie im Blatt sofort zu sehen sind; „Kurz gesagt“ folgt darunter. */
+@media(max-width:760px){
+.xw-tabbed{display:flex;flex-direction:column}
+.xw-tabbed>.xw-tabs{order:-1;margin-top:4px}
+.xw-tabs [role=tab]{padding:7px 8px 6px}
+.network-inspector{scroll-padding-top:76px}
+}
+.xw-status{outline:none}
+.xw-status:focus-visible,.xw-focus-box:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:10px}
+.xw-focus-box{outline:none}
+.xw-card.xw-marked{border-color:var(--green);box-shadow:0 0 0 2px var(--wash)}
+/* Klickflächen mindestens 24 px (WCAG 2.5.8) */
+.xw .xw-table th button{min-width:24px;min-height:24px;padding:2px 6px}
+.network-inspector details>summary{min-height:24px;padding:2px 0}
+.network-inspector input[type=checkbox]{width:18px;height:18px}
+.network-reset-button{display:inline-flex;align-items:center;gap:5px;border:2px solid var(--line);border-radius:10px;background:#FFF6DA;color:#8a4a2c;padding:4px 9px;font:14px var(--sans);white-space:nowrap;margin-left:8px}
+.xw-wide .xw-study>.xw-steps{margin-top:18px}

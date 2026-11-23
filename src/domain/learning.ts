@@ -1,0 +1,137 @@
+import { entryById, formulaTargets } from './mariposaCatalog';
+import { averageRanks, middleValues, rankedPairs, spearman } from './descriptive';
+import { compatible, compatibilityReason, formatValue, type SurveyColumn } from './survey';
+import { conceptById, concepts } from './concepts';
+import { calculateStatistics, type DataPair, type Statistics } from './statistics';
+
+export type Variable = 'x' | 'y';
+export type Route = 'covariance' | 'z';
+export type Ref = { id: string; variable: Variable; use?: string; basis?:'ranks' };
+export type LessonContext = { pairs: DataPair[]; stats: Statistics; caseId: string; route: Route; columns?:{x:SurveyColumn;y:SurveyColumn};likertMetric?:boolean;isRanked?:boolean };
+export const ref = (id: string, variable: Variable = 'x', use?: string,basis?:'ranks'): Ref => ({ id, variable, ...(use ? { use } : {}),...(basis?{basis}:{}) });
+const joint = new Set(['pairs','validn','df','crossproduct','crossproduct_sum','covariance','sd_product','linear','pearson','spearman','crosstab']);
+export const keyOf = (r: Ref): string => `${r.id}:${joint.has(r.id) ? 'xy' : r.variable}:${r.use || ''}${r.basis?':'+r.basis:''}`;
+export const isOperation = (r: Ref) => ['count','add','subtract','multiply','divide','square','sqrt','scaling'].includes(r.id);
+export const titleFor = (r: Ref):string => r.basis==='ranks'&&r.id==='pearson'?'Pearson mit Rängen':r.use==='z'&&r.id==='crossproduct'?'Produkt der z-Werte':r.use==='z'&&r.id==='crossproduct_sum'?'Summe der z-Produkte':({ mean:'Mittelwert', variance:'Varianz', validn:'Anzahl', add:'Addieren', subtract:'Subtrahieren', multiply:'Multiplizieren', divide:'Teilen', square:'Quadrieren', sqrt:'Quadratwurzel', count:'Zählen', centering:'Zentrieren', scaling:'Skalieren', positive_sd:'Die Werte streuen', covariance:'Kovarianz' }[r.id] || conceptById[r.id]?.title || r.id);
+/** Name der Variable: Spaltentitel des Lehrdatensatzes, sonst die Beispielvariablen der fünf Personen. */
+export const variableTitle = (v: Variable,c?:LessonContext) => c?.columns?c.columns[v].title:v === 'x' ? 'Lernzeit' : 'Gelöste Aufgaben';
+export const variableName = (v: Variable,c?:LessonContext) => `${v.toUpperCase()} · ${variableTitle(v,c)}`;
+export function outputRef(r:Ref):Ref {if(!r.use||r.id==='scaling'||!isOperation(r))return r;return r.use==='zproducts'?ref('crossproduct',r.variable,'z',r.basis):r.use==='zsum'?ref('crossproduct_sum',r.variable,'z',r.basis):ref(r.use,r.variable,undefined,r.basis);}
+export function unitFor(original:Ref,c?:LessonContext):string {
+ const r=outputRef(original);if(r.basis==='ranks')c=c?rankContext(c):c;
+ if(['z','pearson','spearman','frequency','crosstab','df','validn','positive_sd','metric','nominal','ordinal','linear','count','scaling','divide'].includes(r.id)||r.use==='z')return '';
+ if(r.id==='ranks')return 'Rang';
+ const unit=c?.columns?.[r.variable].unit??(r.variable==='x'?'h':'Aufgaben');
+ if(['crossproduct','crossproduct_sum','covariance','sd_product'].includes(r.id))return c?.columns?[c.columns.x.unit,c.columns.y.unit].filter(Boolean).join(' · '):'h · Aufgaben';
+ if(['variance','squared_deviation','ss','square','multiply'].includes(r.id))return unit?`${unit.includes('/')?'('+unit+')':unit}²`:'';
+ if(r.id==='sqrt')return unit?'√'+unit:'';return unit;
+}
+const rankContexts=new WeakMap<LessonContext,LessonContext>();
+export function rankContext(c:LessonContext):LessonContext {if(c.isRanked)return c;const cached=rankContexts.get(c);if(cached)return cached;const pairs=rankedPairs(c.pairs),rankColumn=(v:Variable):SurveyColumn=>({...c.columns?.[v],id:`rank-${v}`,title:`Rang von ${c.columns?.[v].title||v.toUpperCase()}`,short:'Mittlerer Rang',question:'Welche Rangposition hat diese Person?',scale:'metric',kind:'continuous',unit:'Rang',min:1,max:pairs.length,step:.5,categories:undefined,note:'Gleiche Werte erhalten den Mittelwert ihrer Rangplätze.'});const result={...c,pairs,stats:calculateStatistics(pairs),columns:{x:rankColumn('x'),y:rankColumn('y')},isRanked:true};rankContexts.set(c,result);return result;}
+export const contextFor=(r:Ref,c:LessonContext)=>r.basis==='ranks'?rankContext(c):c;
+export function allowedFor(r:Ref,c:LessonContext){if(!c.columns)return true;const out=outputRef(r),axes:Variable[]=['pairs','crossproduct','crossproduct_sum','covariance','sd_product','pearson','spearman','crosstab','linear'].includes(out.id)?['x','y']:[r.variable];return axes.every(v=>compatible(r.basis==='ranks'?'spearman':out.id,c.columns![v],c.likertMetric));}
+export function displayValue(r:Ref,c:LessonContext){const local=contextFor(r,c),n=valueFor(r,c);if(r.id==='median'){const m=middleValues(c.pairs.map(p=>p[r.variable]));if(!m)return 'Nicht definiert';const col=c.columns?.[r.variable];if(col?.categories)return m[0]===m[1]?formatValue(col,m[0]):`${formatValue(col,m[0])} / ${formatValue(col,m[1])}`;}
+ return r.id==='series'?formatValue(local.columns?.[r.variable],n):numberText(n);
+}
+
+export const indexFor = (c: LessonContext) => Math.max(0,c.pairs.findIndex(p=>p.id===c.caseId));
+export const symbol = (v: Variable, type: 'mean'|'sd'|'variance'|'z'|'value'='value') => ({mean:v==='x'?'x̄':'ȳ',sd:`s${v==='x'?'ₓ':'ᵧ'}`,variance:`s${v==='x'?'ₓ':'ᵧ'}²`,z:`z${v==='x'?'ₓ':'ᵧ'}ᵢ`,value:`${v}ᵢ`}[type]);
+/**
+ * Zahl deutsch für die bisherigen Ansichten der Karte (Formel mit Zahlen, Auswertungen, Experimente): höchstens zwei
+ * Nachkommastellen, kleine Werte unter 0,1 mit zwei gültigen Ziffern, echtes Minus (Sprachleitfaden, Regeln 9 und 11).
+ */
+export const numberText = (n: number | null | undefined, digits = 2) => n==null||!Number.isFinite(n)?'nicht definiert':(n!==0&&(Math.abs(n)<.001||Math.abs(n)>=1e6)?n.toExponential(2).replace('.',','):new Intl.NumberFormat('de-DE',{maximumFractionDigits:n!==0&&Math.abs(n)<.1?Math.max(digits,Math.min(4,1-Math.floor(Math.log10(Math.abs(n))))):digits}).format(Object.is(n,-0)?0:n)).replace(/-/g,'−');
+export function valuesFor(id: string, v: Variable, c: LessonContext): (number|null)[] {
+ const s=c.stats; const axis=v==='x'?'X':'Y';
+ if(id==='series')return c.pairs.map(p=>p[v]);
+ if(['deviation','centering'].includes(id))return s[`deviations${axis}`];
+ if(id==='squared_deviation')return s[`squaredDeviations${axis}`];
+ if(id==='z')return s[`z${axis}`];
+ if(id==='crossproduct')return s.crossProducts;
+ if(id==='zproducts')return s.zX.map((x,i)=>x===null||s.zY[i]===null?null:x*s.zY[i]!);
+ return [];
+}
+export function valueFor(r: Ref,c: LessonContext): number|null {
+ if(!allowedFor(r,c))return null;if(r.basis==='ranks')return valueFor({...r,basis:undefined},rankContext(c));
+ const output=outputRef(r);if(output!==r)return valueFor(output,c);
+ const s=c.stats,a=r.variable==='x'?'X':'Y',i=indexFor(c);const first=c.pairs[i]?.[r.variable],second=c.pairs[(i+1)%Math.max(c.pairs.length,1)]?.[r.variable];
+ switch(r.id){
+ case 'series':return c.pairs[i]?.[r.variable]??null;
+ case 'ranks':return averageRanks(c.pairs.map(p=>p[r.variable]))[i]??null;
+ case 'median':{const m=middleValues(c.pairs.map(p=>p[r.variable]));return !m?null:c.columns?.[r.variable].categories&&m[0]!==m[1]?null:(m[0]+m[1])/2;}
+ case 'spearman':return spearman(c.pairs);
+ case 'validn':case 'count':return s.n;
+ case 'sum':return s[`sum${a}`]; case 'mean':return s[`mean${a}`];
+ case 'deviation':case 'centering':return s[`deviations${a}`][i]??null;
+ case 'squared_deviation':return s[`squaredDeviations${a}`][i]??null;
+ case 'ss':return s[`ss${a}`];case 'df':return s.n?s.df:null;
+ case 'variance':return s[`variance${a}`];case 'sd':return s[`sd${a}`];case 'z':return s[`z${a}`][i]??null;
+ case 'scaling': {const d=s[`sd${a}`],input=r.use==='z'?s[`deviations${a}`][i]:c.pairs[i]?.[r.variable];return input!=null&&d!=null&&d>0?finite(input/d):null;}
+ case 'crossproduct':return r.use==='z'?valuesFor('zproducts','x',c)[i]??null:s.crossProducts[i]??null;
+ case 'crossproduct_sum':return r.use==='z'?safeSum(valuesFor('zproducts','x',c)):s.crossProductSum;
+ case 'covariance':return s.covariance;case 'sd_product':return s.sdProduct;
+ case 'pearson':return c.route==='z'?(s.n>1&&s.zX.every(x=>x!==null)&&s.zY.every(y=>y!==null)?Math.max(-1,Math.min(1,safeSum(valuesFor('zproducts','x',c))!/s.df)):null):s.pearson;
+ case 'add':return first===undefined||second===undefined?null:finite(first+second);case 'subtract':return first===undefined||second===undefined?null:finite(first-second);case 'multiply':return first===undefined||second===undefined?null:finite(first*second);case 'divide':return first===undefined||!second?null:finite(first/second);case 'square':return first===undefined?null:finite(first*first);case 'sqrt':return first===undefined||first<0?null:finite(Math.sqrt(first));default:return null;
+ }
+}
+const finite = (n: number) => Number.isFinite(n)?n:null;
+const safeSum = (a: (number|null)[]) => a.some(v=>v===null)?null:finite(a.reduce<number>((s,v)=>s+v!,0));
+export function inputs(r:Ref,route:Route):Ref[]{const result=rawInputs(r,route);return r.basis==='ranks'?result.map(child=>child.id==='series'?ref('ranks',child.variable):({...child,basis:'ranks'})):result;}
+function rawInputs(r: Ref, route: Route): Ref[] {
+ const v=r.variable,make=(id:string,use?:string)=>ref(id,v,use);
+ const entry=entryById[r.id];if(entry&&!entry.existing)return [...new Set([...formulaTargets(entry.variants[Number(r.use?.slice(1)||0)]?.formula||entry.formula),...entry.requires.map(c=>c.id)])].filter(id=>id!==r.id&&!entry.inputExclusions?.includes(id)).map(id=>entryById[id]&&!entryById[id].existing&&entryById[id].variants.length?make(id,'v0'):make(id));
+ if(r.id==='scaling')return [make(r.use==='z'?'centering':'series'),make('sd')];
+ if(isOperation(r)&&r.use){switch(r.use){
+ case 'frequency':return [make('series'),make('validn')];case 'mean':return [make('sum'),make('validn')];case 'sum':return [make('series')];case 'validn':return [make('series')];
+ case 'deviation':case 'centering':return [make('series'),make('mean')];case 'squared_deviation':return [make('deviation')];case 'ss':return [make('squared_deviation')];case 'df':return [make('validn')];case 'variance':return [make('ss'),make('df')];case 'sd':return [make('variance')];
+ case 'crossproduct':return [ref('deviation','x'),ref('deviation','y')];case 'zproducts':return [ref('z','x'),ref('z','y')];case 'crossproduct_sum':return [make('crossproduct')];case 'zsum':return [make('crossproduct','z')];case 'covariance':return [make('crossproduct_sum'),make('df')];case 'sd_product':return [ref('sd','x'),ref('sd','y')];case 'pearson':return route==='z'?[make('crossproduct_sum','z'),make('df')]:[make('covariance'),make('sd_product')];
+ }}
+ switch(r.id){
+ case 'frequency':return [make('series'),make('count'),make('validn')];case 'median':return [make('ranks'),make('validn')];case 'ranks':return [make('series')];case 'spearman':return [ref('ranks','x'),ref('ranks','y'),ref('pearson',v,undefined,'ranks')];case 'crosstab':return [make('pairs'),make('frequency')];
+ case 'mean':return [make('divide','mean')];case 'sum':return [make('add','sum')];case 'validn':return [make('count','validn')];
+ case 'deviation':return [make('subtract','deviation')];case 'centering':return [make('subtract','centering')];case 'squared_deviation':return [make('square','squared_deviation')];case 'ss':return [make('add','ss')];case 'df':return [make('subtract','df')];case 'variance':return [make('divide','variance')];case 'sd':return [make('sqrt','sd')];case 'z':return [make('scaling','z')];
+ case 'crossproduct':return [make('multiply',r.use==='z'?'zproducts':'crossproduct')];case 'crossproduct_sum':return [make('add',r.use==='z'?'zsum':'crossproduct_sum')];case 'covariance':return [make('divide','covariance')];case 'sd_product':return [make('multiply','sd_product')];case 'pearson':return [make('divide','pearson')];case 'positive_sd':return [make('sd')];case 'pairs':case 'linear':return r.id==='linear'?[ref('pairs')]:[];case 'square':return [];default:return [];
+ }
+}
+export function visibleRefs(focus: Ref, expanded: Set<string>,route: Route): Ref[]{const found=new Map<string,Ref>();function walk(r:Ref){const k=keyOf(r);if(found.has(k))return;found.set(k,r);if(expanded.has(k)||isOperation(r))inputs(r,route).forEach(walk);}walk(focus);return [...found.values()];}
+export function findPath(focus:Ref,target:Ref,route:Route): Ref[]|null {const queue=[[focus]],seen=new Set<string>();while(queue.length){const p=queue.shift()!,r=p.at(-1)!,k=keyOf(r);if(k===keyOf(target))return p;if(seen.has(k))continue;seen.add(k);for(const n of inputs(r,route))queue.push([...p,n]);}return null;}
+export const intros: Record<string,string> = {
+ series:'Eine Datenreihe enthält die Werte eines Merkmals. Jeder Wert bleibt seiner Person zugeordnet.',pairs:'Ein Wertepaar verbindet zwei Angaben derselben Person. Diese Zuordnung bleibt beim Rechnen erhalten.',metric:'Bei metrischen Daten haben Zahlenabstände eine inhaltliche Bedeutung. Eine zusätzliche Stunde ist zum Beispiel überall dieselbe Zeitspanne.',count:'Zähle jede verwendete Beobachtung genau einmal. Gleiche Werte und der Wert 0 zählen mit.',add:'Beim Addieren fasst du Zahlen zu einer Summe zusammen. Welche Zahlen eingehen, zeigt die aktuelle Rechnung.',subtract:'Ziehe einen Vergleichswert ab. Das Vorzeichen zeigt, ob der Ausgangswert darüber oder darunter liegt.',multiply:'Multipliziere die beiden Faktoren. Gleiche Vorzeichen ergeben einen positiven, verschiedene einen negativen Beitrag; ein Faktor 0 ergibt 0.',divide:'Beim Teilen setzt du zwei Größen ins Verhältnis. Der Nenner darf nicht 0 sein.',square:'Multipliziere eine Zahl mit sich selbst. Gleich große positive und negative Abweichungen ergeben dasselbe Quadrat.',sqrt:'Die Quadratwurzel führt bei einer Varianz zurück zur ursprünglichen Einheit. Wir verwenden die nicht negative Wurzel.',validn:'Die Anzahl n sagt, wie viele Beobachtungen in die Rechnung eingehen. Gleiche Werte werden einzeln gezählt.',sum:'Addiere alle verwendeten Werte. So entsteht ihre Gesamtsumme.',mean:'Stell dir vor, alle hätten gleich lange gelernt und die Gesamtzeit bliebe gleich. Die gleichmäßig verteilte Lernzeit ist der Mittelwert.',deviation:'Die Abweichung zeigt, wie weit ein Wert über oder unter dem Mittelwert liegt. Ziehe dafür den Mittelwert vom Einzelwert ab.',squared_deviation:'Quadriere die Abweichung. So heben sich positive und negative Abweichungen beim anschließenden Addieren nicht auf.',ss:'Die Quadratsumme fasst alle quadrierten Abweichungen zusammen. Sie beschreibt die gesamte quadratische Streuung.',df:'Die Abweichungen vom Mittelwert ergeben zusammen 0. Sind n − 1 Abweichungen bekannt, steht die letzte fest.',variance:'Teile die Quadratsumme durch n − 1. Die korrigierte Stichprobenvarianz beschreibt Streuung in quadrierten Einheiten.',sd:'Die Standardabweichung beschreibt, wie stark die Werte um ihren Mittelwert streuen. Sie hat dieselbe Einheit wie die ursprünglichen Werte.',centering:'Ziehe von jedem Wert den Mittelwert der Reihe ab. Der neue Mittelpunkt ist 0; die Abstände zwischen den Werten bleiben gleich.',scaling:'Teile alle Eingangswerte durch denselben positiven Maßstab. Hier verwenden wir die Standardabweichung.',positive_sd:'Wenn sich die Werte unterscheiden, ist ihre Standardabweichung positiv. Sind alle gleich, ist sie 0 und kann nicht als Nenner dienen.',z:'Ein z-Wert zeigt den Abstand zum Mittelwert in Standardabweichungen. Negative Werte liegen darunter, positive darüber.',crossproduct:'Multipliziere die X-Abweichung mit der Y-Abweichung derselben Person. Das Produkt beschreibt ihren gemeinsamen Beitrag.',crossproduct_sum:'Addiere die Beiträge aller zusammengehörigen Wertepaare. Positive und negative Beiträge können sich ausgleichen.',covariance:'Teile die Summe der Abweichungsprodukte durch n − 1. Das Vorzeichen beschreibt die Richtung der gemeinsamen Streuung.',sd_product:'Multipliziere die Standardabweichung von X mit der von Y. Das Produkt liefert den gemeinsamen Streuungsmaßstab.',linear:'Ein linearer Zusammenhang zeigt ein Muster entlang einer Geraden. Pearson erfasst dieses geradlinige Muster.',pearson:'Pearson-r beschreibt Richtung und Stärke eines linearen Zusammenhangs. Es liegt zwischen −1 und +1.'
+};
+export function introduction(r:Ref,c?:LessonContext):string {if(c)c=contextFor(r,c);if(c?.columns&&r.id==='mean')return `Addiere die Werte von „${c.columns[r.variable].title}“ und teile durch die Zahl der Befragten. So entsteht der Mittelwert dieser Spalte.`;if(r.id==='mean'&&r.variable==='y')return 'Stell dir vor, die gelösten Aufgaben wären gleichmäßig auf alle Personen verteilt. Dieser Wert ist der Mittelwert.';if(r.id==='scaling'&&r.use==='z')return 'Hier teilen wir die bereits zentrierten Werte durch die Standardabweichung. So werden aus Abweichungen z-Werte.';if(r.id==='crossproduct'&&r.use==='z')return 'Multipliziere die beiden z-Werte derselben Person. Diese Produkte bilden den alternativen Rechenweg zu Pearson-r.';if(r.id==='crossproduct_sum'&&r.use==='z')return 'Addiere die Produkte der z-Werte über alle zusammengehörigen Paare.';return intros[r.id]||conceptById[r.id].explanation;}
+export type Condition={text:string;ok:boolean|null;target?:Ref};
+export function conditions(r:Ref,c:LessonContext):Condition[]{
+ c=contextFor(r,c);r=outputRef(r);const id=r.id,s=c.stats,v=r.variable,zProducts=r.use==='z'&&['crossproduct','crossproduct_sum'].includes(id);
+ const target=(id:string,axis:Variable=v)=>ref(id,axis,undefined,r.basis);
+ const result:Condition[]=[];
+ if(c.columns){const axes:Variable[]=['pearson','covariance','crossproduct','crossproduct_sum','sd_product','spearman','crosstab'].includes(id)?['x','y']:[v];for(const axis of axes){const col=c.columns[axis];if(!compatible(id,col,c.likertMetric))result.push({text:`${col.title}: ${compatibilityReason(id,col,c.likertMetric)}`,ok:false});else if(col.kind==='likert'&&c.likertMetric&&!['series','pairs','frequency','crosstab','ranks','spearman','median','ordinal','nominal'].includes(id))result.push({text:`${col.title}: Für diese Rechnung behandeln wir die Abstände zwischen den Antwortstufen als gleich groß.`,ok:null});else if(col.kind==='binary'&&!['frequency','crosstab','series','pairs','validn'].includes(id))result.push({text:`${col.title}: 0 = Nein, 1 = Ja; der Mittelwert ist der Ja-Anteil.`,ok:null});}}
+ if(id==='spearman')result.push({text:c.stats.n<2?'Mindestens zwei Befragte benötigt.':'Ränge werden je Variable gebildet; Gleichstände erhalten mittlere Ränge.',ok:c.stats.n<2?false:null});
+ if(['variance','sd','z','scaling','covariance','pearson','positive_sd','sd_product'].includes(id)||zProducts)result.push({text:s.n>=2?'Mindestens zwei Beobachtungen vorhanden.':'Mindestens zwei Beobachtungen benötigt.',ok:s.n>=2,target:target('validn')});
+ if(id==='mean')result.push({text:s.n?'Mindestens ein Wert vorhanden.':'Mindestens ein Wert benötigt.',ok:s.n>0,target:target('validn',v)});
+ if(!c.columns&&['mean','variance','sd','z','covariance','pearson'].includes(id))result.push({text:'Die Zahlenabstände sind im Beispiel inhaltlich sinnvoll.',ok:null,target:target('metric',v)});
+ if(['z','scaling','positive_sd','pearson'].includes(id)||zProducts){
+  const axes:Variable[]=id==='pearson'||zProducts?['x','y']:[v];for(const a of axes){const d=a==='x'?s.sdX:s.sdY;result.push({text:d===null?`Die Streuung von ${a.toUpperCase()} ist noch nicht definiert.`:d===0?`${a.toUpperCase()} ist konstant: s${a==='x'?'ₓ':'ᵧ'} = 0.`:`${a.toUpperCase()} streut: s${a==='x'?'ₓ':'ᵧ'} > 0.`,ok:d!==null&&d>0,target:target('positive_sd',a)});}
+ }
+ if(id==='pearson')result.push({text:'X und Y stammen jeweils von derselben Person.',ok:null,target:target('pairs')});
+ if(r.id==='sqrt'&&!r.use){const a=c.pairs[indexFor(c)]?.[v];result.push({text:a===undefined?'Ein Eingangswert wird benötigt.':a<0?'Eine negative Zahl hat keine reelle Quadratwurzel.':'Der Eingangswert ist mindestens 0.',ok:a!==undefined&&a>=0});}
+ if(r.id==='square'&&!r.use)result.push({text:'Das Quadrat ist nicht negativ.',ok:null});
+ if(r.id==='divide'&&!r.use){const b=c.pairs[(indexFor(c)+1)%Math.max(c.pairs.length,1)]?.[v];result.push({text:b===0?'Der Nenner ist 0. Teilen durch 0 ist nicht definiert.':b===undefined?'Ein Nenner wird benötigt.':'Der Nenner ist ungleich 0.',ok:b!==undefined&&b!==0});}
+ return result;
+}
+/** Ergebnissatz: nennt die Variable mit Namen und rundet auf höchstens zwei Nachkommastellen. */
+export function interpretation(r:Ref,c:LessonContext):string {
+ c=contextFor(r,c);r=outputRef(r);const num=(x:number|null|undefined,digits=2)=>numberText(x,digits),n=valueFor(r,c),i=indexFor(c)+1,t=num(n),v=`„${variableTitle(r.variable,c)}“`,vx=`„${variableTitle('x',c)}“`,vy=`„${variableTitle('y',c)}“`;
+ if(r.id==='median'){const m=middleValues(c.pairs.map(p=>p[r.variable]));return !m?'Keine Werte vorhanden.':c.columns?.[r.variable].categories?`Die mittleren Positionen sind ${formatValue(c.columns[r.variable],m[0])} und ${formatValue(c.columns[r.variable],m[1])}. Bei verschiedenen Kategorien zeigen wir beide; wir mitteln keine Kategoriencodes.`:`Die mittleren Werte sind ${num(m[0])} und ${num(m[1])}; ihr Mittel ergibt ${num(n)} ${unitFor(r,c)}.`;}
+ if(r.id==='frequency')return 'Die Tabelle zählt alle verwendeten Befragten. Prozentangaben beziehen sich auf diese gesamte Fallzahl.';
+ if(r.id==='crosstab')return `Eine Zelle enthält Personen mit derselben Kombination aus einer Kategorie von ${vx} und einer von ${vy}. Zeilenprozente beziehen sich jeweils auf alle Personen derselben Kategorie von ${vx}.`;
+ if(r.id==='ranks')return `Diese Person erhält Rang ${num(n)}. Gleiche Werte teilen sich den Durchschnitt ihrer Rangplätze.`;
+ if(r.id==='spearman')return n===null?'Mindestens eine Rangreihe ist konstant oder es gibt weniger als zwei Fälle.':`Spearman-ρ = ${num(n)}: ${n>0?'höhere Ränge gehen eher zusammen':n<0?`höhere Ränge in ${vx} gehen eher mit niedrigeren Rängen in ${vy} einher`:'kein monotones Muster nach diesem Maß'}. Die Rechnung verwendet Pearson auf mittleren Rängen.`;
+ if(r.id==='nominal')return 'Die Zahlencodes dienen als Etiketten. Eine Differenz zwischen zwei Codes ist kein Merkmalsabstand.';
+ if(r.id==='ordinal')return 'Die Kategorien besitzen eine Reihenfolge. Deren Abstände werden dadurch nicht festgelegt.';
+ if(n===null&&!['metric','pairs','linear','positive_sd'].includes(r.id))return conditions(r,c).filter(x=>x.ok===false).map(x=>x.text).join(' ')||'Diese Rechnung erreicht eine numerische Grenze. Verwende weniger extreme Werte.';
+ switch(r.id){case 'series':return `Person ${i}: ${t} ${unitFor(r,c)}. Die Reihenfolge hält die Zuordnung zu den Personen fest.`;case 'pairs':return 'Beide Angaben gehören zu derselben Person. Die Spalten unabhängig zu sortieren würde diese Zuordnung verändern.';case 'metric':return 'Die Annahme sinnvoller Abstände kommt aus der Messung, nicht aus der Zahlenliste.';case 'count':return `Es werden ${c.stats.n} Personen gezählt. Gleiche Werte und 0 zählen mit.`;case 'sum':return `Zusammen ergeben die ${c.stats.n} Werte ${t} ${unitFor(r,c)}.`;case 'squared_deviation':return `Der quadrierte Abstand von Person ${i} beträgt ${t} ${unitFor(r,c)}. Das Vorzeichen der ursprünglichen Abweichung spielt dafür keine Rolle.`;case 'ss':return `Die ${c.stats.n} quadrierten Abweichungen ergeben zusammen ${t} ${unitFor(r,c)}. Mit der Zahl der Beobachtungen verändert sich auch diese Gesamtsumme.`;case 'covariance':return `Die gemeinsame Streuung ist ${n===0?'0':n!>0?'positiv':'negativ'}. Ihre Größe hängt von den Einheiten beider Merkmale ab.`;case 'sd_product':return 'Dieser Maßstab hat dieselbe Einheit wie die Kovarianz. Beim anschließenden Teilen kürzen sich die Einheiten heraus.';case 'crossproduct_sum':return `Die ${c.stats.n} Beiträge ergeben zusammen ${t} ${unitFor(r,c)}. Positive und negative Beiträge können sich gegenseitig ausgleichen.`;case 'mean':return c.columns?(c.columns[r.variable].kind==='binary'?`${num(n!*100,1)} % der Befragten antworten mit Ja (Code 1).`:`Der Mittelwert von „${c.columns[r.variable].title}“ beträgt ${t} ${unitFor(r,c)}.`):`Gleichmäßig verteilt: ${t} ${unitFor(r,c)} pro Person.`;case 'deviation':case 'centering':return (n===0?`Person ${i} liegt genau am Mittelwert von ${v}.`:`Person ${i} liegt ${num(Math.abs(n!))} ${unitFor(r,c)} ${n!>0?'über dem':'unter dem'} Mittelwert von ${v}.`)+(r.id==='centering'?' Abstände und Standardabweichung bleiben beim Zentrieren erhalten.':'');case 'z':case 'scaling':if(r.id==='scaling'&&r.use!=='z')return 'Hier wurden die ursprünglichen Werte geteilt. Der Mittelwert wurde nicht abgezogen.';return n===0?`Person ${i} liegt genau am Mittelwert.`:`Person ${i} liegt ungefähr ${num(Math.abs(n!))} Standardabweichungen ${n!<0?'unter':'über'} dem Mittelwert.`;case 'variance':return 'Hier verwenden wir die korrigierte Stichprobenvarianz mit n − 1.';case 'sd':return `Die Streuung von ${v} beträgt ${t} ${unitFor(r,c)}. Sie ist kein durchschnittlicher absoluter Abstand.`;case 'pearson':return `${n===0?'Kein linearer Zusammenhang in diesen Daten.':n!>0?'Der lineare Zusammenhang ist positiv.':'Der lineare Zusammenhang ist negativ.'} Korrelation belegt keine Ursache und Wirkung.${c.stats.n===2?' Bei zwei streuenden Wertepaaren ist r immer +1 oder −1.':''}`;case 'validn':return 'Alle Rechnungen verwenden dieselben vollständigen Fälle. Für den Mittelwert allein genügt eine Variable.';case 'df':return 'Der geschätzte Mittelwert bindet einen Freiheitsgrad. Der Nenner ist ein eigener Eingang der Varianz.';case 'linear':return 'Ein r nahe 0 schließt einen starken gekrümmten Zusammenhang nicht aus.';case 'crossproduct':return n===0?'Dieser Fall trägt 0 zur Summe bei.':`Die beiden ${r.use==='z'?'z-Werte':'Abweichungen'} haben ${n!>0?'dasselbe Vorzeichen.':'unterschiedliche Vorzeichen.'}`;default:return isOperation(r)&&r.use?`Hier: ${titleFor(ref(r.use,r.variable))}.`:'Alle angezeigten Werte beziehen sich auf dieselben aktuellen Daten.';}
+}
+export const deepQuestions:Record<string,string>={mean:'Welche Werte passen zum Mittelwert?',variance:'Warum teilen wir durch n − 1?',sd:'Was unterscheidet Varianz und Standardabweichung?',z:'Entsteht dadurch eine Normalverteilung?',pearson:'Was kann r nicht zeigen?',df:'Warum ist die letzte Abweichung festgelegt?',scaling:'Wurde vorher der Mittelwert abgezogen?',metric:'Kann man das Skalenniveau an Zahlen erkennen?'};
+export function subtitle(r:Ref,c?:LessonContext):string {if(r.basis==='ranks')return 'Rechnung mit den Rängen der gewählten Spalten';if(r.id==='variance')return 'Korrigierte Stichprobenvarianz';if(r.id==='mean')return 'Arithmetisches Mittel';if(r.id==='covariance')return 'Stichprobenkovarianz';if(r.use==='z'&&r.id==='scaling')return 'Eingang: zentrierte Werte';if(r.use==='z')return 'Rechenweg über z-Werte';return joint.has(r.id)?'Gemeinsame Fälle':variableName(r.variable,c);}
+export function lessonContext(pairs:DataPair[],caseId:string,route:Route,columns?:LessonContext["columns"],likertMetric=true):LessonContext{return {pairs,stats:calculateStatistics(pairs),caseId,route,columns,likertMetric};}
+export const allConceptRefs=()=>concepts.map(x=>ref(x.id));

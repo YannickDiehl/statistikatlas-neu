@@ -1,0 +1,85 @@
+/* Sitzung 5 „Kreuztabellen“: eigene Stile. Nur src/main.tsx importiert diese Datei. */
+
+/* R2: So liest du die Vorlage, Regel als Bausteine */
+.chapter .s5-lesehilfe{font-size:15px}
+.chapter .s5-lesehilfe b{background:#F1EFFC}
+.chapter .s5-regel{display:flex;flex-wrap:wrap;gap:10px 6px;align-items:flex-start;font-family:var(--mono)}
+.chapter .s5-regel-teil{display:flex;gap:6px;align-items:flex-start}
+.chapter .s5-block{display:flex;flex-direction:column;gap:6px}
+.chapter .s5-bricks{display:flex;gap:4px;align-items:flex-start}
+.chapter .s5-brick{display:inline-flex;flex-direction:column;align-items:center;gap:3px;max-width:110px;text-align:center}
+.chapter .s5-brick b,.chapter .s5-semi b{display:inline-block;min-width:26px;background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:3px 8px;font-weight:600;font-size:17px}
+.chapter .s5-brick small,.chapter .s5-semi small{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--mute);line-height:1.25}
+.chapter .s5-num{color:#5b4fb0}.chapter .s5-lbl{color:#b5541c}.chapter .s5-op{color:#8a4a2c}.chapter .s5-kw{color:#2B3540}
+.chapter .s5-brick b.s5-leer{border-style:dashed;border-color:#9aa4ad;background:#F6F4EF;min-width:34px;min-height:36px}
+.chapter .s5-semi{display:inline-flex;flex-direction:column;align-items:center;gap:3px;width:56px;text-align:center}
+.chapter .s5-sum{font-family:var(--sans);font-size:13.5px;font-weight:700;color:var(--gruend);max-width:300px;line-height:1.3}
+
+/* R3: Ausgabe von crosstab() mit Beschriftungen */
+.chapter .s5-ausgabe{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.chapter .s5-ausgabe pre{margin:0;background:#FBF8F3;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.55;overflow-x:auto;white-space:pre;max-width:100%}
+.chapter .s5-ausgabe mark{background:none;outline:2.5px solid #F0A27E;outline-offset:1px;border-radius:3px;color:inherit}
+.chapter .s5-ausgabe ol{list-style:none;margin:0;padding:0;font-size:14.5px;display:grid;gap:6px}
+.chapter .s5-nr{color:#b5541c;font-weight:800}
+
+/* Grundlage 2: drei Tabellen, Formeln, Basis-Schalter */
+.chapter .s5-drei{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.chapter .s5-mini table{width:100%}
+.chapter .s5-mini :is(th,td){padding:2px 4px!important;font-size:13px}
+.chapter .s5-mini p{margin:0 0 4px;font-size:14px;line-height:1.35}
+.chapter .s5-mini table,.chapter .s5-kreuz{border-collapse:separate;border-spacing:0;font-size:13.5px;font-variant-numeric:tabular-nums}
+.chapter .s5-mini :is(th,td),.chapter .s5-kreuz :is(th,td){border:1px solid var(--line);padding:3px 6px;text-align:right}
+.chapter .s5-mini th:first-child,.chapter .s5-kreuz th[scope=row]{text-align:left}
+.chapter .s5-mini td b,.chapter .s5-kreuz td b{display:block;font-weight:800;color:var(--ink)}
+.chapter .s5-mini td span,.chapter .s5-kreuz td span{display:block}
+.chapter :is(.s5-mini,.s5-kreuz) td.s5-zelle{background:#FAC775!important;outline:2px solid #B86E0A;outline-offset:-3px}
+.chapter .s5-mini-frage{margin-top:6px!important}
+.chapter .s5-formel{flex-direction:column;align-items:stretch;gap:8px}
+.chapter .s5-formel-zeile{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.chapter .s5-formel-zeile small{color:var(--mute);font-weight:700;font-size:13.5px}
+.chapter .s5-basis-schild{background:var(--gelb);border:2px solid #EFC867;border-radius:8px;padding:1px 8px;font-weight:700;min-width:120px}
+.chapter .s5-formel-satz{margin:0;font-weight:700}
+.chapter .s5-schalter{margin-top:10px}
+.chapter .s5-schalter-wahl legend{font-weight:800;color:var(--ink)}
+.chapter .s5-kreuz{margin-top:10px}
+.chapter .s5-kreuz td{padding:0}
+.chapter .s5-kreuz td:not(:has(button)){padding:3px 8px}
+.chapter .s5-kreuz button{display:block;width:100%;background:transparent;border:0;padding:3px 8px;text-align:right;font:inherit;color:inherit;cursor:pointer;min-width:72px}
+.chapter .s5-kreuz button[aria-pressed="true"]{font-weight:700}
+.chapter .s5-satz{margin-top:8px;font-weight:700;color:var(--ink)}
+
+/* Grundlage 1: Gruppen zuschneiden */
+.chapter .s5-zuschnitt{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:12px}
+.chapter .s5-zuschnitt .reihe-knoepfe{margin-top:0}
+.chapter .s5-zuschnitt-tabelle{width:100%}
+.chapter .s5-zuschnitt-tabelle :is(th,td){text-align:left;vertical-align:top;padding:6px 8px}
+.chapter .s5-zuschnitt-tabelle td:nth-child(2){text-align:right}
+.chapter .s5-wahl{text-align:left;border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;font-size:14px}
+.chapter .s5-wahl label{display:flex;gap:6px;align-items:baseline;white-space:nowrap}
+.chapter .s5-zuschnitt-ergebnis{background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:10px 14px;font-size:15px}
+.chapter .s5-zuschnitt-ergebnis ul{margin:0;padding-left:18px}
+.chapter .s5-zuschnitt-ergebnis p{margin:8px 0 0}
+.chapter .s5-balken{display:flex;height:28px;margin-top:8px;border-radius:6px;overflow:hidden;font-size:13px;font-weight:800}
+.chapter .s5-balken span{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;min-width:0}
+.chapter .s5-b1{background:#FAC775;border:1.5px solid #B86E0A}.chapter .s5-b0{background:#85B7EB;border:1.5px solid #2C6CA8}
+.chapter .s5-rueck{color:var(--ink)}
+
+.chapter .s5-scroll{max-width:100%;overflow-x:auto}
+.chapter .s5-werte :is(th,td){padding:3px 8px}
+
+/* Fragen: Zuordnen mit Auswahlfeldern */
+.chapter .s5-gruppe .frage{margin-top:8px}
+.chapter .s5-gruppe .frage{display:block}
+.chapter .s5-gruppe .frage label{display:block}
+.chapter .s5-gruppe select{display:block;margin-top:4px}
+
+@media (max-width:520px){
+  .chapter .s5-regel,.chapter .s5-regel-teil{flex-direction:column}
+  .chapter .s5-semi{flex-direction:row;width:auto}
+  .chapter .s5-kreuz button{min-width:0}
+  .chapter .s5-kreuz{font-size:13px}
+  .chapter .s5-zuschnitt-tabelle thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .chapter .s5-zuschnitt-tabelle tr{display:grid;grid-template-columns:minmax(0,1fr) auto;border-bottom:1px solid var(--line)}
+  .chapter .s5-zuschnitt-tabelle :is(th,td){border-bottom:0}
+  .chapter .s5-zuschnitt-tabelle td:nth-child(3){grid-column:1/-1;padding-top:0}
+}

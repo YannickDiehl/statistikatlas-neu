@@ -1,0 +1,714 @@
+{
+  "labels": [
+    {
+      "zoom": 0.2,
+      "detail": false,
+      "hash": "229a424459f63ed7df189bb736c776a62fc89f5219479be72a90dac327d11209"
+    },
+    {
+      "zoom": 0.2,
+      "detail": true,
+      "hash": "3810bc3d178b746e6f3d5ef3af6573d55e66137b230a74c183a31e4d66fd4dc0"
+    },
+    {
+      "zoom": 0.35,
+      "detail": false,
+      "hash": "6b16b92d7a9623b866a8b37110859cfb2d3bc51ee7ec9d57364f25d171e987f4"
+    },
+    {
+      "zoom": 0.35,
+      "detail": true,
+      "hash": "e8e59ad8b9ecc9a4ca6b2eb6f4ebc76c22305ccd4eb7def7ad58a3de11c15529"
+    },
+    {
+      "zoom": 0.6,
+      "detail": false,
+      "hash": "78f5f54cd1eb4b68d2c65d8df08c0033ba15b778a89fd7e97ae6691f86c70241"
+    },
+    {
+      "zoom": 0.6,
+      "detail": true,
+      "hash": "d06a1ec0a04cdf20c6cfe757b6710c442318193d6b66511bace65f5c3ecda67a"
+    },
+    {
+      "zoom": 0.9,
+      "detail": false,
+      "hash": "93051d2e6555f972ec3f8ec6779d6049a39b39dbc6e105dc54bd48cb38e22289"
+    },
+    {
+      "zoom": 0.9,
+      "detail": true,
+      "hash": "cd19d6f86dca319a7730a83526ab518342b8ade598f7eee3f1e0933319efd06a"
+    },
+    {
+      "zoom": 1.2,
+      "detail": false,
+      "hash": "368cac0993a7e98d3c80febcdf6559039ca0be91d2060eab2fd149848283ec22"
+    },
+    {
+      "zoom": 1.2,
+      "detail": true,
+      "hash": "74c5ae44f4fb20f8a86d101b00e9ab50f4b72f135598c68cb60e567ee9c14fe2"
+    },
+    {
+      "zoom": 1.8,
+      "detail": false,
+      "hash": "368cac0993a7e98d3c80febcdf6559039ca0be91d2060eab2fd149848283ec22"
+    },
+    {
+      "zoom": 1.8,
+      "detail": true,
+      "hash": "f946dddcc61449e528eb5dc9ea30ac46b6441476cf9667315c21ece2d7a13445"
+    }
+  ],
+  "graphs": [
+    {
+      "selected": {
+        "id": "mean",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "mean",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "mean",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "mean",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "mean",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "mean",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "mean",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "mean",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "pearson",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "pearson",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "pearson",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "0b56aafe18e9606006f11bfab00ac42cb4617daabd95dea5a00cca7cc0097f98"
+    },
+    {
+      "selected": {
+        "id": "pearson",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "0b56aafe18e9606006f11bfab00ac42cb4617daabd95dea5a00cca7cc0097f98"
+    },
+    {
+      "selected": {
+        "id": "pearson",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "pearson",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "pearson",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "0b56aafe18e9606006f11bfab00ac42cb4617daabd95dea5a00cca7cc0097f98"
+    },
+    {
+      "selected": {
+        "id": "pearson",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "0b56aafe18e9606006f11bfab00ac42cb4617daabd95dea5a00cca7cc0097f98"
+    },
+    {
+      "selected": {
+        "id": "p_value",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "p_value",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "p_value",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "p_value",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "p_value",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "p_value",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "p_value",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "p_value",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "t_test",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "t_test",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "t_test",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "t_test",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "oneway_anova",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "oneway_anova",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "oneway_anova",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "oneway_anova",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "oneway_anova",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "oneway_anova",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "oneway_anova",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "oneway_anova",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "wilcoxon_test",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "wilcoxon_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "wilcoxon_test",
+        "variable": "x"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "wilcoxon_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "x",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "wilcoxon_test",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "wilcoxon_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "covariance",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "wilcoxon_test",
+        "variable": "y"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    },
+    {
+      "selected": {
+        "id": "wilcoxon_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "anchor": {
+        "id": "t_test",
+        "variable": "y",
+        "use": "v2"
+      },
+      "route": "z",
+      "hash": "c2e10719c84de922bfc9af86c6615f75db9585f6eb823be1d9d66fb1de225e33"
+    }
+  ]
+}

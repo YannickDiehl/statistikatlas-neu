@@ -1,0 +1,41 @@
+/* Sitzung 1: eigene Stile (Fensterwahl, Suchwort-Labor, pi08-Tabelle, Formel, Datei laden). Nur src/main.tsx importiert diese Datei. */
+.chapter .s1-bekannt{margin:14px 0 0}
+.chapter .s1-wahl{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chapter .s1-wahl button{border:2px solid var(--rand);background:#fff;border-radius:10px;padding:3px 10px;font-weight:800;font-size:14px;color:var(--ink)}
+.chapter .s1-wahl button[aria-pressed="true"]{border-color:var(--blaud);background:var(--blauh);box-shadow:inset 0 0 0 1px var(--blaud)}
+.chapter .s1-wahl button[aria-pressed="true"]::before{content:"✓ "}
+.chapter .s1-wahl button code{background:none;padding:0}
+.chapter .s1-liste{margin:8px 0 0;padding-left:22px}
+.chapter .s1-liste li+li{margin-top:4px}
+.chapter .s1-liste-kopf{margin:14px 0 0}
+.chapter .s1-zeilen{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.chapter .s1-zeilen .lesehilfe,.chapter .s1-pakete{margin-top:8px}
+.chapter .s1-pakete{gap:18px}
+.chapter .s1-pakete small{max-width:240px;text-align:center}
+.chapter .s1-zeilen .lesehilfe{align-items:flex-start;gap:8px 8px}
+.chapter .s1-zeilen small{max-width:118px;text-align:center;line-height:1.25}
+.chapter .s1-tasten{margin-top:6px}
+.chapter .s1-ausgabe{margin:10px 0 0;padding:10px 12px;background:#FBF8F3;border:1.5px solid var(--line);border-radius:10px;font:13px/1.55 var(--mono);white-space:pre;overflow-x:auto;max-width:100%}
+.chapter .s1-zeig{margin:12px 0 0;font-weight:800}
+.chapter .s1-tabelle{margin-top:10px;overflow-x:auto;max-width:100%}
+.chapter .s1-tkopf{margin:0 0 6px;font-size:13px;line-height:1.5}
+.chapter .s1-tkopf code{white-space:pre-wrap}
+.chapter table.s1-freq{font-family:var(--mono);font-size:13px}
+.chapter table.s1-freq caption{font-family:var(--sans)}
+.chapter table.s1-freq :is(th,td){padding:3px 8px;white-space:nowrap}
+.chapter table.s1-freq :is(th,td):nth-child(2){text-align:left}
+.chapter table.s1-freq th[scope="row"]{text-align:left}
+.chapter table.s1-freq .s1-summe :is(th,td){border-top:1.5px solid var(--rand)}
+.chapter .s1-formel{flex-direction:column;align-items:flex-start;gap:8px}
+.chapter .s1-formel-reihe{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700}
+.chapter .s1-f{border-radius:10px;padding:4px 10px;border:2px solid transparent}
+.chapter .s1-f.gueltig{background:var(--gruenh);border-color:var(--gruend)}
+.chapter .s1-f.alle{background:var(--blauh);border-color:var(--blaud)}
+.chapter .s1-f.fehlend{background:var(--roth);border-color:var(--rot)}
+.chapter .s1-formel-klein{margin:0;font-size:14px;color:var(--mute)}
+.chapter .s1-datei{margin-top:10px}
+.chapter .s1-gespeichert{margin-top:10px}
+.chapter .s1-steckbrief p{margin:0}
+@media (max-width:600px){
+  .chapter table.s1-freq :is(th,td){padding:3px 6px}
+}

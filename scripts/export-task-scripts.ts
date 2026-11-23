@@ -1,0 +1,67 @@
+// Schreibt die Lösungsskripte (Hilfestufe 4) der Lernpfad-Aufgaben als .R-Dateien, mit festem Dateipfad statt file.choose().
+//   node --import tsx scripts/export-task-scripts.ts <datei.sav> <ordner>
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { readSav } from '../src/sandbox/readSav';
+import { join } from 'node:path';
+import { antraege, SETUP_SCRIPT } from '../src/tasks/s01-schon-gefragt/content';
+import { R_SOLUTION as S02 } from '../src/tasks/s02-datenerfassung/content';
+import { R_SOLUTION as S03 } from '../src/tasks/s03-stuehle/content';
+import { hints as GRAFIK_HINTS, QUESTIONS as GRAFIK_QUESTIONS } from '../src/tasks/grafik-erst-zeichnen/content';
+import { rSolution as grafikSolution, type Plan as GrafikPlan } from '../src/tasks/grafik-erst-zeichnen/domain';
+import { R_SOLUTION as S04 } from '../src/tasks/s04-nenner-check/content';
+import { CARDS } from '../src/tasks/s05-treiber/content';
+import { rCodeFor } from '../src/tasks/s05-treiber/domain';
+import { hints as S06_HINTS, rSolution as S06 } from '../src/tasks/s06-letzte-frage/content';
+import { rScript as s07Script } from '../src/tasks/s07-drei-fragen/domain';
+import { INPUTS as S08_INPUTS } from '../src/tasks/s08-automat/content';
+import { prepare as s08Prepare, rSolution as s08Solution, variants as s08Variants } from '../src/tasks/s08-automat/domain';
+import { CONTROL_IDS as S09_CONTROLS, GROUP_IDS as S09_REFS } from '../src/tasks/s09-mitgenommen/content';
+import { rSolution as s09Solution } from '../src/tasks/s09-mitgenommen/domain';
+import { R_SOLUTION as S10 } from '../src/tasks/s10-buergerrat/content';
+
+const [sav, out] = process.argv.slice(2);
+if (!sav || !out) {
+  console.error('Aufruf: node --import tsx scripts/export-task-scripts.ts <datei.sav> <ordner>');
+  process.exit(1);
+}
+// Teil 3: je Leitfrage der Bauplan, den die Vorschau als passend bestätigt.
+const GRAFIK_PLANS: Record<string, GrafikPlan> = {
+  demokratie: { geom: 'fill', x: 'eastwest', second: 'ps03' },
+  stunden: { geom: 'boxplot', x: 'sex', second: 'dw15' },
+  alter: { geom: 'jitter', x: 'age', second: 'ls01' },
+};
+const GRAFIK_SETUP = '# Pakete laden\nlibrary(tidyverse)\nlibrary(mariposa)\n\n# Daten einlesen\nallbus <- read_spss(file.choose())\n';
+// Sitzung 9: Das Skript tippt Konstante und Steigung aus summary() ab – die gewichtete Gerade aus der Datei.
+const buf = readFileSync(sav);
+const s08Data = s08Prepare(readSav(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength)));
+const s08Line = (item: (typeof S08_INPUTS)[number]) => {
+  const main = s08Variants(s08Data, item).find(v => v.kind === 'main');
+  return main ? { a: main.a, b: main.b } : null;
+};
+const withFile = (code: string) => code.replaceAll('file.choose()', () => JSON.stringify(sav));
+const scripts: Record<string, string> = {
+  's01-schon-gefragt.R': `${SETUP_SCRIPT}\n${antraege.map(a => a.hint.solution).join('\n\n')}\n`,
+  's02-datenerfassung.R': S02,
+  's03-stuehle.R': S03,
+  ...Object.fromEntries(GRAFIK_QUESTIONS.map(q => [`grafik-erst-zeichnen-${q.id}.R`, grafikSolution(q, GRAFIK_PLANS[q.id])])),
+  'grafik-erst-zeichnen-teil1.R': `${GRAFIK_SETUP}\n${GRAFIK_HINTS.sketch.solution}\n`,
+  'grafik-erst-zeichnen-teil2.R': `${GRAFIK_SETUP}\n${GRAFIK_HINTS.silhouettes.solution}\n`,
+  's04-nenner-check.R': S04,
+  ...Object.fromEntries(CARDS.map(c => [`s05-treiber-${c.id}.R`, rCodeFor(c)])),
+  's06-letzte-frage.R': S06(4),
+  ...Object.fromEntries(Object.entries(S06_HINTS).map(([station, h]) => [`s06-letzte-frage-${station}.R`, h.solution])),
+  's07-drei-fragen.R': s07Script(['pa31', 'pa32', 'pa35'], ['pa31', 'pa32', 'pa33'], ['pa31', 'pa32', 'pa33']),
+  's07-drei-fragen-pa29.R': s07Script(['pa30', 'pa32', 'pa35'], ['pa29', 'pa31', 'pa32'], ['pa29', 'pa33', 'pa34']),
+  ...Object.fromEntries(S08_INPUTS.map(i => [`s08-automat-${i.id}.R`, s08Solution(i, s08Line(i))])),
+  ...Object.fromEntries(S09_REFS.map(r => [`s09-mitgenommen-ref${r}.R`, s09Solution(r)])),
+  's09-mitgenommen-alle-kontrollen.R': s09Solution(4, S09_CONTROLS),
+  's10-buergerrat.R': S10.full,
+  's10-buergerrat-1-modell.R': S10.model,
+  's10-buergerrat-2-jana.R': S10.jana,
+  's10-buergerrat-4-profile.R': `${S10.model}\n\n${S10.profiles}`,
+  's10-buergerrat-5-ame.R': `${S10.model}\n\n${S10.ame}`,
+  's10-buergerrat-6-likelihood.R': S10.likelihood,
+};
+mkdirSync(out, { recursive: true });
+for (const [name, code] of Object.entries(scripts)) writeFileSync(join(out, name), withFile(code));
+console.log(`${Object.keys(scripts).length} Skripte nach ${out} geschrieben.`);

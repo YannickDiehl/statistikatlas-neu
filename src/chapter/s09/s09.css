@@ -1,0 +1,65 @@
+/* Sitzung 9 „Lineare Regression“: Stile nur für dieses Kapitel (Präfix s9-). Farben aus chapter.css. */
+.chapter .s9-gewicht{margin-top:10px;font-size:14px}
+.chapter .s9-satz{margin:8px 0 0;font-style:italic}
+.chapter .s9-zeile b{white-space:nowrap}
+.chapter .s9-wichtig p{margin:0}.chapter .s9-wichtig p+p{margin-top:4px}
+.chapter .s9-erklaer{margin-top:12px}.chapter .s9-erklaer p{margin:0}
+.chapter pre.s9-kontrolle{font-size:13.5px;line-height:1.6;margin-top:6px}
+.chapter .s9-karte{margin-top:12px}
+
+/* Umschalter mit aria-pressed (B0, B7, B9) */
+.chapter .s9-umschalter{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chapter .s9-schalter{border:2px solid var(--rand);background:#fff;border-radius:10px;padding:4px 12px;font-weight:800;font-size:14px;color:var(--ink);cursor:pointer}
+.chapter .s9-schalter[aria-pressed="true"]{border-color:var(--k2);background:var(--kh)}
+.chapter .s9-schalter:focus-visible{outline:3px solid var(--blaud);outline-offset:2px}
+
+/* B0: Ausgabe von summary() */
+.chapter .s9-pre{margin:10px 0 0}
+.chapter .s9-pre figcaption{font-weight:700;font-size:14px;color:var(--mute);margin-bottom:4px}
+.chapter .s9-pre pre{background:#FBF8F3;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;margin:0;font-family:var(--mono);font-size:13px;line-height:1.55;overflow-x:auto;white-space:pre}
+.chapter mark.s9-zelle{background:var(--kh);color:inherit;outline:2.5px solid var(--k2);border-radius:3px}
+.chapter .s9-mehr{margin-top:6px}
+.chapter .s9-mehr>summary{cursor:pointer;font-family:var(--mono);font-size:13px;color:var(--mute)}
+.chapter .s9-mehr pre{margin-top:6px}
+
+/* Interaktive Bilder */
+.chapter .s9-bild{margin-top:12px}
+.chapter .s9-svg{display:block;max-width:760px;height:auto;background:#fff;border:1.5px solid var(--line);border-radius:14px;margin-top:8px}
+.chapter .s9-griff{cursor:ns-resize;touch-action:none}
+.chapter .s9-griff:focus-visible,.chapter .s9-punkt:focus-visible{outline:none}
+.chapter .s9-griff:focus-visible{stroke:var(--blaud);stroke-width:5}
+.chapter .s9-punkt{cursor:pointer}
+.chapter .s9-punkt:focus-visible circle{stroke:#1E2D3C;stroke-width:4}
+.chapter .s9-felder{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:8px}
+.chapter .s9-felder input[type=number]{border:2px solid var(--rand);border-radius:10px;padding:4px 8px;width:90px;background:#fff}
+.chapter .s9-felder input:disabled{background:var(--side)}
+
+/* B2: Formel als Bausteine */
+.chapter .s9-formel{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--paper);border:2px solid var(--line)}
+.chapter .s9-stein{display:inline-flex;flex-direction:column;align-items:center;gap:4px;max-width:150px;text-align:center}
+.chapter .s9-stein b{font-family:var(--rund);font-weight:600;font-size:18px;color:var(--ink);padding:6px 12px;border-radius:8px;box-shadow:0 2px 0 var(--c2)}
+.chapter .s9-stein small{font-size:13px;color:var(--mute);font-weight:700;line-height:1.25}
+.chapter .s9-green b{background:#CDEFD9;--c2:#8FCBA6}.chapter .s9-blue b{background:#BFE3F7;--c2:#86B9DE}.chapter .s9-yellow b{background:#FFE7A3;--c2:#EFC867}
+.chapter .s9-op{font-family:var(--rund);font-size:22px;color:var(--ink);align-self:flex-start;margin-top:6px}
+.chapter .s9-treppe{max-width:100%;height:auto}
+
+/* B4: Regler */
+.chapter .s9-regler-reihe{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+.chapter .s9-regler-reihe>svg{flex:1 1 360px;min-width:0}
+.chapter .s9-regler-seite{flex:1 1 260px;min-width:0;margin-top:8px}
+.chapter .s9-regler-seite .feld{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chapter .s9-leiste{display:block;margin-top:10px;max-width:320px}
+
+/* B5: R² */
+.chapter .s9-r2 .s9-formel{margin-top:6px}
+.chapter .s9-formel-zeile{margin:6px 0 0;font-family:var(--rund);font-size:17px;color:var(--ink)}
+.chapter .s9-echt{font-family:var(--sans);font-size:15.5px}
+.chapter .s9-mini{display:inline-block;background:#FFD2BC;border-radius:6px;padding:1px 8px;font-family:var(--mono);font-size:14px}
+
+/* B7: Tabelle unter dem Ausreißer-Bild */
+.chapter tr.s9-jetzt :is(th,td){font-weight:800;color:var(--ink);background:var(--kh)}
+
+/* B11: vier kleine Bilder */
+.chapter .s9-vier{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+
+.chapter .s9-zwei-wege p{margin:0}.chapter .s9-zwei-wege ul{margin:6px 0 0}

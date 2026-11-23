@@ -1,0 +1,266 @@
+## 23. November 2026 – Lernpfad als Kapitel (alle Sitzungen, Vorschau)
+
+- Stand: Alle elf Sitzungen liegen als Kapitel in `src/chapter/s01` bis `s11` vor (Branch `lernpfad-kapitel`, nur lokal, nichts gepusht). Alle Einträge stehen auf `live: false`, die Kapitel sind nur mit `?vorschau=kapitel` sichtbar; für alle sichtbar bleiben die bisherigen Aufgaben. Dabei: die Datei bleibt in IndexedDB gespeichert, Code-Werkstatt mit webR 0.6.1 und mariposa 0.7.4, gemeinsame Bausteine in `src/chapter/blocks/` und `workshop/`. Regeln: `docs/AUFGABEN-LEITFADEN.md`.
+- Prüfung ohne Datei (`npm run test`): 1.463 Tests, 1.342 bestanden, 0 fehlgeschlagen, 121 übersprungen (die Echtdaten-Tests ohne Datei).
+- Prüfung mit ZA8831 v1.3.0 (`ALLBUS_SAV=… npm run test`): 1.463 Tests, 1.462 bestanden, 0 fehlgeschlagen, 1 übersprungen. Alle festen Zielwerte der Kapitel stimmen mit der Datei überein.
+- `tsc --noEmit` ohne Fehler; `npm run build` erfolgreich, einschließlich Offline-Fassung (jetzt mit eingebetteten woff2-Schriften, etwa 5,9 MB).
+- Letzte Nachbesserung (Abschlussprüfung): Die Leitfragen in `src/domain/curriculum.ts` stehen wieder im Wortlaut von `main`; die Kapitel behalten ihre eigene Leitfrage, und der Absatz mit der Leitfrage entfällt, wo ein Kapitel aktiv ist (nicht doppelt vorgelesen). „Gespeicherte ALLBUS-Datei entfernen“ setzt den Fokus auf die Sitzungsüberschrift und meldet „Gespeicherte Datei entfernt.“ in einer festen Statuszeile. Die Code-Werkstatt liest die Datei neu ein, wenn eigener Code auch die verborgene Kopie gelöscht hat; sonst erscheint die deutsche Dateimeldung. `▶` vor „Ausführen“ ist für Screenreader verborgen. Sitzung 6 löst den Tipp erst auf, wenn keine Frage mehr offen ist (wie Sitzung 7 und 9). Die Korrelationsmatrix in Sitzung 7 hat keine Leerzeichen mehr zwischen Tabellenzellen.
+- Browserprüfung (durch den Lead, Vite mit Playwright und echter Datei): Datei in der Datei-Zone geladen und gespeichert (Knopf „Entfernen“ sichtbar); Vorlage aus Aufgabe 1 von Sitzung 4 lief beim ersten Ausführen etwa 22 Sekunden einschließlich webR-Start, Grafik wurde gezeichnet, keine Konsolenfehler. Nicht erfolgt: Durchgang aller Kapitel im Browser bei 1200 und 390 px, Screenreader-Test (VoiceOver, mit Studierenden, die einen Screenreader nutzen), Offline-Fassung mit Kapiteln im Browser, Safari/Firefox. R-Skripte der Vorlagen wurden von den Bauagenten je Kapitel mit der Datei ausgeführt (`scripts/chapter-r-export.ts`, `sitzungNN-zahlen.R`), in dieser Prüfung nicht erneut.
+- Prüfung durch Agenten statt Freigaben: Jede Bauphase und jedes Kapitel wurde von einem zweiten Agenten geprüft (alle Kapitel am Ende freigegeben, nach Nacharbeit bei S1, S9 und S11); die Bedienbarkeit mit Screenreader wurde als Pflicht behandelt. Das ersetzt keine Prüfung durch den Dozenten oder Studierende.
+- Erledigt seit der ersten Fassung dieses Eintrags (gegen Code und Spezifikationen geprüft): Sitzung 3 verweist nicht mehr auf `untag_na()` in Sitzung 5; Sitzung 6 nennt den p-Wert aus Sitzung 5 und verweist für seine Bedeutung auf Sitzung 7; das Umschalten von `live` ist getestet; das Zurücksetzen von `allbus` in der Werkstatt zeigt keine rohen R-Fehler mehr.
+- **Offen für den Dozenten:**
+  1. Freigabe: Nichts ist live. Danach `live: true` je Sitzung setzen; erst Vorschau mit wenigen Studierenden (Zeitbedarf prüfen).
+  2. Leitfragen: Die Kapitel schlagen für die Sitzungen 3, 6, 7, 8, 9 und 10 eigene Leitfragen vor (im Kapitelkopf); `curriculum.ts` behält die bisherigen. Der Dozent entscheidet, ob die neuen für alle gelten sollen.
+  3. Übergreifende Stimmigkeit: `row_operations` steht im Lehrplan bei Sitzung 5, `row_means()`/`pick()` sind aber erst in Sitzung 8 neu; Sitzung 3 „3a WG mit 12 Personen“ ähnelt Sitzung 4, Grundlage 4a Kurzarbeit; Benennung „Methoden Ia“.
+  4. Freie Karte: Der Begriff `recode` („Rekodieren & Umpolen“) steht inzwischen in der Karte, Kapitel 5 verlinkt ihn aber nicht (die Spezifikation ging noch von einem fehlenden Begriff aus). Entscheiden, ob der Link ergänzt wird.
+  5. Itemtexte und Fragewortlaute gegen das Codebuch und den Fragebogen prüfen (dw19, pv01, pe09, Rollenbild- und Populismus-Items).
+  6. Thema „Islam und Muslime“ in Sitzung 8, Aufgabe 3: bewusst mit Messungsrahmung beibehalten, der Dozent entscheidet über Eignung.
+  7. Zeitbudgets: Pflichtteile liegen mit etwa 36 bis 43 Minuten nahe an der Arbeitsphase (Sitzung 1 etwa 41, Sitzung 7 36 bis 41, Sitzung 9 etwa 40, Sitzung 11 etwa 43); Messung im Seminar steht aus.
+  8. Abweichungen vom Plan zu vermerken: In Sitzung 5 liegt die Toleranz so, dass eine falsche Gruppierung (22,4 %) nicht als richtig zählt. In Sitzung 7 wird ls01 in Grundlage 1, Grundlage 4 und Aufgabe 2 wiederverwendet (Entscheidung 18). In Sitzung 8 bleiben α und N bewusst ungewichtet, Mittelwerte und Anteile gewichtet.
+  9. Mobil: Unter 900 px steht das Inhaltsverzeichnis eines Kapitels als vollständige Liste über dem Inhalt (lang bei großen Kapiteln); ob es eingeklappt werden soll, ist offen.
+  10. Folien: Sitzung 4 wurde außerhalb des Repos an A1 bis A4 angeglichen (offen: Hinweis „Atlas-Station“ im Input 1, Kopfzeile „Arbeitsphase im Atlas“, ungenutzte PNGs, weiße Ränder der Titelfolie in PowerPoint prüfen). Die übrigen Folien wurden nicht angepasst; sie schreiben noch `filter(!is.na())` und die bisherigen Aufgaben.
+  11. Technische Schuld: Die Kapitel 3, 5, 8, 9, 10 und 11 haben lokale Kopien des Fragenblocks (`checks.tsx`, `Questions5.tsx`, `TaskQuestions`, `S9Question`, `TakeAway10` usw.), weil der gemeinsame `Questions`-Block erst spät Sonderfälle und Optionsrückmeldungen bekam. Sie arbeiten und sind getestet, sollten aber später auf den gemeinsamen Block umgestellt werden. Außerdem können gleichzeitige Läufe zweier Code-Werkstätten beim Zurücksetzen von `allbus` ineinandergreifen (gesperrt ist nur die jeweils eigene Werkstatt).
+  12. Das Repo liegt weiter in iCloud Drive; ausgelagerte `.git`-Objekte können Git abstürzen lassen (Exit 138), siehe Eintrag vom 23.11.2026 (Freie Karte). Verschieben aus iCloud steht aus.
+
+---
+
+## 23. November 2026 – Freie Karte an die Begriffsliste angepasst
+
+- Die freie Karte folgt jetzt der Begriffsliste und den R-Konventionen des Leitfadens: „Fehlende Werte“ statt „Fehlende Angaben“ (Knoten, Erklärungen, Codelegende, Kataloge, R-Ausgabe-Fixtures), `library(tidyverse)` statt `library(dplyr)` im Startblock und in allen Tabellen-Werkzeugen; `AUTHORING.md` und `BESCHREIBUNG.md` nachgezogen. Leistungsreferenz der Karte neu aufgenommen (sechs längere Beschriftungen).
+- Reparatur nach iCloud-Auslagerung: Das Repo liegt in iCloud Drive. Ausgelagerte Objekte ließen Git abstürzen, 19 bereits vorgemerkte Dateien waren im Arbeitsverzeichnis auf den Stand vom 2. Oktober zurückgefallen, 13 vorgemerkte Objekte fehlten. Wiederhergestellt aus Arbeitsverzeichnis und Index; die verlorene Änderung in `b04-umformen/pomps.ts` neu gemacht. Sicherung vorher außerhalb von iCloud.
+- Prüfung: 778 automatisierte Tests bestanden, mit ZA8831 v1.3.0 keiner übersprungen; TypeScript und Vite-Build erfolgreich (Probe-Build außerhalb des Projekts, `dist/` und Offline-Fassung nicht neu erzeugt); Karte im Browser ohne Konsolenfehler geladen. R-Skripte nicht erneut ausgeführt.
+- Offen: Repo aus iCloud Drive verschieben, damit Dateien nicht erneut ausgelagert oder überschrieben werden. Weiter offen vom 13. November: Folien in `Seminarvorbereitung/` mit altem Ablauf; einzelne Grafiken scrollen bei 390 px seitlich.
+
+---
+
+## 13. November 2026 – Lernpfad: Aufgabentexte und Eingaben überarbeitet
+
+- Anlass: Rückmeldung der Studierenden, die Aufgabentexte seien schwer zu verstehen und manche Begriffe hölzern. Verbindlicher Leitfaden jetzt in `docs/AUFGABEN-LEITFADEN.md` (Aufbau, Werkzeugkasten, Antwortfelder, „erst festlegen, dann rechnen“, R-Konventionen, Begriffsliste, Tabelle der eingeführten Funktionen je Sitzung).
+- Alle elf Sitzungen: Rollentext in kurzen Sätzen mit Leitfrage und „Was du dabei lernst“; Überleitung am Anfang jedes Schritts, Abschlusskasten „Das Wichtigste aus dieser Sitzung“; neue Bausteine `kit/StepGuide.tsx` (Wozu · So gehst du vor · Fertig, wenn) und `kit/Toolbox.tsx` (Werkzeugkasten mit Beispielen an neutralen Variablen). In den Schritten kein fertiger Lösungscode mehr, nur in der Hilfe und im Skript zum Mitnehmen (Ausnahme: vorgemachte Beispiele in Sitzung 1 und 2).
+- R: immer `library(tidyverse)` vor `library(mariposa)`, ganzes `codebook(allbus)` mit Strg/Cmd + F, ohne Pipe und möglichst ohne `mutate()`/`group_by()`; jede verwendete Funktion steht im Werkzeugkasten dieser oder einer früheren Sitzung.
+- Antwortfelder als ganze Fragen mit Hilfezeile (Fundort, Format); Schätzungen und Entscheidungen als anklickbare Elemente nahe am Gegenstand (Stühle, Umschläge, Kreuztabelle, Karten, Figuren, Gerade mit Griffen, Bausteine) mit „Tipp abgeben“ und Vergleich nach der Rechnung; „Neu tippen“ nur, solange die Auflösung nicht sichtbar ist. `parseNumber()` akzeptiert jetzt ein angehängtes „%“.
+- Gefundene Fehler (Auswahl): Vorzeichen des t-Werts in Sitzung 7 wurde als falsch gewertet; gerundete gewichtete Kreuztabellenwerte in Sitzung 10 wurden nicht erkannt; Rangplätze in Sitzung 6 bei Karten ohne Platz widersprüchlich; Ergebniskarte in Sitzung 7 mit falschem Vorzeichen; mehrere Rückmeldungen verrieten die Lösung oder nannten nicht eingeführte Funktionen; Export-Skript übergab in Sitzung 9 keine Gerade.
+- Prüfung: 725 automatisierte Tests bestanden, mit ZA8831 v1.3.0 keiner übersprungen; TypeScript und Vite-Build erfolgreich (Probe-Build außerhalb des Projekts, `dist/` und Offline-Fassung nicht neu erzeugt); alle 51 Lösungsskripte (`scripts/export-task-scripts.ts`, `scripts/verify-task-scripts.R`) laufen fehlerfrei in R mit mariposa 0.7.4. Jede Sitzung im Browser mit der echten Datei bis „Aufgabe abgeschlossen“ durchgespielt, bei 1200 und 390 px.
+- Offen: Folien und Unterrichtsentwürfe in `Seminarvorbereitung/` nennen teils noch den alten Ablauf (z. B. `fre()`, `untag_na()`-Pipe in Sitzung 3); Begriffe der freien Karte („Fehlende Angaben“) noch nicht an die Begriffsliste angepasst; einzelne Grafiken scrollen bei 390 px seitlich.
+
+---
+
+## 3. Oktober 2026 – Lernpfad: neue Sitzung 4 „Daten sehen“
+
+- Neue Sitzung 4 zwischen „Erste Auszählung“ und „Kreuztabellen“ (Spezifikation `docs/entwicklung/spezifikationen/2026-10-03-lernpfad-sitzung-4-daten-sehen-design.md`); die bisherigen Sitzungen 4–10 sind jetzt 5–11. Aufgabe „Erst zeichnen, dann zeigen“ (`src/tasks/grafik-erst-zeichnen/`, Speicherschlüssel `grafik`; `s04`–`s10` unverändert): Grafikredaktion eines Schulbuchverlags; Vorher-Skizze der Lebenszufriedenheit mit Zeichenfeld (Maus, Finger, Pfeiltasten), Ablesen am eigenen ggplot2-Plot, Überlagerung von Skizze und Daten; Rätselkasten mit vier Silhouetten und einem Köder; Bauplan mit sieben Formen und Vorschau inklusive der Meldungen von ggplot2; Bildunterschrift mit n-Prüfung; Achsenbeginn mit Bildfaktor.
+- Verweise auf Sitzungsnummern in den Aufgaben 8 und 11 angepasst; Testtitel und Render-Indizes der Sitzungen 5–11 nachgezogen.
+- Reproduziert mit ZA8831 v1.3.0: `ls01` n = 5.164, Modus 8 (1.506), Mittel 7,3555; Silhouetten `hs01`, `pa01`, `age` (82 Jahre), `dw15` (742-mal 40 Stunden, 60,9 % Vielfache von 5); `ps03` × `eastwest` n = 3.621; Boxplot-Quartile nach Geschlecht wie `quantile(type = 7)`; `age` × `ls01` n = 5.142; Mittel West 7,4387, Ost 7,1790, Bildfaktor bei Achse ab 7,1: 4,29.
+- Prüfung: 664 automatisierte Tests bestanden (26 Echtdaten-Tests ohne Datei übersprungen, mit der Datei alle 20 Echtdaten-Tests des Lernpfads bestanden); TypeScript und Produktions-Build erfolgreich; die fünf neuen Lösungsskripte (`grafik-erst-zeichnen-*.R`) laufen in R auf der echten Datei (lokal mariposa 0.6.3.2, ggplot2 4.0.3). Browser: Skizze, Ablesen, Überlagerung, Silhouetten, alle Formen der drei Leitfragen, Bildunterschrift, Achse und Kartenlinks bei 1024 px und 375 px geprüft.
+- Offen: Knoten für Balkendiagramm, Histogramm, Boxplot und Streudiagramm in der Karte; Offline-Build und `check-explanations.cjs` nicht erneut ausgeführt.
+
+---
+
+## 2. Oktober 2026 – Veröffentlichung und Aufräumen
+
+- Öffentlich auf GitHub (https://github.com/YannickDiehl/statistikatlas) mit GitHub Pages (https://yannickdiehl.github.io/statistikatlas/); jeder Push auf `main` testet, baut und veröffentlicht neu.
+- Aufgeräumt: nicht mehr eingebundene Komponenten (LearningGraph, ExamplePanel, ConceptNode/-Edge, theme, readings), alte Prüfskripte `qa-*.mjs`, Konzeptentwurf vom 10. September, Spezifikation und Plan der entfernten Mission „Belege es!“ und die Hosting-Datei von Codex. Dokumentation liegt jetzt in `docs/` (Beschreibung, Prüfstand, Abdeckungslisten), Spezifikationen und Pläne in `docs/entwicklung/`.
+
+---
+
+## 2. Oktober 2026 – Freie Karte: Erklärungen für alle Knoten
+
+- Alle 159 Punkte der freien Karte haben jetzt eine Erklärung: 145 nach Vorlage (33 Formelwerkstätten, 22 „Formel als Satz“, 9 Tabellenwerkzeuge, 1 Werkzeug, 80 Begriffskarten für Begriffe ohne Formel) und 14 Schrittkarten. Inhalte in 14 Bereichen (`src/explain/content/b01-messen` … `b14-faktoren`), Vorlagen in `muster/`, Leitfaden in `src/explain/AUTHORING.md`.
+- Sprachleitfaden für mathematikängstliche Studierende (Spezifikation `docs/entwicklung/spezifikationen/2026-10-01-freie-karte-ausbau-alle-knoten-design.md`, Abschnitt 2): erst die Handlung, dann der Name; Fachbegriff mit „In der Fachsprache“ in Worten, ohne Formelzeichen; „Kurz gesagt“ höchstens zwei Sätze; ermutigende Rückmeldungen („Fast!“, „Noch nicht ganz.“); Ergebnisse über Menschen; Genauigkeit unter „Genau genommen“. `style.ts` prüft verbotene Wörter, Satzlängen, Trenner und Minuszeichen in jedem Text.
+- Reiter für alle 159 Punkte: „Verstehen“, „Mit 200 Befragten“ (147, Brücke vom Fünf-Personen-Beispiel zum Lehrdatensatz mit Vorhersage vor dem Ausprobieren), „In R“ (118, Code mit `read_spss()` und mariposa, antippbare Zeichen, festgehaltene R-Ausgabe; der Leitaufruf zeigt immer genau den festgehaltenen Aufruf) und „Weiter“. Lehrdatensatz als `.sav` (Statistikatlas-200-Befragte.sav) und R-Skript zum Herunterladen.
+- Oberfläche (1. Oktober): Schrift in der ganzen App größer (mindestens 13 px), angedockte, in der Breite verstellbare Werkbank für die Formelwerkstatt (`statistikatlas.werkbank.v1`). Begriffstitel mit „ · “ umbenannt (etwa „Teststärke (Power)“), Rundung kaufmännisch (bei exakten Hälften anders als R).
+- Prüfung: 646 automatisierte Tests bestanden (mit ZA8831 v1.3.0 auch die Echtdaten-Tests); TypeScript, Produktions- und Offline-Build erfolgreich; R-Abgleich 118 Aufrufe mit mariposa 0.7.4 ausgeführt, 2 nur geparst. Browserprüfung (`scripts/check-explanations.cjs`) über alle 159 Punkte bei 1440 und 390 px in beiden Ansichten: Reiterleiste, Tastatur, Fokus unter klebenden Elementen, Schriftgröße, Überlauf, abgeschnittene Bildbeschriftungen, Konsolenfehler; nach den letzten Korrekturen ohne Befund. Je Bereich Prüfung und Nachprüfung, abschließend Gesamtprüfung mit Nachrechnen von rund 120 Werten in R; alle Befunde eingearbeitet.
+- Offen (bewusst nicht Teil dieser Runde): Regressionslinie und Median-/Quartilsmarken in den Brückenbildern, Brücken für gruppierte und verbundene Daten, neue Katalogaufrufe für Begriffe ohne „In R“, gemeinsame Rechenhelfer statt Kopien je Bereich. `src/tasks/kit/stats.ts` (Lernpfad) beschreibt φ noch ohne Vorzeichen; `curriculum.ts` und die Sitzungen 7 und 9 nutzen noch alte Titel mit „ · “.
+
+---
+
+## 1. Oktober 2026 – Freie Karte: Formelwerkstatt (Pilot)
+
+- Stufe 1 „Formelwerkstatt“ für Mittelwert (2 Schritte), Varianz und Standardabweichung (5 bzw. 6 Schritte) sowie Kovarianz und Pearson-r (5 bzw. 6 Schritte); Stufe 2 „Formel als Satz“ für den Standardfehler; Stufe 3 „Werkzeug“ für Rekodieren & Umpolen mit `rec()`-Regelsprache (mariposa 0.7.4: erste passende Regel, Warnung bei Codes ohne Regel und außerhalb von `rev(lo, hi)`, `else` erfasst fehlende Werte, `NA=` bewusst ohne Warnung). Schrittkarten für `sum`, `deviation`, `squared_deviation`, `ss`, `df`, `crossproduct`, `crossproduct_sum`, `sd_product` mit Sprung in die Werkstatt.
+- Beispieldaten: fünf Beispielpersonen zu echten ALLBUS-Fragen (Links-rechts `pa01`; Vertrauen `pt03` × `pt12`); aggregierte ALLBUS-Zahlen für Standardfehler (x̄ 3,297, s 0,94, n 5.225) und Rekodieren (527/1.542/2.303/663/190, 21 fehlend). Alle Referenzwerte in R nachgerechnet.
+- Oberfläche: Umschalter „Kompakt / Ausführlich“ (`statistikatlas.erklaerung.v1`), breiter Inspector (720 px ab 1280, 560 px ab 1101), Kartenhinweise, Minimap und Kamera rücken mit; Zeichnungen messen ihre Breite und bleiben bis 390 px lesbar; Punkte per Zeiger und Pfeiltasten verschiebbar.
+- Lernpfad: Kopfzeile „Politikwissenschaft · ALLBUS · mariposa“, Einleitungssatz, Dateistatus mit „Andere Datei laden“ und „· STATISTIK IB“ entfernt (Wunsch des Dozenten); fehlen einer geladenen Datei Variablen, bietet die Aufgabe selbst „Andere Datei laden“ an.
+- Prüfung: 371 automatisierte Tests bestanden, mit ZA8831 v1.3.0 auch alle 19 Echtdaten-Tests; TypeScript, Produktions- und Offline-Build erfolgreich. Browser (headless Chrome, 55 Prüfpunkte): Schritte, Kontrollfragen (auch R-Schreibweise „3.162“, „+2“, leer), Tastatur und Fokus, Denkfragen mit „Ausprobieren“, Kompakt/Ausführlich mit Kamera, Schrittkarte hin und zurück, Rekodier-Warnungen, 1440/1200/1000/390 px ohne Überlauf und ohne abgeschnittene Beschriftungen, Lernpfad ohne die gestrichenen Texte; keine Konsolenfehler. Vier unabhängige Prüfagenten (Spezifikation, Code und Barrierefreiheit, Fachlichkeit und Sprache, Browser-Randfälle) plus Nachprüfung; alle Befunde eingearbeitet.
+- Offen: Pilot mit Studierenden (Spezifikation Abschnitt 11). mariposa 0.7.4 ist die Entwicklungsversion; auf diesem Rechner ist 0.7.3 installiert, die Warnung bei Codes ohne Regel erscheint erst ab 0.7.4.
+
+---
+
+## 30. September 2026 – Lernpfad: Sitzungen 6–10
+
+- Sitzung 6 „Die letzte Frage“: Panelaufbau beim Institut Wiederfrage, Bauchgefühl vorab, Station 1 (t-Tests Wiederholung und Betrag über alle Selbstausfüller:innen), Station 2 (Korrelationsmatrix als Zufallscheck, Zellen vorher markieren), Station 3a (t-Tests nur online, Enthüllung der Falle als umschaltbare Balken), Station 3b (vier Quoten, ANOVA, Tukey-Paare – geprüft erst nach der eigenen ANOVA –, zweite Enthüllung: gewichtete ANOVA), Station 4 (Fassung, Quote mit Spanne, Nicht-Satz, zwei Unterschriften mit Veto). Mit ZA8831 v1.3.0 reproduziert: Wiederholung 52,7 → 67,7 % (+15,1, t = 7,59, p < .001), nur online +1,0 (p = .69); Betrag +4,4 (p = .013), online +4,5 (p = .059); ANOVA online p = .046, gewichtet .063; Tukey nur B2–A2 signifikant; r(Wiederholung, Papier) = −.58; Betrag deckt sich mit `splt23_1`.
+- Sitzung 7 „Drei Fragen müssen reichen“: Datenteam der Nachrichten-App „Wochenfaden“; Batterie-Prüfung, zwei Vorschläge (Stimmigkeit, Inhalt; die drei Seiten des Populismus erst als Hilfe), α und Stellvertreter-r mit Wertedetektor (ω, standardisiertes und gewichtetes α, ohne `min_valid`, Gesamtindex), danach alle 35 Kurzskalen im Kreuz α × r, begründete Wahl, Satz „Was meine Kurzskala nicht mehr misst“, ausgeloste Pflichtfrage je Gruppe, Kür Kombinations- gegen Mittelwertindex. Reproduziert: α aller sieben = .833, ω = .841, n = 3.427; 14 von 35 Kurzskalen mit α ≥ .70, keine mit pa29; höchstes α pa31+pa32+pa35 = .776 (Stellvertreter-Rang 26); r(α, Stellvertreter) = .23; pa31+pa32+pa33 α = .759, r = .758; Kür 21,7 % gegen 14,2 %. Die Fragetexte sind gekürzt wiedergegeben (Wortlaut im Fragebogen prüfen).
+- Sitzung 8 „Der Demokratie-Automat“: Technik im Besucherzentrum eines Landtags, zehn Eingabefragen, Automat aus gewichteter OLS (Konstante, Steigung, R²), Besucherprobe, Trefferquote ±1 gegen den „Faulpelz“, Residuenstreuung je Stufe, Levene als Profi-Zusatz, Schild und Freigabe, Automaten-Parade. Reproduziert (ps03 umgepolt): pt03 n = 3.577, Konstante 2,288, b = 0,465, R² = 0,346; Residuen-SD 1,33 gegen 0,71, Levene F = 74,9; Faulpelz 65,5 %, bester Automat 71 %; bei 5 von 10 Eingaben trifft der Automat seltener als der Faulpelz.
+- Sitzung 9 „Mitgenommen“: Doku-Redaktion „Zweiufer“, Dummies aus `dg03` mit selbst gewählter Referenz, Selektion per `crosstab()`, Kontrollen als gemeinsame Ursache oder Folge, Wackeltest (Neuschätzung ohne einflussreichste Fälle), Tafel der anderen Schnittplätze, Interaktion als Profi-Block, Off-Text-Satz. Reproduziert (Vorzeichen für umgepoltes ps03): Ost-Bleibende −0,71, Ost→West −0,17 [−0,40; 0,07], West→Ost −0,03 gegenüber West-Bleibenden; Vorhersage Ost→West bei jeder Referenz gleich; West→Ost 78 % Abitur, mit Kontrollen für Alter, Geschlecht und Abitur −0,155; mit pt03 Ost-Lücke −0,49; Interaktion −0,51 (p = .023); Umzugsgruppen n = 91 und 97.
+- Sitzung 10 „Dolmetschen für den Bürgerrat“: Logit-Modell nachrechnen, für Jana und Herrn Wiegand in Logit, Chance und Wahrscheinlichkeit übersetzen, Frage „Bei wem bewirkt die Kampagne mehr?“, Dolmetscher-Tafel und S-Kurve, eine Zahl für den Bericht mit Laiensatz, Likelihood-Station als Zusatz; Diagnose typischer Umwege (u. a. ungewichtet, Skala nicht umgepolt, Chance als Wahrscheinlichkeit, „3,77-mal so wahrscheinlich“). Reproduziert (gewichtet, n = 2.758): Exp(B) 3,77, AME 5,4 Pp.; Jana 76,4 → 92,4 %, Herr Wiegand 96,0 → 98,9 %; Trefferquote 95,1 % gegen 94,8 %; −2LL 1.122 → 856.
+- Rechenbausteine in `src/tasks/kit/`: `dist.ts` (Normal-, t-, F-, χ²- und Tukey-Verteilung, gegen R ≤ 1e−11), `linalg.ts` (Cholesky, gewichtete kleinste Quadrate), `means.ts` (t-Test, ANOVA, Tukey, Korrelationsmatrix), `reliability.ts` (α, ω, Trennschärfen, `row_means()`), `ols.ts` (gewichtete OLS, Levene, DFBETA), `logit.ts` (gewichtetes Logit per IRLS, AME); jeweils auf der Testdatei gleich mit mariposa 0.7.3 (ω bis auf etwa 1e−6, weil `factanal()` früher abbricht; Verteilungen und lineare Algebra gegen R). `numberReadings()` liest Zahlen so, wie R sie druckt („7.590“), neben deutscher Schreibweise.
+- Die Testdatei kennt jetzt auch `splt23_3`, `xr21`, pa29–pa34, `hs01` (zehnte Eingabefrage von Sitzung 8), `dg03`, `sex`, `di08c` und `pe09`; jeder Block hat einen eigenen Zufallsstart.
+- 331 automatisierte Tests bestanden (19 Echtdaten-Tests ohne Datei übersprungen, mit ZA8831 v1.3.0 alle 19 bestanden); alle 46 Lösungsskripte der Sitzungen 1–10 laufen mit mariposa 0.7.3 auf der Testdatei und der echten Datei. Zahlen werden so erkannt, wie R sie druckt („7.590“, „78.0%“), auch im Schild von Sitzung 3.
+
+---
+
+## 30. September 2026 – Lernpfad: Sitzungen 4 und 5
+
+- Sitzung 4 „Nenner-Check“ ersetzt die Mission „Belege es!“: Vorab-Satz „Die 87 % beziehen sich auf …“, Prüfauftrag 1 (Zahl nachbauen), 2 (eine Zelle, drei Nenner, danach das Nenner-Bild) und 3 (eigene Lesart mit Item, Grenze, „weiß nicht“ und Gewicht, danach der Streifen der 18 vorbereiteten Lesarten), Urteil in fünf Stufen, Faktencheck-Satz, höchstens drei Gegenfragen, Zusatz „Misstrauens-Zähler“. Die Rückwärtssuche rechnet 1.856 Vierfeldertafeln (58 Zweiteilungen × 8 Nichtwahl-Definitionen × else=0 × Gewicht) und sagt in Worten, wer die 100 % sind; Stolperwege (vertauschter Nenner, alle als 100 %, andere Zelle, pe05 nicht umgepolt, else=0, untag_na() vergessen) bekommen eine gezielte Rückfrage.
+- Sitzung 5 „Treiber-Rangliste“: 13 Karten (zwölf Kandidaten und pt03 als Joker), ps03 umgepolt (höher = zufriedener), Skalenniveau und Maß mit Passungs-Hinweisen (Zufalls-V, drei Reihenfolgen der Konfession für Gamma, Gamma über Tau-b), Wertedetektor über Maß × Gewicht × gesamt/Landesteile × Kodierung von ps03, West/Ost (bei der Karte „West oder Ost“ die Wirtschaftslage als Drittvariable), Stempel nach offengelegter Regel, Gegenlesen mit zweiter Währung, Wert ohne Gewicht und Veto gegen „Treiber“, Rangliste in vier Währungen (V, Gamma, Tau-b, r; umschaltbar: gewichtet, ohne Gewicht, nur West, nur Ost) und Empfehlung an den Fonds.
+- Gemeinsamer Rechenkern `src/tasks/kit/stats.ts`: gewichtete Kreuztabellen, χ², Cramér-V, Phi, Gamma (wie mariposa auf gerundeten gewichteten Zellen), Tau-b (Paargewicht √(wᵢ·wⱼ) über Zellsummen), Spearman (Gewichte nur zur Fallauswahl), Pearson, Zufalls-V; auf der Testdatei auf acht Nachkommastellen gleich mit mariposa 0.7.3.
+- Die Mission „Belege es!“ mit Werkbank, Live-Tabelle, Spiegel, Zerlegen und Behauptungen ist entfernt, ebenso der Speicherschlüssel `statistikatlas.missionen.v1` und der R-Abgleich der Mission; `src/sandbox/` enthält nur noch Datei-Einleser, ALLBUS-Prüfung, Ladefeld und Testdaten. Die Testdatei kennt jetzt auch ps03, pe05, ep01, ep03, id02, educ, rp01, rd01 und gs01.
+- 171 automatisierte Tests bestanden (5 Echtdaten-Tests ohne Datei übersprungen); mit ZA8831 v1.3.0 stimmen die geprüften Referenzwerte (u. a. 87,0 % = 127 von 146, 6,5 % von 1.956, 4,6 % von 2.785, χ² 20,7 und V .086, 69,3 %, pe05 ohne Umpolen 3,2 % gegen 6,9 %, Lesarten 6,5–29,2 %, Treppe 8,8 %; Konfession Gamma in drei Reihenfolgen −.147 / .135 / .043 nach dem Umpolen; Wirtschaftslage V .277, Gamma −.544, Tau-b −.387; Alter r .059 gewichtet, .031 ohne Gewicht, West .095, Ost −.045). Lösungsskripte laufen mit mariposa 0.7.3 auf Testdatei und echter Datei (17/17).
+
+---
+
+## 29. September 2026 – Lernpfad: eigene Aufgaben für die Sitzungen 1–3
+
+- Der Lernpfad zeigt je Sitzung eine eigene Aufgabe (`src/tasks/`, Register und Aufgabenrahmen). Gemeinsam sind nur Hilfsbausteine: Datei laden, vierstufige Hilfe bis zum vollständigen R-Code, Plenumskarte, Partnerschalter, Speicherung unter `statistikatlas.aufgaben.v1`.
+- Sitzung 1 „Schon gefragt?“: Handschlag mit R (Fälle, Variablen), vier Frageideen mit Suche wie `find_var()` (Umlaut- und Wortteil-Hinweise), Stempel übernehmen/beauftragen mit Spiegelung aus dem Codebuch, Einspruch der Kollegin, Fehler-Decoder, Notfallkonsole, Prüfbericht und R-Skript.
+- Sitzung 2 „Erster Tag in der Datenerfassung“: drei HTML-Faksimiles mit mehrdeutigen Kreuzen, Erfassungsraster mit Codebuch-Prüfung, Bewertung erst nach „Erfassung abschließen“, Regeln für offene Zellen, Doppelerfassung mit Ben oder per Zeilencode (geschlichtete Zeilen bleiben stehen, Entscheidung umkehrbar), drei R-Zahlen (AfD nach dem Umwandeln: 6 in mariposa 0.7.3, 42 in neueren Versionen – beides mit Erklärung), Suche nach −42 im ganzen Datensatz.
+- Sitzung 3 „Deutschland in 100 Stühlen“: Stuhlregel für die Missing-Codes der Wahlabsicht, Sitzplan nach größten Resten, Diagnose über alle 32 Regeln (Rohprozente, gerundete 101, falsche Summe, andere Regel), Reststühle ganzzahlig nach größten Resten, Saal als 10×10-Raster; Stuhlreihe nach Arbeitsstunden mit Quartilen nach SPSS (wie `describe()`), Schild-Prüfung und Stühle rechts vom Durchschnitt.
+- Sitzung 4 behält vorerst die Mission „Belege es!“; die Mission aus Sitzung 3 entfällt, Sitzung 5 zeigt „Aufgabe folgt“.
+- 164 automatisierte Tests bestanden (4 Echtdaten-Tests ohne Datei übersprungen); mit ZA8831 v1.3.0 stimmen die geprüften Referenzwerte der Konzepte (u. a. 24/0/6 und 638 Zellen −42 in 202 Variablen, Stühle 25/20/19/12/8/6, Median 40, Mittel 37,9, 66 Stühle rechts). Lösungsskripte laufen mit mariposa 0.7.3 auf Testdatei und echter Datei (3/3), R-Abgleich der Mission 120/120 (Stand Erprobungsreife). Browserprüfung mit echter Datei ohne Konsolenfehler, 390 px ohne Überlaufen.
+
+---
+
+## 29. September 2026 – Erprobungsreife der Missionen
+
+- Texte abgestimmt: Quellenangaben „Gast in einer Polit-Talkshow“, „Social-Media-Post, tausendfach geteilt“, „Pressemitteilung eines Parteivorstands“ (alle fiktiv). Die Gegenfrage zu Kausalsprache hat je Behauptung einen eigenen Denkanstoß: Lebensphase gegen Generation (Jugend), Zusammensetzung der Regionen (Osten), Drittvariablen und umgekehrte Richtung (Nichtwahl). „Beides erklären“ steht nur noch dort, wo eine Drittvariable beides beeinflussen kann.
+- Sachkorrektur: Split-Items wurden 69,6 % der Befragten gestellt, nicht „einer Hälfte“. Alle fünf Split-Items (pt03, pt12, pt15, pe01, pa35) sagen jetzt „Nur einem Teil der Befragten gestellt (Fragebogensplit)“. Die Gewichtungsfrage vergleicht keine gleich gerundeten Werte mehr („41,5 % statt 41,5 %“).
+- Behoben: doppelter React-Key im Inspector (FoundationLab, PrincipleLab und MariposaPanel teilten `e.id`; betraf „Gewichte“, Standardfehler, Logit und 46 Verfahren mit R-Varianten) und die `<title>`-Warnung im Robustheitsspiegel. Der Spiegel behält auf schmalen Bildschirmen seine Schriftgröße, lässt sich seitlich verschieben und zeigt den eigenen Weg mittig.
+- 130 automatisierte Tests: 129 bestanden, der Echtdaten-Test ohne Datei übersprungen, mit ZA8831 v1.3.0 bestanden. Typprüfung, Produktions- und Offline-Build erfolgreich.
+- Browserprüfung mit echter Datei bei 1440, 820 und 390 px: alle drei Missionen sauber und „schlampig“ durchgespielt; Referenzwerte reproduziert (Jugend gewichtet 33,1/40,9 %, Osten 34,6/43,0 %, Nichtwahl mit „weiß nicht“ 23,0 %, ohne 8,8 %); alle elf Gegenfragen ausgelöst; Karte und Rückkehr ohne Konsolenwarnung; Wiederherstellung nach Neuladen; beide Downloads; Schrittleiste und Schieberegler per Tastatur; kein horizontales Überlaufen. Im Browser-Speicher stehen nur Entscheidungen und eigene Texte.
+
+---
+
+## 29. September 2026 – Lernpfad nach Sitzungsplan mit Missionen „Belege es!“
+
+- Neuer Lernpfad mit zehn Sitzungen nach dem Sitzungsplan WiSe 24/25, Begriffen zur Wiederholung und neuen Begriffen je Sitzung sowie drei Missionen (Sitzungen 3–5) auf echten ALLBUS-Daten. Der bisherige Lernpfad mit zwölf Politik-Sitzungen, Vermutungsfragen, 36 Aufgaben, Arbeitsheft und Aufgabenbrücke entfällt.
+- Missionen: Zerlegen, Werkbank mit Live-Kreuztabelle und Variablensuche, Urteil, elf Gegenfragen-Regeln, Robustheitsspiegel (72/24/24 Wege), Faktencheck-Karte und mariposa-Skript. Eigener SPSS-Leser im Browser; die ALLBUS-Datei wird nicht gespeichert.
+- Rechenkern und erzeugter mariposa-Code stimmen auf synthetischen Daten und auf ZA8831 v1.3.0 in 120 von 120 Wegen überein (`verify-sandbox-r.R`, mariposa 0.7.3). Alle Referenzwerte der Spezifikation im Echtdaten-Test reproduziert.
+- 125 automatisierte Tests: 124 bestanden, ein Echtdaten-Test ohne Datei übersprungen. TypeScript, Produktions- und Offline-Build erfolgreich. Browserprüfung mit echter Datei: Laden, Sitzungsstatus, Schrittprüfung, Werkbank, Kartenweg und Rückkehr, Spiegel, Wiederherstellung; keine Konsolenfehler.
+- Bekannt, nicht Teil dieser Änderung: doppelter React-Key beim Öffnen von „Gewichte“ in der freien Karte; mariposa `crosstab()` bricht bei gelabeltem Gewicht mit NA ab.
+
+---
+
+## 28. September 2026 – Aufgaben und Atlas eng verknüpft
+
+- Alle zwölf Sitzungen besitzen je drei ausgearbeitete Aufgaben (Erkunden, Anwenden, Übertragen; Richtwerte 20 + 25 + 20 Minuten). Insgesamt 36 Aufgaben mit konkreten Schritten, eigener Beobachtungsfrage, jeweils zwei Hinweisen, begründeter Musterlösung und zwei Selbstchecks. Individuelle Bearbeitung; ALLBUS-Musterlösungen nennen Antwortgerüste, keine erfundenen empirischen Zahlen.
+- 108 aufgabenspezifische Atlas-Verweise. Ein gemeinsamer Aufruf verbindet Begriff und Aufgabenherkunft. Der einklappbare Arbeitsauftrag bleibt über der Karte sichtbar; die Rückkehr setzt Scrollposition und Tastaturfokus auf die konkrete Aufgabe. Das freie Netz bleibt frei erkundbar. z-Lehrlabore, t-/Welch-Versuche und echte ALLBUS-Beschreibungen sind ausdrücklich unterschieden.
+- Aufgabenbezogene Notizen und Selbstchecks werden nur in diesem Browser gespeichert und als Markdown-Arbeitsheft exportiert. Defensive Wiederherstellung behandelt beschädigte oder veraltete Speicherwerte. Bei Speicherfehlern bleibt die Arbeit für die Sitzung nutzbar und der Download erreichbar. Keine automatische Bewertung.
+- R-Einstieg mit konkreter Bedienhilfe; direkter Sprung von Aufgabe 2 zum Sitzungsskript und zurück. Häufigkeits-, Kreuztabellen- und Codebuchausgaben wurden an die aktuelle mariposa-0.7.3-Ausgabe angepasst, damit benötigte Kategorien/Zellen mit summary() sichtbar werden. Gruppenvergleiche nennen ausdrücklich die Welch-Zeile.
+- 89 automatisierte Tests bestanden. Neue Prüfungen sichern alle Aufgaben/Atlas-Ziele, lokale Wiederherstellung und Aufgabenherkunft. Alle zwölf R-Skripte gegen synthetische Prüfdaten ausgeführt; ausführliche Kreuztabellen einschließlich beider Prozentbasen geprüft. Kein echter ALLBUS-Datensatz geladen.
+- Browserprüfung bei 1515 × 1200: Hinweise und Musterlösung öffnen, Notiz eingeben, Aufgabenauftrag im Atlas, exakte Rückkehr mit erhaltenem Text und Fokus, Wiederherstellung nach Neuladen, R-Sprung sowie Abschlussaufgaben in Sitzung 12. Eigene Prüfnotiz anschließend entfernt. Keine neue mobile Geräteprüfung oder Erprobung mit Studierenden.
+
+---
+
+## 28. September 2026 – politikwissenschaftlicher Lernpfad
+
+- Neuer Startreiter mit zwölf frei anwählbaren Sitzungsentwürfen à 90 Minuten, kurzen Vor-/Nachbereitungen und einer eigenen kleinen Analyse als Ziel. Politische Leitfragen, Vermutungen mit erklärendem Feedback, Arbeitsaufträge und Projektprodukte verbinden die Sitzungen.
+- Eigenständige politische Modellübung in Sitzung 3: fünf veränderbare Links-Rechts-Antworten, Mittelwert, Median, Stichproben-Standardabweichung und anklickbare Formelzeichen. Die übrigen Sitzungen skizzieren Versuche und R-Arbeit; sie sind noch keine vollständig ausgearbeiteten interaktiven 90-Minuten-Einheiten.
+- Freie Karte als zweiter Reiter und verknüpfte Orientierungshilfe. Sitzung, Antworten, Versuch sowie nach erstem Öffnen die Karte bleiben beim Tabwechsel innerhalb der laufenden Sitzung erhalten. Tastaturbedienbare Reiter und Fokusübergaben; Initialisierung der Karte wird nach einem frühen Tabwechsel wiederaufgenommen. Integrierte Atlas-Werkzeuge öffnen die sichtbare Karte auch aus dem Lernpfad.
+- ALLBUScompact 2023 (ZA8831), Codebuch 1.3.0: politisches Interesse pa02a, Links-Rechts-Selbsteinstufung pa01 und eastwest. Sondercodes −42 und −9 werden explizit behandelt; wghtpew wird für geeignete deskriptive Tabellen gezeigt. Spearman wird ungewichtet und ohne gewöhnliche, nicht designgerechte p-Werte ausgegeben. Keine Originalfälle eingebettet; getrennte Modellversuche zur Inferenz und unveränderter synthetischer Atlasdatensatz.
+- Alle zwölf R-Skripte syntaktisch geprüft und mit lokalen mariposa-0.7.3-Funktionen gegen synthetische Testdaten ausgeführt. Der tatsächliche GESIS-Import und eine reale ALLBUS-Auswertung wurden nicht durchgeführt. Datenzugang, Codebuchseiten und passende Kapitel des R-Workshops sind verlinkt.
+- 86 automatisierte Tests bestanden, TypeScript und Produktions-/Offline-Build erfolgreich. Browserprüfung bei 1515 × 1200: Sitzungsauswahl, erklärendes Antwortfeedback, Slider, dynamische Kennwerte, Formelzeichen, Sprung zur Standardabweichung und Rückkehr mit erhaltenem Versuchsstand und Tastaturfokus sowie Erreichbarkeit von Sitzung 12. Keine mobile Geräteprüfung oder Erprobung mit Studierenden.
+
+---
+
+## 11. September 2026 – technische Optimierung
+
+- Live-Zoom von React-Neuberechnungen der gesamten Karte getrennt. CSS hält Knoten, Pfeile und Trefferflächen in Bildschirmgröße; nur versetzte parallele Kurven abonnieren den Live-Zoom. Beschriftungen werden am Gestenende bzw. nach 100 ms Ruhe geplant. Beim Ziehen folgt die Beschriftungsplanung erst dem abgeschlossenen Layout.
+- Stabile Knoten-/Kantenobjekte und Ereignisfunktionen; Karte, Inspector und Grundlagenexperimente sind voneinander entkoppelt. Suche wird vorindiziert. Unveränderte Spalten lösen keine erneute Datenprojektion oder lokale Speicherung aus; der Lehrdatensatz wird beim Start nur einmal eingelesen.
+- Begrenzter, gegen Mutation geschützter Beziehungscache mit vollständigem Kontext. Räumliches Raster und wiederverwendete Beschriftungskandidaten ersetzen die wiederholte Prüfung gegen sämtliche Begriffe.
+- 83 Tests bestanden. 48 vor der Optimierung gesicherte Kontextfälle und zwölf Beschriftungsansichten bleiben exakt gleich. Zusätzlich geprüft: 100 schnelle Zoomänderungen mit einer abschließenden Layoutberechnung, unmittelbares Gestenende, Timerbereinigung, identische Objektwiederverwendung und Änderungen an Positionen/Callbacks. Produktions- und eigenständiger Offline-Build erfolgreich.
+- Lokaler Node-CPU-Vergleich mit jeweils 30 Aufwärm- und 300 Messdurchläufen: Hover-Vorbereitung im Median 1,322 → 0,396 ms (ca. 70 % weniger), Detailbeschriftung 1,257 → 0,439 ms (ca. 65 % weniger), wiederholte Beziehungsprojektion 0,990 → 0,001 ms. P95: Hover 1,593 → 0,575 ms; Detailbeschriftung 1,451 → 0,594 ms. Gesamtergebnis-Prüfsumme unverändert: 1248499. Ausgangsstand: Commit `9c5bd4311a14b651f8c1fb5c9376ff138a122e6f`.
+- Diese Werte messen reine Vorbereitungsarbeit bei aufgewärmtem Cache, keine Bildrate oder Gesamtreaktionszeit im Browser. Quelltextgegenprüfung durch zweiten Agenten; keine neue Browser-Interaktions- oder Bildprüfung. Das einzelne JavaScript-Bundle bleibt für den eigenständigen Offline-Export erhalten.
+
+---
+
+## 11. September 2026 – Richtungsfarben
+
+- Blau für eingehende und Orange für ausgehende Kanten und Nachbarknoten, Violett für den aktuellen Hover-/Auswahlfokus. Ein zweifarbiger Knoten kennzeichnet direkte Bezüge in beide Richtungen.
+- Legende nennt den aktuellen Bezugspunkt. Bei Hover wird die gespeicherte Voraussetzungsspur vorübergehend durch die Spur des überfahrenen Begriffs ersetzt; Rückkehr zur Auswahl bleibt erhalten.
+- Ausgehende Einordnungskanten bleiben orange, obwohl die Kontextspur sie enthält. Alternative Rechenwege erhalten keine aktive Richtungsfarbe. Gleichgerichtete parallele und gegenläufige Kanten werden leicht versetzt gezeichnet.
+- 25 betroffene Karten-, Kontext- und Datensatztests bestanden; darunter drei neue Prüfungen der Richtungszuordnung, Fokuswechsel und alternativer Pearson-Wege. Produktions- und Offline-Build erfolgreich. Keine neue Browser-Bildprüfung.
+
+---
+
+## 11. September 2026 – organische Karte mit visueller Lesetiefe
+
+- 24 redaktionell gesetzte echte Begriffe und 26 fachlich geprüfte Hauptverbindungen. Weitere Punkte liegen nach ihren tatsächlichen Nachbarschaften im selben Netz; keine Themeninseln. Alle 144 sichtbaren Konzepte bilden weiterhin eine zusammenhängende Komponente.
+- Kurven und Richtungspfeile behalten ihre sichtbare Strichstärke. Kleine Begriffe erhalten größere Klickflächen; Namen sind im Überblick, bei Detailzoom sowie bei Hover/Auswahl gestaffelt. Ein kollisionsbewusster Beschriftungsplan verändert keine Knotenpositionen.
+- Normale Auswahl erzwingt keinen Mindestzoom mehr. Der Inspector darf einen verdeckten Punkt durch minimale Kameraverschiebung sichtbar halten. Ganzer-Karten-Überblick und Zurücksetzen der Anordnung sind getrennt.
+- Geprüfte Beziehungssätze unterscheiden Aufbau und Einordnung. Drei zusammenfassende Verbindungen ergänzt; die irreführende Rechenkante Daten → Stichprobenziehung entfernt. Pearson-Alternativen, positive Streuung, Rangbasis und Verfahrenvarianten bleiben erhalten.
+- Automatisierte Prüfung: 72 Tests; insbesondere getrennte Punkte, deterministisches Grundgerüst, aktive Varianten, explizite Anziehung, Verlauf und Bildschirmbeschriftungen. Produktionsbuild und eigenständige Offline-HTML erstellt.
+- Eine visuelle Prüfung der ersten Fassung bei ca. 1515 × 1200 zeigte eine zu früh erreichte Detailstufe. Daraufhin wurde die Stufengrenze relativ zum anfänglichen Gesamtzoom gesetzt und die Beschriftung weiter angepasst. Diese letzten Anpassungen wurden rechnerisch geprüft; keine abschließende Browser-Interaktionsprüfung oder FPS-Messung.
+- Fachlicher Gegencheck durch zweiten Agenten: zusammenhängendes Hauptgerüst, keine neue falsche Voraussetzung, keine Überschreibung des Pearson-z-Wegs.
+
+---
+
+## 11. September 2026 – zusammenhängendes Gravitationsnetz
+
+- 144 sichtbare statistische Begriffe bilden eine einzige zusammenhängende Komponente. 15 Rechenbegriffe bleiben in Suche, interaktiven Formeln und der rechten Detailansicht erhalten.
+- Verdeckte Rechenzwischenstufen werden zu durchgehenden Verbindungen projiziert. Allgemeine Grundrechenoperationen werden nicht als Brücken zwischen ihren unabhängigen Verwendungen benutzt.
+- Deterministische, vorab berechnete Anordnung ohne Themenzentren: gewichtete Federkräfte, Begrenzung stark vernetzter Knoten, sanfte fachliche Leserichtung und getrennte Klickflächen.
+- Normale Auswahl und Datenänderungen lösen keine Simulation aus. Heranziehen, Ziehen und Zurücksetzen sind explizite Aktionen; der Verlauf bewahrt die Anordnung.
+- Gepaarte Differenzen sind von der für Wilcoxon zusätzlich erforderlichen Rangbildung getrennt. McNemars Wechselzahlen verweisen auf die Kreuztabelle.
+- 70 automatisierte Tests bestanden; nach der letzten kleinen Verlaufsänderung die 13 betroffenen Karten- und Navigationstests erneut bestanden. TypeScript, Produktionsbuild und eigenständige Offline-HTML erfolgreich.
+- Geprüft: beide Pearson-Wege, X/Y-Kontext, ausgegliederte Rechenschritte, p-Wert-Verbindungen, Standardfehler, Verfahrenvarianten, vollständige Erreichbarkeit, kollisionsfreie Anordnung, gezieltes Heranziehen und Ziehen, Wiederherstellung im Verlauf.
+- Keine neue Browser-Bildprüfung oder FPS-Messung. Frühere Bildschirmberichte gelten nicht als Prüfung dieser neuen Oberfläche.
+
+---
+
+# Aktueller Prüfstand · Grundlagen und Ergebnisdeutung
+
+10. September 2026: 55 neue Grundlagen mit verknüpften Formeln, Quellen und interaktiven Experimenten. Insgesamt 159 Bausteine, 486 Verbindungen und zwölf transparente Themenbereiche. Alle 80 öffentlichen mariposa-Exporte bleiben erschlossen. Vollständige neue Abdeckung: [ABDECKUNG-GRUNDLAGEN.md](ABDECKUNG-GRUNDLAGEN.md).
+
+143 direkte Einordnungsverbindungen verbinden Verfahren mit der Deutung ihrer Ergebnisse. Sie bleiben außerhalb der rekursiven Rechenvoraussetzungen. Fisher-p-Werte sind als Ergebnis, nicht als Recheneingang verknüpft. Effektgrößen, Intervalle und Varianten folgen den tatsächlich berichteten mariposa-Ausgaben. Beim Ausflug in eine Grundlage bleiben Spalten, Rangbasis, Route und die gewählte Verfahrensvariante für die Rückkehr erhalten; Hover verwendet dieselbe erinnerte Variante.
+
+71 automatisierte Tests bestehen. Die neuen numerischen Prüfungen vergleichen 85 Dichte-/Masse-/CDF-Punkte und 99 Quantile über acht Verteilungsfamilien sowie 74 Normaltest-Power-Fälle mit unabhängigen R-4.5.3-Referenzen. Zusätzlich geprüft: diskrete Grenzen, reproduzierbare Stichproben, OLS, Rotationsinvarianz, Überanpassung, bekannte Formelziele und azyklische Voraussetzungen, direkte Einordnungsbezüge, 159 kollisionsfreie Positionen und serverseitiges Rendern aller 55 Experimente mit endlichen SVG-Koordinaten. TypeScript sowie Produktions- und Offline-Build bestehen.
+
+Die bisherigen mariposa-R-Aufrufe und der Datensatz wurden nicht geändert; ihre vorherige Ausführungsprüfung bleibt unten dokumentiert. Keine Browser-Interaktionsprüfung, visuelle Geräteprüfung oder Erprobung mit Studierenden in diesem Umsetzungslauf.
+
+---
+
+# Früherer Prüfstand · durchlässige Karte und Gravitation
+
+10. September 2026: Transparente Themenellipsen mit freien, anklickbaren Überschriften; leicht gelockerte Grundanordnung der neuen Themen. Alle 104 Felder und Verbindungen bleiben erhalten. Bereichszoom passt auch auf schmalen Bildschirmen zum tatsächlichen Ausschnitt.
+
+Optionale Gravitation um den ausgewählten Baustein: aktive direkte Bezüge, mit Voraussetzungsspur auch rekursive Voraussetzungen. Alternative Rechenwege ziehen keine Knoten an; Welch-ANOVA zieht die klassischen Tukey-/Scheffé-Anschlüsse nicht heran. Anker, Layout und Kamera bleiben bei Vorwärts/Zurück, Pfadverlauf und schnellen Klicks nachvollziehbar. Ein Klick setzt die Anordnung zurück. Hover löst keine Layoutberechnung aus. Die Bewegung endet nach 420 ms und berücksichtigt die Systemeinstellung für reduzierte Bewegung.
+
+61 Tests bestehen, einschließlich deterministischer, überlappungsfreier Endpositionen, tatsächlicher Annäherung entfernter Bezüge, Rechenwegvarianten, Verlauf und Anker während einer laufenden Bewegung. TypeScript sowie Produktions- und Offline-Build bestehen. Quelltextprüfung berücksichtigt außerdem den Abbruch vorheriger Kamerafahrten bei schneller Neuauswahl. Während der lokalen Strukturänderung meldete Hot Reload kurzzeitig ungültige alte Bereichsdaten und ResizeObserver-Hinweise; Bereichsmaße sind nun explizit, die Flächen folgen dem fertigen Layout statt jedem Animationsbild, und die Überschrift besitzt einen gültigen Fallback für alte Hot-Reload-Daten. Keine Browser-Interaktionsprüfung oder visuelle Geräteprüfung. R-Aufrufe und Lehrdaten bleiben auf dem zuvor geprüften Stand.
+
+Der folgende Prüfstand dokumentiert die vorausgehende mariposa-Erweiterung:
+
+---
+
+# Aktueller Prüfstand · mariposa-Erweiterung
+
+10. September 2026: 80 öffentliche Funktionen, 104 Bausteine, acht Kartenbereiche, 200 synthetische Befragte mit 28 Variablen. Vollständige Zuordnung und Prüfergebnisse: [ABDECKUNG-MARIPOSA.md](ABDECKUNG-MARIPOSA.md).
+
+55 Tests bestehen; TypeScript und Produktions-/Offline-Build bestehen. 110 auswählbare R-Varianten plus zusätzlicher Rangkontext wurden geprüft: 109 erfolgreich ausgeführt, zwei externe Importaufrufe syntaktisch geprüft. Keine Browser-Interaktionsprüfung. Optionale WebMCP-Verträge im Testkontext geprüft; reale Browserunterstützung nicht geprüft.
+
+Der folgende frühere Prüfstand dokumentiert den Ausbau vor mariposa:
+
+---
+
+# Umsetzung und Prüfstand
+
+10. September 2026 · Anklickbare Netzkarte, eingehende Hoverpfade und synthetischer Lehrdatensatz.
+
+## Enthalten
+
+36 Begriffe mit 70 Grundbeziehungen. Ganze Kartenflächen erhalten Pointer-Ereignisse und liegen über den Kanten. Hover und Tastaturfokus verfolgen ausschließlich die vollständigen eingehenden Pfade im jeweiligen Rohwert-, z- oder Rangkontext.
+
+200 reproduzierbare synthetische Befragte, 16 Spalten plus ID, Codebuch, zulässige Werte, passende X/Y-Auswahl, sichtbare Likert-Annahme, Datensatzdialog mit Pagination und CSV. Keine echten Befragten oder fehlenden Antworten. Datenänderungen sind von der Navigation getrennt und erhalten alle übrigen Spalten.
+
+Häufigkeiten, Median, mittlere Ränge, Spearman und Kreuztabellen ergänzen die bisherigen Verfahren. Lange Rechnungen sind kompakt; Verteilungen und Streudiagramme bleiben bei 200 Fällen bedienbar. Bedingungs- und Formelverweise erhalten Variable, Verwendung und Rangkontext.
+
+## Automatisiert geprüft
+
+47 Tests: bestehende numerische Referenzen und Randfälle sowie neue Prüfungen für den vollständigen Datensatz, Werteskalen und Antwortkategorien, Auswahlregeln, Zelländerungen ohne Datenverlust, dynamische Einheiten, Likert-Annahmen, Spearman mit Gleichständen, Rangkontext in Formeln und Bedingungen, ordinale Medianpaare, metrische Mediane, Histogrammsummen und Kreuztabellenränder, kompakte Rechnungen mit 200 Fällen, vollständige eingehende Hoverpfade und React Flows Pointer-Hit-Testing bei deaktivierter Auswahl/Bewegung.
+
+Alle 36 Inspector-Ansichten und zugehörigen Survey-Experimente werden serverseitig mit passenden Spalten gerendert. Keine NaN-/Infinity-Ausgabe oder negativen SVG-Breiten. TypeScript und Produktionsbuild inklusive selbstständigem Offline-Export gehören zum Abschluss.
+
+## Durch Quelltextprüfung korrigiert
+
+React Flow unterdrückte Mausereignisse des Knoten-Wrappers; Kanten lagen über Karten. Außerdem: doppelte X/Y-Zuordnungen mit überschriebenen Änderungen, Escape schloss zwei UI-Ebenen, ungültige Eingabeentwürfe wanderten zur nächsten Person, Rangbasis ging in Bedingungs- und z-Verweisen verloren, Y-Häufigkeiten verlinkten X, Y-Ränge zeigten das X-Zeichen, Haushaltsmittelwerte wurden als persönlicher Betrag formuliert und die numerische Mediananzeige verwendete ein falsches Rechenzeichen.
+
+## Grenzen der Prüfung
+
+Keine automatisierten Browserklicks, Screenshots oder Nutzertests in diesem Umsetzungslauf. Serverseitiges Rendern und Quelltextprüfung ersetzen keine Erprobung auf realen Geräten oder mit Screenreader. Frühere Browserartefakte gehören zu älteren Oberflächen. Die Kursinhalte außerhalb dieses Atlas-Ausschnitts bleiben unverändert.

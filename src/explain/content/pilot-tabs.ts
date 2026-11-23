@@ -1,0 +1,906 @@
+// Reiter der sieben Pilotbegriffe (Spezifikation Lehrdatensatz und R, Abschnitt 5; Ausbau, Abschnitt 5) und die
+// Brücken „Mit 200 Befragten“ der Pilot-Werkstätten. Wortlaut nach dem gebilligten Reiterbeispiel der
+// Standardabweichung, im Ton der Streuung. Alle Zahlen kommen aus den aktuellen Daten; die R-Referenzwerte stehen
+// in src/explain/sample.test.ts und src/explain/tabs.test.ts. Vorbild für die Reiter aller Bereiche (AUTHORING.md, Abschnitt 8).
+import type { Bridge, BridgeCtx, ConceptTabs, FNode, SampleCtx, TokenNote } from '../types';
+import type { PairStats, Series } from '../math';
+import { num, signed, paren, unit } from '../format';
+import { countWithin, eqFrom, sampleColumn, sampleColumnInfo, samplePairs, sampleSeries, shownDiff, sumNodes, unitText } from '../sample';
+import { qt } from '../../tasks/kit/dist';
+import { ref, titleFor } from '../../domain/learning';
+
+type SC = BridgeCtx<Series>;
+type PC = BridgeCtx<PairStats>;
+
+const P = (c: BridgeCtx<unknown>) => c.names[c.who];
+const N = (c: BridgeCtx<unknown>) => c.values.length;
+const lernzeit = (c: BridgeCtx<unknown>) => c.col.id === 'lernzeit';
+/** „≈“, wenn die angezeigte Zahl gerundet ist, sonst „=“. */
+const eq = (v: number) => Math.abs(Math.round(v * 100) / 100 - v) > 1e-9 ? '≈' : '=';
+/** Menge in Sätzen über Menschen: „3,24 Stunden“ bei der Lernzeit, sonst mit der Einheit der Spalte. */
+const amount = (c: BridgeCtx<unknown>, v: number) => lernzeit(c) ? unit(v, 'Stunde', 'Stunden') : c.u(v);
+const values = (c: BridgeCtx<unknown>) => lernzeit(c) ? 'Lernzeiten' : `Werte von „${c.col.title}“`;
+/** Lage zur Mitte: „1,75 h unter der Mitte“, „genau auf der Mitte“. */
+const toMiddle = (c: BridgeCtx<unknown>, d: number, middle = 'der Mitte') => Math.abs(d) < 0.005 ? `genau auf ${middle}` : `${c.u(Math.abs(d))} ${d > 0 ? 'über' : 'unter'} ${middle}`;
+/** Anteil an einer Summe in Prozent, kleine Anteile als „weniger als 0,01 %“. */
+const share = (part: number, whole: number) => whole <= 0 ? '0 %' : part / whole * 100 < 0.005 ? 'weniger als 0,01 %' : `${num(part / whole * 100)} %`;
+/** Skalenniveau der Spalte in einem Satz (für „Voraussetzung“): metrisch, Likert mit Abstandsannahme oder 0/1. */
+const scaleNote = (c: BridgeCtx<unknown>) => c.col.likert ? `Für „${c.col.title}“ nimmst du gleich große Abstände zwischen den Antwortstufen an.`
+  : c.col.scale === 'metric' ? `„${c.col.title}“ ist metrisch: Gleiche Zahlenabstände bedeuten gleich viel.`
+  : `„${c.col.title}“ hat nur die Werte 0 und 1; der Mittelwert ist dann der Anteil der Einsen.`;
+/** Wie angezeigt gerundet (zwei Nachkommastellen), damit Proben mit den sichtbaren Zahlen aufgehen. */
+const shown = (v: number) => Math.round(v * 100) / 100;
+
+// ---------- Brücke Mittel ----------
+
+export const bridgeMittel: Bridge<Series> = {
+  data: 'series',
+  numeric: c => [
+    'x̄ = ( ', ...sumNodes(N(c), c.who, i => [{ part: [num(c.values[i])], m: 1 }], [' ', { part: ['+'], m: 1 }, ' ']), ' ) ', { part: [`/ ${N(c)}`], m: 2 }, { br: true },
+    '= ', { part: [num(c.s.sum)], m: 1 }, ' ', { part: [`/ ${N(c)}`], m: 2 }, ` ${eq(c.s.mean)} `, { part: [c.u(c.s.mean)], m: 2 },
+  ],
+  lines: [
+    {
+      all: c => `Alle ${N(c)} ${values(c)} zusammen ergeben ${c.u(c.s.sum)}.`,
+      person: c => `${P(c)} trägt ${c.u(c.values[c.who])} dazu bei, wie alle anderen auch: jede Person genau einmal.`,
+    },
+    {
+      all: c => `${num(c.s.sum)} / ${N(c)} ${eq(c.s.mean)} ${c.u(c.s.mean)}. Gerecht verteilt bekäme jede Person ${c.u(c.s.mean)}.`,
+      person: c => `${P(c)} liegt mit ${c.u(c.values[c.who])} ${toMiddle(c, c.values[c.who] - c.s.mean, 'dem Mittelwert')}.`,
+    },
+  ],
+  metrics: c => [
+    { label: 'Befragte n', value: String(N(c)) },
+    { label: 'Summe Σxᵢ', value: c.u(c.s.sum) },
+    { label: 'Mittelwert x̄', value: c.u(c.s.mean) },
+  ],
+  interpret: c => {
+    const below = c.values.filter(v => v < c.s.mean - 1e-9).length, above = c.values.filter(v => v > c.s.mean + 1e-9).length;
+    return {
+      kurz: lernzeit(c) ? `Im Durchschnitt haben die ${N(c)} Befragten in den letzten sieben Tagen ${amount(c, c.s.mean)} gelernt.`
+        : `Im Durchschnitt liegen die ${N(c)} Befragten bei „${c.col.title}“ bei ${c.u(c.s.mean)}.`,
+      fachlich: `Das arithmetische Mittel von „${c.col.title}“ beträgt x̄ ${eq(c.s.mean)} ${c.u(c.s.mean)} bei n = ${N(c)}.`,
+      zusatz: `${below} von ${N(c)} Befragten liegen unter dem Mittelwert, ${above} darüber.`,
+    };
+  },
+  voraussetzung: c => c.col.scale === 'metric' || c.col.likert ? `${scaleNote(c)} Bei schiefen Verteilungen oder Ausreißern beschreibt der Median, der mittlere Wert der Reihe nach, die Mitte oft besser.` : scaleNote(c),
+  picture: (c, step) => ({ center: step >= 2 ? c.s.mean : undefined, deviation: step >= 2 }),
+  value: c => c.s.mean,
+};
+
+// ---------- Brücke Streuung ----------
+
+const devTerm = (c: SC, i: number): FNode[] => [{ part: ['('], m: 3 }, { part: [`${num(c.values[i])} −`], m: 2 }, ' ', { part: [num(c.s.mean)], m: 1 }, { part: [')²'], m: 3 }];
+const plus4: FNode[] = [' ', { part: ['+'], m: 4 }, ' '];
+
+export const bridgeStreuung: Bridge<Series> = {
+  data: 'series',
+  numeric: (c, last) => {
+    const n = N(c), terms = sumNodes(n, c.who, i => devTerm(c, i), plus4);
+    return last >= 6
+      ? ['s = ', { part: ['√'], m: 6 }, '[ ( ', ...terms, ' ) ', { part: [`/ (${n} − 1)`], m: 5 }, ' ]', { br: true },
+        '= ', { part: ['√'], m: 6 }, '( ', { part: [num(c.s.ss)], m: 4 }, ' ', { part: [`/ ${n - 1}`], m: 5 }, ' ) ', eq(c.s.variance), ' ', { part: [`√${num(c.s.variance)}`], m: 5 }, ' ≈ ', { part: [c.u(c.s.sd)], m: 6 }]
+      : ['s² = [ ', ...terms, ' ] ', { part: [`/ (${n} − 1)`], m: 5 }, { br: true },
+        '= ', { part: [num(c.s.ss)], m: 4 }, ' ', { part: [`/ ${n - 1}`], m: 5 }, ` ${eq(c.s.variance)} `, { part: [c.u(c.s.variance, { squared: true })], m: 5 }];
+  },
+  lines: [
+    {
+      all: c => `Alle ${N(c)} ${values(c)} zusammen ergeben ${c.u(c.s.sum)}. Geteilt durch ${N(c)}: x̄ ${eq(c.s.mean)} ${c.u(c.s.mean)}.`,
+      person: c => `${P(c)} hat den Wert ${c.u(c.values[c.who])}. Er zählt in der Summe einmal mit, wie jeder andere auch.`,
+    },
+    {
+      all: c => `Für jede der ${N(c)} Personen: Wert minus ${num(c.s.mean)}. Zusammen ergeben alle ${N(c)} Abstände genau 0, wie bei den fünf Personen.`,
+      // Abstand aus den gezeigten Zahlen, damit „Wert − x̄ = Abstand“ aufgeht; Schritt 3 quadriert denselben Abstand.
+      person: c => { const d = shownDiff(c.values[c.who], c.s.mean); return `${P(c)}: ${num(c.values[c.who])} − ${num(c.s.mean)} = ${signed(d)}, also ${toMiddle(c, d)}.`; },
+    },
+    {
+      all: c => `Jeder der ${N(c)} Abstände wird mit sich selbst malgenommen. Kein Quadrat ist negativ, und große Abstände zählen viel.`,
+      person: c => { const d = shownDiff(c.values[c.who], c.s.mean), q = c.s.sq[c.who]; return `${P(c)}: ${paren(d)}² ${eqFrom(d * d, q)} ${c.u(q, { squared: true })}.`; },
+    },
+    {
+      all: c => {
+        const b = c.s.sq.indexOf(Math.max(...c.s.sq));
+        return `Die ${N(c)} Quadrate ergeben zusammen die Quadratsumme ${c.u(c.s.ss, { squared: true })}. Den größten Beitrag liefert ${c.names[b]} mit ${c.u(c.values[b])}: (${num(c.values[b])} − ${num(c.s.mean)})² ≈ ${c.u(c.s.sq[b], { squared: true, digits: 1 })}.`;
+      },
+      person: c => `${P(c)} steuert ${c.u(c.s.sq[c.who], { squared: true })} bei, das sind ${share(c.s.sq[c.who], c.s.ss)} der Quadratsumme.`,
+    },
+    {
+      all: c => `${num(c.s.ss)} / (${N(c)} − 1) = ${num(c.s.ss)} / ${N(c) - 1} ${eq(c.s.variance)} ${c.u(c.s.variance, { squared: true })}.`,
+      person: c => `${P(c)} trägt ${share(c.s.sq[c.who], c.s.ss)} der Quadratsumme bei, also auch ${share(c.s.sq[c.who], c.s.ss)} der Varianz.`,
+    },
+    {
+      all: c => {
+        const probe = shown(c.s.sd) ** 2;
+        return `√${num(c.s.variance)} ≈ ${c.u(c.s.sd)}. Probe: ${num(c.s.sd)} · ${num(c.s.sd)} ≈ ${num(probe)}${num(probe) === num(c.s.variance) ? '.' : `, bis auf Rundung die ${num(c.s.variance)}.`}`;
+      },
+      person: c => {
+        // Gezeigt wird der gerundete Abstand wie in Schritt 2 (N1); ob innen oder außen, entscheidet der genaue.
+        const d = c.s.dev[c.who], inside = Math.abs(d) <= c.s.sd + 1e-9;
+        return `${P(c)} liegt ${toMiddle(c, shownDiff(c.values[c.who], c.s.mean))}, also ${inside ? 'innerhalb' : 'außerhalb'} von x̄ ± s (${num(c.s.mean - c.s.sd)} bis ${c.u(c.s.mean + c.s.sd)}).`;
+      },
+    },
+  ],
+  metrics: (c, variant) => [
+    { label: 'Befragte n', value: String(N(c)) },
+    { label: 'Mitte x̄', value: c.u(c.s.mean) },
+    variant === 'variance' ? { label: 'Varianz s²', value: c.u(c.s.variance, { squared: true }) } : { label: 'Standardabweichung s', value: c.u(c.s.sd) },
+  ],
+  interpret: (c, variant) => {
+    const lo = c.s.mean - c.s.sd, hi = c.s.mean + c.s.sd, k = countWithin(c.values, lo, hi);
+    const big = c.s.sq.indexOf(Math.max(...c.s.sq));
+    if (c.s.sd < 0.005) return { kurz: 'Alle haben denselben Wert. Es gibt keine Streuung.', fachlich: `Die Standardabweichung von „${c.col.title}“ ist 0.` };
+    return variant === 'variance' ? {
+      kurz: `Im Durchschnitt (geteilt durch n − 1) ist ein Abweichungsquadrat bei den ${N(c)} Befragten ${c.u(c.s.variance, { squared: true })} groß. Seine Seite s ≈ ${c.u(c.s.sd)} sagt grob, wie weit die Befragten von der Mitte entfernt sind.`,
+      fachlich: `Die Varianz von „${c.col.title}“ beträgt s² ${eq(c.s.variance)} ${c.u(c.s.variance, { squared: true })}: die Quadratsumme ${num(c.s.ss)} geteilt durch n − 1 = ${N(c) - 1}.`,
+      zusatz: `Den größten Einzelbeitrag liefert ${c.names[big]}: ${share(c.s.sq[big], c.s.ss)} der Quadratsumme.`,
+    } : {
+      kurz: `Grob gesagt liegt ${lernzeit(c) ? 'die Lernzeit einer Person' : `der Wert einer Person bei „${c.col.title}“`} etwa ${amount(c, c.s.sd)} vom Durchschnitt (${amount(c, c.s.mean)}) entfernt.`,
+      fachlich: `Die Standardabweichung von „${c.col.title}“ beträgt s ≈ ${c.u(c.s.sd)} bei n = ${N(c)}, die Wurzel der Varianz s² ≈ ${c.u(c.s.variance, { squared: true })}. Sie ist kein durchschnittlicher Abstand: Im Mittel liegt eine Person ${c.u(c.s.mad)} vom Durchschnitt entfernt; s ist größer, weil große Abstände im Quadrat stärker zählen.`,
+      zusatz: lernzeit(c) ? `${k} von ${N(c)} Befragten lernen zwischen ${num(lo)} und ${num(hi)} Stunden.` : `${k} von ${N(c)} Befragten liegen bei „${c.col.title}“ zwischen ${num(lo)} und ${c.u(hi)}.`,
+    };
+  },
+  voraussetzung: c => `${scaleNote(c)} Für die Streuung braucht es mindestens zwei Werte.`,
+  value: (c, variant) => variant === 'variance' ? c.s.variance : c.s.sd,
+  picture: (c, step) => ({
+    center: c.s.mean,
+    deviation: step >= 2,
+    contributions: step === 4 || step === 5 ? { label: 'Quadrate aller Befragten, der Größe nach', values: c.s.sq } : undefined,
+    band: step >= 6 ? [c.s.mean - c.s.sd, c.s.mean + c.s.sd] : undefined,
+  }),
+};
+
+// ---------- Brücke Zusammenhang ----------
+
+const prodTerm = (c: PC, i: number): FNode[] => [
+  { part: ['('], m: 3 }, { part: [`${num(c.values[i])} −`], m: 2 }, ' ', { part: [num(c.s.x.mean)], m: 1 }, { part: [')'], m: 3 },
+  { part: [' · ('], m: 3 }, { part: [`${num(c.values2![i])} −`], m: 2 }, ' ', { part: [num(c.s.y.mean)], m: 1 }, { part: [')'], m: 3 },
+];
+const t1 = (c: PC) => `„${c.col.title}“`, t2 = (c: PC) => `„${c.col2!.title}“`;
+const strength = (r: number) => { const a = Math.round(Math.abs(r) * 100) / 100; return a >= 1 ? 'perfekter' : a >= 0.5 ? 'starker' : a >= 0.3 ? 'mittelstarker' : 'schwacher'; };
+
+export const bridgeZusammenhang: Bridge<PairStats> = {
+  data: 'pairs',
+  numeric: (c, last) => {
+    const n = N(c), cov = ['sₓᵧ = [ ', ...sumNodes(n, c.who, i => prodTerm(c, i), plus4), ' ] ', { part: [`/ (${n} − 1)`], m: 5 }] as FNode[];
+    return last >= 6
+      ? [...cov, { br: true }, 'r = ', { part: [num(c.s.cov)], m: 5 }, ' ', { part: [`/ (${num(c.s.x.sd)} · ${num(c.s.y.sd)})`], m: 6 }, ' ≈ ', { part: [c.s.r === null ? 'nicht definiert' : num(c.s.r)], m: 6 }]
+      : [...cov, { br: true }, '= ', { part: [num(c.s.cp)], m: 4 }, ' ', { part: [`/ ${n - 1}`], m: 5 }, ` ${eq(c.s.cov)} `, { part: [num(c.s.cov)], m: 5 }];
+  },
+  lines: [
+    {
+      all: c => `Mittelwert von ${t1(c)}: x̄ ${eq(c.s.x.mean)} ${c.u(c.s.x.mean)}. Mittelwert von ${t2(c)}: ȳ ${eq(c.s.y.mean)} ${unitText(c.col2!, c.s.y.mean)}.`,
+      person: c => `${P(c)} hat ${c.u(c.values[c.who])} bei ${t1(c)} und ${unitText(c.col2!, c.values2![c.who])} bei ${t2(c)}.`,
+    },
+    {
+      all: c => `Für jede Person zwei Abstände: ihr x minus x̄ und ihr y minus ȳ. Beide Sorten ergeben zusammen 0.`,
+      person: c => `${P(c)}: ${num(c.values[c.who])} − ${num(c.s.x.mean)} = ${signed(shownDiff(c.values[c.who], c.s.x.mean))} und ${num(c.values2![c.who])} − ${num(c.s.y.mean)} = ${signed(shownDiff(c.values2![c.who], c.s.y.mean))}.`,
+    },
+    {
+      all: c => `Je Person werden die beiden Abstände malgenommen. Gleiche Vorzeichen ergeben Plus, verschiedene ergeben Minus.`,
+      person: c => {
+        // Dieselben gezeigten Abstände wie in Schritt 2; das Produkt mit allen Stellen, „=“ nur, wenn die Teile genau aufgehen.
+        const p = c.s.prod[c.who], dx = shownDiff(c.values[c.who], c.s.x.mean), dy = shownDiff(c.values2![c.who], c.s.y.mean);
+        return `${P(c)}: ${paren(dx)} · ${paren(dy)} ${eqFrom(dx * dy, p)} ${signed(p)}${Math.abs(p) < 0.005 ? ', also kein Beitrag' : p > 0 ? ', beide Abstände zeigen in dieselbe Richtung' : ', die Abstände zeigen in verschiedene Richtungen'}.`;
+      },
+    },
+    {
+      all: c => `Plus und Minus verrechnet ergeben die ${N(c)} Produkte ${num(c.s.cp)}. ${c.s.prod.filter(p => p > 1e-9).length} Produkte sind positiv, ${c.s.prod.filter(p => p < -1e-9).length} negativ.`,
+      person: c => `${P(c)} steuert ${signed(c.s.prod[c.who])} zur Summe bei.`,
+    },
+    {
+      all: c => `${num(c.s.cp)} / (${N(c)} − 1) = ${num(c.s.cp)} / ${N(c) - 1} ${eq(c.s.cov)} ${num(c.s.cov)}.`,
+      person: c => `Geteilt wird die ganze Summe, also auch der Beitrag ${signed(c.s.prod[c.who])} von ${P(c)}.`,
+    },
+    {
+      all: c => c.s.r === null ? 'Eine der beiden Spalten streut nicht. Dann ist r nicht definiert.'
+        : `${num(c.s.cov)} / (${num(c.s.x.sd)} · ${num(c.s.y.sd)}) ≈ ${num(c.s.r)}. Im Betrag größer als sₓ · sᵧ ≈ ${num(c.s.sxy)} (mit allen Nachkommastellen) kann die Kovarianz hier nicht werden.`,
+      person: c => {
+        const p = c.s.prod[c.who], r = c.s.r ?? 0;
+        return Math.abs(p) < 0.005 || Math.abs(r) < 0.005 ? `${P(c)} trägt kaum etwas zu r bei.`
+          : `${P(c)} ${p * r > 0 ? 'stützt' : 'schwächt'} den ${r > 0 ? 'gleichläufigen' : 'gegenläufigen'} Zusammenhang.`;
+      },
+    },
+  ],
+  metrics: (c, variant) => [
+    { label: 'Befragte n', value: String(N(c)) },
+    { label: 'Kovarianz sₓᵧ', value: num(c.s.cov) },
+    ...(variant === 'pearson' ? [{ label: 'Pearson-r', value: c.s.r === null ? 'nicht definiert' : num(c.s.r) }] : []),
+  ],
+  interpret: (c, variant) => {
+    const same = c.s.prod.filter(p => p > 1e-9).length;
+    const zusatz = `${same} von ${N(c)} Befragten liegen in beiden Fragen auf derselben Seite der Mitte.`;
+    if (variant === 'covariance') return {
+      kurz: c.s.cov > 0.005 ? `Wer bei ${t1(c)} über dem Durchschnitt liegt, liegt bei ${t2(c)} eher auch darüber. Wie groß die Zahl ${num(c.s.cov)} ist, hängt von den Einheiten ab.`
+        : c.s.cov < -0.005 ? `Wer bei ${t1(c)} über dem Durchschnitt liegt, liegt bei ${t2(c)} eher darunter. Wie groß die Zahl ${num(c.s.cov)} ist, hängt von den Einheiten ab.`
+        : `Die Kovarianz ist fast 0: Über und unter dem Durchschnitt gleichen sich aus.`,
+      fachlich: `Die Kovarianz von ${t1(c)} und ${t2(c)} beträgt sₓᵧ ${eq(c.s.cov)} ${num(c.s.cov)} bei n = ${N(c)}.`,
+      zusatz,
+    };
+    if (c.s.r === null) return { kurz: 'Eine der beiden Spalten streut nicht. Dann lässt sich kein Zusammenhang berechnen.', fachlich: 'Eine Standardabweichung ist 0, deshalb ist r nicht definiert.', zusatz };
+    const r = c.s.r;
+    return {
+      kurz: Math.abs(r) < 0.1 ? `Zwischen ${t1(c)} und ${t2(c)} gibt es hier kaum einen geraden Zusammenhang.`
+        // Die Richtung kommt aus dem Vorzeichen von r, nie aus den Spalten: Nach „Wissenstest umpolen“ ist r negativ.
+        : lernzeit(c) && c.col2!.id === 'wissenstest' && r > 0 ? `Wer mehr lernt, löst im Wissenstest eher mehr Aufgaben. Das ist ein gleichläufiger, ${strength(r)} Zusammenhang.`
+        : `Wer bei ${t1(c)} höher liegt, liegt bei ${t2(c)} eher ${r > 0 ? 'auch höher' : 'niedriger'}. Das ist ein ${r > 0 ? 'gleichläufiger' : 'gegenläufiger'}, ${strength(r)} Zusammenhang.`,
+      fachlich: `Die Pearson-Korrelation von ${t1(c)} und ${t2(c)} beträgt r ≈ ${num(r)} bei n = ${N(c)}. Nach der Faustregel von Cohen ist ein Betrag ab 0,1 schwach, ab 0,3 mittel, ab 0,5 stark.`,
+      zusatz,
+    };
+  },
+  voraussetzung: c => `Beide Spalten werden als metrisch behandelt, und r erfasst nur gerade Muster. Ein einzelner Ausreißer kann r deutlich verändern.`,
+  value: (c, variant) => variant === 'covariance' ? c.s.cov : c.s.r,
+  picture: (c, step) => ({
+    center: [c.s.x.mean, c.s.y.mean],
+    deviation: step >= 2,
+    quadrants: step >= 3,
+    contributions: step === 4 || step === 5 ? { label: 'Abweichungsprodukte aller Befragten, der Größe nach', values: c.s.prod } : undefined,
+  }),
+};
+
+// ---------- Reiter ----------
+
+const T = (id: string) => titleFor(ref(id));
+/** Funktionen und Argumente der Leitaufrufe (Ergänzungen zur allgemeinen Codelegende in src/domain/rTokens.ts). */
+const DESCRIBE: TokenNote = {
+  sym: 'describe()', term: T('describe'),
+  kurz: 'Berechnet Kennwerte einer oder mehrerer Spalten. Welche, sagt show; N und Missing stehen immer dabei.',
+  fehler: 'Ohne library(mariposa) meldet R: konnte Funktion "describe" nicht finden.',
+};
+const SHOW_VALUE = (key: string, term: string, kurz: string): TokenNote => ({
+  sym: `"${key}"`, term, kurz,
+  fehler: `Groß geschrieben kennt describe() den Namen nicht: show = "${key.toUpperCase()}" ergibt Unknown \`show\` value. Richtig ist "${key}".`,
+});
+const MEAN_VALUE = SHOW_VALUE('mean', T('mean'), '"mean" steht für den Mittelwert x̄. In der Ausgabe heißt die Spalte Mean.');
+const SD_VALUE = SHOW_VALUE('sd', T('sd'), '"sd" steht für standard deviation, die Standardabweichung s. In der Ausgabe heißt die Spalte SD.');
+const VAR_VALUE = SHOW_VALUE('var', T('variance'), '"var" steht für variance, die Varianz s². In der Ausgabe heißt die Spalte Variance.');
+const SE_VALUE = SHOW_VALUE('se', T('se'), '"se" steht für standard error, den Standardfehler. In der Ausgabe heißt die Spalte SE.');
+
+/** Kennzahlen, die in describe() immer dabeistehen. */
+const N_MAP = { match: 'N', atlas: 'n', explain: 'N zählt die gültigen Werte, hier alle Befragten. Durch diese Zahl teilst du beim Mittelwert.' };
+const MISSING_MAP = { match: 'Missing', atlas: 'fehlende Werte', explain: 'Missing zählt Befragte ohne Antwort. Im Lehrdatensatz fehlt niemand.' };
+
+/** Variablen der Vorhersagefragen. */
+const LZ = 'lernzeit', LZ_WT = 'lernzeit,wissenstest';
+
+/** Standardfehler der Spalte x der Spaltenwahl, für den Satz zum Standardfehler in „Weiter“ (rechnet mit den aktuellen Daten). */
+function seSentence(c: SampleCtx): string {
+  const id = c.columns.x?.[0] ?? 'lernzeit', xs = sampleColumn(c.rows, id), n = xs.length;
+  const mean = xs.reduce((a, b) => a + b, 0) / n, s = Math.sqrt(xs.reduce((a, v) => a + (v - mean) ** 2, 0) / (n - 1));
+  return `Wie genau kennt man den Mittelwert? Teile s durch die Wurzel aus n: ${num(s)} / √${n} ≈ ${unitText(sampleColumnInfo(id), s / Math.sqrt(n))}.`;
+}
+
+/** Spalten der Vorhersagen (`expect.measure`) und die Größen der Rechenschritte für die Schrittkarten. */
+const colX = (c: SampleCtx) => c.columns.x?.[0] ?? 'lernzeit', colY = (c: SampleCtx) => c.columns.y?.[0] ?? 'wissenstest';
+const seriesOf = (c: SampleCtx) => sampleSeries(c.rows, colX(c));
+const pairsOf = (c: SampleCtx) => samplePairs(c.rows, colX(c), colY(c));
+const prodSum = (c: SampleCtx) => pairsOf(c).prod.reduce((a, b) => a + b, 0);
+
+export const PILOT_TABS: Record<string, ConceptTabs> = {
+  mean: {
+    sample: {
+      kind: 'bridge', workshop: 'mittel', variant: 'mean', variable: LZ,
+      think: [
+        {
+          question: 'Alle lernen eine Stunde mehr. Was passiert mit dem Mittelwert?', options: ['bleibt gleich', 'steigt um 1 Stunde', 'steigt um 200 Stunden'], correct: 1, step: 2,
+          explain: 'Die Summe wächst um 200 Stunden. Geteilt durch 200 bleibt für jede Person genau 1 Stunde mehr.',
+          kurz: 'Verschieben verschiebt den Mittelwert um genau so viel.',
+          tryIt: { label: 'alle eine Stunde mehr', op: 'shift', column: 'x', value: 1 },
+          expect: { change: 'plus', amount: 1 },
+        },
+        {
+          question: 'Eine Person lernt plötzlich 40 Stunden. Wie stark ändert sich der Mittelwert der 200?', options: ['gar nicht', 'ein wenig', 'um mehr als 10 Stunden'], correct: 1, step: 1,
+          explain: 'Der neue Wert geht einmal in die Summe ein, geteilt wird durch 200. Der Mittelwert ändert sich deshalb nur um ein Zweihundertstel der Änderung: (40 − alter Wert) / 200.',
+          kurz: 'Bei 200 Personen fällt ein einzelner Wert wenig ins Gewicht.',
+          tryIt: { label: 'die gewählte Person auf 40 Stunden', op: 'outlier', column: 'x', value: 40 },
+          expect: { change: 'up', atMost: 0.25 },
+        },
+        {
+          question: 'Alle lernen doppelt so lange. Was passiert mit dem Mittelwert?', options: ['bleibt gleich', 'verdoppelt sich', 'vervierfacht sich'], correct: 1, step: 2,
+          explain: 'Jeder Wert verdoppelt sich, also auch die Summe. Durch 200 geteilt ergibt das den doppelten Mittelwert.',
+          kurz: 'Malnehmen wirkt auf den Mittelwert genauso.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 2 },
+        },
+      ],
+    },
+    r: {
+      entry: 'mean', variant: 0, live: { fn: 'describe', show: ['mean'] },
+      tokens: { describe: DESCRIBE, '"mean"': MEAN_VALUE },
+      outputMap: [
+        { match: 'Mean', atlas: 'x̄', step: 2, explain: 'Mean heißt Mittelwert: die Summe aller Werte geteilt durch n.' },
+        N_MAP, MISSING_MAP,
+      ],
+      check: {
+        question: 'Welche Zahl in der Ausgabe ist der Mittelwert x̄? Tippe sie an.', correct: 'Mean',
+        wrong: { N: 'Fast! N ist die Zahl der Befragten. Durch sie teilst du in Schritt 2; der Mittelwert steht unter Mean.', Missing: 'Fast! Missing zählt fehlende Antworten. Der Mittelwert steht unter Mean.' },
+      },
+    },
+    next: {
+      next: { id: 'sd', why: 'Wie weit liegen die Befragten ungefähr vom Mittelwert entfernt? Das misst die Standardabweichung.' },
+      before: [
+        { id: 'series', why: 'Die Einzelwerte, die zusammengezählt werden.' },
+        { id: 'validn', why: 'n, durch das du am Ende teilst.' },
+        { id: 'metric', why: 'Nur wenn Abstände zwischen Zahlen etwas bedeuten, ist der Mittelwert sinnvoll.' },
+      ],
+      after: [
+        { id: 'variance', why: 'Misst, wie weit die Werte um den Mittelwert streuen.' },
+        { id: 'centering', why: 'Von jedem Wert den Mittelwert abziehen: Dann liegt die Mitte bei 0.' },
+        { id: 'covariance', why: 'Nutzt die Mittelwerte zweier Spalten als Bezugspunkte.' },
+        { id: 't_test', why: 'Vergleicht die Mittelwerte zweier Gruppen.' },
+        { id: 'confidence', why: 'Zeigt, welche Werte für den Mittelwert aller Menschen plausibel sind.' },
+      ],
+      more: [
+        { id: 'median', why: 'Der mittlere Wert der Reihe nach; Ausreißer stören ihn kaum.' },
+        { id: 'describe', why: 'Mittelwert, Streuung und mehr auf einen Blick.' },
+        { id: 'weights', why: 'Mittelwert, bei dem manche Personen stärker zählen.' },
+      ],
+    },
+  },
+
+  variance: {
+    sample: {
+      kind: 'bridge', workshop: 'streuung', variant: 'variance', variable: LZ,
+      think: [
+        {
+          question: 'Alle lernen eine Stunde mehr. Was macht s²?', options: ['wird größer', 'bleibt gleich', 'wird kleiner'], correct: 1, step: 2,
+          explain: 'Die Mitte wandert um 1 Stunde mit. Im Abstand hebt sich die Stunde auf: (xᵢ + 1) − (x̄ + 1) = xᵢ − x̄. Die Varianz bleibt gleich.',
+          kurz: 'Verschieben ändert die Lage, nicht die Streuung.',
+          tryIt: { label: 'alle eine Stunde mehr', op: 'shift', column: 'x', value: 1 },
+          expect: { change: 'same' },
+        },
+        {
+          question: 'Alle lernen doppelt so lange. Was macht s²?', options: ['verdoppelt sich', 'vervierfacht sich', 'bleibt gleich'], correct: 1, step: 3,
+          explain: 'Jeder Abstand verdoppelt sich, jedes Quadrat vervierfacht sich (Schritt 3). Damit wird auch die Varianz viermal so groß.',
+          kurz: 'Doppelte Werte, vierfache Varianz.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 4 },
+        },
+        {
+          question: 'Eine Person lernt plötzlich 40 Stunden. Was macht s² in den Ausgangsdaten?', options: ['bleibt fast gleich', 'steigt', 'sinkt'], correct: 1, step: 4,
+          explain: 'Ihr Abstand zur Mitte wird groß, und das Quadrat macht ihn riesig (Schritt 3). Deshalb steigt die Quadratsumme (Schritt 4) und mit ihr s² (Schritt 5). In den Ausgangsdaten, wo 40 Stunden weit draußen liegen, wächst s² um fast die Hälfte; der Mittelwert steigt dort nur ein wenig.',
+          kurz: 'Wer weit weg ist, zählt im Quadrat viel mehr.',
+          tryIt: { label: 'die gewählte Person auf 40 Stunden', op: 'outlier', column: 'x', value: 40 },
+          expect: { change: 'up' },
+        },
+      ],
+    },
+    r: {
+      entry: 'variance', variant: 0, live: { fn: 'describe', show: ['mean', 'var'] },
+      tokens: { describe: DESCRIBE, '"mean"': MEAN_VALUE, '"var"': VAR_VALUE },
+      outputMap: [
+        { match: 'Mean', atlas: 'x̄', step: 1, explain: 'Mean ist die Mitte aus Schritt 1, von der aus alle Abstände gemessen werden.' },
+        { match: 'Variance', atlas: 's²', step: 5, explain: 'Variance ist die Varianz: die Quadratsumme geteilt durch n − 1.' },
+        N_MAP, MISSING_MAP,
+      ],
+      check: {
+        question: 'Welche Zahl in der Ausgabe ist die Varianz s²? Tippe sie an.', correct: 'Variance',
+        wrong: { Mean: 'Fast! Das ist der Mittelwert aus Schritt 1. Die Varianz steht unter Variance.', N: 'Fast! N ist die Zahl der Befragten. Die Varianz steht unter Variance.', Missing: 'Fast! Missing zählt fehlende Antworten. Die Varianz steht unter Variance.' },
+      },
+    },
+    next: {
+      next: { id: 'sd', why: 'Ziehst du die Wurzel aus der Varianz, bist du wieder in der Einheit der Daten.' },
+      before: [
+        { id: 'mean', why: 'Die Mitte, von der aus alle Abstände gemessen werden.' },
+        { id: 'ss', why: 'Die Summe der quadrierten Abstände, die geteilt wird.' },
+        { id: 'validn', why: 'n, aus dem die Freiheitsgrade n − 1 werden.' },
+      ],
+      after: [
+        { id: 'oneway_anova', why: 'Zerlegt die Streuung in Unterschiede zwischen und innerhalb von Gruppen.' },
+        { id: 'reliability', why: 'Vergleicht die Varianz einzelner Fragen mit der Varianz des Skalenwerts.' },
+      ],
+      more: [{ id: 'population_variance', why: 'Die Varianz aller Menschen, die s² aus einer Stichprobe schätzt.' }],
+    },
+  },
+
+  sd: {
+    sample: {
+      kind: 'bridge', workshop: 'streuung', variant: 'sd', variable: LZ,
+      think: [
+        {
+          question: 'Alle lernen eine Stunde mehr. Was macht s?', options: ['wird größer', 'bleibt gleich', 'wird kleiner'], correct: 1, step: 2,
+          explain: 'Die Mitte wandert um 1 Stunde mit. Im Abstand hebt sich die Stunde auf: (xᵢ + 1) − (x̄ + 1) = xᵢ − x̄. Die Streuung bleibt gleich.',
+          kurz: 'Verschieben ändert die Lage, nicht die Streuung.',
+          tryIt: { label: 'alle eine Stunde mehr', op: 'shift', column: 'x', value: 1 },
+          expect: { change: 'same' },
+        },
+        {
+          question: 'Alle lernen doppelt so lange. Was macht s?', options: ['bleibt gleich', 'verdoppelt sich', 'vervierfacht sich'], correct: 1, step: 6,
+          explain: 'Jeder Abstand verdoppelt sich, jedes Quadrat vervierfacht sich (Schritt 3). Die Varianz wird viermal so groß, die Wurzel daraus doppelt so groß (Schritt 6).',
+          kurz: 'Doppelte Werte, doppelte Standardabweichung, vierfache Varianz.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 2 },
+        },
+        {
+          question: 'Eine Person lernt plötzlich 40 Stunden. Was macht s in den Ausgangsdaten?', options: ['bleibt fast gleich', 'steigt', 'sinkt'], correct: 1, step: 6,
+          explain: 'Ihr Abstand zur Mitte wird groß, und das Quadrat macht ihn riesig (Schritt 3). Deshalb steigt die Quadratsumme (Schritt 4) und mit ihr s (Schritt 6). Liegen 40 Stunden weit draußen wie in den Ausgangsdaten, steigt s viel stärker als der Mittelwert, der nur ein wenig steigt.',
+          kurz: 'Wer weit weg ist, zählt im Quadrat viel mehr.',
+          tryIt: { label: 'die gewählte Person auf 40 Stunden', op: 'outlier', column: 'x', value: 40 },
+          expect: { change: 'up' },
+        },
+      ],
+    },
+    r: {
+      entry: 'sd', variant: 0, live: { fn: 'describe', show: ['mean', 'sd', 'var'] },
+      tokens: { describe: DESCRIBE, '"mean"': MEAN_VALUE, '"sd"': SD_VALUE, '"var"': VAR_VALUE },
+      outputMap: [
+        { match: 'Mean', atlas: 'x̄', step: 1, explain: 'Mean ist die Mitte aus Schritt 1, von der aus alle Abstände gemessen werden.' },
+        { match: 'SD', atlas: 's', step: 6, explain: 'SD heißt standard deviation, auf Deutsch Standardabweichung: das Ergebnis von Schritt 6, die Wurzel der Varianz.' },
+        { match: 'Variance', atlas: 's²', step: 5, explain: 'Variance ist die Varianz, die Zahl vor der Wurzel.' },
+        N_MAP, MISSING_MAP,
+      ],
+      check: {
+        question: 'Welche Zahl in der Ausgabe ist s? Tippe sie an.', correct: 'SD',
+        wrong: { Variance: 'Fast! Das ist die Varianz, noch vor der Wurzel (Schritt 5).', Mean: 'Fast! Das ist der Mittelwert x̄ aus Schritt 1. s steht unter SD.', N: 'Fast! N ist die Zahl der Befragten. s steht unter SD.', Missing: 'Fast! Missing zählt fehlende Antworten. s steht unter SD.' },
+      },
+    },
+    next: {
+      next: { id: 'se', why: seSentence },
+      before: [
+        { id: 'variance', why: 'Die Varianz s², deren Wurzel s ist.' },
+        { id: 'mean', why: 'Die Mitte, von der aus alle Abstände gemessen werden.' },
+      ],
+      after: [
+        { id: 'z', why: 'Misst Abstände zur Mitte in Standardabweichungen.' },
+        { id: 'pearson', why: 'Teilt die Kovarianz durch die beiden Standardabweichungen.' },
+        { id: 'effect', why: 'Drückt Unterschiede zwischen Gruppen in Standardabweichungen aus.' },
+      ],
+      more: [
+        { id: 'describe', why: 'Mittelwert, Standardabweichung und mehr auf einen Blick.' },
+        { id: 'shape', why: 'Schiefe und Kurtosis beschreiben die Form, die s allein nicht zeigt.' },
+      ],
+    },
+  },
+
+  covariance: {
+    sample: {
+      kind: 'bridge', workshop: 'zusammenhang', variant: 'covariance', variable: LZ_WT,
+      think: [
+        {
+          question: 'Alle lösen im Wissenstest zwei Aufgaben mehr. Was macht die Kovarianz?', options: ['wird größer', 'bleibt gleich', 'wird kleiner'], correct: 1, step: 2,
+          explain: 'Die Mitte ȳ wandert um zwei Aufgaben mit. Die Abstände yᵢ − ȳ bleiben gleich, also auch alle Produkte.',
+          kurz: 'Verschieben ändert die Lage, nicht den Zusammenhang.',
+          tryIt: { label: 'alle zwei Aufgaben mehr', op: 'shift', column: 'y', value: 2 },
+          expect: { change: 'same' },
+        },
+        {
+          question: 'Der Wissenstest wird umgepolt: Aus vielen gelösten Aufgaben werden wenige. Was macht die Kovarianz?', options: ['bleibt gleich', 'wechselt das Vorzeichen', 'wird 0'], correct: 1, step: 3,
+          explain: 'Jeder Abstand yᵢ − ȳ dreht sein Vorzeichen. Damit dreht auch jedes Produkt sein Vorzeichen (Schritt 3), und die Summe wechselt ihr Vorzeichen.',
+          kurz: 'Umpolen dreht die Richtung, nicht die Stärke.',
+          tryIt: { label: 'Wissenstest umpolen (20 minus Aufgaben)', op: 'reverse', column: 'y' },
+          expect: { change: 'sign' },
+        },
+        {
+          question: 'Alle lernen doppelt so lange. Was macht die Kovarianz?', options: ['bleibt gleich', 'verdoppelt sich', 'vervierfacht sich'], correct: 1, step: 3,
+          explain: 'Jeder Abstand der Lernzeit verdoppelt sich, die Abstände im Wissenstest bleiben. Jedes Produkt verdoppelt sich, also auch die Kovarianz.',
+          kurz: 'Andere Einheit, andere Kovarianz.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 2 },
+        },
+      ],
+    },
+    r: {
+      entry: '', variant: 0, live: { fn: 'cov' },
+      tokens: {
+        kovarianz: { sym: 'kovarianz', term: 'Name der Ergebnisspalte', kurz: 'So heißt die Spalte mit dem Ergebnis. Den Namen wählst du selbst, links vom =.', fehler: 'Ohne Namen heißt die Spalte wie die Rechnung, etwa `cov(lernzeit, wissenstest)`.' },
+      },
+      outputMap: [
+        { match: 'kovarianz', atlas: 'sₓᵧ', step: 5, explain: 'Die Kovarianz: die Summe der Abweichungsprodukte geteilt durch n − 1. R zeigt hier drei gültige Stellen.' },
+        { match: '<dbl>', atlas: 'Kommazahl', explain: '<dbl> steht für double: Die Spalte enthält Kommazahlen.' },
+        { match: '1 × 1', atlas: 'eine Zeile, eine Spalte', explain: 'summarise() fasst alle Befragten zu einer Zeile zusammen. Die Tabelle hat eine Zeile und eine Spalte.' },
+      ],
+      check: {
+        question: 'Welche Zahl in der Ausgabe ist die Kovarianz sₓᵧ? Tippe sie an.', correct: 'kovarianz',
+        wrong: { '<dbl>': 'Fast! <dbl> nennt nur die Art der Spalte: Kommazahlen. Die Zahl steht eine Zeile tiefer.', '1 × 1': 'Fast! 1 × 1 heißt: eine Zeile, eine Spalte. Die Kovarianz steht unter kovarianz.' },
+      },
+    },
+    next: {
+      next: { id: 'pearson', why: 'Teilt die Kovarianz durch das Größtmögliche und macht sie so unabhängig von den Einheiten.' },
+      before: [
+        { id: 'mean', why: 'Die beiden Mitten x̄ und ȳ, von denen aus gemessen wird.' },
+        { id: 'pairs', why: 'x und y derselben Person bleiben zusammen.' },
+        { id: 'centering', why: 'Zentrierte Werte sind genau die Abstände zur Mitte.' },
+      ],
+      after: [{ id: 'linear_regression', why: 'Die Steigung der Regressionsgeraden ist die Kovarianz geteilt durch die Varianz von x.' }],
+      more: [{ id: 'correlation_matrix', why: 'Alle Zusammenhänge mehrerer Spalten auf einen Blick, als Korrelationen.' }],
+    },
+  },
+
+  pearson: {
+    sample: {
+      kind: 'bridge', workshop: 'zusammenhang', variant: 'pearson', variable: LZ_WT,
+      think: [
+        {
+          question: 'Alle lösen im Wissenstest zwei Aufgaben mehr. Was macht r?', options: ['wird größer', 'bleibt gleich', 'wird kleiner'], correct: 1, step: 2,
+          explain: 'Die Mitte ȳ wandert mit, die Abstände bleiben. Kovarianz und Standardabweichungen ändern sich nicht, also auch r nicht.',
+          kurz: 'Verschieben ändert die Lage, nicht den Zusammenhang.',
+          tryIt: { label: 'alle zwei Aufgaben mehr', op: 'shift', column: 'y', value: 2 },
+          expect: { change: 'same' },
+        },
+        {
+          question: 'Der Wissenstest wird umgepolt: Aus vielen gelösten Aufgaben werden wenige. Was macht r?', options: ['bleibt gleich', 'wechselt das Vorzeichen', 'wird 0'], correct: 1, step: 6,
+          explain: 'Jedes Produkt dreht sein Vorzeichen (Schritt 3), die Standardabweichungen bleiben. r behält seinen Betrag und wechselt das Vorzeichen (Schritt 6).',
+          kurz: 'Umpolen dreht die Richtung, nicht die Stärke.',
+          tryIt: { label: 'Wissenstest umpolen (20 minus Aufgaben)', op: 'reverse', column: 'y' },
+          expect: { change: 'sign' },
+        },
+        {
+          question: 'Die gewählte Person lernt plötzlich 40 Stunden, ihr Wissenstest bleibt. Was passiert mit dem Zusammenhang?', options: ['er wird stärker', 'er wird schwächer, je nach ihrem Wissenstest kaum oder deutlich', 'er bleibt genau gleich'], correct: 1, step: 6,
+          explain: 'Ein Wert weit weg von der Mitte erzeugt ein großes Produkt (Schritt 3) und vergrößert zugleich sₓ (Schritt 6). Passt ihr Wissenstest zur Richtung des Zusammenhangs (in den Ausgangsdaten: viele gelöste Aufgaben), ändert sich r kaum. Sonst wird r deutlich schwächer.',
+          kurz: 'Ein Ausreißer, der nicht zum Muster passt, kann r stark verschieben.',
+          tryIt: { label: 'die gewählte Person auf 40 Stunden', op: 'outlier', column: 'x', value: 40 },
+          expect: { change: 'weaker' },
+        },
+      ],
+    },
+    r: {
+      entry: 'pearson', variant: 0, live: { fn: 'pearson_cor' },
+      tokens: {
+        pearson_cor: { sym: 'pearson_cor()', term: T('pearson'), kurz: 'Berechnet r für zwei oder mehr Spalten, dazu den p-Wert und die Zahl der Befragten N.', fehler: 'Mit nur einer Spalte meldet mariposa: At least two variables must be specified for correlation analysis.' },
+      },
+      outputMap: [
+        { match: 'r', atlas: 'r', step: 6, explain: 'r ist die Pearson-Korrelation aus Schritt 6: die Kovarianz geteilt durch sₓ · sᵧ.' },
+        { match: 'p', atlas: 'p-Wert', explain: 'Ein kleiner p-Wert heißt: Gäbe es unter allen Menschen keinen Zusammenhang, wäre ein so großes r sehr überraschend. Die Sterne sagen dasselbe kurz.' },
+        { match: 'N', atlas: 'n', explain: 'N zählt die Befragten mit gültigen Werten in beiden Spalten.' },
+      ],
+      check: {
+        question: 'Welche Zahl in der Ausgabe ist r? Tippe sie an.', correct: 'r',
+        wrong: { p: 'Fast! Das ist der p-Wert. Er sagt, wie überraschend r wäre, wenn es keinen Zusammenhang gäbe. r steht hinter r =.', N: 'Fast! Das ist die Zahl der Befragten. r steht hinter r =.' },
+      },
+    },
+    next: {
+      next: { id: 'spearman', why: 'Dieselbe Idee mit Rängen: robuster gegen Ausreißer und passend für geordnete Kategorien.' },
+      before: [
+        { id: 'covariance', why: 'Die gemeinsame Streuung im Zähler.' },
+        { id: 'sd', why: 'Die beiden Standardabweichungen im Nenner.' },
+        { id: 'linear', why: 'r beschreibt nur gerade Muster.' },
+      ],
+      after: [
+        { id: 'partial_cor', why: 'r, bei dem eine dritte Variable herausgerechnet ist.' },
+        { id: 'correlation_matrix', why: 'Alle Korrelationen mehrerer Spalten auf einen Blick.' },
+      ],
+      more: [
+        { id: 'p_value', why: 'Wie überraschend wäre ein r dieser Größe, wenn es keinen Zusammenhang gäbe?' },
+        { id: 'effect', why: 'r selbst ist eine Effektgröße.' },
+      ],
+    },
+  },
+
+  se: {
+    sample: {
+      kind: 'analysis', columns: { x: 'lernzeit' },
+      kurz: 'Dieselbe Formel als Satz, jetzt mit s und n aller 200 Befragten des Lehrdatensatzes.',
+      value: c => { const x = sampleColumn(c.rows, c.columns.x?.[0] ?? 'lernzeit'), n = x.length, m = x.reduce((a, b) => a + b, 0) / n; return Math.sqrt(x.reduce((a, v) => a + (v - m) ** 2, 0) / (n - 1)) / Math.sqrt(n); },
+      result: c => {
+        const x = sampleColumn(c.rows, c.columns.x?.[0] ?? 'lernzeit'), n = x.length;
+        const mean = x.reduce((a, b) => a + b, 0) / n, s = Math.sqrt(x.reduce((a, v) => a + (v - mean) ** 2, 0) / (n - 1)), se = s / Math.sqrt(n);
+        return {
+          kurz: `Mit allen ${n} Befragten: SE = ${num(s)} / √${n} ≈ ${num(se)} h. Der Mittelwert ${num(mean)} h würde von Stichprobe zu Stichprobe typischerweise um etwa ${unit(se, 'Stunde', 'Stunden')} schwanken.`,
+          fachlich: `Standardfehler des Mittelwerts: SE = s / √n ≈ ${num(se)} h. Etwa zwei Standardfehler (genauer ${num(qt(0.975, n - 1))}) um den Mittelwert, von ${num(mean - 2 * se)} bis ${num(mean + 2 * se)} h, ergeben ungefähr ein 95-%-Konfidenzintervall.`,
+          zusatz: `Mit viermal so vielen Befragten wäre der Standardfehler halb so groß, etwa ${num(se / 2)} h.`,
+        };
+      },
+      voraussetzung: 'Die Formel gilt für unabhängige Befragte und einen ungewichteten Mittelwert. Für die 200 synthetischen Befragten nimmt der Atlas das an.',
+      think: [
+        {
+          question: 'Alle lernen doppelt so lange. Was macht der Standardfehler?', options: ['bleibt gleich', 'verdoppelt sich', 'halbiert sich'], correct: 1,
+          explain: 'SE = s / √n. s verdoppelt sich, n bleibt 200. Also verdoppelt sich auch der Standardfehler.',
+          kurz: 'Mehr Streuung, ungenauerer Mittelwert.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 2 },
+        },
+        {
+          question: 'Alle lernen eine Stunde mehr. Was macht der Standardfehler?', options: ['bleibt gleich', 'wird größer', 'wird kleiner'], correct: 0,
+          explain: 'Verschieben ändert s nicht, und n bleibt 200. Der Mittelwert wandert, seine Genauigkeit bleibt.',
+          kurz: 'Die Lage ändert nichts an der Genauigkeit.',
+          tryIt: { label: 'alle eine Stunde mehr', op: 'shift', column: 'x', value: 1 },
+          expect: { change: 'same' },
+        },
+        {
+          question: 'Eine Person lernt plötzlich 40 Stunden. Was macht der Standardfehler?', options: ['bleibt genau gleich', 'steigt', 'sinkt'], correct: 1,
+          explain: 'Der Ausreißer vergrößert s, n bleibt gleich. Also steigt auch s / √n.',
+          kurz: 'Ein Ausreißer macht den Mittelwert unsicherer.',
+          tryIt: { label: 'die gewählte Person auf 40 Stunden', op: 'outlier', column: 'x', value: 40 },
+          expect: { change: 'up' },
+        },
+      ],
+    },
+    r: {
+      entry: 'se', variant: 0, live: { fn: 'describe', show: ['mean', 'sd', 'se'] },
+      tokens: { describe: DESCRIBE, '"mean"': MEAN_VALUE, '"sd"': SD_VALUE, '"se"': SE_VALUE },
+      outputMap: [
+        { match: 'Mean', atlas: 'x̄', explain: 'Mean ist der Mittelwert, dessen Genauigkeit der Standardfehler beschreibt.' },
+        { match: 'SD', atlas: 's', explain: 'SD ist die Standardabweichung s im Zähler der Formel.' },
+        { match: 'SE', atlas: 'SE', explain: 'SE heißt standard error, auf Deutsch Standardfehler: s / √n.' },
+        N_MAP, MISSING_MAP,
+      ],
+      check: {
+        question: 'Welche Zahl in der Ausgabe ist der Standardfehler? Tippe sie an.', correct: 'SE',
+        wrong: { SD: 'Fast! Das ist s, die Streuung der einzelnen Befragten. Der Standardfehler ist s / √n und steht unter SE.', Mean: 'Fast! Das ist der Mittelwert selbst. Wie genau er ist, steht unter SE.', N: 'Fast! N ist die Zahl der Befragten, aus der √n wird. Der Standardfehler steht unter SE.', Missing: 'Fast! Missing zählt fehlende Antworten. Der Standardfehler steht unter SE.' },
+      },
+    },
+    next: {
+      next: { id: 'confidence', why: 'Mit dem Standardfehler baust du einen Bereich um den Mittelwert: die Werte, die für den Mittelwert aller Menschen plausibel sind.' },
+      before: [
+        { id: 'sd', why: 's steht im Zähler.' },
+        { id: 'validn', why: '√n steht im Nenner.' },
+        { id: 'sampling', why: 'Die Formel gilt für unabhängige Befragte.' },
+      ],
+      after: [
+        { id: 'test_statistic', why: 'Beim t-Test teilt man den Unterschied durch den Standardfehler.' },
+        { id: 't_test', why: 'Vergleicht Mittelwerte mit Blick auf ihre Genauigkeit.' },
+      ],
+      more: [
+        { id: 'sampling_distribution', why: 'Der Standardfehler ist die Standardabweichung dieser Verteilung.' },
+        { id: 'power', why: 'Kleinere Standardfehler machen Unterschiede leichter erkennbar.' },
+      ],
+    },
+  },
+
+  recode: {
+    r: {
+      entry: 'recode', variant: 0, live: { fn: 'rec_frequency' },
+      tokens: {
+        frequency: { sym: 'frequency()', term: T('frequency'), kurz: 'Zählt, wie oft jeder Code vorkommt, mit Prozenten. Mit ihr prüfst du, ob das Umkodieren geklappt hat.', fehler: 'Bei einer Spalte mit vielen verschiedenen Werten, etwa lernzeit, wird die Tabelle sehr lang. frequency() passt zu Antwortcodes.' },
+        lernplanung5_umgepolt: { sym: 'lernplanung5_umgepolt', term: 'Neue Variable', kurz: 'Der Name der neuen Spalte. _umgepolt sagt, was mit ihr passiert ist; die alte Spalte bleibt erhalten.', fehler: 'Gibst du der neuen Spalte den alten Namen, überschreibt mutate() die ursprünglichen Antworten.' },
+        '"rev"': { sym: '"rev"', term: T('recode'), kurz: 'Dreht die Skala um: Aus der kleinsten Antwort wird die größte und umgekehrt. Die Wertelabels wandern mit, anders als bei ausdrücklichen Regeln wie "1=5; 2=4; …".', fehler: 'Ohne Anführungszeichen meldet mariposa: `rules` must be a single character string. Schreib die Regel als Text: rules = "rev".' },
+      },
+      outputMap: [
+        { match: 'mean', atlas: 'Mittelwert der umgepolten Antworten', explain: 'Umpolen spiegelt die Skala an ihrer Mitte, also auch den Mittelwert: Bei 1 bis 5 wird aus x̄ der Wert 6 − x̄.' },
+        { match: 'sd', atlas: 'Standardabweichung', explain: 'Die Streuung bleibt beim Umpolen gleich, nur die Richtung dreht sich.' },
+        { match: 'skewness', atlas: 'Schiefe', explain: 'Die Schiefe wechselt beim Umpolen nur ihr Vorzeichen.' },
+        { match: 'Raw %', atlas: 'Anteil mit Code 1', explain: 'Raw % ist der Anteil an allen Befragten. In der ersten Zeile steht jetzt die Antwort, die vorher den höchsten Code hatte: Die Wertelabels sind mitgewandert.' },
+      ],
+      check: {
+        question: 'Welche Zahl zeigt den Mittelwert der umgepolten Antworten? Tippe sie an.', correct: 'mean',
+        wrong: { sd: 'Fast! Das ist die Standardabweichung. Sie bleibt beim Umpolen gleich; der Mittelwert steht hinter mean=.', skewness: 'Fast! Das ist die Schiefe; beim Umpolen wechselt nur ihr Vorzeichen. Der Mittelwert steht hinter mean=.', 'Raw %': 'Fast! Das ist der Anteil mit Code 1. Der Mittelwert steht oben hinter mean=.' },
+      },
+    },
+    next: {
+      next: { id: 'dummy', why: 'Mit rec() machst du aus einer Kategorie eine Spalte mit 0 und 1.' },
+      before: [
+        { id: 'labels', why: 'rec() vergibt neue Wertelabels in eckigen Klammern.' },
+        { id: 'missing', why: 'Fehlende Werte bleiben fehlend, wenn keine Regel sie erfasst.' },
+      ],
+      after: [
+        { id: 'item_score', why: 'Umgepolte Fragen gehen gemeinsam in den Skalenwert ein.' },
+        { id: 'pomps', why: 'Rechnet Skalen auf 0 bis 100 um.' },
+      ],
+      more: [
+        { id: 'conversion', why: 'Codes in Faktoren mit Antworttexten umwandeln.' },
+        { id: 'frequency', why: 'Prüft nach dem Umkodieren, wie oft jeder Code vorkommt.' },
+      ],
+    },
+  },
+
+  // ---------- Schrittkarten der Pilot-Werkstätten (IB19, Abschluss) ----------
+  // Die Erklärung bleibt die Schrittkarte; „Mit 200 Befragten“ zeigt die Brücke ihrer Werkstatt, gleich bei ihrem
+  // Schritt (`start`). Die Vorhersagen messen die Größe des Schritts selbst (`expect.measure`), nicht das Ergebnis
+  // der Werkstatt. „In R“ gibt es nicht: Der Katalog hat für diese Rechenschritte keinen eigenen Aufruf.
+
+  sum: {
+    sample: {
+      kind: 'bridge', workshop: 'mittel', variant: 'mean', variable: LZ, start: 1,
+      think: [
+        {
+          question: 'Alle lernen eine Stunde mehr. Was macht die Summe?', options: ['bleibt gleich', 'steigt um 1 Stunde', 'steigt um 200 Stunden'], correct: 2, step: 1,
+          explain: 'Jede der 200 Personen bringt eine Stunde mehr mit. Zusammengezählt sind das 200 Stunden mehr (Schritt 1).',
+          kurz: 'Eine Stunde mehr für alle heißt n Stunden mehr in der Summe.',
+          tryIt: { label: 'alle eine Stunde mehr', op: 'shift', column: 'x', value: 1 },
+          expect: { change: 'plus', amount: 200, measure: c => seriesOf(c).sum },
+        },
+        {
+          question: 'Alle lernen doppelt so lange. Was macht die Summe?', options: ['verdoppelt sich', 'steigt um 200 Stunden', 'bleibt gleich'], correct: 0, step: 1,
+          explain: 'Jeder Summand verdoppelt sich, also auch die Summe: 2 · 3 + 2 · 5 = 2 · (3 + 5) (Schritt 1). Der Mittelwert verdoppelt sich mit.',
+          kurz: 'Doppelte Werte, doppelte Summe.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 2, measure: c => seriesOf(c).sum },
+        },
+      ],
+    },
+    next: {
+      next: { id: 'mean', why: 'Die Summe geteilt durch die Zahl der Befragten: So viel bekäme jede Person bei gerechter Verteilung.' },
+      before: [
+        { id: 'series', why: 'Die Werte, die zusammengezählt werden.' },
+        { id: 'add', why: 'Das Zusammenzählen selbst, ein Wert nach dem anderen.' },
+      ],
+      after: [{ id: 'item_score', why: 'Die Antworten einer Person auf mehrere Fragen, zusammengezählt oder gemittelt.' }],
+      more: [
+        { id: 'ss', why: 'Auch hier wird zusammengezählt: die quadrierten Abstände zur Mitte.' },
+        { id: 'crossproduct_sum', why: 'Zählt die Abweichungsprodukte aller Personen zusammen.' },
+      ],
+    },
+  },
+
+  deviation: {
+    sample: {
+      kind: 'bridge', workshop: 'streuung', variant: 'sd', variable: LZ, start: 2,
+      think: [
+        {
+          question: 'Alle lernen eine Stunde mehr. Was macht der Abstand jeder Person zur Mitte?', options: ['wird größer', 'bleibt gleich', 'wird kleiner'], correct: 1, step: 2,
+          explain: 'Die Mitte wandert um eine Stunde mit. Im Abstand hebt sich die Stunde auf: (xᵢ + 1) − (x̄ + 1) = xᵢ − x̄ (Schritt 2).',
+          kurz: 'Verschieben ändert die Lage, nicht die Abstände.',
+          tryIt: { label: 'alle eine Stunde mehr', op: 'shift', column: 'x', value: 1 },
+          expect: { change: 'same', measure: c => seriesOf(c).dev.reduce((a, d) => a + Math.abs(d), 0) },
+        },
+        {
+          question: 'Alle lernen doppelt so lange. Was macht der Abstand jeder Person zur Mitte?', options: ['bleibt gleich', 'verdoppelt sich', 'vervierfacht sich'], correct: 1, step: 2,
+          explain: 'Wert und Mitte verdoppeln sich, also auch ihre Differenz: 2xᵢ − 2x̄ = 2 · (xᵢ − x̄) (Schritt 2).',
+          kurz: 'Doppelte Werte, doppelte Abstände.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 2, measure: c => seriesOf(c).dev.reduce((a, d) => a + Math.abs(d), 0) },
+        },
+      ],
+    },
+    next: {
+      next: { id: 'squared_deviation', why: 'Jeder Abstand mit sich selbst malgenommen: So zählt die Seite nicht mehr, nur die Entfernung.' },
+      before: [
+        { id: 'series', why: 'Die Einzelwerte, von denen aus gemessen wird.' },
+        { id: 'mean', why: 'Der Bezugspunkt, der von jedem Wert abgezogen wird.' },
+        { id: 'subtract', why: 'Das Abziehen selbst: Wert minus Mittelwert.' },
+      ],
+      after: [
+        { id: 'crossproduct', why: 'Zwei Abstände derselben Person, malgenommen.' },
+        { id: 'centering', why: 'Dieselbe Rechnung für alle: Jeder Wert wird durch seinen Abstand zur Mitte ersetzt.' },
+      ],
+      more: [
+        { id: 'group_variation', why: 'Abstände zur Mitte der eigenen Gruppe und zur Mitte aller.' },
+        { id: 'shape', why: 'Schiefe und Wölbung beruhen auf Abständen zur Mitte.' },
+      ],
+    },
+  },
+
+  squared_deviation: {
+    sample: {
+      kind: 'bridge', workshop: 'streuung', variant: 'sd', variable: LZ, start: 3,
+      think: [
+        {
+          question: 'Alle lernen doppelt so lange. Was macht das Quadrat jedes Abstands?', options: ['verdoppelt sich', 'vervierfacht sich', 'bleibt gleich'], correct: 1, step: 3,
+          explain: 'Jeder Abstand verdoppelt sich, und das Quadrat macht daraus das Vierfache: (2 · 3)² = 36 = 4 · 9 (Schritt 3).',
+          kurz: 'Doppelte Abstände, vierfache Quadrate.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 4, measure: c => seriesOf(c).ss },
+        },
+        {
+          question: 'Alle lernen eine Stunde mehr. Was macht das Quadrat jedes Abstands?', options: ['wird größer', 'bleibt gleich', 'wird kleiner'], correct: 1, step: 3,
+          explain: 'Die Abstände zur Mitte bleiben gleich (Schritt 2), also auch ihre Quadrate (Schritt 3).',
+          kurz: 'Verschieben ändert keinen Abstand und kein Quadrat.',
+          tryIt: { label: 'alle eine Stunde mehr', op: 'shift', column: 'x', value: 1 },
+          expect: { change: 'same', measure: c => seriesOf(c).ss },
+        },
+      ],
+    },
+    next: {
+      next: { id: 'ss', why: 'Alle Quadrate zusammengezählt: die Quadratsumme.' },
+      before: [
+        { id: 'deviation', why: 'Der Abstand mit Vorzeichen, der quadriert wird.' },
+        { id: 'square', why: 'Das Quadrieren selbst: eine Zahl mit sich selbst malnehmen.' },
+      ],
+      after: [{ id: 'variance', why: 'Die Quadrate, gerecht auf n − 1 verteilt.' }],
+    },
+  },
+
+  df: {
+    sample: {
+      kind: 'bridge', workshop: 'streuung', variant: 'sd', variable: LZ, start: 5,
+      think: [
+        {
+          question: 'Alle lernen doppelt so lange. Was macht n − 1?', options: ['verdoppelt sich', 'bleibt gleich', 'sinkt'], correct: 1, step: 5,
+          explain: 'n − 1 zählt die Befragten, nicht ihre Werte. Bei 200 Befragten bleibt es 199, egal wie lange sie lernen (Schritt 5).',
+          kurz: 'Die Freiheitsgrade hängen nur von der Zahl der Befragten ab.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'same', measure: c => c.rows.length - 1 },
+        },
+        {
+          question: 'Eine Person lernt plötzlich 40 Stunden. Was macht n − 1?', options: ['steigt', 'bleibt gleich', 'sinkt'], correct: 1, step: 5,
+          explain: 'Die Person bleibt eine Person. Ihr Wert ändert die Quadratsumme (Schritt 4), aber nicht die Zahl, durch die geteilt wird (Schritt 5).',
+          kurz: 'Ein anderer Wert ist keine weitere Person.',
+          tryIt: { label: 'die gewählte Person auf 40 Stunden', op: 'outlier', column: 'x', value: 40 },
+          expect: { change: 'same', measure: c => c.rows.length - 1 },
+        },
+      ],
+    },
+    next: {
+      next: { id: 'variance', why: 'Die Quadratsumme geteilt durch n − 1.' },
+      before: [
+        { id: 'validn', why: 'n, die Zahl der gültigen Werte.' },
+        { id: 'mean', why: 'Der Mittelwert, der aus denselben Daten geschätzt ist und so einen Freiheitsgrad bindet.' },
+        { id: 'subtract', why: 'Von n wird eins abgezogen.' },
+      ],
+      after: [
+        { id: 'covariance', why: 'Teilt die Summe der Abweichungsprodukte ebenfalls durch n − 1.' },
+        { id: 'general_df', why: 'Freiheitsgrade allgemein: wie viele Werte nach den Schätzungen noch frei sind.' },
+      ],
+    },
+  },
+
+  crossproduct: {
+    sample: {
+      kind: 'bridge', workshop: 'zusammenhang', variant: 'pearson', variable: LZ_WT, start: 3,
+      think: [
+        {
+          question: 'Der Wissenstest wird umgepolt: Aus vielen gelösten Aufgaben werden wenige. Was macht das Abweichungsprodukt jeder Person?', options: ['bleibt gleich', 'wechselt das Vorzeichen', 'wird 0'], correct: 1, step: 3,
+          explain: 'Jeder Abstand im Wissenstest dreht sein Vorzeichen, der Abstand in der Lernzeit nicht. Damit dreht auch jedes Produkt sein Vorzeichen (Schritt 3).',
+          kurz: 'Umpolen dreht die Vorzeichen, nicht die Größen.',
+          tryIt: { label: 'Wissenstest umpolen (20 minus Aufgaben)', op: 'reverse', column: 'y' },
+          expect: { change: 'sign', measure: c => prodSum(c) },
+        },
+        {
+          question: 'Alle lernen eine Stunde mehr. Was macht das Abweichungsprodukt jeder Person?', options: ['wird größer', 'bleibt gleich', 'wird kleiner'], correct: 1, step: 3,
+          explain: 'Die Mitte der Lernzeit wandert mit, jeder Abstand bleibt gleich (Schritt 2). Also bleibt auch jedes Produkt gleich (Schritt 3).',
+          kurz: 'Verschieben ändert keinen Abstand und kein Produkt.',
+          tryIt: { label: 'alle eine Stunde mehr', op: 'shift', column: 'x', value: 1 },
+          expect: { change: 'same', measure: c => prodSum(c) },
+        },
+      ],
+    },
+    next: {
+      next: { id: 'crossproduct_sum', why: 'Die Produkte aller Personen, zusammengezählt.' },
+      before: [
+        { id: 'pairs', why: 'x und y derselben Person bleiben zusammen.' },
+        { id: 'deviation', why: 'Die beiden Abstände zur Mitte, die malgenommen werden.' },
+        { id: 'multiply', why: 'Das Malnehmen selbst: Gleiche Vorzeichen ergeben Plus, verschiedene Minus.' },
+      ],
+      after: [{ id: 'covariance', why: 'Die Summe der Produkte, geteilt durch n − 1.' }],
+    },
+  },
+
+  crossproduct_sum: {
+    sample: {
+      kind: 'bridge', workshop: 'zusammenhang', variant: 'pearson', variable: LZ_WT, start: 4,
+      think: [
+        {
+          question: 'Alle lernen doppelt so lange. Was macht die Summe der Abweichungsprodukte?', options: ['bleibt gleich', 'verdoppelt sich', 'vervierfacht sich'], correct: 1, step: 4,
+          explain: 'Jeder Abstand in der Lernzeit verdoppelt sich, der im Wissenstest bleibt. So verdoppelt sich jedes Produkt und damit ihre Summe (Schritt 4).',
+          kurz: 'Doppelte Lernzeiten, doppelte Summe.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 2, measure: c => prodSum(c) },
+        },
+        {
+          question: 'Der Wissenstest wird umgepolt: Aus vielen gelösten Aufgaben werden wenige. Was macht die Summe der Abweichungsprodukte?', options: ['bleibt gleich', 'wechselt das Vorzeichen', 'wird 0'], correct: 1, step: 4,
+          explain: 'Jedes Produkt dreht sein Vorzeichen (Schritt 3), also auch ihre Summe (Schritt 4). Ihr Betrag bleibt gleich.',
+          kurz: 'Umpolen dreht die Richtung, nicht die Stärke.',
+          tryIt: { label: 'Wissenstest umpolen (20 minus Aufgaben)', op: 'reverse', column: 'y' },
+          expect: { change: 'sign', measure: c => prodSum(c) },
+        },
+      ],
+    },
+    next: {
+      next: { id: 'covariance', why: 'Die Summe geteilt durch n − 1: die Kovarianz.' },
+      before: [
+        { id: 'crossproduct', why: 'Das Produkt der beiden Abstände je Person.' },
+        { id: 'add', why: 'Das Zusammenzählen aller Produkte.' },
+      ],
+      after: [{ id: 'pearson', why: 'Die Kovarianz, geteilt durch sₓ · sᵧ.' }],
+    },
+  },
+
+  sd_product: {
+    sample: {
+      kind: 'bridge', workshop: 'zusammenhang', variant: 'pearson', variable: LZ_WT, start: 6,
+      think: [
+        {
+          question: 'Alle lernen doppelt so lange. Was macht sₓ · sᵧ?', options: ['bleibt gleich', 'verdoppelt sich', 'vervierfacht sich'], correct: 1, step: 6,
+          explain: 'sₓ verdoppelt sich mit den Lernzeiten, sᵧ bleibt. Also verdoppelt sich ihr Produkt (Schritt 6). Die Kovarianz verdoppelt sich genauso, deshalb bleibt r gleich.',
+          kurz: 'Der Nenner wächst mit der Einheit, genau wie die Kovarianz.',
+          tryIt: { label: 'alle doppelt so lange', op: 'double', column: 'x', value: 2 },
+          expect: { change: 'factor', factor: 2, measure: c => { const s = pairsOf(c); return s.sx * s.sy; } },
+        },
+        {
+          question: 'Der Wissenstest wird umgepolt: Aus vielen gelösten Aufgaben werden wenige. Was macht sₓ · sᵧ?', options: ['wechselt das Vorzeichen', 'bleibt gleich', 'wird 0'], correct: 1, step: 6,
+          explain: 'Umpolen spiegelt die Werte, ihre Streuung bleibt: sᵧ ändert sich nicht. Das Produkt bleibt gleich; nur die Kovarianz dreht ihr Vorzeichen (Schritt 6).',
+          kurz: 'Standardabweichungen sind nie negativ.',
+          tryIt: { label: 'Wissenstest umpolen (20 minus Aufgaben)', op: 'reverse', column: 'y' },
+          expect: { change: 'same', measure: c => { const s = pairsOf(c); return s.sx * s.sy; } },
+        },
+      ],
+    },
+    next: {
+      next: { id: 'pearson', why: 'Die Kovarianz geteilt durch sₓ · sᵧ: So wird aus ihr r, ohne Einheiten.' },
+      before: [
+        { id: 'sd', why: 'Die Standardabweichungen von x und y.' },
+        { id: 'multiply', why: 'Das Malnehmen der beiden Streuungen.' },
+      ],
+      after: [{ id: 'correlation_matrix', why: 'Viele Korrelationen auf einmal, jede mit ihrem eigenen Nenner.' }],
+    },
+  },
+};

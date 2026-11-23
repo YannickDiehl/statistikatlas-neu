@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototyp Sitzung 4: Daten sehen</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --ink:#1E2D3C; --txt:#2B3540; --paper:#FFFDF9; --side:#FFF6EC; --line:#EFE6DA; --rand:#978B7B; --mute:#5F6A74;
+  --k:#FFD2BC; --k2:#F0A27E; --kh:#FFF0E8; --kd:#8a4a2c;
+  --blau:#86B9DE; --blaud:#2C6CA8; --blauh:#EAF5FC; --gruen:#8FCBA6; --gruend:#2f7a4f; --gruenh:#EDF8F1;
+  --gelb:#FFE7A3; --gelbd:#7a5c0c; --gelbh:#FFF6DA; --lila:#A79FE2; --lilad:#5b4fb0; --lilah:#F1EFFC; --rot:#a0452f; --roth:#fdeeea;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:76px;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--paper);color:var(--txt);font:17px/1.68 Nunito,system-ui,sans-serif}
+h1,h2,h3,h4,.fr{font-family:Fredoka,Nunito,sans-serif;color:var(--ink);font-weight:600;margin:0}
+code,pre,kbd,textarea{font-family:"JetBrains Mono",Menlo,monospace;font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+:not(pre)>code{background:#F1EEFA;color:#3B2F73;border-radius:5px;padding:1px 5px;font-size:.86em;white-space:nowrap}
+a{color:var(--blaud)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--blaud);outline-offset:2px;border-radius:6px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:8px 14px;border-radius:10px;z-index:20}
+.skip:focus{left:12px}
+.band{background:var(--ink);color:#fff;font-size:14px;padding:8px 24px;text-align:center}
+.band b{color:var(--gelb)}
+
+/* Gerüst */
+.top{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:18px;padding:10px 24px;background:#fff;border-bottom:2px solid var(--line)}
+.logo{font-family:Fredoka,sans-serif;font-size:20px;color:var(--ink);display:flex;gap:8px;align-items:center}
+.top ul{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+.top a{font-weight:700;color:var(--mute);text-decoration:none;padding:5px 12px;border-radius:10px;white-space:nowrap}
+.top a[aria-current]{background:var(--kh);color:var(--ink);box-shadow:inset 0 -3px 0 var(--k2)}
+.wrap{display:grid;grid-template-columns:240px minmax(0,1fr) 220px}
+.side{background:var(--side);padding:20px 14px}
+.side .ttl{font-family:Fredoka,sans-serif;font-size:18px;color:var(--ink);line-height:1.2;margin:0 6px 14px}
+.side ul{list-style:none;margin:0;padding:0}
+.sitzung{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:center;padding:6px 8px;border-radius:12px;margin-bottom:2px;text-decoration:none;color:inherit}
+.sitzung .t{display:block;font-weight:700;color:#3A4652;line-height:1.25;font-size:14.5px}
+.sitzung .z{display:block;font-size:12.5px;color:var(--mute);font-weight:600}
+.sitzung[aria-current]{background:#fff;box-shadow:0 2px 0 var(--line)}
+main{padding:26px 40px 90px;min-width:0;max-width:1240px}
+.toc{padding:26px 16px;font-size:14px;position:sticky;top:60px;align-self:start;max-height:calc(100vh - 70px);overflow:auto}
+.toc h2{font-size:15px;margin-bottom:6px}
+.toc ul{list-style:none;margin:0 0 8px;padding:0}
+.toc a{display:block;color:var(--mute);text-decoration:none;padding:2px 0 2px 10px;border-left:2px solid var(--line)}
+.toc a:hover{color:var(--ink);border-color:var(--k2)}
+.toc .grp{margin:10px 0 3px;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#6b747c}
+
+/* Steine */
+.st{position:relative;display:inline-grid;place-items:center;color:var(--ink);font-family:Fredoka,sans-serif;font-weight:600;border-radius:6px;background:var(--c,var(--k));box-shadow:0 2px 0 var(--c2,var(--k2));flex:none}
+.st::before{content:"";position:absolute;top:-5px;left:5px;right:5px;height:5px;border-radius:2px 2px 0 0;background:repeating-linear-gradient(90deg,var(--c2,var(--k2)) 0 7px,transparent 7px 12px)}
+.st.s{width:26px;height:23px;font-size:14px}.st.m{width:36px;height:31px;font-size:18px}.st.l{width:66px;height:58px;font-size:31px}
+.c1{--c:#BFE3F7;--c2:#86B9DE}.c2{--c:#CDEFD9;--c2:#8FCBA6}.c3{--c:#DCD6F8;--c2:#A79FE2}.c4{--c:#FFD2BC;--c2:#F0A27E}.c5{--c:#F7C9DA;--c2:#E39AB6}.c6{--c:#C6ECE8;--c2:#86CBC3}.c7{--c:#FFE7A3;--c2:#EFC867}.c8{--c:#E6D3F2;--c2:#BE9EDB}.c9{--c:#D8EBC4;--c2:#A8CC85}.c10{--c:#BFE3F7;--c2:#86B9DE}.c11{--c:#CDEFD9;--c2:#8FCBA6}
+
+/* Kopf */
+.ueber{font-size:12.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--kd)}
+.kopf{display:flex;gap:18px;align-items:center}
+.kopf h1{font-size:40px;line-height:1.05}
+.leit{display:flex;align-items:center;gap:12px;margin:18px 0 8px}
+.leit img{width:92px;flex:none}
+.bubble{border:2.5px solid var(--k2);border-radius:22px;padding:13px 20px;background:#fff;font-family:Fredoka,sans-serif;font-size:20px;color:var(--ink);position:relative;line-height:1.35;margin:0}
+.bubble::before{content:"";position:absolute;left:-11px;top:50%;width:17px;height:17px;background:#fff;border-left:2.5px solid var(--k2);border-bottom:2.5px solid var(--k2);transform:translateY(-50%) rotate(45deg)}
+.weg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0 8px;list-style:none;padding:0}
+.weg a{display:block;text-decoration:none;border-radius:14px;padding:10px 14px;border:2px solid var(--line);background:#fff;color:var(--txt);height:100%}
+.weg b{display:block;font-family:Fredoka,sans-serif;font-weight:600;color:var(--ink);font-size:17px}
+.weg small{color:var(--mute);font-weight:600;font-size:13.5px}
+.weg li:nth-child(1) a{border-color:var(--blau)}.weg li:nth-child(2) a{border-color:#E0C46A}.weg li:nth-child(3) a{border-color:var(--gruen)}
+.box-gruen{background:var(--gruenh);border-radius:16px;padding:14px 18px;margin-top:14px}
+.box-gruen h2{font-size:17px}
+.box-gruen ul{margin:6px 0 0;padding-left:20px}
+.so{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 18px;margin-top:12px;font-size:15px;background:#fff;border:2px dashed var(--line);border-radius:16px;padding:12px 16px}
+.so div{display:flex;gap:10px;align-items:flex-start}
+.so i{font-style:normal;flex:none;display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:8px;background:var(--side);font-weight:800;color:var(--ink);font-size:13px;padding:0 4px}
+
+/* Teile */
+.teil{display:flex;align-items:center;gap:12px;margin:54px 0 4px}
+.teil h2{font-size:13px;font-family:Nunito,sans-serif;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 12px}
+.teil.v h2{background:var(--blauh);color:var(--blaud)}.teil.a h2{background:var(--gelbh);color:var(--gelbd)}.teil.m h2{background:var(--gruenh);color:var(--gruend)}
+.teil hr{flex:1;border:0;border-top:2px dashed var(--line)}
+.teil-intro{display:flex;gap:12px;align-items:center;margin-top:8px}
+.teil-intro img{width:56px;flex:none}
+.teil-intro p{margin:0;color:var(--mute);font-weight:600}
+
+/* Karte */
+.karte{position:relative;background:#fff;border:2px solid var(--line);border-radius:20px;padding:22px 26px;margin-top:26px;box-shadow:0 3px 0 var(--line)}
+.karte-kopf{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.karte-kopf h3{font-size:24px;line-height:1.2;flex:1;min-width:200px}
+.art{font-size:12px;font-weight:800;border-radius:999px;padding:2px 10px;white-space:nowrap}
+.art.schaetzen{background:var(--lilah);color:var(--lilad)}.art.bild{background:var(--blauh);color:var(--blaud)}.art.anpassen{background:var(--gelbh);color:var(--gelbd)}.art.deuten{background:var(--gruenh);color:var(--gruend)}
+.figur{position:absolute;right:22px;top:-56px;width:56px}
+.lead{font-size:17.5px;margin:2px 0 0}
+.kurz{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;background:var(--blauh);border-radius:14px;padding:12px 16px;margin-top:16px}
+.kurz img{width:42px}
+.kurz p{margin:0}
+.kurz b.t{font-family:Fredoka,sans-serif;color:var(--ink);font-weight:600}
+details.genauer{margin-top:12px;border:2px solid var(--line);border-radius:14px;padding:0 16px;background:var(--paper)}
+details.genauer>summary{cursor:pointer;font-weight:800;color:var(--ink);padding:10px 0;list-style:none;display:flex;gap:8px;align-items:center}
+details.genauer>summary::-webkit-details-marker{display:none}
+details.genauer>summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--k);font-weight:800}
+details.genauer[open]>summary::before{content:"−"}
+details.genauer[open]{padding-bottom:12px}
+.verwechslung{margin:12px 0 0;padding:8px 14px;border-left:4px solid var(--k2);background:var(--kh);border-radius:0 12px 12px 0;font-size:16px}
+.leseart{border-left:4px solid var(--gruen);background:var(--gruenh);border-radius:0 12px 12px 0;padding:10px 16px;margin-top:14px}
+.leseart p{margin:0}
+.leseart b.t{color:var(--gruend)}
+.mehr{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-weight:700;text-decoration:none;color:var(--blaud);border:2px dashed var(--blau);border-radius:12px;padding:6px 12px;background:#fff;font-size:15.5px}
+.knopf{font-family:Fredoka,sans-serif;font-weight:600;background:var(--ink);color:#fff;border:2px solid var(--ink);border-radius:12px;padding:7px 16px}
+.knopf.hell{background:#fff;color:var(--ink);border-color:var(--rand)}
+.knopf[disabled]{opacity:.45;cursor:not-allowed}
+.reihe-knoepfe{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.rueck{margin:10px 0 0;min-height:1.5em;font-weight:700}
+.rueck.ok{color:var(--gruend)}.rueck.no{color:var(--rot)}
+.kurzueberlegen{margin-top:16px;background:var(--lilah);border-radius:16px;padding:14px 16px}
+.kurzueberlegen legend,.kurzueberlegen>p:first-child{font-weight:800;color:var(--ink);padding:0}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.radios{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.radios label{display:flex;align-items:center;gap:8px;border:2px solid var(--rand);background:#fff;border-radius:12px;padding:5px 12px;font-weight:700;cursor:pointer}
+.radios label:has(input:checked){border-color:var(--k2);background:var(--kh)}
+.radios input{accent-color:var(--kd)}
+.feld{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.feld label{font-weight:700}
+.feld input[type=text]{border:2px solid var(--rand);border-radius:10px;padding:5px 10px;width:120px;background:#fff}
+.hilfe-zeile{display:block;color:var(--mute);font-size:14.5px;margin-top:2px}
+table.daten{border-collapse:collapse;margin-top:8px;font-size:14.5px}
+table.daten th,table.daten td{border-bottom:1px solid var(--line);padding:3px 12px;text-align:right}
+table.daten th:first-child,table.daten td:first-child{text-align:left}
+table.daten caption{text-align:left;font-weight:700;padding-bottom:4px}
+.formel{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px;padding:12px 16px;border-radius:14px;background:var(--paper);border:2px solid var(--line)}
+.frac{display:inline-grid;text-align:center;font-family:Fredoka,sans-serif;font-size:19px;color:var(--ink);line-height:1.3}
+.frac span:first-child{border-bottom:2.5px solid var(--ink);padding:0 8px}
+.gross{font-family:Fredoka,sans-serif;font-size:24px;color:var(--ink)}
+svg{display:block}
+.grafik{margin-top:14px}
+.legende{display:flex;gap:16px;font-size:14px;color:var(--mute);margin-top:6px;flex-wrap:wrap}
+.legende i{display:inline-block;width:14px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* Skizze */
+.skizze{display:grid;grid-template-columns:repeat(11,1fr);gap:6px;height:210px;align-items:end;border-bottom:2px solid #9aa4ad;padding:0 4px;margin-top:14px;touch-action:none}
+.sk-col{position:relative;height:100%;border-radius:6px 6px 0 0;background:repeating-linear-gradient(0deg,transparent 0 20px,#f3eee6 20px 21px);cursor:ns-resize;border:1.5px dashed #978B7B;border-bottom:0}
+.sk-col:focus-visible{outline-offset:0}
+.sk-ich{position:absolute;left:0;right:0;bottom:0;background:repeating-linear-gradient(135deg,#BE9EDB 0 5px,#E6D3F2 5px 10px);border-radius:5px 5px 0 0;transition:height .15s}
+.sk-echt{position:absolute;left:22%;right:22%;bottom:0;background:var(--blau);border-radius:4px 4px 0 0;opacity:0;transition:opacity .4s}
+.aufgedeckt .sk-echt{opacity:1}
+.aufgedeckt .sk-ich{background:transparent;border:2.5px dashed #7d5fc4;border-bottom:0;z-index:2}
+.aufgedeckt .sk-col{cursor:default}
+.achse{display:grid;grid-template-columns:repeat(11,1fr);gap:6px;padding:0 4px;font-size:13px;color:var(--mute);text-align:center;font-weight:700}
+
+/* Code */
+.codewrap{position:relative;margin-top:12px}
+figure.codefig{margin:0}
+.codewrap .codekopf{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#F3EDE3;border:1.5px solid var(--line);border-bottom:0;border-radius:14px 14px 0 0;padding:5px 8px 5px 14px;font-size:13px;font-weight:800;color:var(--mute)}
+.codewrap .codekopf .tasten{display:flex;gap:6px;flex-wrap:wrap}
+.codewrap .codekopf button{border:1.5px solid var(--rand);background:#fff;border-radius:9px;padding:2px 10px;font-weight:700;font-size:13px;color:var(--ink)}
+pre.code{position:relative;background:#FBF8F3;border:1.5px solid var(--line);border-radius:0 0 14px 14px;padding:12px 16px;margin:0;font-size:14.5px;line-height:1.8;overflow-x:auto;white-space:pre}
+pre.code.solo{border-radius:14px}
+mark.stelle{background:var(--gelb);color:inherit;border-bottom:2px dashed #C9921C;border-radius:3px;padding:0 2px}
+.stellen-liste{font-size:14.5px;color:var(--mute);margin:6px 0 0}
+.ausgabe{background:#FBF8F3;color:#1E2D3C;border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;font-size:12.5px;line-height:1.5;overflow-x:auto;margin:10px 0 0;white-space:pre}
+.warnung{background:#fff6e6;border:2px solid #E0A93A;border-radius:12px;padding:8px 12px;font-family:"JetBrains Mono",monospace;font-size:13px;color:#6b4a06;margin-top:8px}
+
+/* Lesehilfe */
+.lesehilfe{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:17px}
+.lesehilfe span{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.lesehilfe b{border-radius:8px;padding:4px 8px;font-weight:600}
+.lesehilfe small{font-family:Nunito,sans-serif;font-size:12.5px;font-weight:800;color:var(--mute)}
+
+/* Schichten */
+.schichten{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:12px;align-items:start}
+.schritt-nav{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;list-style:none;padding:0}
+.schritt-nav button{border:2px solid var(--rand);background:#fff;border-radius:10px;padding:3px 10px;font-weight:800;font-size:14px;color:var(--ink)}
+.schritt-nav button[aria-current="step"]{border-color:var(--k2);background:var(--kh)}
+pre.schicht .z{display:block;padding:0 6px;border-radius:6px;transition:background .3s}
+pre.schicht .z[hidden]{display:none}
+pre.schicht .z.jetzt{background:#E3F4E8;box-shadow:inset 3px 0 0 var(--gruen)}
+.leinwand{background:#EBEBEB;border-radius:8px;padding:8px;position:relative;font-family:Arial,sans-serif}
+.erkl{font-size:16px;margin-top:10px}
+
+/* Aufgaben */
+.aufgabe{border-color:#E9D9A6}
+.leitfrage{font-family:Fredoka,sans-serif;font-size:20px;color:var(--ink);margin:2px 0 4px}
+.lernziel{font-size:14.5px;color:var(--mute);font-weight:700;margin:0}
+.festlegen{margin-top:14px;background:var(--lilah);border-radius:16px;padding:12px 16px}
+.schritte{margin:14px 0 0;padding-left:0;list-style:none;counter-reset:s}
+.schritte>li{counter-increment:s;position:relative;padding:4px 0 10px 42px}
+.schritte>li::before{content:counter(s);position:absolute;left:0;top:4px;width:28px;height:26px;border-radius:6px;background:var(--gelb);box-shadow:0 2px 0 #EFC867;display:grid;place-items:center;font-family:Fredoka,sans-serif;color:var(--ink)}
+.fragen{margin-top:14px;border-top:2px dashed var(--line);padding-top:12px}
+.frage{margin-top:12px}
+.frage>label,.frage legend{font-weight:800;color:var(--ink)}
+details.hilfe{margin-top:10px}
+details.hilfe>summary{cursor:pointer;font-weight:800;color:var(--blaud)}
+.ohne-grafik{font-size:14.5px;background:var(--side);border-radius:10px;padding:6px 12px;margin-top:10px}
+.raetsel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.raetsel figure{margin:0;border:2px solid var(--line);border-radius:14px;padding:10px;background:var(--paper)}
+.raetsel figcaption{font-family:Fredoka,sans-serif;font-size:18px;color:var(--ink)}
+.raetsel select{border:2px solid var(--rand);border-radius:10px;padding:4px 8px;background:#fff;font-weight:700;max-width:100%;margin-top:6px}
+.raetsel select[aria-invalid="true"]{border-color:var(--rot);background:var(--roth)}
+.raetsel select.passt{border-color:var(--gruend);background:var(--gruenh)}
+
+/* Live R */
+.live{margin-top:12px;border:2px solid var(--blau);border-radius:16px;padding:12px 14px;background:var(--blauh)}
+.live textarea{width:100%;min-height:150px;border:1.5px solid var(--rand);border-radius:10px;padding:10px;font-family:"JetBrains Mono",monospace;font-size:13.5px;background:#fff}
+.live .status{font-weight:700;color:var(--blaud);margin:6px 0}
+.live .bilder img,.live .bilder canvas{max-width:100%;border-radius:8px;border:1px solid var(--line);background:#fff;margin-top:8px}
+
+/* Code-Werkstatt */
+.allbus-band{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px;padding:12px 16px;border-radius:16px;background:var(--gelbh);border:2px solid #E0C46A}
+.allbus-band input{max-width:100%;min-width:0}
+.allbus-band.bereit{background:var(--gruenh);border-color:var(--gruen)}
+.allbus-band b{font-family:Fredoka,sans-serif;color:var(--ink);font-weight:600}
+.werkstatt{margin:12px 0 0;border-radius:16px;overflow:hidden;border:2px solid #E0D3BE;background:#fff;box-shadow:0 3px 0 #EFE6DA}
+.wk-kopf{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px 8px 14px;background:var(--gelbh);border-bottom:2px solid #EFE6DA;color:var(--ink)}
+.wk-titel{display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px}
+.wk-chip{font-family:Fredoka,sans-serif;font-weight:600;font-size:12.5px;background:#fff;border:1.5px solid #E0C46A;color:var(--ink);border-radius:999px;padding:1px 10px}
+.wk-kopf .tasten{display:flex;gap:6px;flex-wrap:wrap}
+.wk-kopf button{border:1.5px solid var(--rand);background:#fff;color:var(--ink);border-radius:9px;padding:3px 11px;font-weight:700;font-size:13.5px}
+.wk-kopf button.run{background:#8FCBA6;border-color:#5fa37a;color:#10261a;font-family:Fredoka,sans-serif;font-weight:600;font-size:14.5px;padding:4px 16px;box-shadow:0 2px 0 #5fa37a}
+.wk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:0}
+.wk-grid>*,.wk-feld,.wk-feld textarea{min-width:0}.werkstatt{max-width:100%}
+.wk-editor{display:grid;grid-template-columns:auto 1fr;background:#fff;min-height:150px}
+.wk-nr{padding:12px 8px 12px 12px;text-align:right;color:#9a8f80;background:#FBF6EE;font:13.5px/1.75 "JetBrains Mono",monospace;user-select:none;border-right:1.5px solid #EFE6DA}
+.wk-feld{position:relative;overflow:hidden}
+.wk-back,.wk-farbe,.wk-feld textarea{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0;margin:0;padding:12px 14px;font:13.5px/1.75 "JetBrains Mono",monospace;white-space:pre;tab-size:2;border:0;letter-spacing:0}
+.wk-back,.wk-farbe{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.wk-back{color:transparent}
+.wk-back mark{color:transparent;background:var(--gelb);border-bottom:2px dashed #C9921C;border-radius:3px}
+.wk-farbe{color:#2B3540}
+.wk-farbe .f{color:#2f7a4f}.wk-farbe .s{color:#b5541c}.wk-farbe .k{color:#8a8f96;font-style:italic}.wk-farbe .o{color:#8a4a2c}.wk-farbe .n{color:#5b4fb0}
+.wk-feld textarea{position:relative;display:block;width:100%;resize:none;background:transparent;color:transparent;caret-color:#8a4a2c;overflow-x:auto;overflow-y:hidden;outline:none}
+.wk-feld textarea::selection{background:rgba(134,185,222,.45);color:transparent}
+.wk-feld textarea:focus-visible{box-shadow:inset 0 0 0 3px var(--blaud)}
+.wk-aus{background:#FBF8F3;border-left:2px solid #EFE6DA;min-height:150px;display:flex;flex-direction:column}
+.wk-aus h4{margin:0;padding:6px 12px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--line);font-family:Nunito,sans-serif;font-weight:800}
+.wk-status{padding:10px 12px;font-size:14.5px;color:var(--mute)}
+.wk-text{margin:0;padding:8px 12px;font:12.5px/1.5 "JetBrains Mono",monospace;white-space:pre;overflow-x:auto;color:#1E2D3C}
+.wk-text .warn{color:#8a5a00}.wk-text .err{color:#a0452f;font-weight:700}
+.wk-bilder canvas{width:calc(100% - 24px);height:auto;display:block;margin:6px 12px 12px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.wk-hinweis{font-size:14px;color:var(--mute);margin:6px 0 0}
+.wk-tasten{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;color:var(--mute);margin:6px 0 0;padding:0;list-style:none}
+.wk-tasten kbd{font:12px "JetBrains Mono",monospace;background:#fff;border:1.5px solid var(--rand);border-bottom-width:3px;border-radius:6px;padding:0 5px;color:var(--ink)}
+.wk-leiste{display:flex;gap:6px;flex-wrap:wrap;padding:6px 10px;background:#FBF6EE;border-top:1.5px solid #EFE6DA}
+.wk-leiste button{font:13px "JetBrains Mono",monospace;border:1.5px solid var(--rand);background:#fff;border-radius:8px;padding:1px 9px;color:var(--ink)}
+.wk-leiste span{font-size:12.5px;color:var(--mute);align-self:center}
+.ebild{margin:12px 0 0;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px}
+.ebild img{display:block;width:100%;max-width:760px;height:auto;margin:0 auto}
+.ebild figcaption{font-size:15px;color:var(--txt);margin-top:8px}
+.ebild figcaption span{display:block;font-size:13px;color:var(--mute);margin-top:2px}
+.wk-status input[type=file]{max-width:100%;margin-top:6px}
+.sprung{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px;padding:12px 16px;border-radius:16px;background:var(--gelbh);border:2px solid #E0C46A}
+.sprung a{font-family:Fredoka,sans-serif;font-weight:600;text-decoration:none;background:var(--ink);color:#fff;border-radius:12px;padding:6px 14px}
+.thema{display:flex;align-items:center;gap:12px;margin:56px 0 0}
+.thema h2{font-size:28px}
+.thema .st{flex:none}
+.zur-grund{display:inline-block;margin-top:6px;font-weight:700;font-size:15px}
+.grund-block{margin-top:30px;border:2px solid #E9D9A6;border-radius:22px;background:#FFFCF3;padding:18px 20px 22px}
+.g-kopf{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.g-kopf h3{font-size:26px;line-height:1.15}
+.g-kopf .ueber{color:#8a6a12}
+.g-kopf .zur{margin-left:auto;font-weight:700;font-size:15px;text-decoration:none;border:2px dashed #E0C46A;border-radius:12px;padding:4px 12px;background:#fff;color:var(--gelbd)}
+.g-intro{margin:8px 0 0;color:var(--mute);font-weight:600}
+.grund-block .karte{margin-top:18px;box-shadow:none}
+.grund-block .karte-kopf h4{font-size:22px;line-height:1.2;flex:1;min-width:200px}
+.g-schritt{display:inline-grid;place-items:center;min-width:42px;height:30px;padding:0 8px;border-radius:9px;background:var(--gelbh);border:2px solid #E0C46A;font-family:Fredoka,sans-serif;font-weight:600;color:var(--ink);font-size:16px}
+.probier{margin-top:16px;border-top:2px dashed var(--line);padding-top:12px}
+.probier>summary{cursor:pointer;font-weight:700;color:var(--ink);list-style-position:inside}
+.probier>summary small{font-weight:600;color:var(--mute)}
+.probier>p{margin:8px 0 0}
+.ziel{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;margin-top:12px;background:var(--blauh);border-radius:14px;padding:12px 16px}
+.ziel .st{margin-top:4px}
+.ziel p{margin:0}
+.grundlage{font-size:15px;margin-top:6px}
+.grundlage a{font-weight:700}
+.wdh{font-size:12px;font-weight:800;border-radius:999px;padding:2px 10px;background:#E5E9EE;color:#3A4652;white-space:nowrap}
+
+/* Mitnehmen */
+.wichtig{background:var(--gruenh);border-radius:18px;padding:16px 22px;margin-top:22px}
+.wichtig li{margin:5px 0}
+@media (max-width:1150px){.toc{display:none}.wrap{grid-template-columns:220px minmax(0,1fr)}}
+@media (max-width:800px){
+  .wrap{grid-template-columns:minmax(0,1fr)}.side{display:none}main{padding:18px 16px 70px}
+  .weg,.so,.schichten,.raetsel{grid-template-columns:minmax(0,1fr)}
+  .kopf h1{font-size:32px}.leit img{width:62px}.bubble{font-size:17px}.karte{padding:18px 16px}.figur{right:12px;width:48px;top-48px}
+  .skizze,.achse{gap:3px}.karte-kopf h3{font-size:21px}
+  :not(pre)>code{white-space:normal;overflow-wrap:anywhere}
+  .top{gap:8px;padding:8px 12px}.top a{padding:4px 7px;font-size:15px}.logo{font-size:16px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<div class="band" role="note"><b>Variante: Grundlage direkt vor ihrer Aufgabe (v11).</b> Prototyp zum Besprechen. Echte ALLBUS-Zahlen, Codevorlagen in R geprüft, noch nicht im Atlas eingebaut.</div>
+<header class="top">
+  <div class="logo"><span class="st s c4" aria-hidden="true"></span>Statistikatlas</div>
+  <nav aria-label="Bereiche"><ul><li><a href="#" aria-current="page">Lernpfad</a></li><li><a href="#">Freie Karte</a></li></ul></nav>
+</header>
+
+<div class="wrap">
+<nav class="side" aria-label="Sitzungen">
+  <div class="ttl">Statistik als Entscheidungshilfe</div>
+  <ul>
+  <li><a class="sitzung" href="#"><span class="st m c1" aria-hidden="true">1</span><span><span class="t">Einstieg</span><span class="z">erledigt</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c2" aria-hidden="true">2</span><span><span class="t">Vom Fragebogen zum Datensatz</span><span class="z">erledigt</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c3" aria-hidden="true">3</span><span><span class="t">Erste Auszählung</span><span class="z">erledigt</span></span></a></li>
+  <li><a class="sitzung" href="#" aria-current="page"><span class="st m c4" aria-hidden="true">4</span><span><span class="t">Daten sehen</span><span class="z">in Arbeit</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c5" aria-hidden="true">5</span><span><span class="t">Kreuztabellen</span><span class="z">offen</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c6" aria-hidden="true">6</span><span><span class="t">Gewichtung und Zusammenhang</span><span class="z">offen</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c7" aria-hidden="true">7</span><span><span class="t">Mittelwerte vergleichen</span><span class="z">offen</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c8" aria-hidden="true">8</span><span><span class="t">Index und Skala</span><span class="z">offen</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c9" aria-hidden="true">9</span><span><span class="t">Lineare Regression</span><span class="z">offen</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c10" aria-hidden="true">10</span><span><span class="t">Regression vertiefen</span><span class="z">offen</span></span></a></li>
+  <li><a class="sitzung" href="#"><span class="st m c11" aria-hidden="true">11</span><span><span class="t">Logistische Regression</span><span class="z">offen</span></span></a></li>
+  </ul>
+</nav>
+
+<main id="inhalt" tabindex="-1">
+  <div class="kopf">
+    <span class="st l c4" aria-hidden="true">4</span>
+    <div><div class="ueber">Sitzung 4</div><h1>Daten sehen</h1></div>
+  </div>
+  <div class="leit">
+    <img src="./hallo.svg" alt="">
+    <p class="bubble">Welche Formen können Antworten haben – und wie zeigst du sie, ohne dass die Grafik mehr verspricht als die Daten?</p>
+  </div>
+
+  <nav aria-label="Ablauf der Sitzung">
+  <ul class="weg">
+    <li><a href="#werkzeug"><b>Vorweg: R lesen</b><small>Startblock, Kette, Schichten</small></a></li>
+    <li><a href="#thema1"><b>Vier Themen</b><small>je erst die Grundlage, dann die Aufgabe; im Seminar direkt zur Aufgabe springen</small></a></li>
+    <li><a href="#ueberblick"><b>Zum Schluss</b><small>Überblick, Wichtigstes, Selbsttest, Skript</small></a></li>
+  </ul>
+  </nav>
+
+  <section class="box-gruen" aria-labelledby="ziele-h">
+    <h2 id="ziele-h">Was du nach dieser Sitzung kannst</h2>
+    <ul>
+      <li>eine Verteilung lesen: Wo liegt der Gipfel, wie breit ist sie, läuft sie zu einer Seite aus?</li>
+      <li>typische Formen erkennen: symmetrisch, linksschief, rechtsschief, mehrgipflig</li>
+      <li>Mittelwert, Median und Boxplot im Bild verstehen und wissen, wann der Mittelwert in die Irre führt</li>
+      <li>zur Frage die passende Grafik wählen: Balken, Histogramm, Boxplots, Balken auf 100 %, Punkte</li>
+      <li>erkennen, wann eine Grafik mehr verspricht als die Daten</li>
+      <li>eine Kette in R lesen und anpassen: mit <code>%&gt;%</code> Daten weiterreichen, mit <code>to_label()</code> Codes in Wörter übersetzen, ab <code>ggplot()</code> mit <code>+</code> Schichten auflegen, mit <code>drop_na()</code> fehlende Werte ausdrücklich weglassen</li>
+      <li>erklären, warum Hineinzoomen und Abschneiden zu verschiedenen Ergebnissen führen</li>
+    </ul>
+    <p class="grundlage">Schon bekannt und hier nur kurz erinnert: der Startblock (Sitzung 1), die Pipe mit einem Schritt wie <code>allbus %&gt;% filter(mode == 4)</code> (Sitzung 2), <code>frequency()</code>, <code>describe()</code>, Median und fehlende Werte (Sitzung 3). Solche Stellen tragen ein graues Schild „kennst du aus Sitzung …“.</p>
+  </section>
+
+  <section class="so" aria-label="So arbeitest du mit dieser Seite">
+    <div><i aria-hidden="true">+</i><span><b>Genauer erklärt</b> klappt Hintergründe auf. Lies sie, wenn dir etwas zu schnell geht.</span></div>
+    <div><i aria-hidden="true">?</i><span><b>Kurz überlegen</b> heißt: erst selbst festlegen, dann auflösen. Danebenliegen gehört dazu.</span></div>
+    <div><i aria-hidden="true">▶</i><span>In der <b>Code-Werkstatt</b> darfst du schreiben und ausprobieren. <b>Ausführen</b> zeigt sofort, was R ausgibt. Kaputt machen kannst du nichts: <b>Zurücksetzen</b> holt die Vorlage zurück. Die Tastenkürzel sind dieselben wie in RStudio, etwa für die Pipe <code>%&gt;%</code>.</span></div>
+    <div><i aria-hidden="true">ab</i><span><mark class="stelle">Markierte Stellen</mark> passt du an. Sobald du eine geändert hast, verschwindet ihre Markierung. <b>Kopieren</b> nimmt deinen Code mit nach RStudio.</span></div>
+  </section>
+
+  <!-- ===================== WERKZEUG ===================== -->
+  <div class="teil a" id="werkzeug"><h2>Vorweg: R lesen</h2><hr></div>
+  <div class="sprung" id="sprung"><span><b>Im Seminar?</b> Jedes Thema beginnt mit seiner Grundlage zum Vertiefen der Folien. Wer sie schon kann, springt direkt zur Aufgabe:</span><a href="#a1">Aufgabe 1</a><a href="#a2">Aufgabe 2</a><a href="#a3">Aufgabe 3</a><a href="#a4">Aufgabe 4</a></div>
+
+<section class="karte" id="r1" aria-labelledby="r1-h">
+    <div class="karte-kopf"><span class="st m c7" aria-hidden="true">R</span><h3 id="r1-h">R lesen: Startblock, Zeile, Kette</h3><span class="wdh">Startblock: kennst du aus Sitzung 1</span><span class="art bild">Code lesen</span></div>
+    <p class="lead">Den Startblock kennst du aus Sitzung 1: Er lädt die Werkzeuge und legt den ALLBUS unter dem Namen <code>allbus</code> ab. <code>allbus</code> ist der ganze Datensatz, im Bild eine Bauplatte: jede Variable ein Turm, jede Antwort ein Stein. In RStudio führst du ihn zu Beginn aus. In der Code-Werkstatt hier auf der Seite ist das schon erledigt.</p>
+    <div class="codewrap" data-code="start"></div>
+    <p class="hilfe-zeile">Rote Zeilen beim Laden, etwa „Attaching core tidyverse packages“, sind normal und kein Fehler. Öffne RStudio über dein Projekt. Findet R die Datei nicht, nimm wie in Sitzung 1 <code>allbus &lt;- read_spss(file.choose())</code>.</p>
+    <p style="margin:16px 0 0"><b>So liest du eine Zeile</b>, wie im Input heute: von links nach rechts, die Pipe <code>%&gt;%</code> sprichst du „und dann“.</p>
+    <div class="lesehilfe" role="img" aria-label="allbus, das Objekt. Pipe, und dann. frequency, die Funktion. In Klammern ls01, das Argument: womit die Funktion arbeitet.">
+      <span><b style="background:#E5E9EE">allbus</b><small>Objekt</small></span>
+      <span><b style="background:var(--gelbh)">%&gt;%</b><small>und dann</small></span>
+      <span><b style="background:var(--gruenh)">frequency(</b><small>Funktion: was passiert</small></span>
+      <span><b style="background:#FFE3D2">ls01</b><small>Argument: womit</small></span>
+      <span><b style="background:var(--gruenh)">)</b><small>&nbsp;</small></span>
+    </div>
+    <p style="margin:16px 0 0"><b>Neu heute: die Kette.</b> Die Pipe mit einem Schritt kennst du aus Sitzung 2. Jetzt stehen mehrere Schritte untereinander, und jede Zeile bekommt das Ergebnis der Zeile darüber in ihr erstes Feld. <code>allbus %&gt;% to_label(hs01) %&gt;% drop_na(hs01)</code> liest du so: Nimm <code>allbus</code>, und dann übersetze <code>hs01</code> in Wörter, und dann lass alle weg, die bei <code>hs01</code> nichts angegeben haben. Wie die Bauplatte dabei Zeile für Zeile weiterwandert, zeigt das Bild in <a href="#a1">Aufgabe 1</a>, Schritt 4.</p>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Eine <b>Funktion</b> sagt, was passiert, ihre <b>Argumente</b> sagen, womit und wie. Die <b>Pipe</b> <code>%&gt;%</code> setzt das Ergebnis links als erstes Argument in die Funktion rechts. Eine <b>Kette</b> sind mehrere solcher Schritte untereinander.</p></div>
+    <details class="genauer"><summary>Genauer erklärt: Objekt, Funktion, Argument</summary>
+      <p>Ein <b>Objekt</b> ist ein Name, unter dem R sich etwas merkt. <code>allbus</code> ist der ganze Datensatz: eine Bauplatte voller Türme. Mit <code>&lt;-</code> legst du etwas unter einem Namen ab: <code>allbus &lt;- read_spss(…)</code> heißt „lies die Datei und leg sie unter dem Namen allbus ab“.</p>
+      <p>Eine <b>Funktion</b> ist ein Werkzeug: Sie bekommt etwas, tut etwas und gibt etwas zurück. In den Klammern stehen die <b>Argumente</b>: womit und wie. Was du nicht angibst, ist voreingestellt. Mit <code>=</code> stellst du ein Argument ein, etwa <code>binwidth = 5</code>.</p>
+      <p>Die Pipe <code>%&gt;%</code> gibt das Ergebnis links als erstes Argument an die Funktion rechts weiter. <code>allbus %&gt;% frequency(ls01)</code> ist dasselbe wie <code>frequency(allbus, ls01)</code>. Darum steht der Datensatz in einer Kette nur einmal ganz oben. Mehr dazu im R-Workshop, Kapitel 3.</p>
+    </details>
+    <p class="verwechslung"><b>Häufige Verwechslung:</b> <code>=</code> und <code>&lt;-</code>. Mit <code>=</code> stellst du ein Argument ein (<code>binwidth = 5</code>), mit <code>&lt;-</code> legst du ein Objekt unter einem Namen ab (<code>allbus &lt;- read_spss(…)</code>).</p>
+  </section>
+
+<section class="karte" id="r2" aria-labelledby="r2-h">
+    <div class="karte-kopf"><span class="st m c7" aria-hidden="true">R</span><h3 id="r2-h">Eine Grafik entsteht in Schichten</h3><span class="art bild">Code lesen</span></div>
+    <p class="lead">So entsteht in R ein Balkendiagramm der Lebenszufriedenheit, wie im Input heute beim Vertrauen in den Bundestag. Geh die Schritte durch: Bei jedem kommt eine Zeile dazu.</p>
+    <ul class="schritt-nav" id="r2-nav" aria-label="Schritte"></ul>
+    <div class="schichten">
+      <div><pre class="code solo schicht" id="r2-code" tabindex="0" aria-label="R-Code, aktueller Stand"></pre></div>
+      <div><div class="leinwand" id="r2-bild" aria-hidden="true"></div><div id="r2-warn"></div></div>
+    </div>
+    <p class="erkl" id="r2-erkl" data-live-spaeter></p>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Bis zur Leinwand reichst du die Daten mit <code>%&gt;%</code> weiter („und dann“). Ab <code>ggplot()</code> legst du mit <code>+</code> Schicht auf Schicht. <code>aes()</code> sagt, welche Variable wohin kommt.</p></div>
+    <div class="codewrap" data-code="schichten"></div>
+    <p class="verwechslung"><b>Häufige Verwechslung:</b> <code>%&gt;%</code> statt <code>+</code> nach <code>ggplot()</code>. R meldet dann „`mapping` must be created by `aes()`“. Ab der Leinwand kommen Schichten dazu, und die verbindet das Plus.</p>
+  </section>
+
+  <div class="thema" id="thema1"><span class="st m c7" aria-hidden="true">1</span><h2>Thema 1: Balken und Häufigkeiten</h2></div>
+<section class="grund-block" id="g1" aria-labelledby="g1-h">
+    <div class="g-kopf"><span class="st m c7" aria-hidden="true">1</span><div><div class="ueber">Grundlage zu Aufgabe 1</div><h3 id="g1-h">Balken und Häufigkeiten</h3></div><a class="zur" href="#a1">Schon klar? Direkt zu Aufgabe 1 ↓</a></div>
+    <p class="g-intro">Was zeigt ein Balkendiagramm, und wann übertreibt es? Drei kurze Schritte, etwa 15 Minuten.</p>
+<!-- V1 -->
+  <section class="karte" id="v1" aria-labelledby="v1-h">
+    <div class="karte-kopf"><span class="g-schritt">1a</span><h4 id="v1-h">Erst schätzen, dann schauen</h4><span class="art schaetzen">Schätzen</span></div>
+    <p class="lead">Der ALLBUS 2023 hat über 5.000 Menschen gefragt: <em>„Wie zufrieden sind Sie gegenwärtig, alles in allem, mit Ihrem Leben?“</em> Geantwortet wird von 0 (ganz unzufrieden) bis 10 (ganz zufrieden). Bevor du die Daten siehst: Wie, glaubst du, verteilen sich die Antworten?</p>
+    <p class="hilfe-zeile" id="sk-anleitung">Zieh jede Säule auf die Höhe, die du erwartest. Mit der Tastatur: Säule mit Tab anwählen, dann Pfeil hoch oder runter. Am Ende zählt nur, wie hoch die Säulen im Vergleich zueinander sind.</p>
+    <div id="sk-wrap">
+      <div class="skizze" id="skizze" role="group" aria-label="Deine Skizze: elf Säulen für die Antworten 0 bis 10" aria-describedby="sk-anleitung"></div>
+      <div class="achse" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+      <div class="legende"><span><i style="background:repeating-linear-gradient(135deg,#BE9EDB 0 4px,#E6D3F2 4px 8px)"></i>deine Skizze</span><span><i style="background:var(--blau)"></i>die Daten (nach dem Aufdecken)</span></div>
+    </div>
+    <div class="reihe-knoepfe"><button class="knopf" id="sk-tipp">Tipp abgeben und aufdecken</button><button class="knopf hell" id="sk-neu" hidden>Neu schätzen</button></div>
+    <p class="rueck" id="sk-rueck" aria-live="polite"></p>
+    <div id="sk-nachher" hidden>
+      <div class="leseart"><p><b class="t">So liest du das:</b> Der höchste Balken steht bei <b>8</b>: Fast drei von zehn Befragten (29 %) antworten mit 8. Drei von vier antworten mit 7 oder mehr. Unter 5 bleibt nur etwa jede zwölfte Person. Die Antworten ballen sich rechts, nach links läuft die Verteilung flach aus.</p></div>
+      <table class="daten" id="sk-tab"><caption>Deine Skizze und die Daten, als Anteile</caption><thead><tr><th scope="col">Wert</th><th scope="col">deine Skizze</th><th scope="col">Daten</th><th scope="col">Befragte</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Eine <b>Verteilung</b> zeigt, wie viele Menschen welchen Wert angegeben haben. Der häufigste Wert heißt <b>Modus</b>, im Bild ist er der Gipfel. Eine Verteilung zeigt die ganze Form der Antworten, nicht nur eine Zahl.</p></div>
+    <details class="genauer"><summary>Genauer erklärt: Warum erst schätzen, und warum nicht gleich den Mittelwert?</summary>
+      <p>Der Mittelwert der Lebenszufriedenheit liegt bei 7,36. Diese eine Zahl verrät dir nicht, dass 8 die häufigste Antwort ist, und auch nicht, dass fast niemand ganz unten antwortet. Darum schaut man sich vor jeder Kennzahl die Verteilung an.</p>
+      <p>Das Schätzen hat einen eigenen Zweck: Wer vorher eine Erwartung festlegt, merkt, wo das eigene Bild von der Gesellschaft danebenliegt. Häufig liegt der geschätzte Gipfel bei 5 oder 6, also deutlich unter dem, was die Befragten tatsächlich sagen.</p>
+      <p>Die Zahlen sind ungewichtet; gewichtet ändert sich wenig (Mittelwert 7,40). Gewichtung ist Thema in Sitzung 6.</p>
+    </details>
+  </section>
+<!-- V2 -->
+  <section class="karte" id="v2" aria-labelledby="v2-h">
+    <div class="karte-kopf"><span class="g-schritt">1b</span><h4 id="v2-h">Vom Turm zum Stapel: Häufigkeiten als Balken</h4><span class="wdh">Tabelle: kennst du aus Sitzung 3, Balken: neu</span><span class="art bild">Im Bild</span></div>
+    <p class="lead">In R ist jede Variable ein <b>Turm</b>: Jeder Stein darin ist die Antwort einer Person. Hier siehst du den Turm <code>ls01</code> von 21 Befragten. Eine Person hat nicht geantwortet: Ihr Platz ist ein <b>leerer Stein</b> (<code>NA</code>). Sortier die Steine nach ihrem Wert und leg gleiche Werte aufeinander.</p>
+    <div class="grafik" id="turm-bild"></div>
+    <p class="sr" id="turm-text" aria-live="polite"></p>
+    <div class="reihe-knoepfe"><button class="knopf" id="turm-sort">Steine nach Wert sortieren</button><button class="knopf hell" id="turm-alle" hidden>Jetzt mit allen 5.164 Antworten</button></div>
+    <div id="turm-tab-wrap" hidden><table class="daten" id="turm-tab"><caption>Häufigkeitstabelle: der Stapel als Zahlen</caption><thead><tr><th scope="col">Wert</th><th scope="col">Steine (Anzahl)</th><th scope="col">Anteil</th></tr></thead><tbody></tbody></table></div>
+    <div class="formel" role="group" aria-label="Formel für die relative Häufigkeit">
+      <span><b>Anteil</b> eines Werts</span><span aria-hidden="true">=</span>
+      <span class="frac" aria-hidden="true"><span>Steine im Stapel</span><span>alle gültigen Steine</span></span><span aria-hidden="true">=</span>
+      <span class="frac" aria-hidden="true"><span>1.506</span><span>5.164</span></span><span aria-hidden="true">≈</span><span class="gross" aria-hidden="true">29 %</span>
+      <span class="sr">Anteil eines Werts gleich Steine im Stapel geteilt durch alle gültigen Steine. Für den Wert 8: 1.506 geteilt durch 5.164, also etwa 29 Prozent.</span>
+    </div>
+    <form class="kurzueberlegen" id="v2-frage"><p>Kurz überlegen</p>
+      <div class="feld"><label for="v2-in">Wie viel Prozent der gültigen Antworten sind eine 7?</label><input type="text" id="v2-in" inputmode="decimal" aria-describedby="v2-h2"><button class="knopf">Prüfen</button></div>
+      <span class="hilfe-zeile" id="v2-h2">998 Befragte haben 7 angegeben. Eine Kommazahl reicht, zum Beispiel 12,5.</span>
+      <p class="rueck" aria-live="polite"></p>
+    </form>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Ein <b>Balkendiagramm</b> ist ein Bild von gezählten Stapeln. Die Höhe eines Stapels ist die <b>absolute Häufigkeit</b>, in der Tabelle aus Sitzung 3 die Spalte N. Der Anteil an allen gültigen Antworten ist die <b>relative Häufigkeit</b> (Valid %).</p></div>
+    <details class="genauer"><summary>Genauer erklärt: Tabelle und Balken in R</summary>
+      <p>Die Tabelle dazu kennst du aus Sitzung 3: <code>allbus %&gt;% frequency(ls01)</code>. Die Spalte <b>N</b> ist die Höhe der Stapel (für die 8: 1.506), <b>Valid %</b> ihr Anteil an den 5.164 gültigen Antworten (29,16 %). Die 82 Personen ohne gültige Antwort stehen unter „Total missing“ und liegen auf keinem Stapel.</p>
+      <p>Neu ist der Schritt ins Bild: <code>geom_bar()</code> zählt die Steine selbst. Du gibst ihm keine Tabelle, sondern die Bauplatte, und sagst mit <code>aes(x = ls01)</code>, welcher Turm gezählt wird. So siehst du es in <a href="#r2">Vorweg: „Eine Grafik entsteht in Schichten“</a> und in <a href="#a1">Aufgabe 1</a>.</p>
+    </details>
+    <p class="verwechslung"><b>Häufige Verwechslung:</b> Die y-Achse von <code>geom_bar()</code> zeigt Anzahlen (<code>count</code>), keine Prozent. Wer beim Wert 8 „29 %“ sucht, findet dort 1.506. Die Form der Balken ist dieselbe.</p>
+    <a class="mehr" href="#">→ In der freien Karte: Häufigkeiten mit fünf Personen selbst auszählen</a>
+  </section>
+<!-- V7 -->
+  <section class="karte" id="v7" aria-labelledby="v7-h">
+    <img class="figur" src="./hinweis.svg" alt="">
+    <div class="karte-kopf"><span class="g-schritt">1c</span><h4 id="v7-h">Ehrlich zeigen: Achse und Bildunterschrift</h4><span class="art deuten">Deuten</span></div>
+    <p class="lead">Mittlere Lebenszufriedenheit im Westen: 7,44, im Osten: 7,18. Der Unterschied ist klein. Eine Grafik kann ihn trotzdem riesig aussehen lassen, ohne dass eine Zahl falsch ist.</p>
+    <form class="kurzueberlegen" id="v7-frage"><p>Kurz überlegen</p>
+      <div class="feld"><label for="v7-in">Ab welchem Startwert der Achse wirkt der West-Balken doppelt so lang wie der Ost-Balken?</label><input type="text" id="v7-in" inputmode="decimal"><button class="knopf">Festlegen</button></div>
+      <p class="rueck" aria-live="polite"></p></form>
+    <div class="feld"><label for="achse">Achse beginnt bei</label><input type="range" id="achse" min="0" max="7.1" step="0.1" value="0" style="flex:1;min-width:180px;accent-color:var(--kd)"><output id="achse-wert" for="achse" style="font-weight:800">0</output></div>
+    <div class="grafik" id="achse-bild"></div>
+    <p class="rueck" id="achse-text" style="color:var(--ink)"></p>
+    <div class="leseart" id="v7-loesung" hidden><p></p></div>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Bei Balken liest das Auge die <b>Länge</b>. Deshalb beginnen Balken bei 0. Wer die Achse abschneidet, lässt kleine Unterschiede riesig aussehen, ohne dass eine Zahl falsch ist. Wer abweicht, sagt es in der Bildunterschrift.</p></div>
+    <div class="box-gruen"><h4 style="font-size:17px">Das gehört in jede Bildunterschrift</h4>
+      <ul><li>Quelle: ALLBUS 2023</li><li>wie viele: n = 3.510 (West) und 1.654 (Ost)</li><li>gewichtet oder ungewichtet</li><li>wenn die Achse nicht bei 0 beginnt: ausdrücklich sagen</li></ul></div>
+    <p class="verwechslung"><b>Häufige Verwechslung:</b> „Doppelt so lang“ heißt nicht „doppelt so zufrieden“. Wie lang ein Balken wirkt, hängt davon ab, wo die Achse beginnt. Verglichen werden im Bild Längen, nicht Zufriedenheit.</p>
+  </section>
+  </section>
+
+<!-- A1 -->
+  <section class="karte aufgabe" id="a1" aria-labelledby="a1-h">
+    <div class="karte-kopf"><span class="st m c7" aria-hidden="true">A1</span><h3 id="a1-h">Aufgabe 1: Gesundheit zeigen</h3><span class="art anpassen">Pflicht</span></div>
+    <a class="zur-grund" href="#g1">↑ Grundlage 1 nachlesen</a>
+    <p class="leitfrage">Wie beurteilen die Befragten ihre Gesundheit?</p>
+    <div class="ziel"><span class="st s c7" aria-hidden="true"></span><div><p><b>Ziel:</b> Am Ende hast du eine beschriftete Grafik der Gesundheit ohne fehlende Werte und kannst sagen, welche Einschätzung am häufigsten ist, wie viele Antworten fehlen und wie groß n ist.</p><p class="grundlage">Grundlage: <a href="#g1">Grundlage 1, Balken und Häufigkeiten</a> und <a href="#r2">Schichten einer Grafik</a></p></div></div>
+    <form class="festlegen" data-festlegen="a1"><fieldset><legend><b>Erst festlegen:</b> Welche Antwort wird wohl am häufigsten gegeben?</legend>
+      <div class="radios"><label><input type="radio" name="a1f" value="sehr gut"> sehr gut</label><label><input type="radio" name="a1f" value="gut"> gut</label><label><input type="radio" name="a1f" value="zufriedenstellend"> zufriedenstellend</label><label><input type="radio" name="a1f" value="weniger gut"> weniger gut</label><label><input type="radio" name="a1f" value="schlecht"> schlecht</label></div></fieldset>
+      <div class="reihe-knoepfe"><button class="knopf">Tipp abgeben</button></div><p class="rueck" aria-live="polite"></p></form>
+    <ol class="schritte">
+      <li>Arbeite in der Code-Werkstatt direkt hier oder in RStudio. In RStudio führst du vorher den <a href="#r1">Startblock in „R lesen“</a> aus.</li>
+      <li>Führe die erste Vorlage aus. <code>to_label()</code> ersetzt die Codes durch ihre Wörter, damit auf der Achse „SEHR GUT“ statt 1 steht. <span class="wdh">neu heute</span>
+        <figure class="ebild"><img src="./s4-to-label.svg" alt="Oben links der Turm hs01 vom Typ dbl+lbl mit sechs Steinen, zum Beispiel sechs Befragte, von oben nach unten: 2 mit Aufkleber GUT, 1 mit SEHR GUT, 2 mit GUT, ein leerer gestrichelter Stein mit dem Aufkleber KEINE ANGABE, 3 mit ZUFRIEDENSTELLEND, 4 mit WENIGER GUT. Ein grüner Pfeil to_label() führt zum lila Turm hs01 vom Typ fct mit den Wörtern GUT, SEHR GUT, GUT, einem leeren Stein NA (orange umrandet), ZUFRIEDENSTELLEND und WENIGER GUT. Ein grüner Pfeil nach unten, beschriftet ggplot(aes(x = hs01)) + geom_bar(), führt zu Stapeln über einer Achse: SEHR GUT ein Stein, GUT zwei Steine, ZUFRIEDENSTELLEND ein Stein, WENIGER GUT ein Stein, SCHLECHT keiner, ganz rechts NA mit einem leeren Stein, orange umrandet. Darunter der Code allbus %&gt;% to_label(hs01) %&gt;% ggplot(aes(x = hs01)) + geom_bar()."><figcaption><code>to_label(hs01)</code> tauscht jede Zahl gegen ihren Aufkleber: Aus 2 wird GUT. Ein leerer Stein bleibt leer; sein Aufkleber KEINE ANGABE fällt ab, er ist jetzt einfach <code>NA</code>. <code>geom_bar()</code> stapelt gleiche Wörter zu Balken und gibt den leeren Steinen einen eigenen Balken ganz rechts: NA. Über den Türmen steht der Typ: <code>&lt;dbl+lbl&gt;</code> heißt Zahl mit Aufkleber, <code>&lt;fct&gt;</code> heißt Wörter. <span>Die Steine sind ein Beispiel mit sechs Befragten.</span></figcaption></figure>
+        <div class="codewrap" data-code="a1v" data-live></div></li>
+      <li>Schau ganz nach rechts: Dort steht ein Balken <b>NA</b>. (Überlappen sich in RStudio die Beschriftungen, zieh das Plots-Fenster breiter.) Das sind Personen ohne gültige Antwort. Bei Zahlen auf der Achse lässt ggplot fehlende Werte mit einer Warnung weg (wie bei der Lebenszufriedenheit in <a href="#r2">„Schichten“</a>), bei Wörtern zeigt es sie als eigenen Balken NA. Wie viele es sind, zeigt dir <code>allbus %&gt;% frequency(hs01)</code> in der Zeile „Total missing“ (kennst du aus Sitzung 3). Lass sie mit <code>drop_na(hs01)</code> weg und beschrifte die Grafik: Passe in der zweiten Vorlage die markierten Stellen an und führe sie aus.
+        <figure class="ebild"><img src="./s4-drop-na.svg" alt="Links eine Bauplatte, 5,246 × 579, mit den Türmen hs01 (Typ fct) und age und Auslassungspunkten für weitere Türme; gezeigt sind zum Beispiel fünf Befragte: GUT und 34; ein leerer Stein NA und 61, grau umrandet, die 61 ist grau; SEHR GUT und ein leerer Stein bei age, orange umrandet; ZUFRIEDENSTELLEND und 72; GUT und 45. Ein grüner Pfeil drop_na(hs01) führt zu einer Bauplatte, 5,209 × 579, mit vier Reihen: GUT und 34, SEHR GUT und leerem Stein bei age, ZUFRIEDENSTELLEND und 72, GUT und 45. Legende: grau umrandet heißt hs01 leer, die Reihe fällt weg; orange umrandet heißt nur age leer, die Reihe bleibt. Darunter der Code allbus %&gt;% to_label(hs01) %&gt;% drop_na(hs01)."><figcaption><code>drop_na(hs01)</code> schaut nur in den Turm <code>hs01</code>: Wer dort einen leeren Stein hat, fällt mit der ganzen Reihe weg (grau). Wer nur bei einer anderen Variable nichts angegeben hat, hier beim Alter, bleibt. Von 5.246 Reihen bleiben 5.209. R schreibt Tausender mit Komma: 5,246 heißt 5.246. <span>Die Steine sind ein Beispiel mit fünf Befragten; die Reihenzahlen stammen aus dem ALLBUS 2023.</span></figcaption></figure>
+        <div class="codewrap" data-code="a1n" data-live></div></li>
+      <li>Lies deine fertige Kette einmal von oben nach unten. Wo reicht <code>%&gt;%</code> die Daten weiter, wo legt <code>+</code> eine Schicht auf?
+        <figure class="ebild"><img src="./s4-kette.svg" alt="Links der Code untereinander: allbus %&gt;%, to_label(hs01) %&gt;%, drop_na(hs01) %&gt;%, ggplot(aes(x = hs01)) +, geom_bar(). Rechts neben jeder Zeile ihr Ergebnis, die ersten vier verbunden durch grüne Pfeile nach unten. Nach allbus: das Namensschild allbus und eine Bauplatte, 5,246 × 579. Nach to_label: dieselbe Bauplatte, ihr erster Turm ist jetzt lila, beschriftet hs01 in Wörtern. Nach drop_na: eine niedrigere Bauplatte, 5,209 × 579. Nach ggplot: eine leere graue Leinwand, nur mit der x-Achse: SEHR GUT, GUT, ZUFRIEDENSTELLEND, WENIGER GUT und SCHLECHT; eine y-Achse mit Zahlen gibt es noch nicht. Dann eine Trennlinie mit einem grünen Plus; darüber steht bis hier: Daten weiterreichen mit %&gt;%, darunter ab der Leinwand: Schichten mit +. Nach geom_bar(): dieselbe Leinwand, jetzt mit einer y-Achse von 0 bis 2000 und fünf dunkelgrauen Balken, SEHR GUT knapp 900, GUT gut 2000 und damit am höchsten, ZUFRIEDENSTELLEND knapp 1500, WENIGER GUT gut 600, SCHLECHT knapp 200."><figcaption>Deine Kette Zeile für Zeile. Bis <code>ggplot()</code> reicht <code>%&gt;%</code> die Bauplatte jeweils ins erste Feld der nächsten Funktion. <code>ggplot(aes(x = hs01))</code> legt die leere Leinwand an, mit den Stufen auf der x-Achse. <code>+ geom_bar()</code> legt die Balken darauf und bringt die Zählachse mit. <code>labs()</code> aus deiner Vorlage ist eine weitere Schicht und kommt ebenfalls mit <code>+</code> dazu. <span>Balkenhöhen: ALLBUS 2023, ungewichtet, n = 5.209.</span></figcaption></figure></li>
+      <li><b>Deuten: Wo beginnt die Achse?</b>
+        <form class="kurzueberlegen" id="a1-achse" style="margin-top:8px"><fieldset><legend>Eine Kollegin schlägt vor, die y-Achse deiner Grafik erst bei 500 beginnen zu lassen, damit man die Unterschiede besser sieht. Was antwortest du?</legend>
+          <div class="radios"><label><input type="radio" name="a1x" value="gut"> Gute Idee, dann sieht man mehr</label><label><input type="radio" name="a1x" value="null"> Lieber nicht, Balken beginnen bei 0</label><label><input type="radio" name="a1x" value="egal"> Egal, die Zahlen bleiben ja gleich</label></div></fieldset>
+          <div class="reihe-knoepfe"><button class="knopf">Begründung ansehen</button></div><p class="rueck" aria-live="polite"></p></form>
+        <p class="hilfe-zeile">Grundlage: <a href="#v7">Grundlage 1c: Ehrlich zeigen</a></p></li>
+    </ol>
+    <details class="probier"><summary>Weiterdenken in der Probier-Werkstatt <small>(für die Aufgabe nicht nötig)</small></summary><p>Für die Aufgabe reichen die Vorlagen oben. Hier ist Platz für eigene Fragen. Eine Idee: Wie schätzen Menschen ab 65 ihre Gesundheit ein? Die Probier-Werkstatt startet mit einem Vorschlag.</p><div class="codewrap" data-code="frei_a1" data-live></div></details>
+    <form class="fragen" id="a1-fragen" novalidate>
+      <fieldset class="frage"><legend>Was steht unter dem Balken ganz rechts in der ersten Grafik?</legend>
+        <div class="radios"><label><input type="radio" name="a1a" value="schlecht"> SCHLECHT</label><label><input type="radio" name="a1a" value="na"> NA</label><label><input type="radio" name="a1a" value="sehrgut"> SEHR GUT</label></div></fieldset>
+      <div class="frage feld"><label for="a1b">Wie viele Personen stecken im NA-Balken?</label><input type="text" id="a1b" inputmode="numeric" aria-describedby="a1b-h"><span class="hilfe-zeile" id="a1b-h">Tipp: <code>allbus %&gt;% frequency(hs01)</code>, Zeile „Total missing“.</span></div>
+      <div class="frage feld"><label for="a1c">Welche Zahl gehört nach <code>n =</code> in deine Bildunterschrift?</label><input type="text" id="a1c" inputmode="numeric"></div>
+      <fieldset class="frage"><legend>Welche Antwort ist am häufigsten?</legend>
+        <div class="radios"><label><input type="radio" name="a1d" value="sehr gut"> sehr gut</label><label><input type="radio" name="a1d" value="gut"> gut</label><label><input type="radio" name="a1d" value="zufriedenstellend"> zufriedenstellend</label></div></fieldset>
+      <div class="reihe-knoepfe"><button class="knopf">Antworten prüfen</button></div>
+      <div class="rueck" aria-live="polite"></div>
+    </form>
+    <details class="hilfe"><summary>Hilfe, Stufe 1: Denkanstoß</summary><p>Bei Wörtern auf der Achse zeigt ggplot fehlende Werte als eigenen Balken „NA“. <code>drop_na(hs01)</code> lässt genau diese Personen weg. Die Zahl für die Bildunterschrift sind alle, die übrig bleiben.</p></details>
+    <details class="hilfe"><summary>Hilfe, Stufe 2: Wo schaue ich?</summary><p>Führe <code>allbus %&gt;% frequency(hs01)</code> aus. Die Zeile „Total missing“ zählt den NA-Balken, „Total valid“ ist dein n. Den häufigsten Wert erkennst du an der größten Zahl in der Spalte N.</p></details>
+    <details class="hilfe"><summary>Hilfe, Stufe 3: Lösung</summary><p>Im NA-Balken stecken 37 Personen, übrig bleiben 5.209. Am häufigsten ist „gut“ (2.071 Personen, 40 %). In der zweiten Vorlage ersetzt du den Titel durch <code>"Gesundheitszustand"</code> und n durch <code>5.209</code>.</p></details>
+    <p class="ohne-grafik"><b>Ohne Grafik lösbar:</b> <code>allbus %&gt;% frequency(hs01)</code> zeigt dieselben Zahlen als Tabelle.</p>
+  </section>
+
+  <div class="thema" id="thema2"><span class="st m c7" aria-hidden="true">2</span><h2>Thema 2: Formen von Verteilungen</h2></div>
+<section class="grund-block" id="g2" aria-labelledby="g2-h">
+    <div class="g-kopf"><span class="st m c7" aria-hidden="true">2</span><div><div class="ueber">Grundlage zu Aufgabe 2</div><h3 id="g2-h">Formen von Verteilungen</h3></div><a class="zur" href="#a2">Schon klar? Direkt zu Aufgabe 2 ↓</a></div>
+    <p class="g-intro">Woran erkennt man eine Verteilung auf einen Blick? Etwa 10 Minuten.</p>
+<!-- V4: Formen -->
+  <section class="karte" id="v3" aria-labelledby="v3-h">
+    <img class="figur" src="./uebung.svg" alt="">
+    <div class="karte-kopf"><span class="g-schritt">2a</span><h4 id="v3-h">Welche Formen kann eine Verteilung haben?</h4><span class="art bild">Im Bild</span></div>
+    <p class="lead">Verteilungen haben typische Formen. Wer sie erkennt, kann eine Grafik in Sekunden lesen. Hier sind vier echte Beispiele aus dem ALLBUS 2023. Das Dreieck zeigt den Mittelwert, der gestrichelte Strich den Median (mehr dazu in Grundlage 4).</p><p class="hilfe-zeile">Jede Säule hat mindestens einen Stein, auch wenn nur wenige Personen dahinterstehen. Die genauen Zahlen stehen unter jedem Bild für den Screenreader und in „Genauer erklärt“.</p>
+    <div class="raetsel" id="formen"></div>
+    <h4 style="margin-top:20px;font-size:19px">Formen-Labor</h4>
+    <p style="margin:2px 0 0">Verändere die Form und beobachte, wohin Mittelwert und Median wandern. 40 Steine, Werte 0 bis 10.</p>
+    <div class="feld"><label for="lab-form">Form</label><input type="range" id="lab-form" min="0" max="4" step="1" value="2" style="flex:1;min-width:180px;accent-color:var(--kd)" aria-valuetext="symmetrisch"><label style="font-weight:700"><input type="checkbox" id="lab-zwei"> zwei Gipfel</label></div>
+    <div class="grafik" id="lab-bild"></div>
+    <p class="rueck" id="lab-text" data-live-spaeter style="color:var(--ink)"></p>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Die <b>Schiefe</b> sagt, ob eine Verteilung zu einer Seite flach ausläuft. Eine Verteilung heißt nach der Seite, auf der sie <b>ausläuft</b>, nicht nach ihrem Gipfel. Der Mittelwert wird vom Auslauf mitgezogen, der Median kaum.</p></div>
+    <form class="kurzueberlegen" id="v3-frage"><fieldset><legend>Kurz überlegen: Beim Einkommen verdienen wenige Menschen sehr viel. Welche Form erwartest du?</legend>
+      <div class="radios"><label><input type="radio" name="v3" value="links"> linksschief</label><label><input type="radio" name="v3" value="sym"> symmetrisch</label><label><input type="radio" name="v3" value="rechts"> rechtsschief</label></div></fieldset>
+      <div class="reihe-knoepfe"><button class="knopf">Auflösen</button></div><p class="rueck" aria-live="polite"></p></form>
+    <p style="margin:16px 0 0"><b>Was die Form über die Frage verrät:</b> Zähl die Stufen (fünf, sieben, zehn oder sehr viele Werte), such den Gipfel und achte auf Häufungen. Bei offenen Zahlenangaben runden Menschen, dann ragen runde Werte wie 40 heraus.</p>
+    <details class="genauer"><summary>Genauer erklärt: Schiefe als Zahl und was die Form inhaltlich bedeutet</summary>
+      <p><code>describe()</code> aus mariposa gibt die Schiefe als Zahl aus (<em>Skewness</em>). Negativ heißt linksschief (Lebenszufriedenheit: −1,07), positiv heißt rechtsschief, nahe 0 heißt ungefähr symmetrisch. Als grobe Faustregel gilt ein Betrag unter 0,5 als ungefähr symmetrisch.</p><p><b>Aber Vorsicht:</b> Die Schiefe als Zahl sieht keine Gipfel. Die Leihmutterschaft hat eine Schiefe von +0,28 und wäre nach der Faustregel symmetrisch, obwohl sie deutlich mehrgipflig ist. Darum gilt: erst anschauen, dann rechnen. (Im Datensatz ist <code>vm18</code> als 1 bis 7 gespeichert; −3 entspricht 1.)</p>
+      <p>Die Form ist eine inhaltliche Aussage: Linksschief heißt hier, dass die meisten zufrieden sind und wenige sehr unzufrieden. Mehrgipflig heißt oft, dass eine Gesellschaft bei einer Frage gespalten ist. Ein Mittelwert allein würde dann Einigkeit vortäuschen, wo es keine gibt.</p>
+      <p>Bei schiefen Verteilungen berichtest du den Median mit, weil der Mittelwert in Richtung des Auslaufs gezogen wird.</p>
+    </details>
+    <p class="verwechslung"><b>Häufige Verwechslung:</b> „Linksschief“ heißt nicht „die meisten sind links“. Bei der Lebenszufriedenheit stehen die meisten rechts. Die Verteilung läuft nur links flach aus.</p>
+    <a class="mehr" href="#">→ In der freien Karte: Schiefe mit eigenen Daten ausprobieren</a>
+  </section>
+  </section>
+
+<!-- A2 -->
+  <section class="karte aufgabe" id="a2" aria-labelledby="a2-h">
+    <div class="karte-kopf"><span class="st m c7" aria-hidden="true">A2</span><h3 id="a2-h">Aufgabe 2: Der Rätselkasten</h3><span class="art deuten">Zusatz</span></div>
+    <a class="zur-grund" href="#g2">↑ Grundlage 2 nachlesen</a>
+    <p class="leitfrage">Welche Frage steckt hinter welcher Form?</p>
+    <div class="ziel"><span class="st s c7" aria-hidden="true"></span><div><p><b>Ziel:</b> Am Ende erkennst du an Stufenzahl, Gipfel und Häufungen, welche Frage hinter einer Verteilung steckt.</p><p class="grundlage">Grundlage: <a href="#g2">Grundlage 2, Formen von Verteilungen</a></p></div></div>
+    <p>Vier Verteilungen ohne Beschriftung, fünf Fragen aus dem ALLBUS. Ordne zu. Eine Frage bleibt übrig. Achte auf drei Dinge: <b>Wie viele Stufen</b>? <b>Wo liegt der Gipfel</b>? Gibt es <b>Häufungen</b>?</p>
+    <ul style="margin:6px 0 0;font-size:15.5px">
+      <li><code>dw15</code> Arbeitsstunden pro Woche</li><li><code>pa01</code> Links-rechts-Einstufung (1 = links, 10 = rechts)</li>
+      <li><code>pa02a</code> Politisches Interesse (1 = sehr stark, 5 = überhaupt nicht)</li>
+      <li><code>vm20</code> Sterbehilfe bei dauerhafter Abhängigkeit (−3 sehr falsch, +3 sehr richtig; in R als 1 bis 7 gespeichert)</li>
+      <li><code>pt03</code> Vertrauen in den Bundestag (1 = gar keins, 7 = großes)</li>
+    </ul>
+    <form id="a2-form"><div class="raetsel" id="a2-bilder"></div>
+      <div class="reihe-knoepfe"><button class="knopf">Prüfen</button></div><div class="rueck" aria-live="polite"></div></form>
+    <p style="margin-top:12px">Prüfe eine Zuordnung in R. Tausch <b>beide</b> markierten Stellen gegen die Variable, die du prüfen willst; sie müssen gleich sein. Kontrolle: Unter der x-Achse steht dann die Beschriftung deiner Frage (bei älteren ggplot2-Versionen steht dort der Variablenname).</p>
+    <div class="codewrap" data-code="a2" data-live></div>
+    <details class="probier"><summary>Weiterdenken in der Probier-Werkstatt <small>(für die Aufgabe nicht nötig)</small></summary><p>Für die Aufgabe reichen die Vorlagen oben. Hier ist Platz für eigene Fragen. Eine Idee: Wie verteilt sich die Frage, die übrig geblieben ist? Die Probier-Werkstatt startet mit einem Vorschlag.</p><div class="codewrap" data-code="frei_a2" data-live></div></details>
+    
+    <details class="hilfe"><summary>Hilfe, Stufe 1: Denkanstoß</summary><p>Zähl zuerst die Säulen. Fünf Stufen hat nur eine der Fragen. Viele schmale Säulen, eine davon ragt weit heraus: Das deutet auf eine offene Zahlenangabe, bei der Menschen runden.</p></details>
+    <details class="hilfe"><summary>Hilfe, Stufe 2: Wo schaue ich?</summary><p>Zähl die Säulen von A bis D und vergleiche mit den Stufen in der Liste: fünf Stufen hat <code>pa02a</code>, zehn <code>pa01</code>, sieben <code>vm20</code> und <code>pt03</code>, viele Werte <code>dw15</code>. Bei den beiden mit sieben Stufen entscheidet die Lage des Gipfels.</p></details>
+    <details class="hilfe"><summary>Hilfe, Stufe 3: Lösung</summary><p>A: Sterbehilfe (sieben Stufen, Gipfel ganz rechts). B: Arbeitsstunden (viele Werte, die Säule bei 40 ragt weit heraus, Spitzen bei runden Zahlen). C: Politisches Interesse (fünf Stufen, Gipfel bei „mittel“). D: Links-rechts (zehn Stufen, Gipfel bei 5). Übrig bleibt das Vertrauen in den Bundestag.</p></details>
+  </section>
+
+  <div class="thema" id="thema3"><span class="st m c7" aria-hidden="true">3</span><h2>Thema 3: Viele Werte: das Histogramm</h2></div>
+<section class="grund-block" id="g3" aria-labelledby="g3-h">
+    <div class="g-kopf"><span class="st m c7" aria-hidden="true">3</span><div><div class="ueber">Grundlage zu Aufgabe 3</div><h3 id="g3-h">Viele Werte: das Histogramm</h3></div><a class="zur" href="#a3">Schon klar? Direkt zu Aufgabe 3 ↓</a></div>
+    <p class="g-intro">Wie zeigt man eine Variable mit sehr vielen Werten, und was macht die Kistenbreite? Etwa 10 Minuten.</p>
+<!-- V5 -->
+  <section class="karte" id="v5" aria-labelledby="v5-h">
+    <div class="karte-kopf"><span class="g-schritt">3a</span><h4 id="v5-h">Viele Werte: Steine in Kisten (Histogramm)</h4><span class="art bild">Im Bild</span></div>
+    <p class="lead">Beim Alter gibt es 79 verschiedene Werte, von 18 bis 99 Jahren. Ein Stapel pro Jahr wäre unübersichtlich. Darum sammelt man die Steine in <b>Kisten</b>, zum Beispiel alle von 20 bis 24 Jahren in eine. Verändere die Kistenbreite und schau, wie sich das Bild verändert.</p>
+    <div class="feld"><label for="hist-breite">Kistenbreite</label><input type="range" id="hist-breite" min="0" max="4" step="1" value="2" style="flex:1;min-width:180px;accent-color:var(--kd)"><output id="hist-wert" for="hist-breite" style="font-weight:800">5 Jahre</output></div>
+    <div class="grafik" id="hist-bild"></div>
+    <p class="rueck" id="hist-text" data-live-spaeter style="color:var(--ink)"></p>
+    <div class="leseart"><p><b class="t">So liest du das:</b> Am dichtesten besetzt sind die Jahre von 50 bis 64, dort stehen knapp drei von zehn Befragten. Unter 30 und über 80 sind es deutlich weniger. Die Form ist breit und läuft auf keiner Seite lang aus: grob symmetrisch. Der Mittelwert (52,5) liegt etwas unter dem Median (54), die Schiefe ist aber fast 0 (−0,03). Bei breiten, flachen Verteilungen können Mittelwert und Median ein wenig auseinanderliegen, ohne dass die Verteilung schief ist.</p></div>
+    <p style="margin:14px 0 0"><b>Werte weit draußen:</b> Ein Histogramm reicht vom kleinsten bis zum größten Wert. Liegen einzelne Werte weit draußen, landet der Rest in einer Kiste; dann hilft ein Ausschnitt, und der gehört in die Bildunterschrift.</p>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Ein <b>Histogramm</b> zeigt eine Variable mit vielen Werten. Jede Säule ist eine Kiste, eine <b>Klasse</b>, und zählt, wie viele Werte hineinfallen. Balken nimmst du für wenige Stufen, das Histogramm für viele Werte.</p></div>
+    <details class="genauer"><summary>Genauer erklärt: Wie breit sollen die Kisten sein?</summary>
+      <p>Sind die Kisten zu schmal, wird das Bild zappelig, und Zufall sieht aus wie ein Muster. Sind sie zu breit, verschwindet die Form. Probier mehrere Breiten und wähl die, bei der die Form ruhig, aber noch erkennbar ist. Beim Alter sind 5 Jahre ein guter Start.</p>
+      <p>In R stellst du die Breite mit <code>binwidth</code> ein, zum Beispiel <code>binwidth = 5</code>. Mit <code>boundary = 0</code> beginnen die Kisten bei 0, 5, 10 und so weiter. Was passiert, wenn du keine Breite angibst, findest du in Aufgabe 3 heraus. Zwischen den Säulen eines Histogramms gibt es keine Lücken, weil die Werte lückenlos ineinander übergehen.</p>
+    </details>
+    <p class="verwechslung"><b>Häufige Verwechslung:</b> Wenn du die Kisten breiter machst, werden die Säulen höher, weil mehr Werte hineinfallen. Die Menschen sind dieselben, nur anders sortiert.</p>
+  </section>
+  </section>
+
+<!-- A3 -->
+  <section class="karte aufgabe" id="a3" aria-labelledby="a3-h">
+    <div class="karte-kopf"><span class="st m c7" aria-hidden="true">A3</span><h3 id="a3-h">Aufgabe 3: Wie lange dauert der Fragebogen?</h3><span class="art anpassen">Zusatz</span></div>
+    <a class="zur-grund" href="#g3">↑ Grundlage 3 nachlesen</a>
+    <p class="leitfrage">Wie lange brauchen die Befragten für den Fragebogen?</p>
+    <div class="ziel"><span class="st s c7" aria-hidden="true"></span><div><p><b>Ziel:</b> Am Ende hast du ein Histogramm der Bearbeitungsdauer mit einem begründeten Ausschnitt und einer passenden Kistenbreite, und du siehst, wo Menschen runden.</p><p class="grundlage">Grundlage: <a href="#g3">Grundlage 3, das Histogramm</a></p></div></div>
+    <form class="festlegen" data-festlegen="a3"><div class="feld"><label for="a3f"><b>Erst festlegen:</b> Wie viele Minuten braucht die Hälfte der Befragten höchstens?</label><input type="text" id="a3f" inputmode="numeric"><button class="knopf">Tipp abgeben</button></div><p class="rueck" aria-live="polite"></p></form>
+    <ol class="schritte">
+      <li>Lass dir die Kennzahlen der Bearbeitungsdauer <code>xt10</code> ausgeben. Schau auf Median und Spannweite. <b>Range</b> ist die Spannweite: größter minus kleinster Wert. <span class="wdh">describe(): kennst du aus Sitzung 3</span>
+        <div class="codewrap" data-code="a3d" data-live></div></li>
+      <li>Zeichne ein Histogramm ohne weitere Angaben. Was siehst du, und warum? R meldet zwei Dinge: dass es 30 Kisten nimmt, und dass 220 Zeilen ohne Wert weggelassen wurden. Beides ist keine Fehlermeldung, sondern ein Hinweis.
+        <div class="codewrap" data-code="a3o" data-live></div></li>
+      <li>Schneide die extremen Fälle ab: <code>filter(xt10 &lt;= 180)</code> behält nur die Bögen bis 180 Minuten. Wie viele sind danach noch im Bild?
+        <figure class="ebild"><img src="./s4-filter-180.svg" alt="Links der Turm xt10 vom Typ dbl+lbl, zum Beispiel sechs Bögen: 52, 75, 240 in Grau, ein leerer gestrichelter Stein mit dem blassen Aufkleber NICHT GENERIERBAR, 61, 3105 in Grau. Daneben der rosa Turm xt10 &lt;= 180 mit TRUE, TRUE, FALSE, einem leeren Stein NA, TRUE und FALSE. Ein grüner Pfeil filter() führt zum Turm xt10 mit 52, 75 und 61, darunter Auslassungspunkte. Daneben steht: übrig 4.529 Bögen; weg: 497 über 180, 220 ohne Dauer. Darunter der Code allbus %&gt;% filter(xt10 &lt;= 180)."><figcaption><code>filter()</code> prüft jede Reihe: <code>xt10 &lt;= 180</code> ergibt TRUE, FALSE oder bei fehlender Dauer NA. Nur Reihen mit TRUE bleiben. Darum fallen zwei Gruppen weg: 497 Bögen über 180 Minuten und die 220 ohne Dauer. <span>Die Steine sind ein Beispiel mit sechs Bögen; die Zahlen daneben stammen aus dem ALLBUS 2023.</span></figcaption></figure>
+        <div class="codewrap" data-code="a3n" data-live></div></li>
+      <li>Stell die Kistenbreite ein. <code>binwidth</code> ist ein Argument von <code>geom_histogram()</code>. Probier <code>binwidth = 5</code>, <code>binwidth = 30</code> und <code>binwidth = 1</code>. <code>boundary = 0</code> sorgt dafür, dass die Kisten bei 0, 5, 10 … beginnen.
+        <figure class="ebild"><img src="./s4-binwidth.svg" alt="Oben der Aufruf geom_histogram(binwidth = 5, boundary = 0) als Code-Bausteine: der Funktionsname grün, die beiden Argumente orange. Unter binwidth = 5 steht Breite jeder Kiste, unter boundary = 0 erste Kante bei 0, daneben: ohne Angabe 30 Kisten. Darunter zum Beispiel sieben Bögen mit 41, 43, 52, 57, 58, 63 und 71 Minuten. Erste Reihe, binwidth = 5: Achse von 40 bis 75 in Fünferschritten; in der Kiste 40 bis 45 liegen 41 und 43, in 50 bis 55 die 52, in 55 bis 60 die 57 und 58, in 60 bis 65 die 63, in 70 bis 75 die 71. Zweite Reihe, binwidth = 30: Achse 30, 60, 90; in der Kiste 30 bis 60 stapeln sich 41, 43, 52, 57 und 58, in der Kiste 60 bis 90 liegen 63 und 71."><figcaption>Argumente stellen eine Funktion ein. <code>binwidth</code> legt fest, wie breit jede Kiste ist; lässt du es weg, nimmt ggplot 30 Kisten. Dieselben sieben Bögen ergeben mit Kisten von 5 Minuten fünf niedrige Säulen, mit Kisten von 30 Minuten zwei hohe. <span>Die Steine sind ein Beispiel mit sieben Bögen.</span></figcaption></figure>
+        <div class="codewrap" data-code="a3m" data-live></div></li>
+    </ol>
+    <details class="probier"><summary>Weiterdenken in der Probier-Werkstatt <small>(für die Aufgabe nicht nötig)</small></summary><p>Für die Aufgabe reichen die Vorlagen oben. Hier ist Platz für eigene Fragen. Eine Idee: Wie viele Bögen lagen länger als einen Tag herum, und auf welchem Weg kamen sie? Die Probier-Werkstatt startet mit einem Vorschlag.</p><div class="codewrap" data-code="frei_a3" data-live></div></details>
+    <form class="fragen" id="a3-fragen" novalidate>
+      <div class="frage feld"><label for="a3a">Median der Bearbeitungsdauer in Minuten (alle Befragten):</label><input type="text" id="a3a" inputmode="decimal" aria-describedby="a3a-h"><span class="hilfe-zeile" id="a3a-h">R schreibt Kommazahlen mit Punkt: 65.000 heißt 65.</span></div>
+      <fieldset class="frage"><legend>Warum zeigt das Histogramm ohne Angaben fast nur eine Säule?</legend>
+        <div class="radios"><label><input type="radio" name="a3b" value="fehler"> R hat einen Fehler gemacht</label><label><input type="radio" name="a3b" value="max"> Einzelne Bögen dauerten wochenlang, die Achse reicht bis über 60.000 Minuten</label><label><input type="radio" name="a3b" value="gleich"> Alle haben gleich lange gebraucht</label></div></fieldset>
+      <div class="frage feld"><label for="a3c">Wie viele Bögen bleiben mit <code>filter(xt10 &lt;= 180)</code> übrig?</label><input type="text" id="a3c" inputmode="numeric" aria-describedby="a3c-h"><span class="hilfe-zeile" id="a3c-h">Aus der Vorlage in Schritt 3, Spalte N.</span></div>
+      <fieldset class="frage"><legend>Bei <code>binwidth = 1</code>: Bei welcher Minutenzahl steht die höchste Säule?</legend>
+        <div class="radios"><label><input type="radio" name="a3d" value="45"> bei 45 Minuten</label><label><input type="radio" name="a3d" value="60"> bei 60 Minuten</label><label><input type="radio" name="a3d" value="150"> bei 150 Minuten</label></div></fieldset>
+      <fieldset class="frage"><legend>Was passiert mit diesen Spitzen bei <code>binwidth = 30</code>?</legend>
+        <div class="radios"><label><input type="radio" name="a3e" value="weg"> Sie verschwinden in breiten Kisten</label><label><input type="radio" name="a3e" value="hoeher"> Sie werden noch deutlicher</label></div></fieldset>
+      <div class="reihe-knoepfe"><button class="knopf">Antworten prüfen</button></div><div class="rueck" aria-live="polite"></div>
+    </form>
+    <details class="hilfe"><summary>Hilfe, Stufe 1: Denkanstoß</summary><p>Ein Histogramm reicht vom kleinsten bis zum größten Wert. Liegt ein einziger Wert sehr weit draußen, quetscht er alle anderen in die erste Kiste. Wer eine Dauer einträgt oder schätzt, rundet gern auf volle Stunden.</p></details>
+    <details class="hilfe"><summary>Hilfe, Stufe 2: Wo schaue ich?</summary><p>Median und Spannweite (Range) stehen in der Ausgabe von Schritt 1. Die Zahl der Bögen nach dem Ausschnitt steht in Schritt 3 in der Spalte N. Die Spitzen siehst du in Schritt 4 mit <code>binwidth = 1</code>.</p></details>
+    <details class="hilfe"><summary>Hilfe, Stufe 3: Lösung</summary><p>Median 65 Minuten, Range 61.887 Minuten, also gut sechs Wochen (vermutlich unterbrochene Bögen). Mit dem Filter bleiben 4.529 von 5.026 Bögen; <code>filter()</code> lässt dabei auch die 220 fehlenden Angaben weg. Mit Kisten von 1 Minute ragt die Säule bei 60 heraus (216 Bögen, bei 59 nur 38), kleinere Spitzen bei 45, 75 und 90: Menschen runden. Bei 30 Minuten verschwinden die Spitzen. In die Bildunterschrift gehört: nur Bögen bis 180 Minuten, n = 4.529.</p></details>
+    <p class="ohne-grafik"><b>Ohne Grafik lösbar:</b> <code>allbus %&gt;% describe(xt10)</code> gibt Median und N. Die Rundungsspitzen zeigt auch <code>allbus %&gt;% filter(xt10 &lt;= 180) %&gt;% frequency(xt10)</code>: Bei 60 stehen 216 Bögen, bei 59 nur 38.</p>
+  </section>
+
+  <div class="thema" id="thema4"><span class="st m c7" aria-hidden="true">4</span><h2>Thema 4: Mitte, Streuung und Boxplot</h2></div>
+<section class="grund-block" id="g4" aria-labelledby="g4-h">
+    <div class="g-kopf"><span class="st m c7" aria-hidden="true">4</span><div><div class="ueber">Grundlage zu Aufgabe 4</div><h3 id="g4-h">Mitte, Streuung und Boxplot</h3></div><a class="zur" href="#a4">Schon klar? Direkt zu Aufgabe 4 ↓</a></div>
+    <p class="g-intro">Wie liest man einen Boxplot, und warum hängt der Median nicht an Ausreißern? Etwa 15 Minuten.</p>
+<!-- V3: Mitte und Streuung -->
+  <section class="karte" id="v4" aria-labelledby="v4-h">
+    <div class="karte-kopf"><span class="g-schritt">4a</span><h4 id="v4-h">Mitte und Streuung: vom Lineal zum Boxplot</h4><span class="wdh">Median: kennst du aus Sitzung 3, Boxplot: neu</span><span class="art bild">Im Bild</span></div>
+    <p class="lead">Elf Befragte nennen ihre Wochenarbeitsstunden. Jede Person steht auf dem Lineal an ihrer Stundenzahl. Geh die vier Schritte durch.</p>
+    <ul class="schritt-nav" id="v4-nav" aria-label="Schritte zum Boxplot"></ul>
+    <div class="grafik" id="v4-bild"></div>
+    <div class="erkl" id="v4-erkl" data-live-spaeter></div>
+    <form class="kurzueberlegen" id="v4-frage"><fieldset><legend>Kurz überlegen: Die Person mit 22 Stunden ist ab nächster Woche in Kurzarbeit null, sie arbeitet 0 Stunden. Was passiert mit Mittelwert und Median?</legend>
+      <div class="radios"><label><input type="radio" name="v4" value="a"> beide sinken</label><label><input type="radio" name="v4" value="b"> nur der Mittelwert sinkt</label><label><input type="radio" name="v4" value="c"> nur der Median sinkt</label><label><input type="radio" name="v4" value="d"> nichts ändert sich</label></div></fieldset>
+      <div class="reihe-knoepfe"><button class="knopf">Auflösen</button><button class="knopf hell" type="button" id="v4-zurueck" hidden>Wieder 22 Stunden</button></div><p class="rueck" aria-live="polite"></p>
+      <div class="leseart" id="v4-leseart" hidden><p><b class="t">So liest du das:</b> Der Mittelwert fällt von 37,4 auf 35,4 Stunden, der Median bleibt bei 40. Die 0 liegt jetzt so weit draußen (links von der gestrichelten Grenze), dass R sie als eigenen Punkt zeichnet: als <b>Ausreißer</b>. Die Antenne endet bei der nächsten Person, 28 Stunden. Ein Ausreißer ist kein Fehler: Er wird markiert, nicht gelöscht.</p></div>
+    </form>
+    <form class="kurzueberlegen" id="v4-frage2"><fieldset><legend>Kurz überlegen: Die zwei Personen mit 44 und 45 Stunden fallen aus der Auswertung. Wo liegt jetzt der Median?</legend>
+      <div class="radios"><label><input type="radio" name="v4b" value="40"> weiter bei 40 Stunden</label><label><input type="radio" name="v4b" value="38"> bei 38 Stunden</label><label><input type="radio" name="v4b" value="43"> bei 43 Stunden</label></div></fieldset>
+      <div class="reihe-knoepfe"><button class="knopf">Auflösen</button></div><p class="rueck" aria-live="polite"></p>
+      <div class="leseart" id="v4-leseart2" hidden><p><b class="t">So liest du das:</b> Neun Personen bleiben: 22, 28, 34, 34, 38, 40, 40, 43, 43. Die fünfte steht in der Mitte, vier links, vier rechts. Sie arbeitet 38 Stunden. Ein einzelner Ausreißer bewegt den Median kaum, das hat die Kurzarbeit null gezeigt. Wer aber Personen weglässt, verschiebt die Mitte der Reihe, und damit kann sich auch der Median verschieben.</p></div>
+    </form>
+    <p style="margin:16px 0 0"><b>Hineinzoomen oder Abschneiden?</b> Beim Hineinzoomen zeigt die Grafik nur einen Ausschnitt, gerechnet wird weiter mit allen. Beim Abschneiden fallen Fälle vorher weg, und Median und Kasten ändern sich, wie eben ohne die 44 und 45 Stunden. Beides probierst du in <a href="#a4">Aufgabe 4</a> aus.</p>
+    <h4 style="margin-top:18px;font-size:19px">So sieht ein echter Boxplot aus</h4>
+    <p style="margin:2px 0 0">Das Alter der Befragten im Westen und im Osten, gezeichnet aus allen 5.223 Altersangaben. Jeder Kasten fasst Tausende Personen zusammen.</p>
+    <div class="grafik" id="box-echt"></div>
+    <p class="sr" id="box-echt-text">Zwei Boxplots. West, 3.553 Personen: Kasten von 36 bis 66 Jahre, Median 53, Antennen von 18 bis 97. Ost, 1.670 Personen: Kasten von 39 bis 68 Jahre, Median 56, Antennen von 18 bis 99.</p>
+    <div class="leseart"><p><b class="t">So liest du das:</b> Der Median liegt im Osten 3 Jahre höher (56 statt 53), auch beide Kastenränder liegen höher. Die Befragten im Osten sind im Mittel also etwas älter. Die Kästen sind fast gleich lang: Das Alter streut in beiden Gruppen ähnlich stark.</p></div>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Der <b>Mittelwert</b> ist der Schwerpunkt, der <b>Median</b> steht in der Mitte der Reihe (beides kennst du aus Sitzung 3). Neu ist der <b>Boxplot</b>: Er zeigt die mittlere Hälfte als Kasten, den Median als Strich und den Rest als Antennen (Fachbegriff: <b>Whisker</b>) und Punkte.</p></div>
+    <details class="genauer"><summary>Genauer erklärt: Streuung, Voraussetzungen und Rechenweise</summary>
+      <p><b>Streuung</b> sagt, wie weit die Werte auseinanderliegen. Die <b>Spannweite</b> ist größter minus kleinster Wert (45 − 22 = 23 Stunden). Der <b>Interquartilsabstand</b> ist die Länge des Kastens (43 − 34 = 9 Stunden); er reagiert kaum auf Ausreißer. Die <b>Standardabweichung</b> misst den typischen Abstand zum Mittelwert; sie kommt in der freien Karte Schritt für Schritt.</p>
+      <p><b>Voraussetzung:</b> Einen Mittelwert darfst du berechnen, wenn die Abstände zwischen den Werten gleich viel bedeuten (metrisch, etwa Stunden oder Alter). Bei einer Rangfolge wie „sehr gut … schlecht“ berichtest du besser den Median. Bei schiefen Verteilungen und Ausreißern gehören beide in den Bericht.</p>
+      <p><b>Wo endet eine Antenne?</b> Beim äußersten Wert, der noch innerhalb von anderthalb Kastenlängen vom Kasten liegt. Hier: Kastenlänge 9, mal 1,5 sind 13,5. Die Grenze links liegt bei 34 − 13,5 = 20,5 Stunden. Wer weiter draußen liegt, wird als Punkt gezeichnet. Mit 22 Stunden liegt niemand draußen, mit 0 Stunden schon.</p>
+      <p>mariposa und ggplot berechnen Quartile bei manchen Daten leicht unterschiedlich. Bei diesen elf Personen kommt in beiden 34 und 43 heraus.</p>
+    </details>
+    <p class="verwechslung"><b>Häufige Verwechslung:</b> Der Strich im Kasten ist der Median, nicht der Mittelwert. Und ein breiterer Abschnitt heißt nicht „mehr Leute“: In jedem Viertel stehen gleich viele Personen, sie liegen nur weiter auseinander.</p>
+    <a class="mehr" href="#">→ In der freien Karte: Median, Quartile und Boxplot mit 200 Befragten</a>
+  </section>
+  </section>
+
+<!-- A4 -->
+  <section class="karte aufgabe" id="a4" aria-labelledby="a4-h">
+    <div class="karte-kopf"><span class="st m c7" aria-hidden="true">A4</span><h3 id="a4-h">Aufgabe 4: Papier, online oder Interview?</h3><span class="art deuten">Pflicht</span></div>
+    <a class="zur-grund" href="#g4">↑ Grundlage 4 nachlesen</a>
+    <p class="leitfrage">Dauert das Ausfüllen auf Papier länger als online?</p>
+    <div class="ziel"><span class="st s c7" aria-hidden="true"></span><div><p><b>Ziel:</b> Am Ende kannst du begründen, auf welchem Weg das Ausfüllen am längsten dauert, und sagen, wer dabei im Bild fehlt.</p><p class="grundlage">Grundlage: <a href="#g4">Grundlage 4, Mitte, Streuung und Boxplot</a></p></div></div>
+    <p>Der ALLBUS 2023 wurde auf drei Wegen erhoben (<code>mode</code>): <b>CAPI</b> ist ein persönliches Interview mit Laptop, <b>CAWI</b> ein Online-Fragebogen, <b>MAIL</b> ein Papierbogen per Post (<code>mode == 4</code>, kennst du aus Sitzung 2). Die Bearbeitungsdauer <code>xt10</code> hat Ausreißer: Einzelne Bögen lagen wochenlang herum (der längste gut sechs Wochen, über 61.000 Minuten). Damit man im Bild etwas sieht, muss man also einen Ausschnitt wählen. Dafür gibt es zwei Wege, und sie führen zu verschiedenen Ergebnissen.</p>
+    <p>Noch etwas fällt bei den Papierbögen auf: 71,5 % ihrer Dauerangaben sind Vielfache von 5, also etwa 45, 60 oder 90 Minuten. Beim Interview sind es 39,5 %, online 20 %. Das spricht dafür, dass auf Papier oft geschätzt und gerundet wurde. Bei 220 Papierbögen fehlt die Dauer ganz.</p>
+    <form class="festlegen" data-festlegen="a4"><fieldset><legend><b>Erst festlegen:</b> Auf welchem Weg dauert es am längsten?</legend>
+      <div class="radios"><label><input type="radio" name="a4f" value="Interview (CAPI)"> Interview (CAPI)</label><label><input type="radio" name="a4f" value="online (CAWI)"> online (CAWI)</label><label><input type="radio" name="a4f" value="Papier (MAIL)"> Papier (MAIL)</label></div></fieldset>
+      <div class="reihe-knoepfe"><button class="knopf">Tipp abgeben</button></div><p class="rueck" aria-live="polite"></p></form>
+    <ol class="schritte">
+      <li><b>Hineinzoomen:</b> <code>coord_cartesian()</code> zeigt nur den Bereich bis 180 Minuten, rechnet aber mit allen Bögen. R meldet dabei „Removed 220 rows“: Das sind die Papierbögen, bei denen die Dauer ganz fehlt.
+        <div class="codewrap" data-code="a4" data-live></div></li>
+      <li><b>Abschneiden:</b> <code>filter()</code> wirft alle Bögen über 180 Minuten hinaus, bevor gerechnet wird. Vergleiche die beiden Bilder: Wo liegt jetzt der Strich im Kasten?
+        <figure class="ebild"><img src="./s4-zoom-filter.svg" alt="Zwei Hälften mit demselben Turm, zum Beispiel sieben Papierbögen, von unten nach oben nach Dauer sortiert: 30, 45, 55, 70, 110, 400 und 2600 Minuten. Links, überschrieben HINEINZOOMEN und coord_cartesian(ylim = c(0, 180)): Ein gestrichelter Rahmen umfasst die fünf unteren Steine, beschriftet sichtbar: 0 bis 180. Die Steine 400 und 2600 ragen darüber hinaus, bleiben aber blau, beschriftet außerhalb des Bilds, rechnen aber mit. Der Stein 70 ist orange umrandet: Median 70, aus 7 Bögen. Rechts, überschrieben ABSCHNEIDEN und filter(xt10 &lt;= 180): Die Steine 400 und 2600 sind grau, beschriftet fallen vorher weg. Der Stein 55 ist orange umrandet: Median 55, aus 5 Bögen."><figcaption>Der Strich im Kasten ist der Median: der mittlere Stein, wenn man die Bögen nach Dauer sortiert. Beim Hineinzoomen rechnen alle Steine mit, auch die, die über 180 aus dem Bild ragen. Beim Abschneiden fallen die langen Bögen weg, bevor gerechnet wird, und ein anderer Stein steht in der Mitte. <span>Die Steine sind ein Beispiel mit sieben Papierbögen.</span></figcaption></figure>
+        <div class="codewrap" data-code="a4f" data-live></div></li>
+      <li>Hol dir die Zahlen für einen Weg, einmal ohne und einmal mit Filter. Tausch die markierte Zahl: 2 = CAPI, 3 = CAWI, 4 = MAIL. <span class="wdh">describe(): kennst du aus Sitzung 3</span><br><code>show =</code> wählt aus, welche Kennzahlen <code>describe()</code> zeigt, hier Median und Quartile. In der Ausgabe ist <b>Q25</b> das untere Quartil (Q1) und <b>Q75</b> das obere (Q3): die Ränder des Kastens. Das Komma in <code>filter(mode == 4, xt10 &lt;= 180)</code> heißt „und“: Es bleiben nur Papierbögen, die höchstens 180 Minuten dauerten.
+        <div class="codewrap" data-code="a4z" data-live></div>
+        <div class="codewrap" data-code="a4zf" data-live></div></li>
+    </ol>
+    <details class="probier"><summary>Weiterdenken in der Probier-Werkstatt <small>(für die Aufgabe nicht nötig)</small></summary><p>Für die Aufgabe reichen die Vorlagen oben. Hier ist Platz für eigene Fragen. Eine Idee: Sind die Befragten auf den drei Wegen unterschiedlich alt? Die Probier-Werkstatt startet mit einem Vorschlag.</p><div class="codewrap" data-code="frei_a4" data-live></div></details>
+    <form class="fragen" id="a4-fragen" novalidate>
+      <fieldset class="frage"><legend>Hineinzoomen (alle Bögen): Welcher Weg hat den höchsten Median?</legend>
+        <div class="radios"><label><input type="radio" name="a4a" value="CAPI"> CAPI</label><label><input type="radio" name="a4a" value="CAWI"> CAWI</label><label><input type="radio" name="a4a" value="MAIL"> MAIL</label></div></fieldset>
+      <fieldset class="frage"><legend>Abschneiden mit <code>filter()</code>: Welcher Weg hat jetzt den höchsten Median?</legend>
+        <div class="radios"><label><input type="radio" name="a4b" value="CAPI"> CAPI</label><label><input type="radio" name="a4b" value="CAWI"> CAWI</label><label><input type="radio" name="a4b" value="MAIL"> MAIL</label></div></fieldset>
+      <div class="frage feld"><label for="a4c">Wie viele Papierbögen (MAIL) fallen durch den Filter heraus?</label><input type="text" id="a4c" inputmode="numeric" aria-describedby="a4c-h"><span class="hilfe-zeile" id="a4c-h">Vergleiche N für <code>mode == 4</code> ohne und mit Filter.</span></div>
+      <fieldset class="frage"><legend>Warum dreht sich die Reihenfolge?</legend>
+        <div class="radios"><label><input type="radio" name="a4d" value="lang"> Der Filter wirft vor allem lange Papierbögen hinaus, aber kaum Interviews</label><label><input type="radio" name="a4d" value="falsch"> R rechnet beim Filtern falsch</label><label><input type="radio" name="a4d" value="zoom"> Beim Hineinzoomen werden die Werte verändert</label></div></fieldset>
+      <fieldset class="frage"><legend>Was gehört in deinen Bericht?</legend>
+        <div class="radios"><label><input type="radio" name="a4e" value="capi"> „Das Interview dauert am längsten.“</label><label><input type="radio" name="a4e" value="ehrlich"> „Mit allen Bögen dauert Papier am längsten. Die Papier-Dauer ist aber oft geschätzt, und bei 220 Papierbögen fehlt sie ganz.“</label></div></fieldset>
+      <div class="reihe-knoepfe"><button class="knopf">Antworten prüfen</button></div><div class="rueck" aria-live="polite"></div>
+    </form>
+    <div class="box-gruen"><h4 style="font-size:17px">Fürs Plenum</h4><p style="margin:4px 0 0">Welche der beiden Grafiken würdet ihr drucken, und was muss in die Bildunterschrift? Bringt eure Antwort mit.</p></div>
+    <details class="hilfe"><summary>Hilfe, Stufe 1: Denkanstoß</summary><p>Der Strich im Kasten ist der Median. Hineinzoomen ändert nur, was du siehst. <code>filter()</code> ändert, wer mitgerechnet wird. Frag dich: Bei welchem Erhebungsweg gibt es besonders viele sehr lange Bögen?</p></details>
+    <details class="hilfe"><summary>Hilfe, Stufe 2: Wo schaue ich?</summary><p>Die Mediane liest du in den Ausgaben von Schritt 3 ab, je Weg einmal ohne und einmal mit Filter. Wie viele herausfallen, siehst du an N. Wie viele Angaben ganz fehlen, steht unter „Missing“.</p></details>
+    <details class="hilfe"><summary>Hilfe, Stufe 3: Lösung</summary><p>Mit allen Bögen: Papier 75, Interview 70, online 49 Minuten. Mit Filter: Interview 70, Papier 60, online 45. Der Filter wirft 306 von 1.436 Papierbögen hinaus (21 %), aber nur 14 von 2.003 Interviews. Dazu kommt: 71,5 % der Papier-Angaben sind Vielfache von 5, beim Interview 39,5 %, online 20 %; auf Papier wurde also vermutlich oft geschätzt. Bei 220 Papierbögen fehlt die Dauer ganz. Ehrlich ist: Hineinzoomen, und in der Bildunterschrift sagen, dass die Papier-Dauer geschätzt ist und 220 Angaben fehlen.</p></details>
+    <p class="ohne-grafik"><b>Ohne Grafik lösbar:</b> Die Vorlagen in Schritt 3 geben Median, Quartile, N und Missing für jeden Weg.</p>
+  </section>
+
+  <div class="thema" id="ueberblick"><span class="st m c7" aria-hidden="true">✓</span><h2>Überblick: Welches Bild für welche Frage?</h2></div>
+<section class="grund-block" id="g5" aria-labelledby="g5-h">
+    <div class="g-kopf"><span class="st m c7" aria-hidden="true">✓</span><div><div class="ueber">Überblick zu allen Aufgaben</div><h3 id="g5-h">Grafik wählen, Grenzen kennen</h3></div></div>
+    <p class="g-intro">Alle vier Themen zusammen: welche Grafik wann passt und wo sie täuschen kann.</p>
+<!-- V6 -->
+  <section class="karte" id="v6" aria-labelledby="v6-h">
+    <div class="karte-kopf"><span class="g-schritt">✓</span><h4 id="v6-h">Welches Bild für welche Frage?</h4><span class="art schaetzen">Zuordnen</span></div>
+    <p class="lead">Die Form der Grafik ergibt sich aus zwei Fragen: <b>Wie viele Variablen</b> zeigst du? Und hat jede <b>wenige Stufen</b> (zum Beispiel „gar kein“ bis „großes Vertrauen“) oder <b>viele Werte</b> (zum Beispiel das Alter)?</p>
+    <div class="grafik" id="baum" role="img" aria-labelledby="baum-text"></div>
+    <div id="baum-text" class="sr">Entscheidungsbaum. Eine Variable mit wenigen Stufen: Balken, geom_bar. Eine Variable mit vielen Werten: Histogramm, geom_histogram. Zwei Variablen mit wenigen Stufen: Balken auf 100 Prozent, geom_bar mit position gleich fill. Zwei Variablen, eine mit vielen Werten und eine mit Gruppen: Boxplots, geom_boxplot. Zwei Variablen mit vielen Werten: Punkte, geom_point.</div>
+    <form class="kurzueberlegen" id="v6-frage" style="background:#fff;border:2px solid var(--line)"><p>Ordne jeder Frage eine Form zu</p><div id="v6-fragen"></div>
+      <div class="reihe-knoepfe"><button class="knopf">Prüfen</button></div><p class="rueck" aria-live="polite"></p></form>
+    <div class="kurz"><img src="./tipp.svg" alt=""><p><b class="t">Kurz gesagt:</b> Zähl erst die Variablen, dann ihre Stufen. Eine Gruppe wie Ost/West zählt mit: „Alter nach Ost und West“ sind zwei Variablen, eine mit vielen Werten und eine mit zwei Stufen. Wie viele Stufen eine Variable hat und was ihre Zahlen bedeuten, nennt man ihr <b>Skalenniveau</b>.</p></div>
+    <details class="genauer"><summary>Genauer erklärt: nominal, ordinal, metrisch</summary>
+      <ul>
+        <li><b>Nominal:</b> Kategorien ohne Reihenfolge, etwa der Familienstand (verheiratet, ledig, geschieden …).</li>
+        <li><b>Ordinal:</b> Kategorien mit Reihenfolge, aber ohne gleich große Abstände, etwa das Vertrauen in Zeitungen von „gar kein“ bis „groß“.</li>
+        <li><b>Metrisch:</b> Zahlen mit gleich großen Abständen, etwa Alter oder Stunden.</li>
+      </ul>
+      <p>Nominal und ordinal mit wenigen Stufen fasst man als <b>kategorial</b> zusammen. Die Lebenszufriedenheit (0 bis 10) liegt dazwischen: Man berechnet einen Mittelwert, zeigt sie aber als Balken, weil jede der elf Stufen für sich zählt. Für den Entscheidungsbaum zählt sie deshalb als „wenige Stufen“.</p>
+    </details>
+    <div class="box-gruen"><h4 style="font-size:18px">Voraussetzungen: Was jede Grafik braucht und wo sie täuschen kann</h4>
+      <table class="daten" style="width:100%"><caption class="sr">Voraussetzungen je Grafik</caption><thead><tr><th scope="col">Grafik</th><th scope="col">braucht</th><th scope="col">Vorsicht</th></tr></thead><tbody>
+      <tr><td>Balken</td><td>eine Variable mit wenigen Stufen</td><td>Prozent von wem? Gültige Antworten (Valid %) nehmen, fehlende nennen.</td></tr>
+      <tr><td>Histogramm</td><td>eine Variable mit vielen Werten (metrisch)</td><td>Kistenbreite und Ausschnitt verändern das Bild. Beides nennen.</td></tr>
+      <tr><td>Boxplots</td><td>viele Werte und Gruppen</td><td>Genug Personen je Gruppe; n je Gruppe nennen. Wer weggelassen oder abgeschnitten wird, verändert den Vergleich.</td></tr>
+      <tr><td>Balken auf 100 %</td><td>zwei Variablen mit wenigen Stufen</td><td>Versteckt, wie groß die Gruppen sind. n dazuschreiben.</td></tr>
+      <tr><td>Punkte</td><td>zwei Variablen mit vielen Werten</td><td>Bei wenigen Stufen liegen Punkte übereinander. <code>geom_jitter()</code> streut sie leicht.</td></tr>
+      </tbody></table>
+      <p style="margin:8px 0 0;font-size:15.5px">Für alle gilt: Filtern und Weglassen ändern das Ergebnis. Sag immer, wer im Bild fehlt. Aussagen über ganz Deutschland brauchen eine Gewichtung, weil der Osten im ALLBUS absichtlich stärker vertreten ist (Sitzung 6).</p></div>
+    <p class="verwechslung"><b>Häufige Verwechslung:</b> Eine Zahl im Datensatz macht eine Variable nicht metrisch. Beim Familienstand stehen Zahlen für „verheiratet“, „ledig“ und so weiter. Die Zahlen sind nur Namen; rechnen kannst du damit nichts.</p>
+  </section>
+  </section>
+
+  <!-- ===================== MITNEHMEN ===================== -->
+  <div class="teil m" id="mitnehmen"><h2>Zum Schluss: Mitnehmen</h2><hr></div>
+  <section class="wichtig" aria-labelledby="w-h">
+    <h3 id="w-h" style="font-size:21px">Das Wichtigste aus dieser Sitzung</h3>
+    <ul>
+      <li>Eine <b>Verteilung</b> zeigt, wie viele Menschen welchen Wert angegeben haben. Eine Kennzahl allein verschweigt ihre Form.</li>
+      <li>Formen: <b>symmetrisch</b>, <b>linksschief</b> (läuft links aus), <b>rechtsschief</b> (läuft rechts aus), <b>mehrgipflig</b> (gespalten).</li>
+      <li>Der <b>Median</b> bleibt in der Mitte, der <b>Mittelwert</b> wird von Ausreißern und vom Auslauf gezogen.</li>
+      <li>Wenige Stufen: <b>Balken</b>. Viele Werte: <b>Histogramm</b>. Viele Werte nach Gruppen: <b>Boxplots</b>. Zwei Variablen mit wenigen Stufen: <b>Balken auf 100 %</b>. Zwei mit vielen Werten: <b>Punkte</b>.</li>
+      <li>Balken beginnen bei 0. Jede Grafik nennt Quelle, n und ob gewichtet wurde.</li>
+      <li>Filtern und Weglassen ändern das Ergebnis. Hineinzoomen mit <code>coord_cartesian()</code> ändert nur den Ausschnitt, <code>filter()</code> ändert, wer mitgerechnet wird. Sag immer, wer im Bild fehlt (Aufgabe 4).</li>
+      <li>In R: Daten mit <code>%&gt;%</code> weiterreichen, ab <code>ggplot()</code> Schichten mit <code>+</code>; <code>drop_na()</code> lässt fehlende Werte ausdrücklich weg.</li>
+    </ul>
+  </section>
+  <section class="karte" aria-labelledby="c-h">
+    <div class="karte-kopf"><span class="st m c2" aria-hidden="true">✓</span><h3 id="c-h">Prüf dich selbst</h3><span class="art deuten">5 Fragen</span></div>
+    <div id="check"></div>
+  </section>
+  <section class="karte" aria-labelledby="s-h">
+    <div class="karte-kopf"><span class="st m c2" aria-hidden="true">R</span><h3 id="s-h">Dein Skript zum Mitnehmen</h3></div>
+    <p>Alle Vorlagen dieser Sitzung in einer Datei, mit Kommentaren. Öffne sie in RStudio und führe sie Block für Block aus.</p>
+    <div class="reihe-knoepfe"><button class="knopf" id="skript">Skript herunterladen (sitzung4.R)</button><a class="mehr" href="#" style="margin:0">→ Nachlesen im R-Workshop, Kapitel 6</a></div>
+  </section>
+</main>
+
+<nav class="toc" aria-label="Auf dieser Seite">
+  <h2>Auf dieser Seite</h2>
+  <div class="grp">Vorweg</div>
+  <ul><li><a href="#r1">R lesen</a></li><li><a href="#r2">Schichten</a></li></ul>
+  <div class="grp">Themen</div>
+  <ul><li><a href="#thema1">1 Balken</a></li><li><a href="#thema2">2 Formen</a></li><li><a href="#thema3">3 Histogramm</a></li><li><a href="#thema4">4 Boxplot</a></li></ul>
+  <div class="grp">Zum Schluss</div>
+  <ul><li><a href="#ueberblick">Überblick</a></li><li><a href="#mitnehmen">Das Wichtigste</a></li><li><a href="#c-h">Prüf dich selbst</a></li><li><a href="#s-h">Skript</a></li></ul>
+</nav>
+</div>
+
+<script>
+/* ---------- Hilfsfunktionen ---------- */
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const de = (x, d = 1) => x.toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d }).replace('-', '−');
+const ganz = x => Math.round(x).toLocaleString('de-DE');
+const zahl = s => { const t = String(s).replace(/\s|%/g, '').replace(/\.(?=\d{3}\b)/g, '').replace(',', '.'); return t === '' ? NaN : +t; };
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs = {}, kids = []) { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); kids.forEach(k => e.append(k)); return e; }
+function txt(x, y, s, attrs = {}) { const t = el('text', { x, y, 'font-family': 'Nunito,sans-serif', 'font-size': 13, fill: '#5F6A74', 'text-anchor': 'middle', ...attrs }); t.textContent = s; return t; }
+function kennzahlen(werte, anz) { const n = anz.reduce((a, b) => a + b, 0); let s = 0; werte.forEach((w, i) => s += w * anz[i]);
+  const pos = k => { let c = 0; for (let i = 0; i < anz.length; i++) { c += anz[i]; if (c >= k) return werte[i]; } };
+  const med = n % 2 ? pos((n + 1) / 2) : (pos(n / 2) + pos(n / 2 + 1)) / 2; return { n, mw: s / n, med }; }
+function rueck(p, ok, text) { p.className = 'rueck ' + (ok ? 'ok' : 'no'); p.textContent = ''; setTimeout(() => p.textContent = (ok ? 'Richtig. ' : 'Noch nicht. ') + text, 30); }
+
+/* ---------- Daten (ALLBUS 2023, ZA8831 v1.3.0, Aggregate, ungewichtet) ---------- */
+const LS = [26, 29, 81, 120, 174, 413, 416, 998, 1506, 868, 533], LSN = 5164;
+const FORMEN = [
+  { id: 'mp05', name: 'Ungefähr symmetrisch', frage: '„Ausländer stützen die Rentensicherung“', skala: '1 = stimme gar nicht zu … 7 = stimme voll und ganz zu', werte: [1, 2, 3, 4, 5, 6, 7], anz: [443, 420, 454, 792, 601, 427, 420], erkennen: 'Gipfel in der Mitte, beide Seiten ähnlich hoch.', heisst: 'Die Meinungen streuen breit, die Mitte ist am häufigsten.' },
+  { id: 'ls01', name: 'Linksschief', frage: 'Lebenszufriedenheit', skala: '0 = ganz unzufrieden … 10 = ganz zufrieden', werte: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], anz: LS, erkennen: 'Gipfel rechts, flacher Auslauf nach links.', heisst: 'Die meisten sind zufrieden. Wenige sehr Unzufriedene ziehen den Mittelwert unter den Median.' },
+  { id: 'dk11', name: 'Rechtsschief', frage: 'Kinder im Haushalt', skala: 'Anzahl, 0 bis 7', werte: [0, 1, 2, 3, 4, 5, 6, 7], anz: [3602, 724, 571, 146, 18, 7, 4, 2], erkennen: 'Gipfel ganz links, Auslauf nach rechts.', heisst: 'Bei 71 % der Befragten lebt kein Kind im Haushalt. Wenige große Familien ziehen den Mittelwert über den Median.' },
+  { id: 'vm18', name: 'Mehrgipflig', frage: 'Bewertung der Leihmutterschaft', skala: '−3 sehr falsch … +3 sehr richtig', werte: [-3, -2, -1, 0, 1, 2, 3], anz: [835, 359, 275, 664, 291, 254, 352], erkennen: 'Mehrere Gipfel: bei −3, bei 0 und kleiner bei +3.', heisst: 'Die Befragten sind gespalten. Mittelwert und Median liegen in der Mitte, wo vergleichsweise wenige stehen.' }
+];
+const AGE = [41,57,54,44,61,60,56,51,57,62,60,91,70,73,67,89,74,88,90,77,84,87,77,70,90,74,80,63,69,80,45,70,70,82,95,97,111,101,98,108,99,138,117,99,107,97,102,95,98,94,82,87,88,87,81,74,65,66,59,45,44,53,36,49,39,55,51,24,24,17,22,11,15,7,12,4,4,0,0,2,0,1]; // Alter 18 bis 99
+const DW15 = [4,0,3,1,1,5,0,3,1,2,20,3,13,2,5,18,11,6,13,14,115,11,9,7,18,73,16,9,28,7,205,10,64,10,19,153,33,83,176,211,759,79,109,42,27,179,14,6,30,3,174,0,4,1,6,35,1,0,1,0,56,0,0,1,0,15,0,0,0,0,14,0,0,1,0,2,0,0,0,0,2,0,1,0,0,0,0,0,0,0,1]; // Stunden 0 bis 90, Kisten zu 1 Stunde, n = 2.945
+
+/* ---------- Säulen-SVG ---------- */
+function saeulen({ werte, anz, w = 640, h = 200, steine = 0, farbe = '#86B9DE', kontur = '#5f97c2', hl = -1, labels = true, marker = false, labelJede = 1, minStein = false, beschr = null }) {
+  const pad = { l: 8, r: 8, t: marker ? 26 : 10, b: labels ? 24 : 6 }, iw = w - pad.l - pad.r, ih = h - pad.t - pad.b, k = anz.length, bw = iw / k, max = Math.max(...anz);
+  const svg = el('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', 'aria-hidden': 'true', preserveAspectRatio: 'xMidYMid meet' });
+  anz.forEach((a, i) => { const x = pad.l + i * bw + bw * .12, bwi = bw * .76, col = i === hl ? '#F0A27E' : farbe;
+    if (steine) { let n = Math.round(a / max * steine); if (minStein && a > 0) n = Math.max(1, n); const sh = ih / steine;
+      for (let j = 0; j < n; j++) svg.append(el('rect', { x, y: pad.t + ih - (j + 1) * sh + 1, width: bwi, height: sh - 2, rx: 2.5, fill: col, stroke: i === hl ? '#c97b55' : '#5f97c2', 'stroke-width': .8 })); }
+    else { const bh = a / max * ih; if (bh > 0) svg.append(el('rect', { x, y: pad.t + ih - bh, width: bwi, height: bh, rx: 3, fill: col, stroke: kontur, 'stroke-width': 1 })); }
+    if (labels && i % labelJede === 0) svg.append(txt(pad.l + i * bw + bw / 2, h - 6, beschr ? beschr(werte[i]) : String(werte[i]).replace('-', '−')));
+  });
+  svg.append(el('line', { x1: pad.l, x2: w - pad.r, y1: pad.t + ih, y2: pad.t + ih, stroke: '#9aa4ad', 'stroke-width': 1.5 }));
+  if (marker) { const kz = kennzahlen(werte, anz), xv = v => pad.l + (werte.indexOf(Math.floor(v)) + (v - Math.floor(v)) + .5) * bw;
+    const xm = xv(kz.mw), xd = xv(kz.med);
+    svg.append(el('line', { x1: xd, x2: xd, y1: pad.t - 4, y2: pad.t + ih, stroke: '#8a4a2c', 'stroke-width': 2.5, 'stroke-dasharray': '4 3' }));
+    svg.append(el('path', { d: `M${xm - 7},${pad.t - 16} L${xm + 7},${pad.t - 16} L${xm},${pad.t - 4} Z`, fill: '#2C6CA8' }));
+  }
+  return svg;
+}
+
+/* ---------- V1 Skizze ---------- */
+(() => {
+  const box = $('#skizze'), hoehe = Array(11).fill(0), max = Math.max(...LS); let zu = false;
+  LS.forEach((a, i) => { const c = document.createElement('div'); c.className = 'sk-col'; c.tabIndex = 0;
+    c.setAttribute('role', 'slider'); c.setAttribute('aria-orientation', 'vertical'); c.setAttribute('aria-label', 'Säule für Antwort ' + i); c.setAttribute('aria-valuemin', 0); c.setAttribute('aria-valuemax', 10);
+    c.innerHTML = `<div class="sk-ich"></div><div class="sk-echt" style="height:${a / max * 100}%"></div>`; box.append(c); });
+  const cols = $$('.sk-col', box);
+  const set = (i, v) => { if (zu) return; hoehe[i] = Math.max(0, Math.min(10, v)); const c = cols[i];
+    c.firstElementChild.style.height = hoehe[i] * 10 + '%'; c.setAttribute('aria-valuenow', hoehe[i]); c.setAttribute('aria-valuetext', `Höhe ${hoehe[i]} von 10`); };
+  cols.forEach((c, i) => { set(i, 0);
+    c.addEventListener('keydown', e => { const d = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1, PageUp: 3, PageDown: -3 }[e.key]; if (d) { e.preventDefault(); set(i, hoehe[i] + d); }
+      if (e.key === 'Home') set(i, 0); if (e.key === 'End') set(i, 10); }); });
+  let ziehe = false; const aus = e => { const r = box.getBoundingClientRect(); const i = Math.floor((e.clientX - r.left) / (r.width / 11)); if (i < 0 || i > 10) return; set(i, Math.round((r.bottom - e.clientY) / r.height * 10)); };
+  box.addEventListener('pointerdown', e => { if (zu) return; ziehe = true; box.setPointerCapture(e.pointerId); aus(e); });
+  box.addEventListener('pointermove', e => ziehe && aus(e)); box.addEventListener('pointerup', () => ziehe = false);
+  $('#sk-tipp').onclick = () => { const p = $('#sk-rueck'), s = hoehe.reduce((a, b) => a + b, 0);
+    if (!s) { p.className = 'rueck no'; p.textContent = 'Zieh zuerst mindestens eine Säule hoch. Es gibt kein Falsch, nur deine Erwartung.'; return; }
+    zu = true; $('#sk-wrap').classList.add('aufgedeckt'); cols.forEach(c => c.setAttribute('aria-readonly', 'true'));
+    const g = Math.max(...hoehe), gipfel = hoehe.map((h, i) => h === g ? i : -1).filter(i => i >= 0), meine7 = hoehe.slice(7).reduce((a, b) => a + b, 0) / s * 100;
+    const gtext = gipfel.length > 1 ? `Dein Gipfel ist breit: ${gipfel.join(', ')}.` : `Dein Gipfel liegt bei ${gipfel[0]}.`;
+    p.className = 'rueck'; p.style.color = 'var(--lilad)';
+    p.textContent = `${gtext} In den Daten liegt er bei 8. In deiner Skizze sagen ${de(meine7, 0)} % 7 oder mehr, in den Daten 76 %.`;
+    $('#sk-tab tbody').innerHTML = LS.map((a, i) => `<tr><td>${i}</td><td>${de(hoehe[i] / s * 100, 0)} %</td><td>${de(a / LSN * 100, 1)} %</td><td>${ganz(a)}</td></tr>`).join('');
+    $('#sk-nachher').hidden = false; $('#sk-tipp').hidden = true; $('#sk-neu').hidden = false; $('#sk-neu').focus(); };
+  $('#sk-neu').onclick = () => { zu = false; $('#sk-wrap').classList.remove('aufgedeckt'); cols.forEach((c, i) => { c.removeAttribute('aria-readonly'); set(i, 0); });
+    $('#sk-nachher').hidden = true; $('#sk-tipp').hidden = false; $('#sk-neu').hidden = true; $('#sk-rueck').textContent = ''; cols[0].focus(); };
+})();
+
+/* ---------- V2 Turm zum Stapel ---------- */
+(() => {
+  const ZW = [8, 7, 9, 5, 8, 10, 6, 8, 7, 4, null, 8, 9, 7, 8, 5, 10, 8, 9, 6, 7]; // 21 Befragte, eine ohne Antwort (NA)
+  const bild = $('#turm-bild'); let stufe = 0;
+  const zeigeTurm = () => { const w = 640, h = 290, svg = el('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', 'aria-hidden': 'true' });
+    svg.append(el('rect', { x: 210, y: h - 18, width: 220, height: 14, rx: 4, fill: '#C6ECE8' }));
+    ZW.forEach((v, j) => { const y = h - 32 - j * 12; const leer = v === null;
+      svg.append(el('rect', { x: 286, y, width: 68, height: 10.5, rx: 2.5, fill: leer ? '#fff' : '#86B9DE', stroke: leer ? '#5F6A74' : '#5f97c2', 'stroke-width': leer ? 1.2 : .8, 'stroke-dasharray': leer ? '3 2' : '' }));
+      svg.append(txt(320, y + 9, leer ? 'NA' : v, { 'font-size': 10, fill: '#1E2D3C', 'font-weight': 700 })); });
+    svg.append(el('rect', { x: 290, y: 4, width: 60, height: 20, rx: 6, fill: '#1E2D3C' })); svg.append(txt(320, 18, 'ls01', { fill: '#fff', 'font-family': 'JetBrains Mono,monospace', 'font-size': 12 }));
+    bild.replaceChildren(svg); $('#turm-text').textContent = 'Ein Turm ls01 mit 21 Steinen, ungeordnet: ' + ZW.map(v => v === null ? 'NA, ein leerer Stein' : v).join(', ') + '.'; };
+  const anz20 = Array.from({ length: 11 }, (_, i) => ZW.filter(v => v === i).length);
+  zeigeTurm();
+  $('#turm-sort').onclick = () => { stufe = 1; const g = saeulen({ werte: [...Array(11).keys()], anz: anz20, h: 230, steine: Math.max(...anz20) });
+    const na = el('g'); na.append(el('rect', { x: 560, y: 196, width: 60, height: 12, rx: 2.5, fill: '#fff', stroke: '#5F6A74', 'stroke-dasharray': '3 2', 'stroke-width': 1.2 })); na.append(txt(590, 206, 'NA', { 'font-size': 10, fill: '#1E2D3C', 'font-weight': 700 })); na.append(txt(590, 186, 'auf keinem Stapel', { 'font-size': 11 }));
+    g.append(na); bild.replaceChildren(g);
+    $('#turm-text').textContent = 'Sortiert: ' + anz20.map((a, i) => a ? `${a} Steine bei ${i}` : '').filter(Boolean).join(', ') + '. Der leere Stein liegt auf keinem Stapel. Die Werte 0 bis 3 hat niemand angegeben.';
+    $('#turm-tab tbody').innerHTML = anz20.map((a, i) => `<tr><td>${i}</td><td>${a}</td><td>${de(a / 20 * 100, 0)} %</td></tr>`).join('') + '<tr><th scope="row">gültig zusammen</th><td>20</td><td>100 %</td></tr><tr><th scope="row">fehlend (NA)</th><td>1</td><td>zählt nicht mit</td></tr>';
+    $('#turm-tab-wrap').hidden = false; $('#turm-sort').hidden = true; $('#turm-alle').hidden = false; $('#turm-alle').focus(); };
+  $('#turm-alle').onclick = () => { bild.replaceChildren(saeulen({ werte: [...Array(11).keys()], anz: LS, h: 260, steine: 30, hl: 8, minStein: true }));
+    const p = document.createElement('p'); p.className = 'hilfe-zeile'; p.textContent = 'Ein Stein steht jetzt für 50 Befragte (gerundet). Hervorgehoben: der Stapel bei 8.'; bild.append(p);
+    $('#turm-text').textContent = 'Alle 5.164 gültigen Antworten, ein Stein für 50 Befragte. Höchster Stapel bei 8 mit 1.506 Befragten.';
+    $('#turm-tab tbody').innerHTML = LS.map((a, i) => `<tr><td>${i}</td><td>${ganz(a)}</td><td>${de(a / LSN * 100, 1)} %</td></tr>`).join('') + `<tr><th scope="row">gültig zusammen</th><td>${ganz(LSN)}</td><td>100 %</td></tr><tr><th scope="row">fehlend</th><td>82</td><td>zählt nicht mit</td></tr>`; const tb = $('#turm-tab'); tb.tabIndex = -1; tb.focus();
+    $('#turm-alle').hidden = true; };
+  $('#v2-frage').onsubmit = e => { e.preventDefault(); const v = zahl($('#v2-in').value), p = $('#v2-frage .rueck');
+    if (isNaN(v)) { p.className = 'rueck no'; p.textContent = 'Gib eine Zahl ein, zum Beispiel 12,5.'; return; }
+    rueck(p, Math.abs(v - 19.3) <= 0.8, Math.abs(v - 19.3) <= 0.8 ? '998 geteilt durch 5.164 ergibt 19,3 %.' : `Du hast ${de(v, 1)} % eingegeben. Rechne Steine im Stapel geteilt durch alle gültigen: 998 / 5.164. Mal 100 ergibt Prozent.`); };
+})();
+
+/* ---------- V3 Formen und Labor ---------- */
+(() => {
+  const box = $('#formen');
+  FORMEN.forEach(f => { const kz = kennzahlen(f.werte, f.anz), fig = document.createElement('figure');
+    fig.innerHTML = `<figcaption>${f.name}</figcaption><p style="margin:0;font-weight:700">${f.frage} <span style="font-weight:600;color:var(--mute)">(<code>${f.id}</code>, n = ${ganz(kz.n)})</span></p>`;
+    const g = document.createElement('div'); g.append(saeulen({ werte: f.werte, anz: f.anz, w: 320, h: 150, steine: 12, minStein: true, marker: true })); fig.append(g);
+    fig.insertAdjacentHTML('beforeend', `<p class="hilfe-zeile">${f.skala}</p><p style="margin:6px 0 0;font-size:15px"><b>Erkennen:</b> ${f.erkennen}</p><p style="margin:2px 0 0;font-size:15px"><b>Heißt:</b> ${f.heisst}</p><p style="margin:2px 0 0;font-size:14px;color:var(--mute)">Mittelwert (Dreieck): ${de(kz.mw, 2)}<br>Median (Strich): ${String(kz.med).replace('-', '−')}</p>`);
+    fig.insertAdjacentHTML('beforeend', `<p class="sr">Säulenhöhen von links nach rechts: ${f.werte.map((w, i) => `${String(w).replace('-', 'minus ')}: ${ganz(f.anz[i])}`).join(', ')}.</p>`);
+    box.append(fig); });
+  const NAMEN = ['stark linksschief', 'leicht linksschief', 'symmetrisch', 'leicht rechtsschief', 'stark rechtsschief'];
+  const LAB = [[1, 1, 1, 2, 2, 2, 2, 3, 5, 9, 12], [0, 1, 1, 1, 2, 3, 4, 6, 9, 8, 5], [1, 1, 2, 4, 7, 10, 7, 4, 2, 1, 1], [5, 8, 9, 6, 4, 3, 2, 1, 1, 1, 0], [12, 9, 5, 3, 2, 2, 2, 2, 1, 1, 1]];
+  const ZWEI = [1, 3, 6, 7, 4, 2, 2, 4, 6, 4, 1];
+  const lab = () => { const k = +$('#lab-form').value, zwei = $('#lab-zwei').checked, anz = zwei ? ZWEI : LAB[k], werte = [...Array(11).keys()], kz = kennzahlen(werte, anz);
+    $('#lab-form').disabled = zwei; $('#lab-form').setAttribute('aria-valuetext', NAMEN[k]);
+    $('#lab-bild').replaceChildren(saeulen({ werte, anz, h: 190, steine: Math.max(...anz), marker: true }));
+    const d = kz.mw - kz.med, wo = zwei ? 'Mittelwert und Median liegen zwischen den Gipfeln, also genau dort, wo wenige stehen.' : Math.abs(d) < .25 ? 'Mittelwert und Median liegen fast gleich.' : d < 0 ? 'Der Mittelwert liegt links vom Median: Der lange Auslauf zieht ihn nach links.' : 'Der Mittelwert liegt rechts vom Median: Der lange Auslauf zieht ihn nach rechts.';
+    $('#lab-text').textContent = `${zwei ? 'zweigipflig' : NAMEN[k]}: Mittelwert ${de(kz.mw, 1)}, Median ${de(kz.med, 1)}. ${wo}`; };
+  $('#lab-form').oninput = lab; $('#lab-zwei').onchange = lab; lab();
+  $('#v3-frage').onsubmit = e => { e.preventDefault(); const v = $('#v3-frage input:checked')?.value, p = $('#v3-frage .rueck');
+    if (!v) { p.className = 'rueck no'; p.textContent = 'Wähl zuerst eine Form.'; return; }
+    rueck(p, v === 'rechts', 'Beim Einkommen liegen die meisten im unteren Bereich, wenige sehr hohe Einkommen bilden einen langen Auslauf nach rechts: rechtsschief. Der Mittelwert liegt deshalb über dem Median – darum berichtet man beim Einkommen meist den Median.'); };
+})();
+
+/* ---------- V4 Lineal und Boxplot ---------- */
+(() => {
+  const BASIS = [22, 28, 34, 34, 38, 40, 40, 43, 43, 44, 45]; let werte = [...BASIS], schritt = 1, kurz = false;
+  const SCHRITTE = ['Mittelwert', 'Median', 'Quartile', 'Kasten und Antennen'];
+  const nav = $('#v4-nav'); SCHRITTE.forEach((s, i) => nav.insertAdjacentHTML('beforeend', `<li><button data-s="${i + 1}">Schritt ${i + 1}: ${s}</button></li>`));
+  const q = { q1: 34, q3: 43 };
+  const ERKL = () => { const mw = werte.reduce((a, b) => a + b) / 11, summe = werte.reduce((a, b) => a + b);
+    return ['<b>Mittelwert:</b> Stell dir das Lineal als Wippe vor. Der Mittelwert ist der Punkt, an dem sie im Gleichgewicht ist: alle Stunden zusammen (' + summe + ') geteilt durch 11 Personen = <b>' + de(mw, 1) + ' Stunden</b>. Kurz gesagt: der Schwerpunkt.',
+      '<b>Median:</b> Zähl von links. Die sechste Person steht genau in der Mitte: fünf links, fünf rechts. Sie arbeitet <b>40 Stunden</b>. Kurz gesagt: Die eine Hälfte arbeitet weniger, die andere mehr.',
+      '<b>Quartile:</b> Die mittlere Person zählt zu keiner Hälfte. Links von ihr stehen fünf, rechts fünf. Teil jede Hälfte noch einmal in der Mitte: Die dritte Person (<b>34 Stunden</b>) ist das untere Quartil, die neunte (<b>43 Stunden</b>) das obere. Kurz gesagt: Zwischen ihnen steht die mittlere Hälfte der Personen.',
+      '<b>Kasten und Antennen:</b> Um die mittlere Hälfte zeichnest du einen Kasten, den Median als Strich hinein. Die <b>Antennen</b> reichen links und rechts bis zum kleinsten und größten Wert (höchstens anderthalb Kastenlängen weit, siehe Genauer erklärt). Fertig ist der <b>Boxplot</b>. Die Länge des Kastens (43 − 34 = 9 Stunden) heißt <b>Interquartilsabstand</b>.'][schritt - 1]; };
+  const zeichne = () => { const w = 540, h = 300, x = v => 22 + v / 50 * (w - 44), svg = el('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', 'aria-hidden': 'true' });
+    const lin = 170; svg.append(el('line', { x1: x(0), x2: x(50), y1: lin, y2: lin, stroke: '#1E2D3C', 'stroke-width': 2 }));
+    for (let v = 0; v <= 50; v += 5) { svg.append(el('line', { x1: x(v), x2: x(v), y1: lin, y2: lin + (v % 10 ? 5 : 9), stroke: '#1E2D3C' })); if (v % 10 === 0) svg.append(txt(x(v), lin + 22, v + ' Std.', { 'font-size': 12 })); }
+    const sortiert = [...werte].sort((a, b) => a - b), belegt = [];
+    sortiert.forEach((v, i) => { let s = 1; while (belegt.some(b => b.s === s && Math.abs(b.x - x(v)) < 23)) s++; belegt.push({ s, x: x(v) }); const y = lin - 6 - s * 25;
+      const mitte = schritt >= 2 && i === 5, quart = schritt >= 3 && (i === 2 || i === 8), neu = kurz && v === 0;
+      svg.append(el('rect', { x: x(v) - 11, y, width: 22, height: 22, rx: 5, fill: neu ? '#fdeeea' : mitte ? '#FFD2BC' : quart ? '#E6D3F2' : '#FFF6DA', stroke: neu ? '#a0452f' : mitte ? '#c97b55' : quart ? '#8a6fc9' : '#E0C46A', 'stroke-width': 1.5 }));
+      svg.append(txt(x(v), y + 15, i + 1, { 'font-size': 11, fill: '#1E2D3C', 'font-weight': 800 })); });
+    const mw = werte.reduce((a, b) => a + b) / 11;
+    svg.append(el('path', { d: `M${x(mw) - 9},${lin + 2} L${x(mw) + 9},${lin + 2} L${x(mw)},${lin - 12} Z`, fill: '#2C6CA8', transform: `translate(0,${-0})` }));
+    svg.append(txt(x(mw), lin + 40, 'Mittelwert ' + de(mw, 1), { fill: '#2C6CA8', 'font-weight': 800, 'font-size': 12.5 }));
+    if (schritt >= 2) { svg.append(el('line', { x1: x(40), x2: x(40), y1: 22, y2: lin, stroke: '#8a4a2c', 'stroke-width': 2.5, 'stroke-dasharray': '5 4' })); svg.append(txt(x(40), 16, 'Median 40', { fill: '#8a4a2c', 'font-weight': 800, 'font-size': 12.5 })); }
+    if (schritt >= 3) [q.q1, q.q3].forEach((v, i) => { svg.append(el('line', { x1: x(v), x2: x(v), y1: 34, y2: lin, stroke: '#8a6fc9', 'stroke-width': 1.8, 'stroke-dasharray': '3 4' })); svg.append(txt(x(v) + (i ? 22 : -22), 30, (i ? 'Q3 ' : 'Q1 ') + v, { fill: '#5b4fb0', 'font-weight': 800, 'font-size': 12.5 })); });
+    if (schritt >= 4) { const by = 258, zaun = q.q1 - 1.5 * (q.q3 - q.q1), drin = werte.filter(v => v >= zaun), aus = werte.filter(v => v < zaun), lo = Math.min(...drin), hi = Math.max(...werte);
+      svg.append(el('line', { x1: x(lo), x2: x(q.q1), y1: by, y2: by, stroke: '#1E2D3C', 'stroke-width': 2 })); svg.append(el('line', { x1: x(q.q3), x2: x(hi), y1: by, y2: by, stroke: '#1E2D3C', 'stroke-width': 2 }));
+      [lo, hi].forEach(v => svg.append(el('line', { x1: x(v), x2: x(v), y1: by - 8, y2: by + 8, stroke: '#1E2D3C', 'stroke-width': 2 })));
+      svg.append(el('rect', { x: x(q.q1), y: by - 18, width: x(q.q3) - x(q.q1), height: 36, rx: 5, fill: '#FFF0E8', stroke: '#1E2D3C', 'stroke-width': 2.2 }));
+      svg.append(el('line', { x1: x(40), x2: x(40), y1: by - 18, y2: by + 18, stroke: '#8a4a2c', 'stroke-width': 3.5 }));
+      aus.forEach(v => svg.append(el('circle', { cx: x(v), cy: by, r: 6, fill: '#fdeeea', stroke: '#a0452f', 'stroke-width': 2 })));
+      if (kurz) { svg.append(el('line', { x1: x(zaun), x2: x(zaun), y1: by - 26, y2: by + 26, stroke: '#a0452f', 'stroke-width': 1.8, 'stroke-dasharray': '4 3' })); svg.append(txt(x(zaun), by - 30, 'Grenze 20,5', { 'font-size': 11.5, fill: '#a0452f', 'font-weight': 800 })); }
+      svg.append(txt(x(lo) + (x(q.q1) - x(lo)) / 2, by - 8, 'Antenne (Whisker)', { 'font-size': 11.5 })); svg.append(txt(x(q.q1) - 4, by + 34, 'Kasten: mittlere Hälfte', { 'font-size': 11.5, 'text-anchor': 'start' })); }
+    $('#v4-bild').replaceChildren(svg);
+    const desc = `Elf Personen auf dem Lineal: ${[...werte].sort((a, b) => a - b).join(', ')} Stunden. Mittelwert ${de(mw, 1)}.` + (schritt >= 2 ? ' Median 40.' : '') + (schritt >= 3 ? ' Quartile 34 und 43.' : '') + (schritt >= 4 ? (kurz ? ' Kasten von 34 bis 43, Antennen von 28 bis 45, die 0 ist ein Ausreißer-Punkt.' : ' Kasten von 34 bis 43, Antennen von 22 bis 45.') : '');
+    $('#v4-bild').setAttribute('role', 'img'); $('#v4-bild').setAttribute('aria-label', desc);
+    $('#v4-erkl').innerHTML = ERKL();
+    $$('button', nav).forEach(b => b.setAttribute('aria-current', +b.dataset.s === schritt ? 'step' : 'false')); };
+  nav.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { schritt = +b.dataset.s; zeichne(); } }); zeichne();
+  $('#v4-frage').onsubmit = e => { e.preventDefault(); const v = $('#v4-frage input:checked')?.value, p = $('#v4-frage .rueck');
+    if (!v) { p.className = 'rueck no'; p.textContent = 'Leg dich zuerst fest.'; return; }
+    kurz = true; werte = [0, ...BASIS.slice(1)]; schritt = 4; zeichne(); $('#v4-leseart').hidden = false; $('#v4-zurueck').hidden = false;
+    rueck(p, v === 'b', v === 'b' ? 'Das Bild zeigt es: Das Dreieck rutscht von 37,4 auf 35,4, der Median-Strich bleibt bei 40.' : 'Nur der Mittelwert sinkt: von 37,4 auf 35,4. Der Median bleibt bei 40, weil die mittlere Person dieselbe bleibt.'); };
+  $('#v4-zurueck').onclick = () => { kurz = false; werte = [...BASIS]; zeichne(); $('#v4-zurueck').hidden = true; $('#v4-leseart').hidden = true; $('#v4-frage .rueck').textContent = ''; $$('#v4-frage input').forEach(i => i.checked = false); $('#v4-frage input').focus(); };
+  $('#v4-frage2').onsubmit = e => { e.preventDefault(); const v = $('#v4-frage2 input:checked')?.value, p = $('#v4-frage2 .rueck');
+    if (!v) { p.className = 'rueck no'; p.textContent = 'Leg dich zuerst fest.'; return; }
+    $('#v4-leseart2').hidden = false;
+    rueck(p, v === '38', v === '38' ? 'Von neun Personen steht die fünfte in der Mitte: 38 Stunden.' : v === '40' ? 'Die 40 war die Mitte von elf Personen. Ohne 44 und 45 bleiben neun, und die fünfte arbeitet 38 Stunden.' : 'Es fallen Werte am oberen Ende weg, die Mitte rutscht also nach unten: Von neun Personen arbeitet die fünfte 38 Stunden.'); };
+})();
+
+/* ---------- Echter Boxplot: Alter nach Ost/West ---------- */
+(() => {
+  const G = [{ n: 'West', k: 3553, lo: 18, q1: 36, med: 53, q3: 66, hi: 97 }, { n: 'Ost', k: 1670, lo: 18, q1: 39, med: 56, q3: 68, hi: 99 }];
+  const w = 620, h = 170, x = v => 120 + (v - 10) / 90 * (w - 150), svg = el('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', 'aria-hidden': 'true' });
+  G.forEach((g, i) => { const y = 40 + i * 58;
+    svg.append(txt(40, y + 5, g.n, { fill: '#1E2D3C', 'font-weight': 800, 'font-size': 14 })); svg.append(txt(40, y + 20, 'n = ' + ganz(g.k), { 'font-size': 11 }));
+    svg.append(el('line', { x1: x(g.lo), x2: x(g.hi), y1: y, y2: y, stroke: '#1E2D3C', 'stroke-width': 2 }));
+    [g.lo, g.hi].forEach(v => svg.append(el('line', { x1: x(v), x2: x(v), y1: y - 9, y2: y + 9, stroke: '#1E2D3C', 'stroke-width': 2 })));
+    svg.append(el('rect', { x: x(g.q1), y: y - 18, width: x(g.q3) - x(g.q1), height: 36, rx: 5, fill: '#FFF0E8', stroke: '#1E2D3C', 'stroke-width': 2.2 }));
+    svg.append(el('line', { x1: x(g.med), x2: x(g.med), y1: y - 18, y2: y + 18, stroke: '#8a4a2c', 'stroke-width': 3.5 }));
+    svg.append(txt(x(g.med), y - 23, g.med, { fill: '#8a4a2c', 'font-weight': 800, 'font-size': 12 })); });
+  for (let v = 20; v <= 100; v += 10) { svg.append(el('line', { x1: x(v), x2: x(v), y1: h - 26, y2: h - 21, stroke: '#5F6A74' })); svg.append(txt(x(v), h - 8, v)); }
+  svg.append(el('line', { x1: x(10), x2: x(100), y1: h - 26, y2: h - 26, stroke: '#5F6A74' })); svg.append(txt(x(10) - 4, h - 8, 'Alter in Jahren', { 'text-anchor': 'end', 'font-size': 11.5, 'font-weight': 700 }));
+  $('#box-echt').append(svg);
+})();
+
+/* ---------- V5 Histogramm ---------- */
+(() => {
+  const BREITEN = [1, 2, 5, 10, 20], sl = $('#hist-breite');
+  const zeichne = () => { const b = BREITEN[+sl.value], start = Math.floor(18 / b) * b, kisten = [];
+    for (let a = start; a <= 99; a += b) { let n = 0; for (let j = a; j < a + b; j++) if (j >= 18 && j <= 99) n += AGE[j - 18]; kisten.push({ a, n }); }
+    const w = 660, h = 230, pad = { l: 34, r: 8, t: 8, b: 26 }, iw = w - pad.l - pad.r, ih = h - pad.t - pad.b, max = Math.max(...kisten.map(k => k.n)), x = v => pad.l + (v - start) / (kisten.length * b) * iw;
+    const svg = el('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', 'aria-hidden': 'true' });
+    kisten.forEach(k => { const bh = k.n / max * ih; svg.append(el('rect', { x: x(k.a) + .5, y: pad.t + ih - bh, width: Math.max(1, x(k.a + b) - x(k.a) - 1), height: bh, fill: '#86B9DE', stroke: '#5f97c2', 'stroke-width': .6 })); });
+    svg.append(el('line', { x1: pad.l, x2: w - pad.r, y1: pad.t + ih, y2: pad.t + ih, stroke: '#9aa4ad', 'stroke-width': 1.5 }));
+    for (let v = 20; v <= 100; v += 10) if (v >= start) svg.append(txt(x(v), h - 6, v));
+    svg.append(txt(10, pad.t + 10, max, { 'text-anchor': 'start', 'font-size': 11 }));
+    $('#hist-bild').replaceChildren(svg);
+    $('#hist-wert').textContent = b + (b === 1 ? ' Jahr' : ' Jahre'); sl.setAttribute('aria-valuetext', $('#hist-wert').textContent);
+    const top = kisten.reduce((m, k) => k.n > m.n ? k : m), bis = top.a + b - 1;
+    $('#hist-text').textContent = `Kistenbreite ${$('#hist-wert').textContent}: ${kisten.length} Kisten. Die vollste Kiste: ${b === 1 ? top.a + ' Jahre' : top.a + ' bis ' + bis + ' Jahre'} mit ${ganz(top.n)} Befragten.`; };
+  sl.oninput = zeichne; zeichne();
+})();
+
+/* ---------- V6 Entscheidungsbaum und Zuordnung ---------- */
+(() => {
+  const svg = el('svg', { viewBox: '0 0 760 262', width: '100%', 'aria-hidden': 'true' });
+  const knoten = (x, y, w, t, sub, f = '#fff', s = '#978B7B') => { svg.append(el('rect', { x: x - w / 2, y: y - 20, width: w, height: sub ? 46 : 36, rx: 12, fill: f, stroke: s, 'stroke-width': 2 })); svg.append(txt(x, y + (sub ? -1 : 3), t, { fill: '#1E2D3C', 'font-weight': 800, 'font-size': 13.5 })); if (sub) svg.append(txt(x, y + 17, sub, { 'font-family': 'JetBrains Mono,monospace', 'font-size': 11.5, fill: '#5b4fb0' })); };
+  const linie = (x1, y1, x2, y2) => svg.append(el('path', { d: `M${x1},${y1} C${x1},${(y1 + y2) / 2} ${x2},${(y1 + y2) / 2} ${x2},${y2}`, fill: 'none', stroke: '#978B7B', 'stroke-width': 2 }));
+  // Beschriftung als kleines Schild auf dem Pfad, eine oder zwei Zeilen
+  const schild = (x, y, zeilen) => { const w = Math.max(...zeilen.map(z => z.length)) * 6.3 + 14, h = zeilen.length * 14 + 6;
+    svg.append(el('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 7, fill: '#FFFCF3', stroke: '#E9DFCF', 'stroke-width': 1 }));
+    zeilen.forEach((z, k) => svg.append(txt(x, y - h / 2 + 14 + k * 14, z, { 'font-size': 11.5, fill: '#5F6A74', 'font-weight': 700 }))); };
+  linie(380, 38, 170, 98); linie(380, 38, 560, 98);
+  linie(170, 126, 80, 194); linie(170, 126, 260, 194);
+  linie(560, 126, 430, 194); linie(560, 126, 560, 194); linie(560, 126, 690, 194);
+  schild(262, 66, ['eine']); schild(482, 66, ['zwei']);
+  schild(80, 158, ['wenige Stufen']); schild(260, 158, ['viele Werte']);
+  schild(430, 158, ['beide wenige', 'Stufen']); schild(560, 158, ['eine viele Werte,', 'eine Gruppen']); schild(690, 158, ['beide viele', 'Werte']);
+  knoten(380, 28, 230, 'Wie viele Variablen?', '', '#FFF0E8', '#F0A27E'); knoten(170, 108, 150, 'eine Variable', '', '#FFF6DA', '#E0C46A'); knoten(560, 108, 150, 'zwei Variablen', '', '#FFF6DA', '#E0C46A');
+  knoten(80, 214, 140, 'Balken', 'geom_bar()', '#EAF5FC', '#86B9DE'); knoten(260, 214, 150, 'Histogramm', 'geom_histogram()', '#EAF5FC', '#86B9DE');
+  knoten(430, 214, 120, 'auf 100 %', 'position="fill"', '#EAF5FC', '#86B9DE'); knoten(560, 214, 116, 'Boxplots', 'geom_boxplot()', '#EAF5FC', '#86B9DE'); knoten(690, 214, 116, 'Punkte', 'geom_point()', '#EAF5FC', '#86B9DE');
+  $('#baum').append(svg);
+  const OPT = ['Balken', 'Histogramm', 'Boxplots', 'Balken auf 100 %', 'Punkte'];
+  const FR = [['Wie viele Kinder leben in den Haushalten? (dk11)', 0, 'Eine Variable mit wenigen Stufen (0 bis 7): Balken.'],
+    ['Wie alt sind die Befragten? (age)', 1, 'Eine Variable mit vielen Werten (18 bis 99): Histogramm.'],
+    ['Ist das Alter im Osten anders verteilt als im Westen? (age nach eastwest)', 2, 'Viele Werte (Alter) nach zwei Gruppen: Boxplots nebeneinander.'],
+    ['Bewerten Ost und West die Leihmutterschaft unterschiedlich? (vm18 nach eastwest)', 3, 'Zwei Variablen mit wenigen Stufen: Balken auf 100 %, damit die ungleich großen Gruppen vergleichbar werden.'],
+    ['Hängt das Alter der Befragten mit dem Alter ihrer Ehepartner zusammen? (age und scage)', 4, 'Zwei Variablen mit vielen Werten: Punkte, ein Paar je Punkt.']];
+  const box = $('#v6-fragen');
+  FR.forEach(([q], i) => box.insertAdjacentHTML('beforeend', `<div class="frage feld" style="justify-content:space-between"><label for="v6-${i}" style="flex:1;min-width:220px">${i + 1}. ${q}</label><select id="v6-${i}" aria-describedby="v6-r${i}" style="border:2px solid var(--rand);border-radius:10px;padding:4px 8px;font-weight:700"><option value="">Form wählen</option>${OPT.map((o, k) => `<option value="${k}">${o}</option>`).join('')}</select><span class="hilfe-zeile" id="v6-r${i}" style="flex-basis:100%"></span></div>`));
+  $('#v6-frage').onsubmit = e => { e.preventDefault(); let ok = 0, offen = 0;
+    FR.forEach(([, a, warum], i) => { const s = $('#v6-' + i), r = $('#v6-r' + i);
+      if (s.value === '') { offen++; r.textContent = ''; s.removeAttribute('aria-invalid'); return; }
+      const t = +s.value === a; ok += t; s.setAttribute('aria-invalid', String(!t)); s.style.borderColor = t ? 'var(--gruend)' : 'var(--rot)';
+      r.innerHTML = (t ? '<b style="color:var(--gruend)">Passt.</b> ' : `<b style="color:var(--rot)">Passt nicht:</b> ${OPT[+s.value]} ist hier nicht die beste Wahl. `) + warum; });
+    const p = $('#v6-frage .rueck'); p.className = 'rueck ' + (ok === 5 ? 'ok' : 'no');
+    p.textContent = offen ? `Noch ${offen} Fragen ohne Form.` : ok === 5 ? 'Alle fünf passen.' : `${ok} von 5 passen. Unter jeder Frage steht die Begründung.`; };
+})();
+
+/* ---------- V7 Achse ---------- */
+let tipp7 = null;
+(() => {
+  const W = 7.4387, O = 7.1790, sl = $('#achse');
+  const zeichne = () => { const a = +sl.value, w = 660, h = 260, pad = { l: 60, t: 24, b: 34 }, ih = h - pad.t - pad.b, top = 8, y = v => pad.t + ih - (v - a) / (top - a) * ih;
+    const svg = el('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', 'aria-hidden': 'true' });
+    [['West', W, '#86B9DE', 150], ['Ost', O, '#F0A27E', 330]].forEach(([n, v, f, x]) => {
+      svg.append(el('rect', { x, y: y(v), width: 130, height: pad.t + ih - y(v), rx: 6, fill: f, stroke: f === '#86B9DE' ? '#5f97c2' : '#c97b55', 'stroke-width': 1.5 }));
+      svg.append(txt(x + 65, y(v) - 6, de(v, 2), { fill: '#1E2D3C', 'font-weight': 800, 'font-size': 15 })); svg.append(txt(x + 65, h - 10, n, { fill: '#1E2D3C', 'font-weight': 800, 'font-size': 14 }));
+      if (a > 0) { svg.append(el('rect', { x, y: pad.t + ih + 2, width: 130, height: 8, rx: 2, fill: 'url(#versteckt)' })); } });
+    const defs = el('defs'); const pat = el('pattern', { id: 'versteckt', width: 6, height: 6, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }); pat.append(el('rect', { width: 3, height: 6, fill: '#c9ced3' })); defs.append(pat); svg.prepend(defs);
+    svg.append(el('line', { x1: pad.l, x2: pad.l, y1: pad.t - 6, y2: pad.t + ih, stroke: '#1E2D3C', 'stroke-width': 1.5 })); svg.append(el('line', { x1: pad.l, x2: w - 20, y1: pad.t + ih, y2: pad.t + ih, stroke: '#1E2D3C', 'stroke-width': 1.5 }));
+    svg.append(txt(pad.l - 8, pad.t + ih + 4, de(a, 1).replace(',0', ''), { 'text-anchor': 'end', fill: '#1E2D3C', 'font-weight': 800 }));
+    if (a > 0) svg.append(txt(510, pad.t + ih + 26, `versteckt: die ersten ${de(a, 1)} Punkte beider Balken`, { 'font-size': 12, fill: '#a0452f', 'font-weight': 700 }));
+    $('#achse-bild').replaceChildren(svg);
+    const f = (W - a) / (O - a); $('#achse-wert').textContent = de(a, 1); sl.setAttribute('aria-valuetext', de(a, 1));
+    $('#achse-text').textContent = `Achse ab ${de(a, 1)}: Der West-Balken ist im Bild ${de(f, 2)}-mal so lang wie der Ost-Balken. Ab 0 wäre er 1,04-mal so lang.`; };
+  let gefunden = false;
+  sl.oninput = () => { zeichne(); };
+  sl.addEventListener('change', () => { const t = $('#achse-text'), a = +sl.value; t.setAttribute('aria-live', 'polite');
+    if (!gefunden && a >= 6.9) { gefunden = true; $('#v7-loesung').hidden = false;
+      $('#v7-loesung').querySelector('p').innerHTML = `<b class="t">Gefunden:</b> Ab etwa 6,9 wirkt der West-Balken doppelt so lang wie der Ost-Balken${tipp7 !== null ? ` (dein Tipp war ${de(tipp7, 1)})` : ''}. Dabei beträgt der Unterschied nur 0,26 Punkte. Ab 0 ist der West-Balken 1,04-mal so lang, ab 7,1 schon 4,29-mal: Die Achse versteckt die 7,1 Punkte, die beide Gruppen gemeinsam haben.`; }
+    t.textContent = t.textContent; });
+  zeichne();
+  $('#v7-frage').onsubmit = e => { e.preventDefault(); const v = zahl($('#v7-in').value), p = $('#v7-frage .rueck');
+    if (isNaN(v)) { p.className = 'rueck no'; p.textContent = 'Gib einen Startwert ein, zum Beispiel 5.'; return; }
+    tipp7 = v; p.className = 'rueck'; p.style.color = 'var(--lilad)'; p.textContent = `Festgelegt: ${de(v, 1)}. Schieb jetzt den Regler und such die Stelle, an der der West-Balken doppelt so lang wirkt.`; };
+})();
+
+/* ---------- Codevorlagen ---------- */
+// ⟦…⟧ markiert Stellen, die angepasst werden
+const CODE = {
+  start: { titel: 'Startblock', code: `# Pakete laden und Daten einlesen
+library(tidyverse)
+library(mariposa)
+
+allbus <- read_spss("ZA8831_v1-3-0.sav")` },
+  schichten: { titel: 'Vorlage: Balkendiagramm', code: `# Balkendiagramm der Lebenszufriedenheit
+allbus %>%
+  drop_na(ls01) %>%
+  ggplot(aes(x = ls01)) +
+  geom_bar() +
+  labs(title = "Lebenszufriedenheit",
+       caption = "ALLBUS 2023, n = 5.164, ungewichtet")` },
+  a1v: { titel: 'Vorlage 1: Gesundheit, mit fehlenden Werten', code: `# Verteilung der Gesundheit mit Wörtern auf der Achse
+allbus %>%
+  to_label(hs01) %>%
+  ggplot(aes(x = hs01)) +
+  geom_bar()` },
+  a1n: { titel: 'Vorlage 2: ohne fehlende Werte, beschriftet', code: `# Fehlende Werte weglassen und beschriften
+allbus %>%
+  to_label(hs01) %>%
+  drop_na(hs01) %>%
+  ggplot(aes(x = hs01)) +
+  geom_bar() +
+  labs(title = "⟦Titel⟧",
+       caption = "ALLBUS 2023, n = ⟦Zahl⟧, ungewichtet")` },
+  a2: { titel: 'Vorlage: eine Verteilung prüfen', code: `# Eine Verteilung als Balken zeigen
+allbus %>%
+  drop_na(⟦pa01⟧) %>%
+  ggplot(aes(x = ⟦pa01⟧)) +
+  geom_bar()` },
+  a3d: { titel: 'Kennzahlen der Bearbeitungsdauer', code: `# Kennzahlen der Bearbeitungsdauer in Minuten
+allbus %>%
+  describe(xt10)` },
+  a3o: { titel: 'Histogramm ohne Angaben', code: `# Histogramm ohne weitere Angaben
+allbus %>%
+  ggplot(aes(x = xt10)) +
+  geom_histogram()` },
+  a3m: { titel: 'Histogramm mit Ausschnitt und Kistenbreite', code: `# Nur Bögen bis 180 Minuten, Kisten von 5 Minuten
+allbus %>%
+  filter(xt10 <= 180) %>%
+  ggplot(aes(x = xt10)) +
+  geom_histogram(binwidth = ⟦5⟧, boundary = 0)` },
+  a3n: { titel: 'Kennzahlen nach dem Ausschnitt', code: `# Kennzahlen nur für Bögen bis 180 Minuten
+allbus %>%
+  filter(xt10 <= 180) %>%
+  describe(xt10)` },
+  a4: { titel: 'Boxplots, hineingezoomt (alle Bögen zählen)', code: `# Dauer nach Erhebungsweg, Blick auf 0 bis 180 Minuten
+allbus %>%
+  to_label(mode) %>%
+  ggplot(aes(x = mode, y = xt10)) +
+  geom_boxplot() +
+  coord_cartesian(ylim = c(0, ⟦180⟧))` },
+  a4f: { titel: 'Boxplots, abgeschnitten (nur Bögen bis 180 Minuten)', code: `# Dauer nach Erhebungsweg, lange Bögen vorher entfernt
+allbus %>%
+  filter(xt10 <= 180) %>%
+  to_label(mode) %>%
+  ggplot(aes(x = mode, y = xt10)) +
+  geom_boxplot()` },
+  a4z: { titel: 'Zahlen für einen Erhebungsweg, alle Bögen', code: `# Median, Quartile und N für einen Erhebungsweg
+allbus %>%
+  filter(mode == ⟦4⟧) %>%
+  describe(xt10, show = c("median", "quantiles"))` },
+  frei_a1: { frei: true, titel: 'Deine Probier-Werkstatt', code: `# Eine Idee: Gesundheit nur bei Menschen ab 65 Jahren
+allbus %>%
+  filter(age >= 65) %>%
+  frequency(hs01)
+` },
+  frei_a2: { frei: true, titel: 'Deine Probier-Werkstatt', code: `# Eine Idee: die Frage, die übrig geblieben ist
+allbus %>%
+  drop_na(pt03) %>%
+  ggplot(aes(x = pt03)) +
+  geom_bar()
+` },
+  frei_a3: { frei: true, titel: 'Deine Probier-Werkstatt', code: `# Eine Idee: Bögen, die länger als einen Tag (1440 Minuten) dauerten
+allbus %>%
+  filter(xt10 > 1440) %>%
+  frequency(mode)
+` },
+  frei_a4: { frei: true, titel: 'Deine Probier-Werkstatt', code: `# Eine Idee: Alter nach Erhebungsweg
+allbus %>%
+  to_label(mode) %>%
+  ggplot(aes(x = mode, y = age)) +
+  geom_boxplot()
+` },
+  a4zf: { titel: 'Zahlen für einen Erhebungsweg, nur bis 180 Minuten', code: `# Dieselben Zahlen, aber nur für Bögen bis 180 Minuten
+allbus %>%
+  filter(mode == ⟦4⟧, xt10 <= 180) %>%
+  describe(xt10, show = c("median", "quantiles"))` }
+};
+const plain = c => c.replace(/⟦|⟧/g, '');
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const markiert = c => esc(c).replace(/⟦(.*?)⟧/g, '<mark class="stelle">$1</mark>');
+const status = document.createElement('p'); status.className = 'sr'; status.setAttribute('aria-live', 'polite'); document.body.append(status);
+$$('.codewrap').forEach((w, nr) => { const k = w.dataset.code, c = CODE[k], tid = 'code-t' + nr; if (w.hasAttribute('data-live')) { werkstatt(w, c, nr); return; }
+  const stellen = []; c.code.split('\n').forEach((z, i) => [...z.matchAll(/⟦(.*?)⟧/g)].forEach(m => stellen.push(`Zeile ${i + 1}: <code>${esc(m[1])}</code>`)));
+  w.innerHTML = `<figure class="codefig"><figcaption class="codekopf"><span id="${tid}">${c.titel}</span><span class="tasten"><button type="button" data-kopie aria-describedby="${tid}">Kopieren</button>${w.hasAttribute('data-live') ? `<button type="button" data-live-start aria-describedby="${tid}">Hier ausführen (Test)</button>` : ''}</span></figcaption><pre class="code" tabindex="0">${markiert(c.code)}</pre></figure>` + (stellen.length ? `<p class="stellen-liste">Markiert und anzupassen: ${stellen.join('; ')}.</p>` : '');
+  $('[data-kopie]', w).onclick = async e => { const t = plain(c.code); try { await navigator.clipboard.writeText(t); } catch { const ta = document.createElement('textarea'); ta.value = t; document.body.append(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+    e.target.textContent = 'Kopiert ✓'; status.textContent = 'Code kopiert: ' + c.titel; setTimeout(() => e.target.textContent = 'Kopieren', 1800); };
+  });
+
+/* ---------- R2 Schichten ---------- */
+(() => {
+  const ZEILEN = [{ s: 1, t: 'allbus %>%' }, { s: 4, t: '  drop_na(ls01) %>%' }, { s: 2, t: '  ggplot(aes(x = ls01)) +' }, { s: 3, t: '  geom_bar() +' }, { s: 5, t: '  labs(title = "Lebenszufriedenheit",' }, { s: 5, t: '       caption = "ALLBUS 2023, n = 5.164, ungewichtet")' }];
+  const SCH = [['Daten', '<code>allbus %&gt;%</code> nimmt den Datensatz und reicht ihn weiter: „und dann“. Noch ist nichts zu sehen.'],
+    ['Leinwand', '<code>ggplot(aes(x = ls01))</code> legt eine leere Leinwand an. <code>aes()</code> sagt, welche Variable wohin kommt: <code>ls01</code> auf die x-Achse. Als Achsentitel nimmt R die Beschriftung aus dem Datensatz (bei älteren ggplot2-Versionen steht dort der Variablenname).'],
+    ['Form', '<code>+ geom_bar()</code> legt Balken auf die Leinwand. Das Plus heißt: noch eine Schicht drauf. R zählt für jeden Wert die Personen. Und R meldet: 82 Zeilen ohne Wert wurden weggelassen – still, nur mit einer Warnung.'],
+    ['Fehlende weglassen', '<code>drop_na(ls01)</code> lässt alle ohne gültige Antwort ausdrücklich weg, bevor gezeichnet wird. Die Grafik sieht gleich aus, aber die Warnung ist weg, und du weißt genau, wie viele übrig sind: 5.164.'],
+    ['Beschriftung', '<code>labs()</code> gibt Titel und Bildunterschrift. Jetzt sagt die Grafik, was sie zeigt, woher die Daten kommen und wie viele es sind.']];
+  const nav = $('#r2-nav'); SCH.forEach(([n], i) => nav.insertAdjacentHTML('beforeend', `<li><button data-s="${i + 1}">Schritt ${i + 1}: ${n}</button></li>`));
+  const zeige = s => {
+    $('#r2-code').innerHTML = ZEILEN.filter(z => z.s <= s).map(z => `<span class="z${z.s === s ? ' jetzt' : ''}">${esc(s < 4 && z.s === 2 ? z.t : z.t)}</span>`).join('\n').replace(/ (\+|%&gt;%)<\/span>$/, '</span>');
+    const w = 360, h = 230, svg = el('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%' }), pl = 34, pb = 40, iw = w - pl - 10, ih = h - pb - (s >= 5 ? 30 : 12), top = s >= 5 ? 30 : 12;
+    svg.append(el('rect', { x: pl, y: top, width: iw, height: ih, fill: '#EBEBEB' }));
+    if (s >= 2) { [0, 2.5, 5, 7.5, 10].forEach(v => { const x = pl + (v + .5) / 11 * iw; svg.append(el('line', { x1: x, x2: x, y1: top, y2: top + ih, stroke: '#fff' })); svg.append(txt(x, top + ih + 13, String(v), { 'font-family': 'Arial', 'font-size': 10, fill: '#4d4d4d' })); });
+      svg.append(txt(pl + iw / 2, h - 8, 'ALLGEMEINE LEBENSZUFRIEDENHEIT', { 'font-family': 'Arial', 'font-size': 10.5, fill: '#1a1a1a' })); }
+    if (s >= 3) { const max = Math.max(...LS); LS.forEach((a, i) => { const bh = a / max * (ih - 8), bw = iw / 11 * .9; svg.append(el('rect', { x: pl + i / 11 * iw + iw / 11 * .05, y: top + ih - bh, width: bw, height: bh, fill: '#595959' })); }); }
+    if (s >= 5) { svg.append(txt(pl, 16, 'Lebenszufriedenheit', { 'text-anchor': 'start', 'font-family': 'Arial', 'font-size': 13, fill: '#1a1a1a' })); svg.append(txt(w - 6, h - 22, 'ALLBUS 2023, n = 5.164, ungewichtet', { 'text-anchor': 'end', 'font-family': 'Arial', 'font-size': 9, fill: '#333' })); }
+    if (s === 1) svg.append(txt(pl + iw / 2, top + ih / 2, 'noch keine Leinwand', { 'font-size': 13 }));
+    if (s === 1) svg.firstChild.setAttribute('fill', '#fff');
+    $('#r2-bild').replaceChildren(svg);
+    $('#r2-warn').innerHTML = s === 3 ? '<div class="warnung" role="note" lang="en">Warnmeldung: Removed 82 rows containing non-finite outside the scale range (`stat_count()`).</div>' : '';
+    const BILD = ['Bild: noch leer.', 'Bild: eine leere graue Leinwand, unten die Achse mit 0, 2.5, 5, 7.5 und 10 und dem Titel ALLGEMEINE LEBENSZUFRIEDENHEIT.', 'Bild: elf graue Balken von 0 bis 10, der höchste bei 8. Darunter die gelbe Warnmeldung.', 'Bild: dieselben elf Balken, die Warnung ist weg.', 'Bild: dieselben Balken mit Titel Lebenszufriedenheit oben und Bildunterschrift unten rechts.'];
+    $('#r2-erkl').innerHTML = SCH[s - 1][1] + `<span class="sr"> ${BILD[s - 1]}</span>`;
+    $$('button', nav).forEach(b => b.setAttribute('aria-current', +b.dataset.s === s ? 'step' : 'false')); };
+  nav.addEventListener('click', e => { const b = e.target.closest('button'); if (b) zeige(+b.dataset.s); }); zeige(1);
+})();
+
+/* ---------- Hilfe bei R-Fehlermeldungen ---------- */
+const FEHLERHILFE = `<details class="hilfe"><summary>Hilfe: R meldet einen Fehler</summary>
+  <table class="daten"><caption>Was R sagt und was du tust</caption><thead><tr><th scope="col">R meldet</th><th scope="col">Das hilft</th></tr></thead><tbody>
+  <tr><td><code>konnte Funktion "%&gt;%" nicht finden</code></td><td>Den <a href="#r1">Startblock in „R lesen“</a> ausführen.</td></tr>
+  <tr><td><code>Objekt 'allbus' nicht gefunden</code></td><td>Die Zeile mit <code>read_spss()</code> aus dem Startblock ausführen.</td></tr>
+  <tr><td><code>'ZA8831_v1-3-0.sav' does not exist</code></td><td>Öffne RStudio über dein Projekt. Findet R die Datei nicht, nimm wie in Sitzung 1 <code>allbus &lt;- read_spss(file.choose())</code>.</td></tr>
+  <tr><td><code>Objekt 'Gesundheitszustand' nicht gefunden</code></td><td>Beim Titel fehlen die Anführungszeichen: <code>title = "Gesundheitszustand"</code>.</td></tr>
+  <tr><td><code>\`data\` must be a data frame</code></td><td>Eine Zeile steht an der falschen Stelle. Kopiere die Vorlage neu und ändere nur die markierten Stellen.</td></tr>
+  <tr><td>Grafik zeigt die falsche Variable</td><td>Alle markierten Stellen tauschen, nicht nur eine. Prüfe den Namen unter der x-Achse.</td></tr>
+  </tbody></table></details>`;
+$$('.aufgabe').forEach(a => a.insertAdjacentHTML('beforeend', FEHLERHILFE));
+
+/* ---------- Festlegen ---------- */
+$$('form.festlegen').forEach(f => f.onsubmit = e => { e.preventDefault(); const p = $('.rueck', f), r = $('input:checked', f), t = $('input[type=text]', f);
+  const v = r ? r.value : t && t.value.trim(); if (!v) { p.className = 'rueck no'; p.textContent = 'Leg dich zuerst fest.'; return; }
+  $$('input', f).forEach(i => i.disabled = true); $('button', f).disabled = true; p.className = 'rueck'; p.style.color = 'var(--lilad)';
+  p.textContent = `Festgelegt: ${v}. Die Auflösung bekommst du, wenn du am Ende der Aufgabe deine Antworten prüfst.`; f.dataset.wert = v; });
+
+/* ---------- Antworten prüfen ---------- */
+function pruefe(formId, regeln, festId) { const f = $(formId); f.onsubmit = e => { e.preventDefault(); const out = []; const fest = festId ? $(`form.festlegen[data-festlegen="${festId}"]`)?.dataset.wert : null;
+  regeln.forEach(([frage, test, gut, schlecht]) => { const w = test(); out.push(w === null ? `• ${frage}: noch offen.` : (w ? '✓ ' : '✗ ') + `${frage}: ${w ? gut : schlecht}`); });
+  const p = $('.rueck', f); const alle = regeln.every(([, t]) => t() === true); p.className = 'rueck ' + (alle ? 'ok' : 'no'); p.innerHTML = '';
+  setTimeout(() => { p.innerHTML = out.map(o => `<div>${o}</div>`).join('') + (fest ? `<div style="color:var(--lilad)">Deine Festlegung vorher war: ${fest}.</div>` : '') + (alle ? '<div>Alles richtig.</div>' : ''); }, 30); }; }
+// Eingaben lesen wie Menschen und wie R sie schreiben: „5.209“ (deutsch) und „65.000“ (R-Ausgabe, Punkt als Komma)
+const kandidaten = s => { const m = String(s).match(/-?[\d.,]+/); if (!m) return null; const r = m[0], c = new Set();
+  const de1 = +r.replace(/\./g, '').replace(',', '.'), en = +r.replace(/,/g, ''); if (!isNaN(de1)) c.add(de1); if (!isNaN(en)) c.add(en); return c.size ? [...c] : null; };
+const radio = n => document.querySelector(`input[name="${n}"]:checked`)?.value ?? null, feldz = id => kandidaten($(id).value);
+const t = (v, f) => v === null ? null : Array.isArray(v) ? v.some(f) : f(v);
+pruefe('#a1-fragen', [
+  ['Balken ganz rechts', () => t(radio('a1a'), v => v === 'na'), 'NA, Personen ohne gültige Antwort.', 'Schau auf die Beschriftung ganz rechts: Bei Wörtern auf der Achse zeigt ggplot fehlende Werte als eigenen Balken „NA“.'],
+  ['Personen im NA-Balken', () => t(feldz('#a1b'), v => v === 37), '37 (5 Datenfehler, 32 keine Angabe).', 'In frequency(hs01) steht die Zahl in der Zeile „Total missing“.'],
+  ['n für die Bildunterschrift', () => t(feldz('#a1c'), v => v === 5209), '5.209 gültige Antworten.', 'Gemeint sind alle, die nach drop_na() übrig bleiben: „Total valid“ in frequency(hs01).'],
+  ['häufigste Antwort', () => t(radio('a1d'), v => v === 'gut'), '„gut“ mit 2.071 Personen, das sind 40 %.', 'Der höchste Balken steht über „GUT“. Achtung: 1 heißt hier „sehr gut“, ohne to_label() würdest du nur Zahlen sehen.']], 'a1');
+pruefe('#a3-fragen', [
+  ['Median', () => t(feldz('#a3a'), v => v === 65), '65 Minuten. R schreibt 65.000 – der Punkt ist dort ein Komma.', 'Lies in describe(xt10) die Spalte Median. Achtung: R schreibt 65.000, gemeint ist 65.'],
+  ['eine Säule', () => t(radio('a3b'), v => v === 'max'), 'Range 61.887 Minuten, also gut sechs Wochen zwischen dem kürzesten und dem längsten Bogen. Die Achse reicht so weit, alle anderen landen in der ersten Kiste.', 'R rechnet richtig. Schau in describe(xt10) auf Range: Die Achse muss bis zum größten Wert reichen.'],
+  ['übrige Bögen', () => t(feldz('#a3c'), v => v === 4529), '4.529 von 5.026 Bögen.', 'Führe allbus %>% filter(xt10 <= 180) %>% describe(xt10) aus und lies N.'],
+  ['Spitze', () => t(radio('a3d'), v => v === '60'), 'Bei 60 Minuten stehen 216 Bögen, bei 59 nur 38: Wer die Dauer schätzt, rundet auf volle Stunden.', 'Stell binwidth = 1 ein und such die höchste Säule. Achte auf runde Zahlen.'],
+  ['breite Kisten', () => t(radio('a3e'), v => v === 'weg'), 'In 30-Minuten-Kisten fallen die Spitzen mit ihren Nachbarn zusammen und verschwinden.', 'Probier binwidth = 30 aus und vergleiche.']], 'a3');
+pruefe('#a4-fragen', [
+  ['Hineinzoomen', () => t(radio('a4a'), v => v === 'MAIL'), 'Papier (MAIL) mit 75 Minuten, dann Interview 70 und online 49.', 'Schau auf den Strich im Kasten im ersten Bild (coord_cartesian) oder nimm die Vorlage „alle Bögen“ für jeden Weg.'],
+  ['Abschneiden', () => t(radio('a4b'), v => v === 'CAPI'), 'Jetzt liegt das Interview vorn (70), Papier fällt auf 60.', 'Schau ins zweite Bild (filter) oder nimm die Vorlage „nur bis 180 Minuten“.'],
+  ['herausgefallene Papierbögen', () => t(feldz('#a4c'), v => v === 306), '1.436 minus 1.130 sind 306 Bögen, gut jeder fünfte Papierbogen.', 'Lies N für mode == 4 einmal ohne (1.436) und einmal mit Filter und zieh ab.'],
+  ['Reihenfolge', () => t(radio('a4d'), v => v === 'lang'), 'Der Filter wirft 306 Papierbögen hinaus, aber nur 14 Interviews. Übrig bleiben vor allem die schnellen Papierbögen.', 'R rechnet richtig, und Hineinzoomen ändert keine Werte. Vergleiche, wie viele Bögen je Weg herausfallen.'],
+  ['Bericht', () => t(radio('a4e'), v => v === 'ehrlich'), 'Genau: alle Bögen zeigen und sagen, was die Zahlen einschränkt.', 'Diese Aussage stimmt nur, wenn man vorher die langen Papierbögen hinauswirft. Ein Bericht sagt, wer im Bild fehlt.']], 'a4');
+
+/* ---------- A2 Rätselkasten ---------- */
+(() => {
+  const BILD = { A: { anz: [377, 242, 199, 594, 461, 539, 747], richtig: 'vm20' }, B: { anz: DW15, richtig: 'dw15' }, C: { anz: [527, 1542, 2303, 663, 190], richtig: 'pa02a' }, D: { anz: [186, 250, 751, 672, 1381, 1001, 407, 227, 65, 57], richtig: 'pa01' } };
+  const NAMEN = { dw15: 'Arbeitsstunden', pa01: 'Links-rechts', pa02a: 'Politisches Interesse', vm20: 'Sterbehilfe', pt03: 'Vertrauen Bundestag' };
+  const MERKMAL = { A: 'sieben Stufen, Gipfel ganz rechts', B: 'viele Werte, die Säule bei 40 ragt weit heraus, Spitzen bei runden Zahlen', C: 'fünf Stufen, Gipfel in der Mitte', D: 'zehn Stufen, Gipfel bei 5' };
+  const box = $('#a2-bilder');
+  Object.entries(BILD).forEach(([k, b]) => { const fig = document.createElement('figure'), max = Math.max(...b.anz);
+    fig.innerHTML = `<figcaption>${k}</figcaption>`; const g = document.createElement('div');
+    g.append(saeulen({ werte: b.anz.map((_, i) => i), anz: b.anz, h: 130, labels: k === 'B', labelJede: 10, farbe: '#A79FE2', kontur: '#6f63c9' })); fig.append(g);
+    const rel = k === 'B' ? 'viele schmale Säulen von 0 bis 90, Achse in Zehnerschritten. Bei 40 steht mit Abstand die höchste Säule (Höhe 10). Deutlich niedriger, etwa Höhe 3: bei 30 und 39; etwa Höhe 2: bei 20, 35, 38, 45 und 50. Dazwischen fast nichts.' : b.anz.length + ' Säulen, relative Höhen von links nach rechts: ' + b.anz.map(a => Math.round(a / max * 10)).join(', ') + '.';
+    fig.insertAdjacentHTML('beforeend', `<p class="sr">Verteilung ${k}: ${rel}</p><label for="a2-${k}" style="font-weight:700;display:block;margin-top:6px">Frage zu ${k}</label><select id="a2-${k}" aria-describedby="a2-r${k}"><option value="">wählen</option>${Object.entries(NAMEN).map(([v, n]) => `<option value="${v}">${n} (${v})</option>`).join('')}</select><span class="hilfe-zeile" id="a2-r${k}"></span>`);
+    box.append(fig); });
+  $('#a2-form').onsubmit = e => { e.preventDefault(); let ok = 0, offen = 0;
+    Object.entries(BILD).forEach(([k, b]) => { const s = $('#a2-' + k), r = $('#a2-r' + k); s.classList.remove('passt'); s.removeAttribute('aria-invalid');
+      if (!s.value) { offen++; r.textContent = ''; return; } const t = s.value === b.richtig; ok += t;
+      if (t) { s.classList.add('passt'); r.innerHTML = `<b style="color:var(--gruend)">Passt:</b> ${MERKMAL[k]}.`; } else { s.setAttribute('aria-invalid', 'true'); r.innerHTML = `<b style="color:var(--rot)">Passt nicht.</b> Achte auf: ${MERKMAL[k]}.`; } });
+    const p = $('#a2-form .rueck'); p.className = 'rueck ' + (ok === 4 ? 'ok' : 'no');
+    p.textContent = offen ? `Noch ${offen} ohne Zuordnung.` : ok === 4 ? 'Alle vier richtig. Übrig bleibt das Vertrauen in den Bundestag: sieben Stufen, Gipfel in der Mitte.' : `${ok} von 4 richtig. Unter jedem Bild steht, worauf du achten kannst.`; };
+})();
+
+/* ---------- A1: Achse ---------- */
+$('#a1-achse').onsubmit = e => { e.preventDefault(); const v = $('#a1-achse input:checked')?.value, p = $('#a1-achse .rueck');
+  if (!v) { p.className = 'rueck no'; p.textContent = 'Leg dich zuerst fest.'; return; }
+  rueck(p, v === 'null', 'Bei Balken liest das Auge die Länge. Ab 0 ist „gut“ (2.071) 2,4-mal so lang wie „sehr gut“ (864). Ab 500 wäre er 4,3-mal so lang, und „schlecht“ (188) verschwände ganz unter der Achse. Die Zahlen bleiben gleich, aber das Bild sagt etwas anderes.'); };
+
+/* ---------- Prüf dich selbst ---------- */
+(() => {
+  const F = [['Eine Verteilung hat einen Gipfel ganz rechts und läuft nach links flach aus. Wie heißt sie?', ['rechtsschief', 'linksschief', 'symmetrisch'], 1, 'Sie heißt nach der Seite, auf der sie ausläuft: linksschief (Grundlage 2).'],
+    ['Ein paar Personen arbeiten 80 Stunden. Welche Zahl bleibt eher in der Mitte?', ['Mittelwert', 'Median'], 1, 'Der Median: Er hängt nur an der mittleren Person, nicht an den Extremen (Grundlage 4).'],
+    ['Du willst das Alter in Ost und West vergleichen. Welche Grafik?', ['Balken', 'Boxplots', 'Punkte'], 1, 'Viele Werte nach Gruppen: Boxplots nebeneinander (Überblick).'],
+    ['Was macht drop_na(hs01)?', ['setzt fehlende Werte auf 0', 'lässt Personen ohne gültige Antwort bei hs01 weg', 'löscht die Variable hs01'], 1, 'Es lässt nur die Zeilen weg, in denen hs01 fehlt. Alle anderen bleiben (Vorweg: „Eine Grafik entsteht in Schichten“, und Aufgabe 1).'],
+    ['Ein Balkendiagramm beginnt bei 7. Was musst du tun?', ['nichts, das ist üblich', 'die Achse bei 0 beginnen lassen oder den Ausschnitt in der Bildunterschrift nennen', 'die Balken dicker machen'], 1, 'Bei Balken liest das Auge die Länge. Ein abgeschnittener Balken übertreibt Unterschiede (Grundlage 1c).']];
+  const box = $('#check');
+  F.forEach(([q, opts, r, warum], i) => { const f = document.createElement('form'); f.className = 'frage'; f.style.cssText = 'border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px';
+    f.innerHTML = `<fieldset><legend>${i + 1}. ${q}</legend><div class="radios">${opts.map((o, k) => `<label><input type="radio" name="c${i}" value="${k}"> ${o}</label>`).join('')}</div></fieldset><div class="reihe-knoepfe"><button class="knopf hell">Prüfen</button></div><p class="rueck" aria-live="polite"></p>`;
+    f.onsubmit = e => { e.preventDefault(); const v = $('input:checked', f), p = $('.rueck', f); if (!v) { p.className = 'rueck no'; p.textContent = 'Wähl zuerst eine Antwort.'; return; }
+      rueck(p, +v.value === r, `Deine Wahl: „${opts[+v.value]}“. ${warum}`); };
+    box.append(f); });
+})();
+
+/* ---------- Skript zum Mitnehmen ---------- */
+$('#skript').onclick = () => { const teile = ['start', 'schichten', 'a1v', 'a1n', 'a2', 'a3d', 'a3o', 'a3n', 'a3m', 'a4', 'a4f', 'a4z', 'a4zf'];
+  const s = '# Sitzung 4: Daten sehen\n# Statistikatlas, Methoden Ib, ALLBUS 2023 (ZA8831 v1.3.0)\n# Markierte Stellen aus dem Atlas stehen hier mit ihrem Beispielwert.\n\n' + teile.map(k => `# ---- ${CODE[k].titel} ----\n${plain(CODE[k].code)}\n`).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([s], { type: 'text/plain' })); a.download = 'sitzung4.R'; a.click(); status.textContent = 'Skript sitzung4.R heruntergeladen.'; };
+
+$$('[data-live-spaeter]').forEach(e => e.setAttribute('aria-live', 'polite'));
+
+/* ---------- Live-R (webR, Test) ---------- */
+let webR = null, webRLaden = null, allbusDa = false;
+let aktivStatus = null; const band = msg => { if (aktivStatus) aktivStatus.textContent = msg; };
+async function webRStart() {
+  if (webR) return webR; if (webRLaden) return webRLaden;
+  webRLaden = (async () => { band('R wird im Browser gestartet. Beim ersten Mal dauert das etwa 20 Sekunden …');
+    const { WebR } = await import('https://webr.r-wasm.org/latest/webr.mjs'); const w = new WebR(); await w.init();
+    band('Pakete werden geladen: mariposa, haven, ggplot2, dplyr, tidyr …');
+    await w.evalRVoid('options(repos = c("https://yannickdiehl.r-universe.dev", "https://repo.r-wasm.org"))');
+    await w.installPackages(['mariposa', 'haven', 'ggplot2', 'dplyr', 'tidyr'], { quiet: true, repos: ['https://yannickdiehl.r-universe.dev', 'https://repo.r-wasm.org'] });
+    const mv = (await (await w.evalR('as.character(packageVersion("mariposa"))')).toString()); console.log('[webr] mariposa', mv);
+    await w.evalRVoid('suppressMessages({library(dplyr); library(tidyr); library(ggplot2); library(mariposa)})');
+    webR = w; return w; })(); return webRLaden; }
+// Die Datei liegt in IndexedDB dieses Browsers (gleicher Speicher für alle Sitzungen des Lernpfads)
+const speicher = {
+  db: () => new Promise((ok, nein) => { const r = indexedDB.open('statistikatlas', 1); r.onupgradeneeded = () => r.result.createObjectStore('dateien'); r.onsuccess = () => ok(r.result); r.onerror = () => nein(r.error); }),
+  async lies() { try { const d = await this.db(); return await new Promise(ok => { const q = d.transaction('dateien').objectStore('dateien').get('allbus'); q.onsuccess = () => ok(q.result || null); q.onerror = () => ok(null); }); } catch { return null; } },
+  async schreib(buf) { try { const d = await this.db(); await new Promise(ok => { const t = d.transaction('dateien', 'readwrite'); t.objectStore('dateien').put(buf, 'allbus'); t.oncomplete = ok; t.onerror = ok; }); return true; } catch { return false; } },
+  async weg() { try { const d = await this.db(); await new Promise(ok => { const t = d.transaction('dateien', 'readwrite'); t.objectStore('dateien').delete('allbus'); t.oncomplete = ok; t.onerror = ok; }); } catch {} }
+};
+let allbusPuffer = null, allbusLaden = null;
+async function allbusInR() {
+  if (allbusDa) return true; if (!allbusPuffer) return false;
+  if (!allbusLaden) allbusLaden = (async () => { const w = await webRStart(); band('Deine ALLBUS-Datei wird in R eingelesen …');
+    await w.FS.writeFile('/home/web_user/ZA8831_v1-3-0.sav', new Uint8Array(allbusPuffer));
+    await w.evalRVoid('allbus <- read_spss("ZA8831_v1-3-0.sav")'); allbusDa = true;
+    band('Bereit.');
+    $$('.wk-status').forEach(x => { if (x.dataset.wartet) { x.textContent = 'Bereit. Drück ▶ Ausführen.'; delete x.dataset.wartet; } }); return true; })();
+  return allbusLaden; }
+async function freischalten(f) { allbusPuffer = await f.arrayBuffer(); try { await navigator.storage?.persist?.(); } catch {} await speicher.schreib(allbusPuffer); }
+(async () => { const buf = await speicher.lies(); if (buf) allbusPuffer = buf; })();
+
+// Einfache Einfärbung wie im E-Book: Funktion grün, Text orange, Pipe und Plus braun, Zahlen lila, Kommentar grau
+function faerben(zeile) {
+  const k = zeile.indexOf('#'); let code = zeile, kom = '';
+  if (k >= 0) { let inStr = false; for (let i = 0; i < k; i++) if (zeile[i] === '"') inStr = !inStr; if (!inStr) { code = zeile.slice(0, k); kom = zeile.slice(k); } }
+  const teile = code.split(/("[^"]*")/);
+  const h = teile.map((t, i) => i % 2 ? `<span class="s">${esc(t)}</span>` : esc(t)
+    .replace(/(%&gt;%|\+|&lt;-|&lt;=|==)/g, '<span class="o">$1</span>')
+    .replace(/\b([A-Za-z_.][\w.]*)(?=\()/g, '<span class="f">$1</span>')
+    .replace(/(^|[^\w.])(\d+(?:\.\d+)?)(?![\w.])/g, '$1<span class="n">$2</span>')).join('');
+  return h + (kom ? `<span class="k">${esc(kom)}</span>` : ''); }
+function werkstatt(wrap, c, nr) {
+  const id = 'wk' + nr, orig = plain(c.code);
+  const marken = []; c.code.split('\n').forEach((z, i) => [...z.matchAll(/⟦(.*?)⟧/g)].forEach(m => marken.push({ zeile: i, wort: m[1] })));
+  wrap.innerHTML = `<figure class="werkstatt" aria-labelledby="${id}-t">
+    <figcaption class="wk-kopf"><span class="wk-titel"><span class="wk-chip">Code-Werkstatt</span><span id="${id}-t">${c.titel}</span></span>
+      <span class="tasten"><button type="button" class="run" data-run aria-describedby="${id}-t">▶ Ausführen</button><button type="button" data-reset aria-describedby="${id}-t">Zurücksetzen</button><button type="button" data-kopie aria-describedby="${id}-t">Kopieren</button></span></figcaption>
+    <div class="wk-grid">
+      <div><div class="wk-editor"><div class="wk-nr" aria-hidden="true"></div><div class="wk-feld"><pre class="wk-back" aria-hidden="true"></pre><pre class="wk-farbe" aria-hidden="true"></pre><textarea id="${id}-ed" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="R-Code zum Bearbeiten: ${c.titel}" aria-describedby="${id}-st ${id}-hw"></textarea></div></div>
+        <div class="wk-leiste" role="group" aria-label="Einfügen"><span>Einfügen:</span><button type="button" data-ein=" %>% ">%&gt;%</button><button type="button" data-ein=" &lt;- ">&lt;-</button><button type="button" data-ein="&quot;&quot;" data-zurueck="1">" "</button><button type="button" data-ein="()" data-zurueck="1">( )</button></div></div>
+      <div class="wk-aus"><h4>Ausgabe</h4><div class="wk-status" aria-live="polite">Hier erscheint, was R ausgibt. Ändere den Code, wenn du magst, und drück ▶ Ausführen.</div><pre class="wk-text" tabindex="0" hidden aria-label="Ausgabe von R"></pre><div class="wk-bilder"></div></div>
+    </div></figure>
+    ${marken.length ? `<p class="stellen-liste" id="${id}-st">Zum Anpassen markiert: ${marken.map(m => `Zeile ${m.zeile + 1}: <code>${esc(m.wort)}</code>`).join('; ')}.</p>` : (c.frei ? `<p class="stellen-liste" id="${id}-st">Probier-Werkstatt: Ändere den Vorschlag oder schreib ganz neu. Klammern und Anführungszeichen schließen sich wie in RStudio von allein.</p>` : `<p class="stellen-liste" id="${id}-st">Hier ist nichts markiert: einfach ausführen und lesen.</p>`)}
+    <ul class="wk-tasten" id="${id}-hw" aria-label="Tastenkürzel wie in RStudio"><li><kbd>Strg</kbd>/<kbd>Cmd</kbd> + <kbd>Enter</kbd> ausführen</li><li><kbd>Strg</kbd>/<kbd>Cmd</kbd> + <kbd>Umschalt</kbd> + <kbd>M</kbd> Pipe <code>%&gt;%</code></li><li><kbd>Alt</kbd> + <kbd>-</kbd> Pfeil <code>&lt;-</code></li><li><kbd>Enter</kbd> nach <code>%&gt;%</code> oder <code>+</code> rückt ein</li><li><kbd>Strg</kbd>/<kbd>Cmd</kbd> + <kbd>Umschalt</kbd> + <kbd>C</kbd> Kommentar an/aus</li></ul>`;
+  const ta = $('textarea', wrap), farbe = $('.wk-farbe', wrap), back = $('.wk-back', wrap), nrs = $('.wk-nr', wrap), st = $('.wk-status', wrap), out = $('.wk-text', wrap), bilder = $('.wk-bilder', wrap);
+  const zeichne = () => { const zeilen = ta.value.split('\n');
+    nrs.innerHTML = zeilen.map((_, i) => i + 1).join('<br>');
+    back.innerHTML = zeilen.map((z, i) => { let h = esc(z); marken.filter(m => m.zeile === i).forEach(m => { const e = esc(m.wort); const pos = h.indexOf(e); if (pos >= 0 && orig.split('\n')[i] !== undefined && z.includes(m.wort)) h = h.slice(0, pos) + `<mark>${e}</mark>` + h.slice(pos + e.length); }); return h; }).join('\n') + '\n';
+    farbe.innerHTML = zeilen.map(faerben).join('\n') + '\n';
+    ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; };
+  ta.value = orig; zeichne();
+  ta.addEventListener('input', zeichne); ta.addEventListener('scroll', () => { back.scrollLeft = farbe.scrollLeft = ta.scrollLeft; });
+  const einfuegen = (text, zurueck = 0) => { const a = ta.selectionStart, b = ta.selectionEnd; ta.setRangeText(text, a, b, 'end'); if (zurueck) ta.selectionStart = ta.selectionEnd = a + text.length - zurueck; zeichne(); };
+  const zeileVor = () => { const a = ta.selectionStart, start = ta.value.lastIndexOf('\n', a - 1) + 1; return ta.value.slice(start, a); };
+  const einzug = zeile => { // wie RStudio: nach %>% und + einrücken, in offenen Klammern an der Klammer ausrichten
+    let tiefe = 0, offen = []; for (let i = 0; i < zeile.length; i++) { const ch = zeile[i]; if (ch === '"') { const j = zeile.indexOf('"', i + 1); if (j < 0) break; i = j; continue; } if (ch === '#') break; if (ch === '(') offen.push(i); if (ch === ')') offen.pop(); }
+    if (offen.length) return ' '.repeat(offen[offen.length - 1] + 1);
+    const basis = zeile.match(/^ */)[0].length, rumpf = zeile.replace(/#.*$/, '').trimEnd();
+    if (/(%>%|\+|\||&|,)$/.test(rumpf)) return ' '.repeat(basis === 0 ? 2 : basis);
+    const vorher = ta.value.slice(0, ta.selectionStart - zeile.length).split('\n').slice(-2, -1)[0] || '';
+    if (basis > 0 && !/(%>%|\+|,)\s*$/.test(rumpf) && /(%>%|\+)\s*$/.test(vorher.replace(/#.*$/, ''))) return ''; // Kette zu Ende
+    return ' '.repeat(basis); };
+  ta.addEventListener('keydown', e => {
+    const mod = e.ctrlKey || e.metaKey, a = ta.selectionStart, b = ta.selectionEnd, v = ta.value;
+    if (mod && e.key === 'Enter') { e.preventDefault(); laufen(); return; }
+    if (mod && e.shiftKey && e.code === 'KeyM') { e.preventDefault(); einfuegen((a > 0 && v[a - 1] !== ' ' ? ' ' : '') + '%>% '); return; }
+    if (e.altKey && (e.code === 'Minus' || e.key === '–' || e.key === '-')) { e.preventDefault(); einfuegen((a > 0 && v[a - 1] !== ' ' ? ' ' : '') + '<- '); return; }
+    if (mod && e.shiftKey && e.code === 'KeyC') { e.preventDefault(); const s0 = v.lastIndexOf('\n', a - 1) + 1, e0 = v.indexOf('\n', b) < 0 ? v.length : v.indexOf('\n', b);
+      const block = v.slice(s0, e0).split('\n'), alle = block.every(z => /^\s*#/.test(z) || !z.trim());
+      const neu = block.map(z => !z.trim() ? z : alle ? z.replace(/^(\s*)# ?/, '$1') : z.replace(/^(\s*)/, '$1# ')).join('\n');
+      ta.setRangeText(neu, s0, e0, 'select'); zeichne(); return; }
+    if (e.key === 'Enter' && !mod && !e.shiftKey && !e.altKey) { e.preventDefault(); const z = zeileVor(); einfuegen('\n' + einzug(z)); return; }
+    if (a === b && !mod && !e.altKey) {
+      if (e.key === '(') { e.preventDefault(); einfuegen('()', 1); return; }
+      if (e.key === ')' && v[a] === ')') { e.preventDefault(); ta.selectionStart = ta.selectionEnd = a + 1; return; }
+      if (e.key === '"') { e.preventDefault(); if (v[a] === '"') { ta.selectionStart = ta.selectionEnd = a + 1; } else einfuegen('""', 1); return; }
+      if (e.key === 'Backspace' && a > 0 && ((v[a - 1] === '(' && v[a] === ')') || (v[a - 1] === '"' && v[a] === '"'))) { e.preventDefault(); ta.setRangeText('', a - 1, a + 1, 'end'); zeichne(); return; }
+    }
+  });
+  $$('.wk-leiste [data-ein]', wrap).forEach(k => k.onclick = () => { ta.focus(); let t = k.dataset.ein; const a = ta.selectionStart; if (t.startsWith(' ') && (a === 0 || ta.value[a - 1] === ' ')) t = t.slice(1); einfuegen(t, +(k.dataset.zurueck || 0)); });
+  $('[data-reset]', wrap).onclick = () => { ta.value = orig; zeichne(); st.textContent = 'Vorlage wiederhergestellt.'; ta.focus(); };
+  $('[data-kopie]', wrap).onclick = async ev => { const t = ta.value; try { await navigator.clipboard.writeText(t); } catch { const x = document.createElement('textarea'); x.value = t; document.body.append(x); x.select(); document.execCommand('copy'); x.remove(); }
+    ev.target.textContent = 'Kopiert ✓'; status.textContent = 'Code kopiert: ' + c.titel; setTimeout(() => ev.target.textContent = 'Kopieren', 1800); };
+  const laufen = async () => {
+    if (!allbusDa) {
+      if (!allbusPuffer) {
+        st.innerHTML = 'Auf diesem Gerät ist der Lernpfad noch nicht freigeschaltet. Im Atlas geht das einmal auf der Startseite des Lernpfads; danach gilt die Datei für alle Sitzungen. <label style="display:block;margin-top:6px;font-weight:700">Im Prototyp hier freischalten: <input type="file" accept=".sav"></label>';
+        $('input', st).onchange = async ev => { const f = ev.target.files[0]; if (!f) return; await freischalten(f); laufen(); }; return; }
+      aktivStatus = st; st.textContent = 'R startet und liest deine ALLBUS-Datei ein. Beim ersten Mal dauert das etwa 30 Sekunden …';
+      try { await allbusInR(); } catch (err) { st.textContent = 'Fehler beim Einlesen: ' + err.message; return; } }
+    aktivStatus = st; const w = await webRStart(); st.textContent = 'R rechnet …';
+    const code = ta.value.replace(/^\s*library\(tidyverse\)\s*$/m, '').replace(/^\s*allbus <- read_spss\(.*\)\s*$/m, '');
+    const sh = await new w.Shelter();
+    try { const r = await sh.captureR(code, { withAutoprint: true, captureStreams: true, captureConditions: true, captureGraphics: { width: 700, height: 420 } });
+      const teile = [];
+      for (const x of r.output) {
+        if (typeof x.data === 'string') { teile.push(esc(x.data)); continue; }
+        let m = ''; try { m = (await (await x.data.get('message')).toString()).trim(); } catch { m = '(Meldung)'; }
+        teile.push(x.type === 'warning' ? `<span class="warn" lang="en">Warnmeldung: ${esc(m)}</span>` : x.type === 'error' ? `<span class="err" lang="en">Fehler: ${esc(m)}</span>` : `<span class="warn" lang="en">${esc(m)}</span>`);
+      }
+      out.innerHTML = teile.filter(Boolean).join('\n'); out.hidden = !teile.length;
+      bilder.innerHTML = ''; (r.images || []).forEach(img => { const cv = document.createElement('canvas'); cv.width = img.width; cv.height = img.height; cv.getContext('2d').drawImage(img, 0, 0); cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', 'Von R gezeichnete Grafik. Die Zahlen dazu zeigt frequency() oder describe() in der Konsole.'); bilder.append(cv); });
+      const fehler = r.output.some(x => x.type === 'error');
+      st.textContent = fehler ? 'R meldet einen Fehler. Schau in die Hilfe „R meldet einen Fehler“ unter der Aufgabe oder setz den Code zurück.' : `Fertig${(r.images || []).length ? ': eine Grafik' : ''}${teile.length ? ' und Text in der Konsole' : ''}.`;
+    } catch (err) { let m = err.message; try { m = (await (await w.evalR('geterrmessage()')).toString()).trim() || m; } catch {}
+      out.innerHTML = `<span class="err" lang="en">${esc(m)}</span>`; out.hidden = false; bilder.innerHTML = '';
+      st.innerHTML = 'R meldet einen Fehler. Oft ist es ein Tippfehler im Variablennamen. Hilfe gibt es unter der Aufgabe („R meldet einen Fehler“), oder du drückst <b>Zurücksetzen</b>.';
+    } finally { sh.purge(); } };
+  $('[data-run]', wrap).onclick = laufen;
+}
+</script>
+</body>
+</html>

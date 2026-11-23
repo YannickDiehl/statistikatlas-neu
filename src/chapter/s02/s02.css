@@ -1,0 +1,61 @@
+/* Sitzung 2: Bögen und Bauplatte (Grundlage 1a), vier Bögen (3a), Umwandeln (4b), Ablauf (Überblick). */
+
+/* 1a: Bögen → Bauplatte mit anwählbaren Steinen */
+.chapter .s2-bogen-platte{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;justify-items:center;margin-top:14px}
+.chapter .s2-boegen{width:100%;max-width:640px}
+.chapter .s2-boegen svg{width:100%;height:auto;display:block}
+.chapter .s2-pfeil{font-size:30px;color:#36A266;line-height:1;transform:rotate(90deg)}
+.chapter .s2-platte-wrap{max-width:100%;overflow-x:auto;padding:4px 2px}
+.chapter .s2-mass{margin:0 0 2px;font-family:var(--mono);font-size:13px;color:#6E7882}
+.chapter .s2-platte{display:grid;grid-template-columns:22px repeat(3,max-content);column-gap:8px;align-items:end;position:relative;padding:4px}
+.chapter .s2-kopf{display:flex;flex-direction:column;align-items:center;font-family:var(--mono);font-size:13px;color:var(--ink);padding:0 4px 4px}
+.chapter .s2-kopf small{color:#6E7882;font-size:13px}
+.chapter .s2-nr{font-family:var(--mono);font-size:13px;color:#6E7882;align-self:center;margin-top:8px}
+.chapter .s2-stein{position:relative;display:flex;align-items:center;gap:6px;min-height:30px;margin-top:12px;padding:0 7px;border:1px solid #042C53;background:#85B7EB;color:#042C53;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;border-radius:0;text-align:left}
+.chapter .s2-stein::before{content:"";position:absolute;left:8px;right:8px;top:-7px;height:6px;background:repeating-linear-gradient(90deg,#85B7EB 0 17px,transparent 17px 30px)}
+.chapter .s2-stein.leer{background:#fff;border:1.5px dashed #6E7882}
+.chapter .s2-stein.leer::before{background:repeating-linear-gradient(90deg,#fff 0 16px,transparent 16px 30px);border-top:1px solid #6E7882}
+.chapter .s2-stein:hover{filter:brightness(1.05)}
+.chapter .s2-stein[aria-pressed="true"]{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--ink)}
+.chapter .s2-code{font-size:14px}
+.chapter .s2-aufkleber{background:#FAC775;color:var(--ink);padding:1px 6px;font-size:13px;white-space:nowrap}
+.chapter .s2-aufkleber.blass{opacity:.6}
+.chapter .s2-rahmen-reihe,.chapter .s2-rahmen-turm{pointer-events:none;align-self:stretch;justify-self:stretch;border-radius:6px;z-index:1}
+.chapter .s2-rahmen-reihe{border:3px solid #E6A033;margin:6px -4px -4px}
+.chapter .s2-rahmen-turm{border:3px solid #36A266;margin:-2px -4px -6px}
+.chapter .s2-grund{height:6px;background:#6E7882;margin-top:6px}
+.chapter .s2-erkl{background:var(--paper);border:2px solid var(--line);border-radius:12px;padding:10px 14px;min-height:3em}
+
+/* 3a: vier Bögen */
+.chapter .s2-vier{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.chapter .s2-vier .ebild{margin-top:0}
+.chapter .s2-vier .kurzueberlegen{margin-top:8px}
+
+/* 4b: Umwandeln */
+.chapter .s2-umschalter{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chapter .s2-umschalter button{border:2px solid var(--rand);background:#fff;border-radius:12px;padding:5px 12px;font-weight:800;color:var(--ink);cursor:pointer}
+.chapter .s2-umschalter button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+.chapter .s2-umschalter button[aria-pressed="true"] code{background:transparent;color:#fff}
+.chapter .s2-turm svg{max-width:420px}
+
+/* Überblick Ü1: Ablauf in vier Stationen */
+.chapter .s2-ablauf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.chapter .s2-station{position:relative;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+.chapter .s2-station b{font-family:var(--rund);font-weight:600;color:var(--ink);display:flex;gap:6px;align-items:center}
+.chapter .s2-station b span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gelb);font-size:14px}
+.chapter .s2-ablauf .s2-station svg{width:100%;max-width:200px;height:auto}
+.chapter .s2-station:not(:last-child)::after{content:"➜";position:absolute;right:-19px;top:46%;color:#36A266;font-size:18px}
+.chapter .s2-st-text{font-size:14px;color:var(--ink)}
+.chapter .s2-st-schild{font-size:13px;font-weight:800;background:#E5E9EE;border-radius:999px;padding:1px 10px;color:#3A4652}
+.chapter .s2-fragen-intro{margin:16px 0 0}
+
+@media (max-width:900px){
+  .chapter .s2-vier{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+  .chapter .s2-platte{column-gap:4px;grid-template-columns:16px repeat(3,max-content)}
+  .chapter .s2-stein{gap:4px;padding:0 4px}
+  .chapter .s2-aufkleber{white-space:normal;line-height:1.2;text-align:center}
+  .chapter .s2-ablauf{grid-template-columns:minmax(0,1fr);gap:26px}
+  .chapter .s2-station:not(:last-child)::after{right:auto;left:50%;top:auto;bottom:-24px;transform:rotate(90deg)}
+}

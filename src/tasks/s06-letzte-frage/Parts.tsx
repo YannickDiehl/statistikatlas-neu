@@ -1,0 +1,104 @@
+import { Feedback, type Note } from '../kit/Feedback';
+import type { TukeyRow } from '../kit/means';
+import { de } from '../kit/numbers';
+import { VERSIONS, type VersionId } from './content';
+import { pct, pp, versionPair, type TEntry, type Trap, type TukeyKey } from './domain';
+
+/** Hilfezeile für eine Zusagequote aus summary() eines t-Tests: Zeile der Gruppe, Spalte Mean. */
+const shareHelp = (row: string) => `Zeile „${row}“, Spalte Mean unter „Group Statistics“ – in Prozent mit einer Nachkommastelle oder so, wie R es zeigt`;
+
+/** Zwei Quoten und ein t-Wert – ein t-Test aus R. labels: die Fragen, rows: die Gruppennamen, wie R sie zeigt. */
+export function TTestFields({ id, legend, labels, rows, entry, onChange, notes, diff }: {
+  id: string; legend: string; labels: [string, string]; rows: [string, string]; entry: TEntry; onChange: (e: TEntry) => void; notes: Note[]; diff: string | null;
+}) {
+  const set = (patch: Partial<TEntry>) => onChange({ ...entry, ...patch });
+  return <fieldset className="s06-fields" id={id}>
+    <legend>{legend}</legend>
+    <div className="task-grid">
+      <label>{labels[0]}<small className="task-field-help">{shareHelp(rows[0])}</small><input type="text" inputMode="decimal" maxLength={12} value={entry.a} onChange={e => set({ a: e.target.value })} /></label>
+      <label>{labels[1]}<small className="task-field-help">{shareHelp(rows[1])}</small><input type="text" inputMode="decimal" maxLength={12} value={entry.b} onChange={e => set({ b: e.target.value })} /></label>
+      <label>Welchen t-Wert zeigt R? (freiwillig)<small className="task-field-help">Zur Kontrolle: Zeile „Equal variances not assumed“ (Welch-Test), Spalte t – mit oder ohne Minus</small><input type="text" inputMode="decimal" maxLength={12} value={entry.t} onChange={e => set({ t: e.target.value })} /></label>
+    </div>
+    <Feedback notes={notes} />
+    {diff && <p className="s06-own">{diff}</p>}
+  </fieldset>;
+}
+
+/** Die vier Fassungen als Auswahl. */
+export function VersionChips({ value, onChange, label, disabled = false }: { value: VersionId | ''; onChange: (v: VersionId) => void; label: string; disabled?: boolean }) {
+  return <div className="sandbox-chips" role="group" aria-label={label}>
+    {VERSIONS.map(v => <button key={v.id} disabled={disabled} aria-pressed={value === v.id} onClick={() => onChange(v.id)}>{v.id}</button>)}
+  </div>;
+}
+
+export function VersionTable() {
+  return <div className="s04-scroll" tabIndex={0} role="region" aria-label="Die vier Fassungen">
+    <table className="s06-table s06-versions">
+      <caption>Die vier Fassungen der Einladungsfrage (splt23_3)</caption>
+      <thead><tr>{['Fassung', 'Betrag', 'Wo steht das Geld im Fragetext?'].map(h => <th key={h} scope="col" style={{ textAlign: 'left' }}>{h}</th>)}</tr></thead>
+      <tbody>{VERSIONS.map(v => <tr key={v.id}><th scope="row" style={{ whiteSpace: 'nowrap' }}>{v.id} <small>(Code {v.code})</small></th><td>{v.money}</td><td>{v.placement}{v.repeat ? ' („mit“ Wiederholung)' : ' („ohne“ Wiederholung)'}</td></tr>)}</tbody>
+    </table>
+  </div>;
+}
+
+/** Überraschungsmoment: „mit“ bleibt stehen, „ohne“ springt – die Vergleichsgruppe wechselt. */
+export function TrapChart({ trap, view, onView }: { trap: Trap; view: 'all' | 'online'; onView: (v: 'all' | 'online') => void }) {
+  const values = trap[view], n = trap.n[view];
+  const same = Math.abs(trap.all[1] - trap.online[1]) < 0.0005;
+  const summary = `Zusagequote „ohne“ Wiederholung: online und Papier zusammen ${pct(trap.all[0])}, nur online ${pct(trap.online[0])}. „mit“ Wiederholung: zusammen ${pct(trap.all[1])}, nur online ${pct(trap.online[1])}.`;
+  return <figure className="s06-trap">
+    <p className="task-prompt">Welche Befragten willst du vergleichen? Klick zum Umschalten.</p>
+    <div className="sandbox-chips" role="group" aria-label="Vergleichsgruppe">
+      <button aria-pressed={view === 'all'} onClick={() => onView('all')}>online und Papier</button>
+      <button aria-pressed={view === 'online'} onClick={() => onView('online')}>nur online</button>
+    </div>
+    <div className="s06-bars" role="img" aria-label={summary}>
+      {(['„ohne“', '„mit“'] as const).map((label, k) => <div key={label} className="s06-bar">
+        <span className="s06-bar-value">{pct(values[k])}</span>
+        <div className="s06-bar-track"><div className="s06-bar-fill" style={{ height: `${Math.max(0, Math.min(100, 100 * values[k]))}%` }} /></div>
+        <span className="s06-bar-label">{label} Wiederholung<br /><small>n = {n[k].toLocaleString('de-DE')}</small></span>
+      </div>)}
+    </div>
+    <figcaption>
+      {same ? '„mit“ bleibt stehen – alle Befragten mit Wiederholung haben online geantwortet.' : '„mit“ ändert sich kaum.'} „ohne“ {trap.online[0] > trap.all[0] ? 'springt' : 'wechselt'} von {pct(trap.all[0])} auf {pct(trap.online[0])}. <strong>Nicht die Wiederholung hat sich verändert, sondern die Vergleichsgruppe.</strong>
+      {trap.nPaperOhne > 0 && <> Unter „ohne“ steckten {trap.nPaperOhne.toLocaleString('de-DE')} Papier-Befragte mit einer Zusagequote von {pct(trap.paperOhne)}.</>}
+      {' '}Der Unterschied „mit“ − „ohne“: zusammen {pp(trap.all[1] - trap.all[0])}, nur online {pp(trap.online[1] - trap.online[0])}
+    </figcaption>
+  </figure>;
+}
+
+/** p wie in mariposas Tukey-Tabelle: ohne führende Null, sehr kleine Werte als „< ,001“. */
+const tukeyP = (p: number | undefined) => (p === undefined || !Number.isFinite(p) ? 'n. b.' : p < 0.001 ? '< ,001' : de(p, 3).replace(/^0/, ''));
+
+/** Differenz wie in mariposas Tabelle: (I) − (J), I ist die Fassung mit dem kleineren Code. */
+const lowFirst = (r: TukeyRow) => (r.a < r.b ? { diff: r.diff, lower: r.lower, upper: r.upper } : { diff: -r.diff, lower: -r.upper, upper: -r.lower });
+
+/** Tukey-Paare wie in summary(); nach der zweiten Enthüllung mit der gewichteten Spalte. */
+export function TukeyTable({ rows, weighted }: { rows: TukeyRow[]; weighted: TukeyRow[] | null }) {
+  const wp = (r: TukeyRow) => weighted?.find(x => (x.a === r.a && x.b === r.b) || (x.a === r.b && x.b === r.a))?.p;
+  const missing = weighted !== null && rows.some(r => !Number.isFinite(wp(r) ?? NaN));
+  return <div className="s04-scroll" tabIndex={0} role="region" aria-label="Tukey-Paarvergleiche">
+    <table className="s06-table">
+      <caption>Tukey-Paarvergleiche nur online (Differenz der Zusagequoten in Prozentpunkten, erste minus zweite Fassung – wie in R){missing ? '. n. b. = mit Gewicht nicht berechenbar (zu wenige Befragte in einer Fassung).' : ''}</caption>
+      <thead><tr><th scope="col">Paar</th><th scope="col">Differenz</th><th scope="col">95-%-Intervall</th><th scope="col">p (Tukey)</th>{weighted && <th scope="col">p gewichtet</th>}</tr></thead>
+      <tbody>{rows.map(r => { const x = lowFirst(r); return <tr key={r.label} className={r.p < 0.05 ? 's06-sig' : ''}>
+        <th scope="row">{versionPair(r.label as TukeyKey)}</th>
+        <td>{pp(x.diff)}</td>
+        <td>[{de(100 * x.lower, 1)}; {de(100 * x.upper, 1)}]</td>
+        <td>{tukeyP(r.p)}</td>
+        {weighted && <td>{tukeyP(wp(r))}</td>}
+      </tr>; })}</tbody>
+    </table>
+  </div>;
+}
+
+/** Befragte je Fassung, online und auf Papier (wie crosstab(splt23_3, mode)). */
+export function CellTable({ cells }: { cells: { online: number[]; paper: number[] } }) {
+  return <div className="s04-scroll" tabIndex={0} role="region" aria-label="Wer bekam welche Fassung?">
+    <table className="s06-table">
+      <caption>Wer bekam welche Fassung? (Anzahl Befragte)</caption>
+      <thead><tr><th scope="col">Fassung</th><th scope="col">online</th><th scope="col">Papier</th></tr></thead>
+      <tbody>{VERSIONS.map((v, i) => <tr key={v.id}><th scope="row">{v.id}</th><td>{cells.online[i].toLocaleString('de-DE')}</td><td>{cells.paper[i].toLocaleString('de-DE')}</td></tr>)}</tbody>
+    </table>
+  </div>;
+}

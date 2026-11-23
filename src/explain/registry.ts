@@ -1,0 +1,190 @@
+/**
+ * Zuordnung Begriff → Erklärung. Zuerst die Pilotbegriffe (Werkstätten Mittel, Streuung, Zusammenhang,
+ * Standardfehler, Rekodieren), dann alle Bereiche aus src/explain/content/index.ts (`AREAS`).
+ * Bereiche tragen sich nicht hier ein, sondern nur in ihrem eigenen `content/<bereich>/index.ts`.
+ */
+import type { AnyWorkshop, AreaIndex, Bridge, ConceptTabs, Explain, RTab } from './types';
+import { mittel } from './content/mittel';
+import { streuung } from './content/streuung';
+import { zusammenhang } from './content/zusammenhang';
+import { standardfehler } from './content/standardfehler';
+import { rekodieren } from './content/rekodieren';
+import { AREAS } from './content';
+import { PILOT_TABS } from './content/pilot-tabs';
+
+export type { AnyWorkshop, Explain } from './types';
+
+const PILOT_WORKSHOPS: AnyWorkshop[] = [mittel, streuung, zusammenhang];
+
+/** Erklärungen der Pilotbegriffe; die Werkstattbegriffe kommen aus `variants`. */
+const PILOT: Record<string, Explain> = {
+  ...Object.fromEntries(PILOT_WORKSHOPS.flatMap(workshop => Object.keys(workshop.variants).map(variant => [variant, { kind: 'werkstatt', workshop, variant } satisfies Explain]))),
+  [standardfehler.concept]: { kind: 'satz', template: standardfehler },
+  [rekodieren.concept]: { kind: 'werkzeug', template: rekodieren },
+};
+
+
+/** Schrittkarten der Pilotbegriffe (Spezifikation Werkstatt 6.4), ohne den Kontext des Ankers. */
+const PILOT_STEP_IDS = ['sum', 'deviation', 'squared_deviation', 'ss', 'df', 'crossproduct', 'crossproduct_sum', 'sd_product'];
+
+export type AreaTables = {
+  explanations: Record<string, Explain>;
+  tabs: Record<string, ConceptTabs>;
+  stepCards: Record<string, { workshop: string; variant: string; step: number }>;
+  workshops: AnyWorkshop[];
+};
+
+/**
+ * Führt die Bereiche zusammen. Wirft einen Fehler, wenn ein Begriff in zwei Bereichen (oder in einem Bereich
+ * und im Pilot) erklärt wird, wenn zwei Werkstätten dieselbe Kennung haben, wenn eine Schrittkarte auf eine
+ * unbekannte Werkstatt zeigt oder wenn Reiter für einen fremden Begriff vergeben werden. So fällt eine
+ * Doppelung schon beim Laden auf, nicht erst im Browser.
+ *
+ * Werkstatt-Erklärungen müssen ihren Begriff als `variant` tragen. Schrittkarten müssen auf eine registrierte
+ * Werkstatt, einen ihrer Begriffe und einen Schritt zwischen 1 und dessen letztem Schritt zeigen, und der Begriff
+ * muss als diese Werkstatt erklärt sein (dorthin springt „Werkstatt öffnen“).
+ *
+ * `reserved.ids` sind Begriffe mit Erklärung oder Schrittkarte im Pilot, `reserved.explanations` die Erklärungen
+ * des Pilots; `reserved.tabs` Begriffe, deren Reiter der Pilot selbst liefert. Reiter für eine Pilot-Schrittkarte
+ * (etwa `ss`) darf genau ein Bereich vergeben.
+ */
+export function mergeAreas(areas: Record<string, AreaIndex>, reserved: { ids: Iterable<string>; tabs?: Iterable<string>; workshops: AnyWorkshop[]; explanations?: Record<string, Explain> }): AreaTables {
+  const owner = new Map<string, string>();
+  for (const id of reserved.ids) owner.set(id, 'pilot');
+  const claim = (id: string, area: string, what: string) => {
+    const before = owner.get(id);
+    if (before !== undefined) throw new Error(`Begriff „${id}“ (${what}) ist doppelt vergeben: ${before} und ${area}.`);
+    owner.set(id, area);
+  };
+  const out: AreaTables = { explanations: {}, tabs: {}, stepCards: {}, workshops: [] };
+  const workshopIds = new Map<string, string>(reserved.workshops.map(w => [w.id, 'pilot']));
+  for (const [area, index] of Object.entries(areas)) {
+    for (const [id, explain] of Object.entries(index.explanations)) {
+      claim(id, area, 'Erklärung');
+      out.explanations[id] = explain;
+      if (explain.kind === 'werkstatt' && (explain.variant !== id || !explain.workshop.variants[id]))
+        throw new Error(`Erklärung „${id}“ (${area}): Die Werkstatt „${explain.workshop.id}“ braucht \`variant: '${id}'\` und einen Eintrag variants.${id}.`);
+      if (explain.kind === 'werkstatt' && !out.workshops.includes(explain.workshop)) {
+        const before = workshopIds.get(explain.workshop.id);
+        if (before !== undefined) throw new Error(`Werkstatt „${explain.workshop.id}“ ist doppelt vergeben: ${before} und ${area}.`);
+        workshopIds.set(explain.workshop.id, area);
+        out.workshops.push(explain.workshop);
+      }
+    }
+    for (const [id, card] of Object.entries(index.stepCards ?? {})) {
+      claim(id, area, 'Schrittkarte');
+      out.stepCards[id] = card;
+    }
+  }
+  const pilotTabs = new Set(reserved.tabs ?? []);
+  const tabOwner = new Map<string, string>();
+  for (const [area, index] of Object.entries(areas)) for (const [id, tabs] of Object.entries(index.tabs)) {
+    const explainedBy = owner.get(id);
+    if (pilotTabs.has(id)) throw new Error(`Reiter für „${id}“ liefert der Pilot, nicht ${area}.`);
+    if (explainedBy !== undefined && explainedBy !== 'pilot' && explainedBy !== area) throw new Error(`Reiter für „${id}“ gehören zu ${explainedBy}, nicht zu ${area}.`);
+    if (tabOwner.has(id)) throw new Error(`Reiter für „${id}“ sind doppelt vergeben: ${tabOwner.get(id)} und ${area}.`);
+    tabOwner.set(id, area);
+    out.tabs[id] = tabs;
+  }
+  const known = new Map([...reserved.workshops, ...out.workshops].map(w => [w.id, w]));
+  const explained = { ...reserved.explanations, ...out.explanations };
+  for (const [id, card] of Object.entries(out.stepCards)) {
+    const workshop = known.get(card.workshop), variant = workshop?.variants[card.variant], target = explained[card.variant];
+    if (!workshop) throw new Error(`Schrittkarte „${id}“ zeigt auf die unbekannte Werkstatt „${card.workshop}“.`);
+    if (!variant) throw new Error(`Schrittkarte „${id}“: Die Werkstatt „${card.workshop}“ erklärt keinen Begriff „${card.variant}“.`);
+    if (!Number.isInteger(card.step) || card.step < 1 || card.step > variant.lastStep)
+      throw new Error(`Schrittkarte „${id}“: Schritt ${card.step} gibt es nicht, „${card.variant}“ hat die Schritte 1 bis ${variant.lastStep}.`);
+    if (target?.kind !== 'werkstatt' || target.workshop !== workshop)
+      throw new Error(`Schrittkarte „${id}“: „Werkstatt öffnen“ springt zu „${card.variant}“, aber dieser Begriff ist nicht als Werkstatt „${card.workshop}“ registriert.`);
+  }
+  return out;
+}
+
+const merged = mergeAreas(AREAS, { ids: [...Object.keys(PILOT), ...PILOT_STEP_IDS], tabs: Object.keys(PILOT_TABS), workshops: PILOT_WORKSHOPS, explanations: PILOT });
+
+/** Alle Begriffe mit Schrittkarte (Pilot und Bereiche), für Tests und Prüfskripte. */
+export const STEP_CARD_IDS: string[] = [...PILOT_STEP_IDS, ...Object.keys(merged.stepCards)];
+
+/** Alle Werkstätten: Pilot und alle Werkstätten aus den Bereichen. */
+export const WORKSHOPS: AnyWorkshop[] = [...PILOT_WORKSHOPS, ...merged.workshops];
+const workshopById = new Map(WORKSHOPS.map(w => [w.id, w]));
+
+/** Alle registrierten Erklärungen mit Begriff, für Tests und Prüfskripte. */
+export const EXPLANATIONS: Record<string, Explain> = { ...PILOT, ...merged.explanations };
+
+/** Welche Erklärung ein Begriff bekommt; null heißt: bisherige Darstellung. Pilot zuerst, dann die Bereiche. */
+export function explainFor(id: string): Explain | null {
+  return PILOT[id] ?? merged.explanations[id] ?? null;
+}
+
+/** Reiter eines Begriffs (Pilot und Bereiche); null heißt: keine Reiter. */
+export function tabsFor(id: string): ConceptTabs | null {
+  return PILOT_TABS[id] ?? merged.tabs[id] ?? null;
+}
+
+/** Alle Begriffe mit Reitern (Pilot und Bereiche), für tabs.test.ts und render.test.ts. Das Prüfskript (CommonJS, ohne TypeScript) bekommt seine IDs über IDS. */
+export const TAB_IDS: string[] = [...Object.keys(PILOT_TABS), ...Object.keys(merged.tabs)];
+
+/** Zweiter Satz von „Kurz gesagt“ im Reiter „In R“: wie man den Code liest. */
+export const R_TAP = 'Tippe ein Zeichen im Code an, um zu lesen, was es tut.';
+
+/**
+ * „Kurz gesagt“ im Reiter „In R“ (IB7, IB24, IB35): der eigene Satz des Reiters (`r.kurz`), sonst nach dem Leitaufruf.
+ * Gehört er zum Begriff selbst (gleiche Katalog-ID oder ein Live-Aufruf ohne Katalogeintrag), rechnet mariposa
+ * dieselbe Zahl, bei Werkzeugen erledigt es denselben Schritt; gehört er zu einem anderen Begriff (p-Wert → t-Test,
+ * Konfidenzintervall → Varianzanalyse), steckt der Begriff in diesem Aufruf. Dahinter steht immer `R_TAP`.
+ */
+export function rKurz(r: RTab, concept: string): string {
+  const kind = explainFor(concept)?.kind, own = r.entry === concept || r.entry === '';
+  const first = r.kurz ?? (!own ? 'Der Begriff steckt in diesem Aufruf und in seiner Ausgabe.'
+    : kind === 'tabelle' || kind === 'werkzeug' ? 'In R erledigt mariposa denselben Schritt, für alle 200 Befragten auf einmal.'
+    : 'In R rechnet mariposa dieselbe Zahl.');
+  return `${first} ${R_TAP}`;
+}
+
+/** Werkstatt mit dieser Kennung (Pilot oder Bereich), sonst null. */
+export function workshopFor(id: string): AnyWorkshop | null {
+  return workshopById.get(id) ?? null;
+}
+
+/** Brücke „Mit 200 Befragten“ der Werkstatt mit dieser Kennung (`Workshop.bridge`), sonst null. */
+export function bridgeFor(id: string): Bridge<any> | null {
+  return workshopById.get(id)?.bridge ?? null;
+}
+
+export type StepCard = { workshop: AnyWorkshop; variant: string; step: number };
+
+/**
+ * Schrittkarte für Begriffe, die ein Schritt einer Werkstatt sind (Spezifikation Werkstatt 6.4).
+ * `anchor` ist der Begriff, von dem aus man gekommen ist (contextAnchor).
+ */
+export function stepCardFor(id: string, anchor?: string): StepCard | null {
+  const fromPair = anchor === 'covariance' || anchor === 'pearson';
+  const streuungVariant = anchor === 'variance' ? 'variance' : 'sd';
+  const pairVariant = anchor === 'covariance' ? 'covariance' : 'pearson';
+  switch (id) {
+    case 'sum': return { workshop: mittel, variant: 'mean', step: 1 };
+    case 'deviation': return fromPair ? { workshop: zusammenhang, variant: pairVariant, step: 2 } : { workshop: streuung, variant: streuungVariant, step: 2 };
+    case 'squared_deviation': return { workshop: streuung, variant: streuungVariant, step: 3 };
+    case 'ss': return { workshop: streuung, variant: streuungVariant, step: 4 };
+    case 'df': return { workshop: streuung, variant: streuungVariant, step: 5 };
+    case 'crossproduct': return { workshop: zusammenhang, variant: pairVariant, step: 3 };
+    case 'crossproduct_sum': return { workshop: zusammenhang, variant: pairVariant, step: 4 };
+    case 'sd_product': return { workshop: zusammenhang, variant: 'pearson', step: 6 };
+  }
+  const card = merged.stepCards[id];
+  const workshop = card && workshopById.get(card.workshop);
+  return card && workshop ? { workshop, variant: card.variant, step: card.step } : null;
+}
+
+// Sprung „Werkstatt öffnen“ zu einem bestimmten Schritt: Die Schrittkarte hinterlegt den Schritt,
+// die Werkstatt holt ihn nach dem Einhängen ab (Effekt). Alte Anfragen verfallen nach zehn Sekunden.
+let pending: { concept: string; step: number; at: number } | null = null;
+export function requestStep(concept: string, step: number, now = Date.now()) { pending = { concept, step, at: now }; }
+export function takeStep(concept: string, now = Date.now()): number | null {
+  const p = pending;
+  if (!p || now - p.at > 10000) { pending = null; return null; }
+  if (p.concept !== concept) return null;
+  pending = null;
+  return p.step;
+}

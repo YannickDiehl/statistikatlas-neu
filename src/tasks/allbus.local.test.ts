@@ -1,0 +1,173 @@
+// Läuft nur mit der eigenen GESIS-Datei: ALLBUS_SAV=/pfad/ZA8831_v1-3-0.sav pnpm test
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { readSav, type SavFile } from '../sandbox/readSav';
+import { askedCount, findVar, validCount } from './s01-schon-gefragt/domain';
+import { S02_VARS, sheets } from './s02-datenerfassung/content';
+import { countCode, factorPosition, gradeCell, scanCode } from './s02-datenerfassung/domain';
+import { describeHours, diagnoseSeats, hoursFor, rawCounts, seatsFor, validCodes } from './s03-stuehle/domain';
+import { QUESTIONS as GRAFIK_QUESTIONS } from './grafik-erst-zeichnen/content';
+import { axisTop, checkCaption, heaping, pictureRatio, planPreview, regionMeans, silhouetteBars, sketchTruth } from './grafik-erst-zeichnen/domain';
+import { allTables, checkP1, denominators, fourfold, PARTY, percent, prepare as prepareS04, readings, stairs } from './s04-nenner-check/domain';
+import { chiSquare, MEASURES } from './kit/stats';
+import { cardById, KONF_ORDERS } from './s05-treiber/content';
+import { boardMeasures, boardTable, cardValues, prepare as prepareS05, reveal, variants } from './s05-treiber/domain';
+
+const file = process.env.ALLBUS_SAV;
+const skip = !file && 'ALLBUS_SAV nicht gesetzt';
+let cached: SavFile | null = null;
+const load = () => {
+  if (cached) return cached;
+  const bytes = readFileSync(file!);
+  return (cached = readSav(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)));
+};
+const names = (sav: SavFile, p: string) => { const r = findVar(sav, p); return r.ok ? r.hits.map(v => v.name) : []; };
+const r1 = (x: number) => Math.round(x * 10) / 10;
+
+test('session 1: search hits and asked counts match the concept', { skip }, () => {
+  const sav = load();
+  assert.equal(sav.nCases, 5246);
+  assert.equal(sav.variables.length, 579);
+  assert.deepEqual(names(sav, 'horoskop'), ['rh08b']);
+  assert.deepEqual(names(sav, 'flüchtling'), []);
+  assert.deepEqual(names(sav, 'angst'), []);
+  assert.deepEqual(names(sav, 'fluecht'), ['mi05', 'mp16', 'mp17', 'mp18', 'mp19']);
+  assert.equal(names(sav, 'vertrauen').length, 16);
+  assert.deepEqual(names(sav, 'einsam'), ['dp03']);
+  assert.equal(askedCount(sav.byName.get('rh08b')!), 5246);
+  assert.equal(askedCount(sav.byName.get('pt03')!), 3650);
+  assert.equal(askedCount(sav.byName.get('mp16')!), 3599);
+  // Gültige Antworten, mit R nachgezählt (haven, user_na = TRUE): alle Befragten minus alle negativen Codes.
+  assert.equal(validCount(sav.byName.get('rh08b')!), 5030);
+  assert.equal(validCount(sav.byName.get('pt03')!), 3592);
+  assert.equal(validCount(sav.byName.get('mp16')!), 3480);
+});
+
+test('session 2: paper-only codes, factor positions and sheet grading', { skip }, () => {
+  const sav = load();
+  assert.equal(countCode(sav, 'mode', 4), 1656);
+  assert.equal(countCode(sav, 'pa01', -42, 4), 24);
+  assert.equal(countCode(sav, 'pa01', -42), 24);
+  assert.equal(countCode(sav, 'st01', -8, 4), 0);
+  assert.equal(countCode(sav, 'pt03', -11, 4), 798);
+  assert.equal(factorPosition(sav, 'pv01').get(42), 6);
+  assert.deepEqual(scanCode(sav, -42), { total: 638, variables: 202, byMode: [{ label: 'CAPI', n: 0 }, { label: 'CAWI', n: 0 }, { label: 'MAIL', n: 638 }] });
+  assert.equal(gradeCell(sav, sheets[0], 'pv01', '6').status, 'match');
+  assert.equal(gradeCell(sav, sheets[1], 'pt03', '-11').status, 'match');
+  assert.equal(gradeCell(sav, sheets[2], 'pt03', '1').status, 'match');
+  assert.equal(gradeCell(sav, sheets[2], 'pv01', '-9').status, 'match');
+  for (const sheet of sheets) for (const v of S02_VARS) {
+    const soll = sheet.cells[v].soll;
+    if (soll.kind === 'open') continue;
+    const code = soll.kind === 'value' ? soll.value : [...sav.byName.get(v)!.valueLabels].find(([, l]) => l.toUpperCase() === soll.label.toUpperCase())?.[0];
+    assert.notEqual(code, undefined, `Bogen ${sheet.id}, ${v}`);
+    assert.equal(gradeCell(sav, sheet, v, String(code)).status, 'match', `Bogen ${sheet.id}, ${v}`);
+  }
+});
+
+test('session 3: chairs per rule, diagnoses and hours match the concept', { skip }, () => {
+  const sav = load();
+  const pv = sav.byName.get('pv01')!, counts = rawCounts(pv), valid = validCodes(pv);
+  const seat = (rule: number[]) => Object.fromEntries(seatsFor(counts, valid, rule));
+  assert.deepEqual(seat([]), { 1: 25, 2: 20, 3: 8, 4: 19, 6: 6, 42: 12, 90: 4, 91: 6 });
+  const dk = seat([-8]);
+  assert.deepEqual([dk[1], dk[2], dk[4], dk[42], dk[3], dk[6], dk[-8]], [22, 17, 16, 10, 7, 6, 13]);
+  const all = seat([-8, -7, -50, -9, -42]);
+  assert.deepEqual([all[1], all[2], all[4], all[42], all[3], all[6], all[-8], all[-7], all[-50]], [19, 15, 14, 9, 6, 5, 11, 6, 4]);
+  const entered = (m: Record<number, number>) => new Map(Object.entries(m).map(([k, v]) => [Number(k), v]));
+  const raw = diagnoseSeats(pv, [], entered({ 1: 19, 2: 15, 3: 6, 4: 14, 6: 5, 42: 9, 90: 3, 91: 4 }));
+  assert.equal(raw.kind, 'raw');
+  assert.equal(raw.sum, 75);
+  const rounded = diagnoseSeats(pv, [], entered({ 1: 25, 2: 20, 3: 8, 4: 19, 6: 7, 42: 12, 90: 4, 91: 6 }));
+  assert.equal(rounded.kind, 'rounded');
+  assert.match(rounded.notes[0].text, /DIE LINKE/);
+  const g = describeHours(hoursFor(sav, 'gefragt'));
+  assert.deepEqual([g.n, r1(g.mean), g.median, g.q1, g.q3, r1(g.sd), Math.round(g.skew * 100) / 100, Math.round(g.above * 1000) / 10], [2945, 37.9, 40, 35, 41.5, 9.9, -0.25, 66.2]);
+  const v = describeHours(hoursFor(sav, 'vollzeit'));
+  assert.deepEqual([v.n, r1(v.mean), v.median, v.q1, v.q3, Math.round(v.skew * 100) / 100], [2172, 41.7, 40, 39, 44, 0.97]);
+  const a = describeHours(hoursFor(sav, 'alle0'));
+  assert.deepEqual([a.n, r1(a.mean), a.median], [5208, 21.4, 25]);
+});
+
+test('session 4: distribution, silhouettes, plan previews and the axis match R (ggplot2, mariposa)', { skip }, () => {
+  const sav = load();
+  const t = sketchTruth(sav);
+  assert.deepEqual(t.counts, [26, 29, 81, 120, 174, 413, 416, 998, 1506, 868, 533]);
+  assert.equal(t.n, 5164);
+  assert.equal(t.mode, 8);
+  assert.equal(t.median, 8);
+  assert.equal(t.mean.toFixed(4), '7.3555');
+  assert.deepEqual(silhouetteBars(sav, 'hs01'), [864, 2071, 1470, 616, 188]);
+  assert.deepEqual(silhouetteBars(sav, 'pa01'), [186, 250, 751, 672, 1381, 1001, 407, 227, 65, 57]);
+  assert.equal(silhouetteBars(sav, 'age').length, 82);
+  assert.equal(silhouetteBars(sav, 'dw15').length, 91);
+  const h = heaping(sav);
+  assert.equal(h.at40, 742);
+  assert.equal(Math.round(h.round * 1000), 609);
+  const [demokratie, stunden, alter] = GRAFIK_QUESTIONS;
+  assert.equal(planPreview(sav, demokratie, { geom: 'fill', x: 'eastwest', second: 'ps03' }).n, 3621);
+  const box = planPreview(sav, stunden, { geom: 'boxplot', x: 'sex', second: 'dw15' });
+  assert.equal(box.n, 2943);
+  assert.ok(box.view?.kind === 'boxplot');
+  if (box.view?.kind === 'boxplot') assert.deepEqual(box.view.boxes.map(b => [b.label, b.n, b.q1, b.median, b.q3]), [['Mann', 1491, 39, 40, 45], ['Frau', 1442, 30, 37.5, 40], ['divers', 10, 32.125, 40, 43.75]]);
+  assert.equal(planPreview(sav, alter, { geom: 'jitter', x: 'age', second: 'ls01' }).n, 5142);
+  assert.equal(checkCaption(sav, { geom: 'fill', x: 'eastwest', second: 'ps03' }, 'ALLBUS 2023, n = 3.621')[0].tone, 'ok');
+  const m = regionMeans(sav);
+  assert.equal(m.west.toFixed(4), '7.4387');
+  assert.equal(m.east.toFixed(4), '7.1790');
+  assert.equal(axisTop(m), 7.5);
+  assert.equal(pictureRatio(m, 7.1).toFixed(2), '4.29');
+});
+
+test('session 5: the 87 %, three denominators, 18 readings and the stairs match the concept', { skip }, () => {
+  const sav = load(), joint = prepareS04(sav), tables = allTables(joint);
+  const party = fourfold(joint, PARTY);
+  assert.deepEqual(party.n, { a: 127, b: 1829, c: 19, d: 810 });
+  assert.deepEqual([percent(party, 'a', 'col'), percent(party, 'a', 'row'), percent(party, 'c', 'row'), percent(party, 'a', 'all')].map(r1), [87, 6.5, 2.3, 4.6]);
+  assert.equal(r1(percent(fourfold(joint, { ...PARTY, weighted: true }), 'a', 'col')), 86.5);
+  assert.deepEqual(denominators(joint), { cell: 127, nonvoters: 146, distrusting: 1956, all: 2785 });
+  assert.match(checkP1(tables, joint, '87,0', '127')[0].text, /Genau so hat der Parteivorstand gerechnet/);
+  assert.match(checkP1(tables, joint, '3,2', '')[0].text, /Lies pe05 noch einmal/);
+  // Richtiger Prozentwert, aber die Spaltensumme (146) statt der Zelle: Hinweis ohne die richtige Zahl.
+  const wrongCount = checkP1(tables, joint, '87,0', '146')[0].text;
+  assert.match(wrongCount, /Der Prozentwert stimmt.*Zahl der Befragten in genau dieser Zelle/);
+  assert.doesNotMatch(wrongCount, /127/);
+  const rd = readings(joint).map(x => x.distrusting);
+  assert.equal(rd.length, 18);
+  assert.deepEqual([r1(Math.min(...rd)), r1(Math.max(...rd))], [6.5, 29.2]);
+  const example = fourfold(joint, { item: 'pe05', distrust: [3, 4], nonvote: [-8], else0: false, weighted: false });
+  assert.deepEqual([r1(percent(example, 'a', 'row')), example.n.a, r1(percent(example, 'c', 'row'))], [21.5, 386, 11.7]);
+  assert.deepEqual(stairs(sav).map(x => r1(x.share)), [1.2, 4.4, 5.6, 8.8]);
+  // Vierfeldertafel der Pressemitteilung: χ² = 20,7, V = .086; 69,3 % der Wählenden misstrauen (pe01 1–2).
+  const { chi2, n } = chiSquare([[party.n.a, party.n.b], [party.n.c, party.n.d]]);
+  assert.deepEqual([r1(chi2), Math.round(Math.sqrt(chi2 / n) * 1000) / 1000], [20.7, 0.086]);
+  assert.equal(r1(percent(party, 'b', 'col')), 69.3);
+  // pe05 ohne Umpolen (Zustimmende als „misstraut“): 3,2 % gegen 6,9 % – die Richtung kippt.
+  const unreversed = fourfold(joint, { item: 'pe05', distrust: [1, 2], nonvote: [], else0: false, weighted: false });
+  assert.deepEqual([r1(percent(unreversed, 'a', 'row')), r1(percent(unreversed, 'c', 'row'))], [3.2, 6.9]);
+});
+
+test('session 6: measures per card, strata and the ranking match mariposa (ps03 reversed)', { skip }, () => {
+  const p = prepareS05(load());
+  const r3 = (x: number) => Math.round(x * 1000) / 1000;
+  const get = (id: keyof typeof cardById, measure: string, weighted: boolean, stratum = -1) =>
+    r3(variants(p, cardById[id]).find(v => v.measure === measure && v.weighted === weighted && v.stratum === stratum && v.reversed)!.value);
+  assert.deepEqual([get('ep01', 'V', true), get('ep01', 'gamma', true), get('ep01', 'gamma', false), get('ep01', 'tau', true), get('ep01', 'tau', false, 0), get('ep01', 'tau', false, 1)], [0.277, -0.544, -0.553, -0.387, -0.367, -0.436]);
+  assert.deepEqual([get('age', 'V', true), get('age', 'r', true), get('age', 'r', false), get('age', 'r', false, 0), get('age', 'r', false, 1)], [0.158, 0.059, 0.031, 0.095, -0.045]);
+  assert.deepEqual([get('eastwest', 'V', true), get('eastwest', 'V', false), get('eastwest', 'gamma', true)], [0.186, 0.229, -0.35]);
+  assert.deepEqual([0, 1, 2].map(s => get('eastwest', 'gamma', false, s)), [-0.322, -0.373, -0.299]);
+  assert.deepEqual([0, 1, 2].map(s => get('eastwest', 'gamma', true, s)), [-0.32, -0.375, -0.297]);
+  assert.deepEqual([get('konf', 'V', true), get('konf', 'gamma', true)], [0.105, -0.147]);
+  // Konfession in den drei willkürlichen Reihenfolgen: Gamma wechselt mit der Anordnung (Originalkodierung +.147 / −.135 / −.043, nach dem Umpolen umgekehrt).
+  assert.deepEqual(KONF_ORDERS.map(o => r3(MEASURES.gamma.fn(p.y, cardValues(p, cardById.konf, o.map), p.w))), [-0.147, 0.135, 0.043]);
+  assert.equal(get('pt03', 'tau', true), 0.485);
+  const r = reveal(p);
+  assert.equal(r3(r.weighted.rp01.tau), -0.136);
+  assert.equal(r3(r.west.gs01.tau), -0.063);
+  // Einstieg: rec(hs01, "4:5=1; 3=2; 1:2=3") × rec(ps03, "5:6=1; 3:4=2; 1:2=3") – Tafel und Maße wie table(), cramers_v(), goodman_gamma(), kendall_tau(), pearson_cor()
+  const board = boardTable(p);
+  assert.deepEqual(board, [[129, 247, 154], [169, 394, 452], [260, 659, 1146]]);
+  const m = boardMeasures(board);
+  assert.deepEqual([m.V, m.gamma, m.tau, m.r].map(r3), [0.136, 0.273, 0.166, 0.183]);
+});

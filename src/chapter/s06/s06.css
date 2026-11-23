@@ -1,0 +1,38 @@
+/* ---------- Sitzung 6 „Gewichtung und Zusammenhang“: Stile der eigenen Bilder (nur .s6-*) ---------- */
+.chapter .s6-gewichtet{margin:12px 0 0;padding:10px 16px;border-radius:14px;background:var(--lilah);font-size:15.5px}
+.chapter .s6-umschalter{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chapter :is(.s6-umschalter,.s6-mischpult) .knopf[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chapter .s6-platten{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:560px;margin-top:12px}
+.chapter .s6-platten.eine{grid-template-columns:minmax(0,1fr);max-width:280px}
+.chapter .s6-stein{display:inline-block;border:2px solid var(--rand);border-radius:8px;padding:2px 10px;background:#fff;font-family:var(--rund);color:var(--ink)}
+.chapter .s6-gewicht{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+.chapter .s6-gewicht>div:first-child{flex:1 1 360px;min-width:0}
+.chapter .s6-zeile{border-width:3px}
+.chapter .s6-satz{font-size:15px;color:var(--mute);flex-basis:100%}
+.chapter .s6-stapel{display:flex;flex-direction:column;gap:4px;align-items:flex-start;margin-top:14px}
+.chapter .s6-stapel span{display:block;height:24px;border-radius:5px;color:#fff;font-weight:800;font-size:13px;text-align:center;line-height:24px}
+.chapter .s6-breit{width:122px}.chapter .s6-schmal{width:53px;color:#1E2D3C !important}
+.chapter .s6-stapel small{color:var(--mute);font-size:13px}
+.chapter .s6-probe{margin:10px 0 0;font-size:15.5px}
+.chapter .s6-rechnung{margin:8px 0 0;font-size:15.5px}
+.chapter .s6-cum{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.chapter .s6-mark{outline:3px solid #E0C46A;outline-offset:-3px;background:var(--gelbh);font-weight:800}
+.chapter .s6-klammer{margin:0;font-weight:700;color:var(--gelbd)}
+.chapter .s6-tafel{margin-top:10px}
+.chapter .s6-tafel.gross td{font-size:18px}
+.chapter .s6-bausteine{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.chapter .s6-bausteine>li{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:10px 14px;font-size:15.5px}
+.chapter .s6-nr{flex:none;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:7px;background:#FFE7A3;box-shadow:0 2px 0 #EFC867;font-family:var(--rund);font-weight:600;color:var(--ink)}
+.chapter .s6-merke{display:block;margin-top:4px;color:var(--kd);font-weight:700;font-size:14.5px}
+.chapter .s6-paare-grid{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.chapter .s6-paare-grid>.grafik{flex:0 1 260px;min-width:0}
+.chapter .s6-paare-grid>div:last-child{flex:1 1 240px;min-width:0}
+.chapter .s6-zaehler{margin:10px 0 0;font-weight:700;font-size:15px}
+.chapter .s6-endstand{margin:6px 0 0;font-weight:700}
+.chapter .s6-gestreckt{font-weight:800;color:var(--rot)}
+.chapter .s6-ausgabe-grid{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.chapter .s6-ausgabe-grid pre{flex:1 1 320px;min-width:0;margin:0;overflow-x:auto}
+.chapter .s6-pfeile{margin:0;padding-left:18px;font-size:15px}
+@media (max-width:640px){
+  .chapter .s6-platten{grid-template-columns:minmax(0,1fr)}
+}

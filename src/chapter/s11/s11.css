@@ -1,0 +1,81 @@
+/* Sitzung 11 „Logistische Regression“: Stile nur für dieses Kapitel (Bausteine, Übersetzer, Ausgabe, Trefferquote). */
+
+.chapter .s11-gewicht{margin:10px 0 0}
+
+/* Umschalter mit aria-pressed (B2, B7, B11) */
+.chapter .s11-umschalter{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chapter .s11-umschalter .knopf[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* Kästen der drei Sprachen (B3, B6, Übersetzer) */
+.chapter .s11-sprachen{margin-top:14px}
+.chapter .s11-kaesten{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.chapter .s11-kasten{flex:1 1 160px;display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--paper)}
+.chapter .s11-kasten b{font-family:var(--rund);color:var(--ink)}
+.chapter .s11-kasten .gross{font-size:20px}
+.chapter .s11-kasten small{color:var(--mute);font-size:13.5px;line-height:1.35}
+.chapter .s11-kasten.klein{flex:0 0 auto;align-items:center;padding:6px 12px}
+.chapter :is(.s11-kasten,.s11-drei span,.s11-rueckweg li).blau{background:var(--blauh);border-color:var(--blaud)}
+.chapter :is(.s11-kasten,.s11-drei span,.s11-rueckweg li).gelb{background:var(--gelbh);border-color:var(--gelbd)}
+.chapter :is(.s11-kasten,.s11-drei span,.s11-rueckweg li).lila{background:var(--lilah);border-color:var(--lilad)}
+.chapter .s11-pfeil{flex:0 0 auto;display:grid;grid-template-rows:auto auto auto auto;align-content:center;justify-items:center;font-size:13px;color:var(--mute);font-weight:700;min-width:92px;text-align:center}
+.chapter .s11-pfeil i{font-style:normal;font-size:22px;line-height:1;color:var(--ink)}
+.chapter .s11-pfeil .zurueck{color:var(--mute);opacity:.85}
+.chapter .s11-pfeil i.zurueck{border-top:2px dashed var(--rand);padding-top:2px}
+.chapter .s11-zeichen{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.chapter .s11-zeichen span{display:flex;flex-direction:column;padding:4px 10px;border-radius:10px;background:#fff;border:1.5px solid var(--line)}
+.chapter .s11-zeichen b{font-family:var(--mono);color:var(--ink)}
+.chapter .s11-zeichen small{color:var(--mute);font-size:13px}
+
+/* Formeln als Bausteine (B5a, B6b, B12b) */
+.chapter .s11-formel{gap:10px}
+.chapter .s11-baustein{display:inline-flex;flex-direction:column;padding:6px 10px;border-radius:10px;background:#fff;border:2px solid var(--line);max-width:220px}
+.chapter .s11-baustein b{font-family:var(--rund);color:var(--ink)}
+.chapter .s11-baustein small{color:var(--mute);font-size:13px;line-height:1.35}
+.chapter .s11-baustein.lila{background:var(--lilah);border-color:var(--lilad)}
+.chapter .s11-baustein.gelb{background:var(--gelbh);border-color:var(--gelbd)}
+.chapter .s11-eingesetzt{flex-basis:100%;color:var(--ink)}
+
+/* Übersetzer */
+.chapter .s11-uebersetzer{margin-top:10px}
+.chapter .s11-drei{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.chapter .s11-drei span{flex:1 1 140px;display:flex;flex-direction:column;align-items:center;padding:8px 10px;border-radius:12px;border:2px solid var(--line)}
+.chapter .s11-drei b{font-family:var(--rund);font-size:24px;color:var(--ink)}
+.chapter .s11-drei small{color:var(--mute);font-size:13px}
+.chapter .s11-raster{display:grid;grid-template-columns:repeat(10,18px);gap:3px;margin-top:10px}
+.chapter .s11-raster i{width:18px;height:14px;border-radius:3px;background:var(--paper);border:1px solid var(--rand)}
+.chapter .s11-raster i.ja{background:var(--gruen);border-color:var(--gruend)}
+
+/* B5: zwei Felder nebeneinander */
+.chapter .s11-zwei{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+
+/* B6: Reihe von Chancen */
+.chapter .s11-faktor{margin-top:14px}
+.chapter .s11-ueber{margin:0 0 6px;font-size:14.5px;color:var(--mute)}
+.chapter .s11-reihe{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.chapter .s11-reihe-teil{display:inline-flex;align-items:center;gap:6px}
+.chapter .s11-reihe-teil>i{font-style:normal;font-size:13px;font-weight:700;color:var(--gelbd)}
+
+/* B7: Ausgabe mit markierten Stellen */
+.chapter pre.s11-pre{margin-top:10px;font-size:13px;line-height:1.5}
+.chapter .s11-ausgabe-bild{margin:0}
+.chapter .s11-pre .s11-hell{background:var(--gelb);color:inherit;font-weight:700;box-shadow:inset 4px 0 0 var(--ink)}
+
+/* B8: Rückweg */
+.chapter .s11-rueckweg{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px;counter-reset:s11}
+.chapter .s11-rueckweg li{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;padding:8px 12px;border-radius:12px;border:2px solid var(--line)}
+.chapter .s11-rueckweg li b{font-family:var(--rund);color:var(--ink)}
+.chapter .s11-rueckweg li span{font-family:var(--mono);color:var(--ink)}
+.chapter .s11-rueckweg li small{color:var(--mute)}
+
+/* R2: nummerierte Werkzeuge */
+.chapter .s11-werkzeuge{padding-left:22px}
+.chapter .s11-werkzeuge>li{margin-top:12px}
+
+/* B11: Trefferquote */
+.chapter .s11-treffer td.s11-richtig{background:var(--gruenh);outline:2px solid var(--gruend);outline-offset:-2px}
+.chapter .s11-treffer th[scope="row"]{text-align:left;font-weight:700}
+
+@media (max-width:700px){
+  .chapter .s11-zwei{grid-template-columns:1fr}
+  .chapter .s11-pfeil{min-width:100%;grid-template-columns:auto auto auto auto;grid-template-rows:auto;gap:8px}
+}

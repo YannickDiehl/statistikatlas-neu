@@ -1,0 +1,92 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { plainCode, tokenizeR } from './RCode';
+import { HintLadder } from './HintLadder';
+import { de, halfUnit, near, numberReadings, parseNumber } from './numbers';
+import { PlenumCard, plenumMarkdown } from './PlenumCard';
+import { RBlock } from './RBlock';
+import { emptyTaskStore, oneOf, parseTaskStore, str, strList } from './storage';
+
+test('reads German and English number formats', () => {
+  assert.equal(parseNumber('37,9'), 37.9);
+  assert.equal(parseNumber('37.9'), 37.9);
+  assert.equal(parseNumber('87,0%'), 87);
+  assert.equal(parseNumber('87,0 %'), 87);
+  assert.equal(parseNumber('1.656'), 1656);
+  assert.equal(parseNumber('5 246'), 5246);
+  assert.equal(parseNumber('−8'), -8);
+  assert.equal(parseNumber('-0,5'), -0.5);
+  assert.equal(parseNumber('0.500'), 0.5);
+  assert.equal(parseNumber('0.123'), 0.123);
+  assert.equal(parseNumber('-0.250'), -0.25);
+  assert.equal(parseNumber('5,5 %'), 5.5);
+  for (const bad of ['', 'abc', '1,2,3', '%']) assert.equal(parseNumber(bad), null, bad);
+  assert.ok(near(37.94, 37.9, 0.05));
+  assert.ok(!near(38, 37.9, 0.05));
+});
+
+test('restores only known tasks from storage and survives garbage', () => {
+  assert.deepEqual(parseTaskStore(null), emptyTaskStore());
+  assert.deepEqual(parseTaskStore('{kaputt'), emptyTaskStore());
+  assert.deepEqual(parseTaskStore('{"tasks":[1,2]}'), emptyTaskStore());
+  const store = parseTaskStore(JSON.stringify({ tasks: { s01: { a: 1 }, s99: { b: 2 }, s02: 'text' } }));
+  assert.deepEqual(store, { tasks: { s01: { a: 1 } } });
+  assert.equal(str(42), '');
+  assert.equal(str('x'.repeat(3000)).length, 2000);
+  assert.equal(oneOf('b', ['a', 'b'] as const, 'a'), 'b');
+  assert.equal(oneOf('c', ['a', 'b'] as const, 'a'), 'a');
+  assert.deepEqual(strList(['a', 3, 'b']), ['a', 'b']);
+});
+
+test('hint ladder starts closed and the plenum card lists its lines', () => {
+  const hint = { think: 'Denk nach.', pointer: 'Schau in die Karte.', scaffold: 'find_var(___)', solution: 'find_var(allbus, "x")' };
+  const html = plainCode(renderToStaticMarkup(createElement(HintLadder, { hint, onConcept: () => {} })));
+  assert.match(html, /Ich komme nicht weiter/);
+  assert.doesNotMatch(html, /Denk nach/);
+  const card = renderToStaticMarkup(createElement(PlenumCard, { title: 'Stempelbilanz', lines: [['Beauftragen', '2 von 4'], ['Variable', '']], file: 'plenum.md' }));
+  assert.match(card, /FÜR DAS PLENUM/);
+  assert.match(card, /2 von 4/);
+  assert.equal(plenumMarkdown('T', [['A', '1'], ['B', '']]), '# T\n\n- **A:** 1\n- **B:** –\n');
+  assert.match(plainCode(renderToStaticMarkup(createElement(RBlock, { code: 'library(mariposa)', file: 'x.R' }))), /library\(mariposa\)/);
+});
+
+test('de() writes German numbers with a true minus sign that parseNumber reads back', () => {
+  assert.equal(de(-0.35, 3), '−0,350');
+  assert.equal(de(0.186, 3), '0,186');
+  assert.equal(de(1234.5), '1.234,5');
+  assert.equal(de(Number.NaN), '–');
+  assert.equal(parseNumber(de(-0.35, 3)), -0.35);
+});
+
+test('numberReadings reads R-printed decimals and German numbers, both readings when ambiguous', () => {
+  assert.deepEqual(numberReadings('3.765'), [{ x: 3.765, decimals: 3 }, { x: 3765, decimals: 0 }]);
+  assert.deepEqual(numberReadings('0.465'), [{ x: 0.465, decimals: 3 }]);
+  assert.deepEqual(numberReadings('−2.481'), [{ x: -2.481, decimals: 3 }, { x: -2481, decimals: 0 }]);
+  assert.deepEqual(numberReadings('3,77'), [{ x: 3.77, decimals: 2 }]);
+  assert.deepEqual(numberReadings('1.656,5'), [{ x: 1656.5, decimals: 1 }]);
+  assert.deepEqual(numberReadings('1.234.567'), [{ x: 1234567, decimals: 0 }]);
+  assert.deepEqual(numberReadings('2.28'), [{ x: 2.28, decimals: 2 }]);
+  assert.deepEqual(numberReadings('67,7 %'), [{ x: 67.7, decimals: 1 }]);
+  assert.deepEqual(numberReadings('abc'), []);
+  assert.deepEqual(numberReadings('+16,0'), [{ x: 16, decimals: 1 }]);
+  assert.deepEqual(numberReadings('×3,77'), [{ x: 3.77, decimals: 2 }]);
+  assert.ok(Math.abs(halfUnit(3) - 0.0005) < 1e-8);
+});
+
+test('R code is split into colored pieces without changing the text', () => {
+  const code = '# Kommentar\nallbus %>%\n  filter(sex == 2, age > 17) %>%\n  rec(x, rules = "1=1 [ja]; else=NA") # nicht hier\n___ <- TRUE';
+  const tokens = tokenizeR(code);
+  assert.equal(tokens.map(t => t.text).join(''), code);
+  const kind = (text: string) => tokens.find(t => t.text === text)?.kind;
+  assert.equal(kind('# Kommentar'), 'comment');
+  assert.equal(kind('%>%'), 'op');
+  assert.equal(kind('filter'), 'fn');
+  assert.equal(kind('"1=1 [ja]; else=NA"'), 'string');
+  assert.equal(kind('2'), 'number');
+  assert.equal(kind('___'), 'gap');
+  assert.equal(kind('TRUE'), 'keyword');
+  assert.equal(kind('<-'), 'op');
+  assert.equal(tokens.find(t => t.text.includes('allbus'))?.kind, 'plain');
+});

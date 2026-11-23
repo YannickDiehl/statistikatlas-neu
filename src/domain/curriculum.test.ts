@@ -1,0 +1,57 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { initialS04 } from '../tasks/s04-nenner-check/domain';
+import { renderSession } from '../tasks/testRender';
+import { conceptById } from './concepts';
+import { sessions } from './curriculum';
+
+test('follows the session plan: eleven sessions with the inserted visualisation session, one task each', () => {
+  assert.deepEqual(sessions.map(s => s.id), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+  assert.deepEqual(sessions.map(s => s.task), ['s01', 's02', 's03', 'grafik', 's04', 's05', 's06', 's07', 's08', 's09', 's10']);
+  for (const s of sessions) {
+    assert.ok(s.introduced.length > 0, `Sitzung ${s.id}`);
+    for (const term of [...s.repetition, ...s.introduced]) if (term.concept) assert.ok(conceptById[term.concept], `${s.id}: ${term.concept}`);
+  }
+});
+
+test('lists every session with its status and marks missing map terms', () => {
+  const html = renderSession(4, true, { tasks: { s04: { ...initialS04(), guess: 'Nichtwähler' } } });
+  for (const s of sessions) assert.match(html, new RegExp(`<strong>${s.title}<small>`));
+  assert.match(html, /Kreuztabellen<small>Aufgabe läuft/);
+  assert.match(html, /Mittelwerte vergleichen<small>Aufgabe offen/);
+  assert.doesNotMatch(html, /Aufgabe folgt/);
+  assert.match(html, /<span title="Steht im Sitzungsplan, fehlt der Karte noch">AV und UV<\/span>/);
+  assert.match(html, /<button>Kreuztabelle<\/button>/);
+  // Vom Dozenten gestrichen (30.09.2026): Dateistatus, Einleitungssatz und „· STATISTIK IB“.
+  for (const gone of [/Andere Datei laden/, /ALLBUScompact 2023 ·/, /Zehn Sitzungen nach dem Sitzungsplan/, /STATISTIK IB/]) assert.doesNotMatch(html, gone);
+  assert.match(html, /<span class="learning-eyebrow">LERNPFAD<\/span>/);
+});
+
+test('shows the drawing task in session 4, the Nenner-Check in session 5 and a task in every later session', () => {
+  assert.match(renderSession(3), /Erst zeichnen, dann zeigen/);
+  assert.match(renderSession(3), /Daten sehen<small>Aufgabe offen/);
+  assert.match(renderSession(4), /Prozentbasis-Check/);
+  assert.match(renderSession(4, false), /87 Prozent der Nichtwähler/);
+  const later = renderSession(8);
+  assert.match(later, /Der Demokratie-Automat/);
+  assert.doesNotMatch(later, /AUFGABE FOLGT/);
+  assert.match(renderSession(99), /Logistische Regression/);
+});
+
+test('outside preview the guiding questions keep the seminar wording; chapters carry their own question', () => {
+  const plain: Record<number, string> = {
+    6: 'Was hängt mit der Zufriedenheit mit der Demokratie zusammen?',
+    7: 'Unterscheiden sich Gruppen im Mittel?',
+    8: 'Wie misst man Populismus mit mehreren Fragen?',
+    10: 'Was bleibt, wenn man mehr berücksichtigt?',
+  };
+  for (const [id, question] of Object.entries(plain)) {
+    const index = sessions.findIndex(s => s.id === Number(id));
+    assert.equal(sessions[index].question, question);
+    assert.match(renderSession(index), new RegExp(`<p class="learning-lead">${question.replace('?', '\\?')}</p>`));
+  }
+});
+
+test('in preview the lead paragraph disappears where a chapter is active, so the question is not read twice', () => {
+  for (const index of [5, 6, 7, 9]) assert.doesNotMatch(renderSession(index, true, { tasks: {} }, true), /class="learning-lead"/);
+});

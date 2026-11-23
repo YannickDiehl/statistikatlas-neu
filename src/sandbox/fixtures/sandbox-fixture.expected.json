@@ -1,0 +1,1928 @@
+{
+  "nCases": 60,
+  "variables": [
+    {
+      "name": "respid",
+      "label": "",
+      "kind": "numeric",
+      "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
+      "strings": null,
+      "naValues": [],
+      "naRange": null,
+      "valueLabels": []
+    },
+    {
+      "name": "za_nr",
+      "label": "STUDIENNUMMER",
+      "kind": "numeric",
+      "values": [8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831, 8831],
+      "strings": null,
+      "naValues": [],
+      "naRange": null,
+      "valueLabels": [
+        {
+          "value": 8831,
+          "label": "ALLBUScompact 2023"
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "label": "",
+      "kind": "string",
+      "values": null,
+      "strings": ["v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)", "v1.3.0, 2025-07-30 (synthetisch)"],
+      "naValues": [],
+      "naRange": null,
+      "valueLabels": []
+    },
+    {
+      "name": "eastwest",
+      "label": "ERHEBUNGSGEBIET",
+      "kind": "numeric",
+      "values": [1, 2, 2, 1, 2, 1, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1, 1],
+      "strings": null,
+      "naValues": [],
+      "naRange": null,
+      "valueLabels": [
+        {
+          "value": 1,
+          "label": "ALTE BUNDESLAENDER"
+        },
+        {
+          "value": 2,
+          "label": "NEUE BUNDESLAENDER"
+        }
+      ]
+    },
+    {
+      "name": "wghtpew",
+      "label": "OST-WEST-GEWICHT",
+      "kind": "numeric",
+      "values": [1.2060999999999999, 0.5878000000000001, 0.5949000000000001, 1.2269999999999999, 0.55900000000000005, 1.2184999999999999, 1.2271999999999998, 0.55360000000000009, 0.57830000000000004, 1.2277, 1.2388999999999999, 0.58940000000000003, 1.2305999999999999, 1.2181, 0.56380000000000008, 0.55940000000000001, 1.2436, 0.57110000000000005, 1.2201, 1.2438, 0.55810000000000004, 1.2097, 1.2113, 1.2221, 1.2303999999999999, 0.58790000000000009, 1.2081999999999999, 0.5958, 1.2489999999999999, 1.2184999999999999, 1.2009999999999998, 0.57890000000000008, 1.2058, 1.2192000000000001, 1.2390999999999999, 1.2046999999999999, 1.2273000000000001, 1.2254, 1.2157, 0.58840000000000003, 0.57020000000000004, 1.2181999999999999, 1.2394000000000001, 0.55910000000000004, 0.55310000000000004, 1.2333000000000001, 1.2328999999999999, 1.2368999999999999, 1.2249999999999999, 0.59310000000000007, 0.58390000000000009, 0.55390000000000006, 1.2378, 0.57280000000000009, 1.2025999999999999, 0.56950000000000001, 0.57280000000000009, 1.2107999999999999, 1.2130999999999998, 1.2081],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER"
+        }
+      ]
+    },
+    {
+      "name": "age",
+      "label": "ALTER",
+      "kind": "numeric",
+      "values": [18, 29, 30, 90, -32, 31, 52, 75, 30, 76, 55, 22, 23, 80, 52, 64, 20, 38, 69, 84, 69, 86, 54, 55, 87, 20, 52, 78, 41, 45, 80, 90, 66, 77, 39, 47, 78, 38, 19, 55, 26, 55, 26, 29, 22, 44, 59, 83, 77, 40, 84, 36, 66, 72, 76, 88, 48, 35, 62, 84],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -32,
+          "label": "NICHT GENERIERBAR"
+        }
+      ]
+    },
+    {
+      "name": "pa02a",
+      "label": "POLITISCHES INTERESSE",
+      "kind": "numeric",
+      "values": [4, 3, 3, 3, 2, 2, 3, 3, 5, 1, 4, 2, 4, 3, 3, 2, 3, 3, 3, 4, 3, 1, 2, 3, 1, 3, 2, 2, 1, 5, 2, 2, 5, 5, 3, 1, -9, 3, 2, 3, 5, 2, 3, 2, 3, 5, -42, 4, 1, 4, 1, 4, 3, 3, 3, 2, 3, 3, 3, 1],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "SEHR STARK"
+        },
+        {
+          "value": 2,
+          "label": "STARK"
+        },
+        {
+          "value": 3,
+          "label": "MITTEL"
+        },
+        {
+          "value": 4,
+          "label": "WENIG"
+        },
+        {
+          "value": 5,
+          "label": "UEBERHAUPT NICHT"
+        }
+      ]
+    },
+    {
+      "name": "li07",
+      "label": "WICHTIGKEIT POLITIK",
+      "kind": "numeric",
+      "values": [-9, 5, 2, 5, 3, 7, 7, 1, 3, -9, 5, 6, 3, 4, 5, 7, 1, 3, 7, -9, 4, 5, 1, 5, 3, 5, 3, 4, 1, 1, -9, 5, 4, 6, 6, 4, 3, 6, -9, 4, 6, 2, 2, 2, 1, 7, 6, 2, 3, 6, 2, 1, 1, 4, 3, 1, -9, 1, 6, 7],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "1 - UNWICHTIG"
+        },
+        {
+          "value": 7,
+          "label": "7 - SEHR WICHTIG"
+        }
+      ]
+    },
+    {
+      "name": "pt03",
+      "label": "VERTRAUEN pt03",
+      "kind": "numeric",
+      "values": [-11, 1, 1, -11, -11, -11, -11, 5, -11, 3, -11, 4, 5, 5, 7, 7, 1, -11, -11, -11, 7, -11, -11, -11, -11, 6, -11, -11, 3, 5, -11, 4, -11, -11, 4, -11, 4, 4, 4, -11, -11, 2, -11, -11, -11, -11, 5, -11, -11, 4, -11, 7, -11, 5, -9, 5, -11, -11, 4, -11],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "GAR KEIN VERTRAUEN"
+        },
+        {
+          "value": 2,
+          "label": ".."
+        },
+        {
+          "value": 3,
+          "label": ".."
+        },
+        {
+          "value": 4,
+          "label": ".."
+        },
+        {
+          "value": 5,
+          "label": ".."
+        },
+        {
+          "value": 6,
+          "label": ".."
+        },
+        {
+          "value": 7,
+          "label": "GROSSES VERTRAUEN"
+        }
+      ]
+    },
+    {
+      "name": "pt12",
+      "label": "VERTRAUEN pt12",
+      "kind": "numeric",
+      "values": [6, 7, 5, -11, -11, -11, -11, -11, 4, 1, -11, 1, 7, 6, 6, 2, -11, -11, -11, 6, 3, -11, -11, 2, -11, -11, -11, -11, -11, -11, 1, 3, -11, 4, -11, -11, -11, 4, 5, 6, -9, -11, -11, -11, 2, 7, -11, 4, -9, 1, -11, -9, -11, 7, 5, -11, -9, -11, -11, -11],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "GAR KEIN VERTRAUEN"
+        },
+        {
+          "value": 7,
+          "label": "GROSSES VERTRAUEN"
+        }
+      ]
+    },
+    {
+      "name": "pt15",
+      "label": "VERTRAUEN pt15",
+      "kind": "numeric",
+      "values": [6, 1, 4, -9, 6, 5, 1, 7, 2, 1, -11, -11, -11, -11, 5, 5, -11, 6, -9, -11, 7, 2, -11, -11, -11, 7, 6, 5, 7, -11, 2, 7, 5, 6, 6, -11, -11, -11, -11, -9, 2, 4, -11, 6, 1, -11, -11, 6, -11, -11, -11, -9, 7, -11, -11, -9, -11, 3, -11, 4],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "GAR KEIN VERTRAUEN"
+        },
+        {
+          "value": 7,
+          "label": "GROSSES VERTRAUEN"
+        }
+      ]
+    },
+    {
+      "name": "pe01",
+      "label": "POLITIKER KUEMMERN S.NICHT UM M.GEDANKEN",
+      "kind": "numeric",
+      "values": [3, 3, 1, 2, 1, -11, 1, 2, -11, 3, -11, 3, 2, 1, -11, -11, 1, 2, -11, 3, -11, 2, 1, 2, -11, -11, 3, 3, 2, 2, 1, 2, 2, 2, 3, -11, 2, -11, -11, 3, 2, -11, 3, -11, 2, -11, 3, 1, 3, 3, -11, 3, -11, 2, -11, 1, 3, -11, -8, 3],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "STIMME EHER NICHT ZU"
+        },
+        {
+          "value": 4,
+          "label": "STIMME GAR NICHT ZU"
+        }
+      ]
+    },
+    {
+      "name": "pa35",
+      "label": "POLITIKER VERTRETEN NUR DIE REICHEN",
+      "kind": "numeric",
+      "values": [3, 3, 1, 2, -11, -11, -11, 2, 5, -11, 5, -11, 1, 3, 2, 2, -11, -11, -11, 1, 1, 4, -11, -11, -11, 4, 3, 5, 2, 2, 1, 2, 2, 1, -11, 4, 3, 2, -11, -11, -11, -11, 4, 4, -11, 1, 4, 1, 1, 3, 3, -11, 3, 5, -11, 2, 3, 3, 4, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 5,
+          "label": "LEHNE GANZ AB"
+        }
+      ]
+    },
+    {
+      "name": "pv01",
+      "label": "BEFR.: WAHLABSICHT BUNDESTAGSWAHL",
+      "kind": "numeric",
+      "values": [3, 2, 4, 4, -8, 1, 1, -8, 2, -8, 42, 42, 3, 3, 2, -7, -50, 6, 1, 4, 91, 42, 3, 2, 1, 2, 1, 2, 1, 91, -8, -8, 91, -50, 1, 42, -8, 1, -8, -50, 2, 91, -7, -8, -8, -50, -8, -8, 2, 1, -7, -8, 4, 4, 2, 6, 1, 91, 1, -8],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -50,
+          "label": "NICHT WAHLBERECHTIGT"
+        },
+        {
+          "value": -42,
+          "label": "DATENFEHLER: MFN"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": -7,
+          "label": "VERWEIGERT"
+        },
+        {
+          "value": 1,
+          "label": "CDU-CSU"
+        },
+        {
+          "value": 2,
+          "label": "SPD"
+        },
+        {
+          "value": 3,
+          "label": "FDP"
+        },
+        {
+          "value": 4,
+          "label": "DIE GRUENEN"
+        },
+        {
+          "value": 6,
+          "label": "DIE LINKE"
+        },
+        {
+          "value": 42,
+          "label": "AFD"
+        },
+        {
+          "value": 90,
+          "label": "ANDERE PARTEI"
+        },
+        {
+          "value": 91,
+          "label": "WUERDE NICHT WAEHLEN"
+        }
+      ]
+    },
+    {
+      "name": "vertrauen_bundestag_lang",
+      "label": "Langer Variablenname zum Test",
+      "kind": "numeric",
+      "values": [-11, 1, 1, -11, -11, -11, -11, 5, -11, 3, -11, 4, 5, 5, 7, 7, 1, -11, -11, -11, 7, -11, -11, -11, -11, 6, -11, -11, 3, 5, -11, 4, -11, -11, 4, -11, 4, 4, 4, -11, -11, 2, -11, -11, -11, -11, 5, -11, -11, 4, -11, 7, -11, 5, -9, 5, -11, -11, 4, -11],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        }
+      ]
+    },
+    {
+      "name": "kommentar",
+      "label": "",
+      "kind": "string",
+      "values": null,
+      "strings": ["", "ein sehr langer Kommentar mit mehr als acht Zeichen", "", "Ümläute & Ärger", "ja", "ja", "ein sehr langer Kommentar mit mehr als acht Zeichen", "ein sehr langer Kommentar mit mehr als acht Zeichen", "ja", "Ümläute & Ärger", "", "ein sehr langer Kommentar mit mehr als acht Zeichen", "", "ein sehr langer Kommentar mit mehr als acht Zeichen", "", "ja", "ja", "Ümläute & Ärger", "", "", "ja", "", "", "", "", "ein sehr langer Kommentar mit mehr als acht Zeichen", "ja", "Ümläute & Ärger", "ein sehr langer Kommentar mit mehr als acht Zeichen", "Ümläute & Ärger", "ja", "ein sehr langer Kommentar mit mehr als acht Zeichen", "ein sehr langer Kommentar mit mehr als acht Zeichen", "", "", "Ümläute & Ärger", "ein sehr langer Kommentar mit mehr als acht Zeichen", "ja", "Ümläute & Ärger", "Ümläute & Ärger", "Ümläute & Ärger", "Ümläute & Ärger", "ein sehr langer Kommentar mit mehr als acht Zeichen", "ja", "ein sehr langer Kommentar mit mehr als acht Zeichen", "ein sehr langer Kommentar mit mehr als acht Zeichen", "Ümläute & Ärger", "ja", "Ümläute & Ärger", "ein sehr langer Kommentar mit mehr als acht Zeichen", "", "ja", "Ümläute & Ärger", "ein sehr langer Kommentar mit mehr als acht Zeichen", "ja", "", "Ümläute & Ärger", "", "Ümläute & Ärger", "ein sehr langer Kommentar mit mehr als acht Zeichen"],
+      "naValues": [],
+      "naRange": null,
+      "valueLabels": []
+    },
+    {
+      "name": "mode",
+      "label": "ERHEBUNGSMODUS DER ALLBUS-HAUPTBEFRAGUNG",
+      "kind": "numeric",
+      "values": [4, 2, 2, 3, 3, 3, 3, 2, 3, 3, 4, 3, 3, 4, 2, 2, 2, 4, 2, 4, 3, 3, 4, 3, 2, 4, 2, 4, 2, 2, 2, 3, 4, 3, 3, 4, 2, 2, 4, 3, 4, 3, 4, 2, 4, 2, 2, 4, 2, 4, 4, 2, 2, 4, 4, 2, 2, 4, 2, 3],
+      "strings": null,
+      "naValues": [],
+      "naRange": null,
+      "valueLabels": [
+        {
+          "value": 1,
+          "label": "PAPI"
+        },
+        {
+          "value": 2,
+          "label": "CAPI"
+        },
+        {
+          "value": 3,
+          "label": "CAWI"
+        },
+        {
+          "value": 4,
+          "label": "MAIL"
+        }
+      ]
+    },
+    {
+      "name": "splt23_1",
+      "label": "FRAGEBOGENSPLIT 2023: FRABO-ERWEITERUNG",
+      "kind": "numeric",
+      "values": [2, -15, -15, 1, 1, 2, 1, -15, 1, 1, 2, 1, 1, 2, -15, -15, -15, 2, -15, 1, 1, 1, 2, 2, -15, 1, -15, 2, -15, -15, -15, 1, 2, 1, 2, 1, -15, -15, 1, 2, 2, 2, 1, -15, 2, -15, -15, 2, -15, 1, 1, -15, -15, 1, 2, -15, -15, 2, -15, 1],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -15,
+          "label": "TNZ: MODE"
+        },
+        {
+          "value": 1,
+          "label": "SPLIT A"
+        },
+        {
+          "value": 2,
+          "label": "SPLIT B"
+        }
+      ]
+    },
+    {
+      "name": "rh08b",
+      "label": "HALTE VON: ASTROLOGIE, HOROSKOPE",
+      "kind": "numeric",
+      "values": [3, 2, 2, -9, 3, 3, 2, 2, 3, 3, -6, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 2, 2, 2, 3, 1, 2, 3, 3, 3, 3, 3, 2, 3, -6, 1, 3, 2, 1, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 3, -6, 3, 1, 3, -9, 3, 2, 3, 3, 3],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -6,
+          "label": "KENNE ICH NICHT"
+        },
+        {
+          "value": 1,
+          "label": "VIEL"
+        },
+        {
+          "value": 2,
+          "label": "ETWAS"
+        },
+        {
+          "value": 3,
+          "label": "GAR NICHTS"
+        }
+      ]
+    },
+    {
+      "name": "mi05",
+      "label": "ZUZUG VON: KRIEGSFLUECHTLINGEN",
+      "kind": "numeric",
+      "values": [-11, 2, -8, 1, 1, 2, -11, -11, 2, 1, 2, -11, 2, 1, 1, 1, 2, 2, 3, -11, -11, 2, 1, 2, 2, 2, 2, -11, 2, 3, 1, 3, 2, -11, 1, 2, -11, 2, 3, -11, 2, 2, 1, -11, 2, -11, 1, 1, 2, -11, 3, 2, -11, -11, 3, 3, 1, 2, 2, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "UNEINGESCHRAENKT"
+        },
+        {
+          "value": 2,
+          "label": "ZUZUG BEGRENZEN"
+        },
+        {
+          "value": 3,
+          "label": "GANZ UNTERBINDEN"
+        }
+      ]
+    },
+    {
+      "name": "mp16",
+      "label": "FLUECHTL. CHANCE O.RISIKO: SOZIALSTAAT",
+      "kind": "numeric",
+      "values": [3, 4, -11, -11, 5, 3, -11, 5, 4, -11, 2, -11, 2, -11, -11, 1, 5, 1, 1, 4, -11, 4, 3, -11, -11, 3, 1, -11, 3, 2, 3, 5, -11, 4, 4, 5, 3, -11, 3, -11, 4, 3, 4, -11, 4, 2, -11, 2, 1, 1, -11, -11, -11, 4, 4, -11, 5, 3, 5, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": 1,
+          "label": "RISIKO UEBERWIEGT"
+        },
+        {
+          "value": 2,
+          "label": "EHER RISIKO"
+        },
+        {
+          "value": 3,
+          "label": "WEDER NOCH"
+        },
+        {
+          "value": 4,
+          "label": "EHER CHANCE"
+        },
+        {
+          "value": 5,
+          "label": "CHANCE UEBERWIEGT"
+        }
+      ]
+    },
+    {
+      "name": "mp17",
+      "label": "FLUECHTL. CHANCE O.RISIKO: SICHERHEIT",
+      "kind": "numeric",
+      "values": [-11, 2, 4, 2, 5, 2, -11, 3, 5, 4, -11, -11, 2, 4, -11, 2, 2, 2, 5, -11, -11, 4, -11, 5, 4, 5, -11, 5, 3, 2, -11, 2, 4, 1, 3, 5, 2, 3, -11, 3, 4, 5, 4, 5, -11, -11, -11, 2, 3, 5, 2, 1, -11, 5, -11, -11, 1, 3, 3, 5],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": 1,
+          "label": "RISIKO UEBERWIEGT"
+        },
+        {
+          "value": 2,
+          "label": "EHER RISIKO"
+        },
+        {
+          "value": 3,
+          "label": "WEDER NOCH"
+        },
+        {
+          "value": 4,
+          "label": "EHER CHANCE"
+        },
+        {
+          "value": 5,
+          "label": "CHANCE UEBERWIEGT"
+        }
+      ]
+    },
+    {
+      "name": "mp18",
+      "label": "FLUECHTL. CHANCE O.RISIKO: ZUSAMMENLEB",
+      "kind": "numeric",
+      "values": [3, 4, 4, -11, -11, 4, 4, 5, 2, -11, -11, 1, -11, 3, 1, 1, 3, 2, -11, 5, -11, 4, 4, -11, -11, 5, 4, -11, -11, 1, -11, -11, -11, 4, 1, 1, 2, 5, 4, 5, 1, 4, 1, 3, -11, 5, 3, 2, 4, 1, 1, -11, 4, -11, 1, 4, 4, -11, 5, -11],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": 1,
+          "label": "RISIKO UEBERWIEGT"
+        },
+        {
+          "value": 2,
+          "label": "EHER RISIKO"
+        },
+        {
+          "value": 3,
+          "label": "WEDER NOCH"
+        },
+        {
+          "value": 4,
+          "label": "EHER CHANCE"
+        },
+        {
+          "value": 5,
+          "label": "CHANCE UEBERWIEGT"
+        }
+      ]
+    },
+    {
+      "name": "mp19",
+      "label": "FLUECHTL. CHANCE O.RISIKO: WIRTSCHAFT",
+      "kind": "numeric",
+      "values": [3, 2, -11, 4, 1, 4, -11, -11, 1, 3, -11, -11, 2, 4, 2, 1, 2, 4, 5, 3, 3, -11, -11, 5, 5, -11, 3, 5, -11, 2, -11, 5, 3, 4, 3, 2, 5, 3, 3, 3, 2, -11, 1, -11, 1, 3, 5, 4, 5, -11, 3, 3, 4, 1, 4, -11, 4, -11, 1, 5],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": 1,
+          "label": "RISIKO UEBERWIEGT"
+        },
+        {
+          "value": 2,
+          "label": "EHER RISIKO"
+        },
+        {
+          "value": 3,
+          "label": "WEDER NOCH"
+        },
+        {
+          "value": 4,
+          "label": "EHER CHANCE"
+        },
+        {
+          "value": 5,
+          "label": "CHANCE UEBERWIEGT"
+        }
+      ]
+    },
+    {
+      "name": "st01",
+      "label": "VERTRAUEN ZU MITMENSCHEN",
+      "kind": "numeric",
+      "values": [2, 2, 1, -11, -11, 1, -11, 1, -11, -11, 3, -11, -11, 2, 1, 3, 2, 2, 3, -11, -11, -11, 1, 3, 3, -11, 1, 2, -8, -8, 2, -11, 3, -11, -9, -11, 2, -9, -11, 1, 1, 1, -11, 3, 3, 2, 2, 3, 1, -11, -11, 2, 2, -11, 2, -8, -9, 1, 3, -11],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER: MFN"
+        },
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "MAN KANN TRAUEN"
+        },
+        {
+          "value": 2,
+          "label": "MUSS VORSICHTIG SEIN"
+        },
+        {
+          "value": 3,
+          "label": "KOMMT DARAUF AN"
+        },
+        {
+          "value": 4,
+          "label": "SONSTIGES"
+        }
+      ]
+    },
+    {
+      "name": "li04",
+      "label": "WICHTIGKEIT: FREUNDE UND BEKANNTE",
+      "kind": "numeric",
+      "values": [2, 4, 2, 7, 5, 6, 4, 7, 6, 1, 1, 6, 2, 6, 1, 1, 1, 3, 2, 2, 4, 7, 6, 1, 1, 4, 1, 5, 1, 2, 1, 3, 2, 5, 2, 7, 7, 7, 2, 1, 5, 1, 5, 1, 1, 4, 3, 7, 6, 2, 4, 1, 4, 5, 7, 6, 2, 7, 5, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": 1,
+          "label": "1 - UNWICHTIG"
+        },
+        {
+          "value": 2,
+          "label": ".."
+        },
+        {
+          "value": 3,
+          "label": ".."
+        },
+        {
+          "value": 4,
+          "label": ".."
+        },
+        {
+          "value": 5,
+          "label": ".."
+        },
+        {
+          "value": 6,
+          "label": ".."
+        },
+        {
+          "value": 7,
+          "label": "7 - SEHR WICHTIG"
+        }
+      ]
+    },
+    {
+      "name": "dp03",
+      "label": "LEBENSPARTNER: GEMEINSAMER HAUSHALT?",
+      "kind": "numeric",
+      "values": [1, 1, 2, -10, 1, 1, 2, -10, -10, 1, 1, 1, 1, -10, 2, -10, -10, 1, -10, -10, -10, -10, -10, -10, -10, 1, -10, -10, -10, 1, -10, 1, 1, -10, -10, -10, -10, 1, -10, -10, 2, 1, 1, -10, 1, -10, 1, 1, -10, 2, 1, 2, 2, -10, 1, 1, -10, -10, -10, -10],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -10,
+          "label": "TNZ: FILTER"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "JA"
+        },
+        {
+          "value": 2,
+          "label": "NEIN"
+        }
+      ]
+    },
+    {
+      "name": "xs01",
+      "label": "INTERVIEW: ALLEINE DURCHGEFUEHRT",
+      "kind": "numeric",
+      "values": [1, 1, 1, 0, 0, 0, 1, 1, 0, -9, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, -9, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, -9, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 0,
+          "label": "NEIN"
+        },
+        {
+          "value": 1,
+          "label": "JA"
+        }
+      ]
+    },
+    {
+      "name": "pa01",
+      "label": "LINKS-RECHTS-SELBSTEINSTUFUNG, BEFR.",
+      "kind": "numeric",
+      "values": [2, 7, 3, 3, 10, 3, 7, 4, 2, 1, -42, 6, 9, 10, 7, 5, 6, 10, 4, 8, 10, 3, 6, 2, 4, -42, 6, 3, 3, 8, 4, 4, -42, 1, 9, 7, 6, 2, 9, 4, 4, 10, 2, 2, -42, 5, 5, 6, 7, -42, -42, 5, 8, 7, 8, 9, 9, 10, 10, 7],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER: MFN"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "LINKS"
+        },
+        {
+          "value": 2,
+          "label": ".."
+        },
+        {
+          "value": 3,
+          "label": ".."
+        },
+        {
+          "value": 4,
+          "label": ".."
+        },
+        {
+          "value": 5,
+          "label": ".."
+        },
+        {
+          "value": 6,
+          "label": ".."
+        },
+        {
+          "value": 7,
+          "label": ".."
+        },
+        {
+          "value": 8,
+          "label": ".."
+        },
+        {
+          "value": 9,
+          "label": ".."
+        },
+        {
+          "value": 10,
+          "label": "RECHTS"
+        }
+      ]
+    },
+    {
+      "name": "ls01",
+      "label": "ALLGEMEINE LEBENSZUFRIEDENHEIT",
+      "kind": "numeric",
+      "values": [4, 9, 4, 6, 0, 7, 8, 8, 8, 5, 7, 4, 8, 7, 7, 6, 3, 2, 6, 6, 7, 1, 8, -9, 10, 9, 8, 10, -9, 4, 3, 1, 9, 5, 6, 6, 6, 2, 5, 6, 7, 6, 0, 5, 6, 6, 6, 4, 10, 5, 8, 2, 9, 3, 4, 1, 5, 10, 6, 7],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 0,
+          "label": "GANZ UNZUFRIEDEN"
+        },
+        {
+          "value": 1,
+          "label": ".."
+        },
+        {
+          "value": 2,
+          "label": ".."
+        },
+        {
+          "value": 3,
+          "label": ".."
+        },
+        {
+          "value": 4,
+          "label": ".."
+        },
+        {
+          "value": 5,
+          "label": ".."
+        },
+        {
+          "value": 6,
+          "label": ".."
+        },
+        {
+          "value": 7,
+          "label": ".."
+        },
+        {
+          "value": 8,
+          "label": ".."
+        },
+        {
+          "value": 9,
+          "label": ".."
+        },
+        {
+          "value": 10,
+          "label": "GANZ ZUFRIEDEN"
+        }
+      ]
+    },
+    {
+      "name": "work",
+      "label": "BEFRAGTE(R) BERUFSTAETIG?",
+      "kind": "numeric",
+      "values": [2, 1, 2, 4, 4, 4, 4, 1, 1, 4, 1, 1, 1, 1, 4, 1, 4, 2, 4, 2, 1, 4, 1, 1, 3, 1, 1, 4, 4, 4, 1, 1, 4, 4, 4, 1, 1, 1, 1, 4, 2, 1, 4, 3, 1, 1, 2, 1, 1, 2, 2, 2, 1, 4, 1, 2, 4, 1, 1, 4],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "VOLLZEIT, GANZTAGS"
+        },
+        {
+          "value": 2,
+          "label": "TEILZEIT"
+        },
+        {
+          "value": 3,
+          "label": "NEBENHER BERUFSTAE."
+        },
+        {
+          "value": 4,
+          "label": "NICHT ERWERBSTAETIG"
+        }
+      ]
+    },
+    {
+      "name": "dw15",
+      "label": "BEFRAGTER: ARBEITSSTUNDEN PRO WOCHE",
+      "kind": "numeric",
+      "values": [30, 38.5, 38.5, -10, -10, -10, -10, 35, 10, -10, 20, 45, 40, 40, -10, 25, -10, 38.5, -10, 30, 60, -10, 30, 25, -10, 45, 45, -10, -10, -10, 40, 10, -10, -10, -10, 40, 35, 50, 10, -10, 30, 20, -10, -10, 30, 10, 38.5, 60, 20, 20, 50, 35, 40, -10, 50, 38.5, -10, 45, 10, -10],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -41,
+          "label": "DATENFEHLER"
+        },
+        {
+          "value": -10,
+          "label": "TNZ: FILTER"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        }
+      ]
+    },
+    {
+      "name": "pe05",
+      "label": "POLITIKER VERTRETEN INTERESSEN D. BEV.",
+      "kind": "numeric",
+      "values": [-11, 4, 4, 4, 3, 2, 3, 3, 2, -11, 3, -9, 2, -11, 2, 2, -11, -11, 3, 2, 2, -9, 3, 2, -11, 4, -11, 2, -11, 4, 2, 2, -11, 3, 2, 2, 2, 2, 3, 3, 2, -9, 3, -9, -11, 4, 2, -11, -11, -11, 2, 2, -11, -11, 4, 1, 4, 4, 1, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "STIMME EHER NICHT ZU"
+        },
+        {
+          "value": 4,
+          "label": "STIMME GAR NICHT ZU"
+        }
+      ]
+    },
+    {
+      "name": "ep01",
+      "label": "WIRTSCHAFTSLAGE IN DEUTSCHLAND HEUTE",
+      "kind": "numeric",
+      "values": [4, 2, 2, 3, 2, 4, 4, 3, 2, 2, 3, 1, 2, 5, 4, 1, 4, 3, 1, 2, 3, 2, 3, 2, 4, 3, 2, 2, 2, 2, 5, 2, 2, 3, 2, 3, 4, 4, 2, 3, 2, 3, 4, 4, 3, 4, 4, 4, 5, 3, 3, 5, 2, 5, 5, 2, 1, 2, -9, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "SEHR GUT"
+        },
+        {
+          "value": 2,
+          "label": "GUT"
+        },
+        {
+          "value": 3,
+          "label": "TEILS/TEILS"
+        },
+        {
+          "value": 4,
+          "label": "SCHLECHT"
+        },
+        {
+          "value": 5,
+          "label": "SEHR SCHLECHT"
+        }
+      ]
+    },
+    {
+      "name": "ps03",
+      "label": "ZUFRIEDEN MIT DEMOKRATIE IN DEUTSCHLAND?",
+      "kind": "numeric",
+      "values": [-11, 3, 1, -11, -11, 3, 3, 4, -11, 3, 4, 2, 2, 5, 2, 1, 4, 4, 1, -11, -11, 2, 2, 2, 4, 3, 1, -11, 1, 3, 4, 1, -11, 4, 1, -11, 4, -11, 1, 2, 1, 1, 5, 2, 1, -11, 5, 5, -11, -11, 3, 5, 3, 6, 4, -11, 1, 1, -9, 1],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER: MFN"
+        },
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "SEHR ZUFRIEDEN"
+        },
+        {
+          "value": 2,
+          "label": "ZIEMLICH ZUFRIEDEN"
+        },
+        {
+          "value": 3,
+          "label": "ETWAS ZUFRIEDEN"
+        },
+        {
+          "value": 4,
+          "label": "ETWAS UNZUFRIEDEN"
+        },
+        {
+          "value": 5,
+          "label": "ZIEML. UNZUFRIEDEN"
+        },
+        {
+          "value": 6,
+          "label": "SEHR UNZUFRIEDEN"
+        }
+      ]
+    },
+    {
+      "name": "ep03",
+      "label": "WIRTSCHAFTSLAGE, BEFR. HEUTE",
+      "kind": "numeric",
+      "values": [2, 3, 2, 2, 3, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 4, 3, 3, 2, 2, 2, 2, 3, 4, 3, 4, 2, 2, 3, 4, 3, 2, 2, 2, 4, 3, 3, 2, 4, 2, 3, 4, 3, 2, 2, 4, 4, 3, 3, 2, 3, 2, 3, 2, 3, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "SEHR GUT"
+        },
+        {
+          "value": 2,
+          "label": "GUT"
+        },
+        {
+          "value": 3,
+          "label": "TEILS/TEILS"
+        },
+        {
+          "value": 4,
+          "label": "SCHLECHT"
+        },
+        {
+          "value": 5,
+          "label": "SEHR SCHLECHT"
+        }
+      ]
+    },
+    {
+      "name": "id02",
+      "label": "SUBJEKTIVE SCHICHTEINSTUFUNG, BEFR.",
+      "kind": "numeric",
+      "values": [4, 2, 4, 3, 5, 3, 4, 4, 1, 1, 4, 1, 3, 3, 3, 3, 3, 3, 4, 2, 3, 3, 3, 4, 3, 3, 3, 2, 3, 3, 3, 1, 3, 3, 3, 2, 4, 3, 2, 4, 3, 3, -8, 2, 3, 4, 3, 3, 1, 3, 3, 2, 3, 4, 2, 1, 2, 3, 2, 3],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -50,
+          "label": "KEINER DER SCHICHTEN"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": -7,
+          "label": "VERWEIGERT"
+        },
+        {
+          "value": 1,
+          "label": "UNTERSCHICHT"
+        },
+        {
+          "value": 2,
+          "label": "ARBEITERSCHICHT"
+        },
+        {
+          "value": 3,
+          "label": "MITTELSCHICHT"
+        },
+        {
+          "value": 4,
+          "label": "OBERE MITTELSCHICHT"
+        },
+        {
+          "value": 5,
+          "label": "OBERSCHICHT"
+        }
+      ]
+    },
+    {
+      "name": "educ",
+      "label": "ALLGEMEINER SCHULABSCHLUSS",
+      "kind": "numeric",
+      "values": [5, 3, 3, 3, 2, 4, 2, 3, 3, 3, 5, 3, 1, 5, 5, 5, 5, 1, 5, 3, 3, 3, 2, 5, 5, 4, 4, 2, 7, 5, 4, 1, 2, 6, -9, 3, 4, 5, 4, 4, 5, 3, 2, 3, 3, 5, 3, 2, 3, 4, 5, 4, 3, 2, 5, 5, 3, 5, 2, 5],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -33,
+          "label": "NICHT BESTIMMBAR"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "OHNE ABSCHLUSS"
+        },
+        {
+          "value": 2,
+          "label": "VOLKS-,HAUPTSCHULE"
+        },
+        {
+          "value": 3,
+          "label": "MITTLERE REIFE"
+        },
+        {
+          "value": 4,
+          "label": "FACHHOCHSCHULREIFE"
+        },
+        {
+          "value": 5,
+          "label": "HOCHSCHULREIFE"
+        },
+        {
+          "value": 6,
+          "label": "ANDERER ABSCHLUSS"
+        },
+        {
+          "value": 7,
+          "label": "NOCH SCHUELER"
+        }
+      ]
+    },
+    {
+      "name": "rp01",
+      "label": "KIRCHGANGSHAEUFIGKEIT",
+      "kind": "numeric",
+      "values": [5, 5, 5, 5, 2, 6, -9, 6, 5, 6, 2, 6, 3, 5, 5, 6, 4, 3, 6, 5, 5, 4, 6, 6, 5, 4, 4, 6, 3, 5, 5, 6, -10, 5, -10, 4, 5, 6, 5, 6, 5, 5, 5, 6, 5, 6, 6, 5, 6, 5, -10, 5, 6, 5, 6, 4, 4, 5, 1, 6],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -10,
+          "label": "TNZ: FILTER"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "UEBER 1X DIE WOCHE"
+        },
+        {
+          "value": 2,
+          "label": "1X PRO WOCHE"
+        },
+        {
+          "value": 3,
+          "label": "1-3X PRO MONAT"
+        },
+        {
+          "value": 4,
+          "label": "MEHRMALS IM JAHR"
+        },
+        {
+          "value": 5,
+          "label": "SELTENER"
+        },
+        {
+          "value": 6,
+          "label": "NIE"
+        }
+      ]
+    },
+    {
+      "name": "rd01",
+      "label": "KONFESSION, BEFRAGTE(R)",
+      "kind": "numeric",
+      "values": [6, 6, 3, 6, 6, 1, 6, 1, 1, 3, 3, -7, 6, 6, 5, 6, 1, 6, 6, 3, 6, 6, 3, 1, 5, 6, 3, 3, 6, 6, 6, 1, 3, 6, 3, 6, 6, 1, 1, 3, 1, 1, 1, 3, 4, 1, 6, 6, 6, 3, 1, 6, 1, 1, 6, 6, 6, 6, 3, 1],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -7,
+          "label": "VERWEIGERT"
+        },
+        {
+          "value": 1,
+          "label": "EVANG.OHNE FREIKIRCH"
+        },
+        {
+          "value": 2,
+          "label": "EVANG.FREIKIRCHE"
+        },
+        {
+          "value": 3,
+          "label": "ROEMISCH-KATHOLISCH"
+        },
+        {
+          "value": 4,
+          "label": "AND.CHRISTL.RELIGION"
+        },
+        {
+          "value": 5,
+          "label": "AND.NICHT-CHRISTLICH"
+        },
+        {
+          "value": 6,
+          "label": "KEINER RELIGIONSGEM."
+        }
+      ]
+    },
+    {
+      "name": "gs01",
+      "label": "SELBSTBESCHREIBUNG DES WOHNORTS",
+      "kind": "numeric",
+      "values": [3, 1, 1, 3, 3, 1, 3, 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 4, 4, 2, 3, 3, 3, 3, 1, 3, 4, 2, 3, 1, 3, 2, 4, 2, 3, 4, 1, 3, -9, 4, 4, 3, 4, 1, 4, 3, 4, 4, 4, 4, 4, 3, 4, 2, 2, 3, 1, 3, 2, 4],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "GROSSSTADT"
+        },
+        {
+          "value": 2,
+          "label": "VORORT GROSSSTADT"
+        },
+        {
+          "value": 3,
+          "label": "MITTEL-, KLEINSTADT"
+        },
+        {
+          "value": 4,
+          "label": "LAENDL. DORF"
+        },
+        {
+          "value": 5,
+          "label": "EINZELHAUS, LAND"
+        }
+      ]
+    },
+    {
+      "name": "splt23_3",
+      "label": "FRAGEBOGENSPLIT 2023: EXPERIMENT XR21",
+      "kind": "numeric",
+      "values": [3, -15, -15, 1, 2, 3, 1, -15, 2, 1, 3, 2, 1, 3, -15, -15, -15, 3, -15, 1, 2, 1, 3, 4, -15, 1, -15, 3, -15, -15, -15, 2, 3, 1, 3, 1, -15, -15, 1, 4, 3, 3, 1, -15, 3, -15, -15, 3, -15, 1, 1, -15, -15, 1, 3, -15, -15, 3, -15, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -15,
+          "label": "TNZ: MODE"
+        },
+        {
+          "value": 1,
+          "label": "A1 - 5 EURO OHNE"
+        },
+        {
+          "value": 2,
+          "label": "A2 - 5 EURO MIT"
+        },
+        {
+          "value": 3,
+          "label": "B1 - 10 EURO OHNE"
+        },
+        {
+          "value": 4,
+          "label": "B2 - 10 EURO MIT"
+        }
+      ]
+    },
+    {
+      "name": "xr21",
+      "label": "TEILNAHMEBEREITSCHAFT WEITERE UMFRAGEN",
+      "kind": "numeric",
+      "values": [2, -15, -15, 1, 2, 1, 1, -15, 1, -9, 2, 1, 2, 2, -15, -15, -15, 1, -15, 2, 2, 1, 2, 1, -15, 2, -15, 1, -15, -15, -15, 1, 2, 1, -9, 2, -15, -15, 2, 2, 1, 2, 1, -15, 1, -15, -15, 2, -15, 2, 2, -15, -15, 2, 1, -15, -15, -9, -15, -9],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -15,
+          "label": "TNZ: MODE"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "JA"
+        },
+        {
+          "value": 2,
+          "label": "NEIN"
+        }
+      ]
+    },
+    {
+      "name": "pa29",
+      "label": "ABGEORDNETE NUR DEM VOLK VERPFLICHTET",
+      "kind": "numeric",
+      "values": [2, 2, 1, -9, -11, -11, -11, 1, 1, -11, 1, -11, 1, 1, 2, 1, -11, -11, -11, 1, 1, 2, -11, -11, -11, 2, 2, 2, 3, 1, 1, -9, 4, 1, -11, 1, -9, 1, -11, -11, -11, -11, 1, 2, -11, 3, 1, 1, 1, 4, 3, -11, 5, 2, -11, 1, 3, 1, 2, 1],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "TEILS/TEILS"
+        },
+        {
+          "value": 4,
+          "label": "LEHNE EHER AB"
+        },
+        {
+          "value": 5,
+          "label": "LEHNE GANZ AB"
+        }
+      ]
+    },
+    {
+      "name": "pa30",
+      "label": "POLITIKER REDEN ZU VIEL,HANDELN ZU WENIG",
+      "kind": "numeric",
+      "values": [1, 2, 2, 1, -11, -11, -11, 1, 3, -11, 4, -11, 3, 2, 1, 1, -11, -11, -11, 2, 1, 2, -11, -11, -11, 1, 1, 5, 1, 2, 1, 1, 2, 1, -11, 2, 3, 1, -11, -11, -11, -11, 4, 1, -11, 3, 3, 1, 2, 2, 3, -11, 3, 3, -11, 2, 3, 1, 2, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "TEILS/TEILS"
+        },
+        {
+          "value": 4,
+          "label": "LEHNE EHER AB"
+        },
+        {
+          "value": 5,
+          "label": "LEHNE GANZ AB"
+        }
+      ]
+    },
+    {
+      "name": "pa31",
+      "label": "EINFACHE BUERGER BESSERE VOLKSVERTRETER",
+      "kind": "numeric",
+      "values": [2, 3, 2, 3, -11, -11, -11, 1, 5, -11, -8, -11, 2, 2, 1, 1, -11, -11, -11, 3, 2, 4, -11, -11, -11, 4, 3, 4, 1, 3, 1, 3, 4, 1, -11, 3, 4, 2, -11, -11, -11, -11, 5, 4, -11, 3, 5, 1, 3, 4, 2, -11, 3, 5, -11, 2, 3, 3, 3, 3],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER: MFN"
+        },
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "TEILS/TEILS"
+        },
+        {
+          "value": 4,
+          "label": "LEHNE EHER AB"
+        },
+        {
+          "value": 5,
+          "label": "LEHNE GANZ AB"
+        }
+      ]
+    },
+    {
+      "name": "pa32",
+      "label": "POLIT.KOMPROMISS IST VERRAT V.PRINZIPIEN",
+      "kind": "numeric",
+      "values": [1, 3, 1, 4, -11, -11, -11, 3, 3, -11, 5, -11, 4, 3, 2, -9, -11, -11, -11, 3, 3, 4, -11, -11, -11, 3, -9, 5, 1, 4, 1, 4, 3, 2, -11, 3, 2, 3, -11, -11, -11, -11, 3, 2, -11, 5, 1, 2, 3, -8, 3, -11, 1, 5, -11, 1, 4, 3, 4, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "TEILS/TEILS"
+        },
+        {
+          "value": 4,
+          "label": "LEHNE EHER AB"
+        },
+        {
+          "value": 5,
+          "label": "LEHNE GANZ AB"
+        }
+      ]
+    },
+    {
+      "name": "pa33",
+      "label": "VOLK SOLLTE POLIT.ENTSCHEIDUNGEN TREFFEN",
+      "kind": "numeric",
+      "values": [3, 4, 1, 4, -11, -11, -11, 2, 2, -11, 5, -11, 1, 3, 3, 1, -11, -11, -11, 3, 3, 2, -11, -11, -11, 3, 4, 4, 2, 4, 1, 3, 3, 1, -11, 3, 5, 2, -11, -11, -11, -11, 3, 4, -11, 1, 2, 3, 1, 5, 4, -11, 2, 5, -11, 3, -8, 2, 4, 3],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER: MFN"
+        },
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "TEILS/TEILS"
+        },
+        {
+          "value": 4,
+          "label": "LEHNE EHER AB"
+        },
+        {
+          "value": 5,
+          "label": "LEHNE GANZ AB"
+        }
+      ]
+    },
+    {
+      "name": "pa34",
+      "label": "VOLK EINIG WAS POLITISCH PASSIEREN MUSS",
+      "kind": "numeric",
+      "values": [1, 4, 3, 4, -11, -11, -11, 5, 4, -11, 5, -11, 1, 2, 3, 2, -11, -11, -11, 4, 3, 4, -11, -11, -11, 2, 4, 3, 2, 4, 1, 3, 2, 3, -11, 4, 3, 3, -11, -11, -11, -11, 3, 2, -11, 4, 4, 1, 3, 2, 3, -11, 3, -8, -11, 1, 2, 3, 5, 3],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "TEILS/TEILS"
+        },
+        {
+          "value": 4,
+          "label": "LEHNE EHER AB"
+        },
+        {
+          "value": 5,
+          "label": "LEHNE GANZ AB"
+        }
+      ]
+    },
+    {
+      "name": "hs01",
+      "label": "GESUNDHEITSZUSTAND BEFR.",
+      "kind": "numeric",
+      "values": [2, 2, 2, 3, 2, 3, 2, 2, 1, 3, 3, 3, 1, 3, 1, 2, 1, 1, 2, 3, 1, 2, 2, 5, 3, 2, 3, 2, 3, 1, 2, 2, 2, 2, 1, 1, 2, 5, 4, 2, 1, 2, 2, 1, 5, 3, 2, 3, 4, 5, 3, 2, 3, 3, 3, 2, 1, 4, 2, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER: MFN"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "SEHR GUT"
+        },
+        {
+          "value": 2,
+          "label": "GUT"
+        },
+        {
+          "value": 3,
+          "label": "ZUFRIEDENSTELLEND"
+        },
+        {
+          "value": 4,
+          "label": "WENIGER GUT"
+        },
+        {
+          "value": 5,
+          "label": "SCHLECHT"
+        }
+      ]
+    },
+    {
+      "name": "dg03",
+      "label": "JUGEND IN OST-WEST,INTERVIEW IN OST-WEST",
+      "kind": "numeric",
+      "values": [2, 3, 1, 2, 1, 4, 4, 1, 3, 4, 4, 1, 4, 2, 1, 1, 4, 1, -32, 2, 3, 2, 4, -10, 4, 1, 4, -10, 2, 4, 4, 1, 2, 4, 2, 4, 4, 2, 2, 1, 3, 2, 2, 3, 3, 2, 2, 2, 4, 3, 3, 3, 2, 1, 2, 1, 3, 4, 4, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -32,
+          "label": "NICHT GENERIERBAR"
+        },
+        {
+          "value": -10,
+          "label": "TNZ: FILTER"
+        },
+        {
+          "value": 1,
+          "label": "O.JUGEND-O.INT."
+        },
+        {
+          "value": 2,
+          "label": "O.JUGEND-W.INT."
+        },
+        {
+          "value": 3,
+          "label": "W.JUGEND-O.INT."
+        },
+        {
+          "value": 4,
+          "label": "W.JUGEND-W.INT."
+        }
+      ]
+    },
+    {
+      "name": "sex",
+      "label": "GESCHLECHT, BEFRAGTE(R)",
+      "kind": "numeric",
+      "values": [3, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, -9, 1, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 1, -9, 2, 2],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -42,
+          "label": "DATENFEHLER: MFN"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": 1,
+          "label": "MANN"
+        },
+        {
+          "value": 2,
+          "label": "FRAU"
+        },
+        {
+          "value": 3,
+          "label": "DIVERS"
+        }
+      ]
+    },
+    {
+      "name": "di08c",
+      "label": "AEQUIVALENZEINKOMMEN OECD - NEU, KAT.",
+      "kind": "numeric",
+      "values": [6, 14, 8, 13, -32, 8, -50, 17, 9, 22, 25, 20, 19, 14, 10, 12, 13, 15, 11, -50, 24, 10, 20, 4, -32, -32, -32, 14, -32, 3, 2, 25, 26, 4, 17, 3, 12, 20, 6, 14, 10, 7, 22, 19, 5, 10, 26, 14, 14, 13, 23, 11, 18, 18, 8, 3, -32, 3, 23, 7],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -50,
+          "label": "KEIN EINKOMMEN"
+        },
+        {
+          "value": -32,
+          "label": "NICHT GENERIERBAR"
+        },
+        {
+          "value": 1,
+          "label": "UNTER 200 EURO"
+        },
+        {
+          "value": 2,
+          "label": "200 - 299 EURO"
+        },
+        {
+          "value": 3,
+          "label": "300 - 399 EURO"
+        },
+        {
+          "value": 4,
+          "label": "400 - 499 EURO"
+        },
+        {
+          "value": 5,
+          "label": "500 - 624 EURO"
+        },
+        {
+          "value": 6,
+          "label": "625 - 749 EURO"
+        },
+        {
+          "value": 7,
+          "label": "750 - 874 EURO"
+        },
+        {
+          "value": 8,
+          "label": "875 - 999 EURO"
+        },
+        {
+          "value": 9,
+          "label": "1000 - 1124 EURO"
+        },
+        {
+          "value": 10,
+          "label": "1125 - 1249 EURO"
+        },
+        {
+          "value": 11,
+          "label": "1250 - 1374 EURO"
+        },
+        {
+          "value": 12,
+          "label": "1375 - 1499 EURO"
+        },
+        {
+          "value": 13,
+          "label": "1500 - 1749 EURO"
+        },
+        {
+          "value": 14,
+          "label": "1750 - 1999 EURO"
+        },
+        {
+          "value": 15,
+          "label": "2000 - 2249 EURO"
+        },
+        {
+          "value": 16,
+          "label": "2250 - 2499 EURO"
+        },
+        {
+          "value": 17,
+          "label": "2500 - 2749 EURO"
+        },
+        {
+          "value": 18,
+          "label": "2750 - 2999 EURO"
+        },
+        {
+          "value": 19,
+          "label": "3000 - 3499 EURO"
+        },
+        {
+          "value": 20,
+          "label": "3500 - 3999 EURO"
+        },
+        {
+          "value": 21,
+          "label": "4000 - 4499 EURO"
+        },
+        {
+          "value": 22,
+          "label": "4500 - 4999 EURO"
+        },
+        {
+          "value": 23,
+          "label": "5000 - 5999 EURO"
+        },
+        {
+          "value": 24,
+          "label": "6000 - 7499 EURO"
+        },
+        {
+          "value": 25,
+          "label": "7500 - 9999 EURO"
+        },
+        {
+          "value": 26,
+          "label": "10000 EURO UND MEHR"
+        }
+      ]
+    },
+    {
+      "name": "pe09",
+      "label": "WAHLBETEILIGUNG IST BUERGERPFLICHT",
+      "kind": "numeric",
+      "values": [1, 1, -11, -11, 1, 2, -8, -11, -11, 2, -11, 2, -11, 1, -11, 3, 4, -11, 4, -11, 3, 1, 1, -8, 2, 1, 3, 1, 1, 4, 2, 2, 3, -11, 2, 2, -11, 2, -11, 2, 1, 2, 1, -11, 2, 2, 2, 1, -11, -11, 1, -11, 3, -8, 3, 2, 1, 3, 3, 1],
+      "strings": null,
+      "naValues": [],
+      "naRange": [null, -1],
+      "valueLabels": [
+        {
+          "value": -11,
+          "label": "TNZ: SPLIT"
+        },
+        {
+          "value": -9,
+          "label": "KEINE ANGABE"
+        },
+        {
+          "value": -8,
+          "label": "WEISS NICHT"
+        },
+        {
+          "value": 1,
+          "label": "STIMME VOLL ZU"
+        },
+        {
+          "value": 2,
+          "label": "STIMME EHER ZU"
+        },
+        {
+          "value": 3,
+          "label": "STIMME EHER NICHT ZU"
+        },
+        {
+          "value": 4,
+          "label": "STIMME GAR NICHT ZU"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+import { LearningPath } from './components/LearningPath';
+import { Companion } from './chapter/companions/Companion';
+import { BookOpen, Network } from 'lucide-react';
+import { flushSync } from 'react-dom';
+import { registerAtlasTools, type AtlasToolContext } from './domain/atlasTools';
+import { entryById, functionToConcept } from './domain/mariposaCatalog';
+import { MAP_NOTE } from './domain/mapNote';
+import { initialRSettings, rolesFor, eligible, packageSearch, type RSettings } from './domain/mariposa';
+import { memo, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useStableActions } from './components/useStableActions';
+import { ArrowLeft, ArrowRight, Scan, Search, X, ChevronRight, SlidersHorizontal, ChevronUp, Magnet, RotateCcw } from 'lucide-react';
+import type { Viewport } from '@xyflow/react';
+import { type DataPair } from './domain/statistics';
+import { concepts, conceptById } from './domain/concepts';
+import { createSurvey, validSurvey, migrateSurvey, defaultSelection, columnById, reconcileColumns, projectPairs, updateProjectedPairs, type ColumnSelection, type SurveyRow } from './domain/survey';
+import { SurveyData } from './components/SurveyData';
+import { ref, keyOf, lessonContext, titleFor, outputRef, type Ref, type Route, type Variable } from './domain/learning';
+import { routeAfterSelection } from './domain/network';
+import { initialExploration, visit, step, type ExplorationView } from './domain/exploration';
+import { gravityLayout, type MapLayout } from './domain/mapLayout';
+import { detailIds } from './domain/visibleNetwork';
+import { NetworkMap, type CameraRequest } from './components/NetworkMap';
+import { ConceptInspector } from './components/ConceptInspector';
+import { explainFor, tabsFor } from './explain/registry';
+import { baseSurvey, modifiedFrom, textTitle } from './explain/sample';
+import { useExplainMode } from './components/explain/basics';
+import { useViewportWidth, useWorkbenchWidth, WorkbenchHandle } from './components/explain/WorkbenchHandle';
+import { fitWidth, standardWidth, workbenchStore } from './explain/workbench';
+const MemoConceptInspector=memo(ConceptInspector);
+const searchIndex=concepts.map(c=>({concept:c,text:`${titleFor(ref(c.id))} ${c.title} ${c.short} ${packageSearch(c.id)}`.toLocaleLowerCase('de')}));
+const storageKey='statistikatlas.survey.v1';
+function storedStudy():{rows:SurveyRow[];selection:ColumnSelection}{try{const value=JSON.parse(localStorage.getItem(storageKey)||'null');const migrated=migrateSurvey(value?.rows);if(migrated){const s=value.selection;return {rows:migrated,selection:s&&columnById[s.x]&&columnById[s.y]&&typeof s.likertMetric==='boolean'?reconcileColumns('series',s):{...defaultSelection}};}}catch{}return {rows:createSurvey(),selection:{...defaultSelection}};}
+
+type WorkspaceApi={read:()=>unknown;open:(id:string)=>void};
+function AtlasWorkspace({conceptRequest,visible,toolApi}:{conceptRequest:{id:string;sequence:number}|null;visible:boolean;toolApi:{current:WorkspaceApi}}){
+  const [explainMode]=useExplainMode();
+ const [initialStudy]=useState(storedStudy);
+ const [survey,setSurvey]=useState(initialStudy.rows),[history,setHistory]=useState(()=>initialExploration(survey[1].id,initialStudy.selection)),[dataOpen,setDataOpen]=useState(false),[columnNotice,setColumnNotice]=useState(''),[highlight,setHighlight]=useState<string|null>(null),[hovered,setHovered]=useState<string|null>(null),[query,setQuery]=useState(''),[searchOpen,setSearchOpen]=useState(false),[experimentOpen,setExperimentOpen]=useState(false),[experimentRequest,setExperimentRequest]=useState(0),[invitationOpen,setInvitationOpen]=useState(true),[resetRevision,setResetRevision]=useState(0),[storageError,setStorageError]=useState(false),[camera,setCamera]=useState<CameraRequest>({id:0,kind:'all'});
+ const view=history.present,selected=view.selected,viewport=useRef<Viewport|undefined>(undefined),viewportReader=useRef<(()=>Viewport)|undefined>(undefined),layoutReader=useRef<(()=>MapLayout)|undefined>(undefined),searchInput=useRef<HTMLInputElement>(null);
+ const selection=useMemo(()=>view.columns,[view.columns.x,view.columns.y,view.columns.likertMetric]),pairs=useMemo(()=>projectPairs(survey,selection),[survey,selection]),context=useMemo(()=>lessonContext(pairs,view.caseId,view.route,{x:columnById[selection.x],y:columnById[selection.y]},selection.likertMetric),[pairs,view.caseId,view.route,selection]);
+ const visited=useMemo(()=>new Set([...history.past,view,...history.future].flatMap(v=>v.selected?[v.selected.id]:[])),[history]);
+ const recent=useMemo(()=>history.past.filter(v=>v.selected).slice(-4),[history.past]);
+ const matches=useMemo(()=>{const normalized=query.toLocaleLowerCase('de'),requested=functionToConcept[query.trim().replace(/^mariposa::/,'').replace(/\(\)$/,'')];return searchIndex.filter(item=>item.text.includes(normalized)).map(item=>item.concept).sort((a,b)=>Number(requested===b.id)-Number(requested===a.id));},[query]);
+ useEffect(()=>{try{localStorage.setItem(storageKey,JSON.stringify({rows:survey,selection}));setStorageError(false);}catch{setStorageError(true);}},[survey,selection]);
+ useEffect(()=>{if(!visible)return;function key(e:KeyboardEvent){if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();searchInput.current?.focus();setSearchOpen(true);}if(e.key==='Escape'&&!dataOpen){if(searchOpen){setSearchOpen(false);searchInput.current?.blur();}else setHistory(h=>({...h,present:{...h.present,panelOpen:false}}));}}window.addEventListener('keydown',key);return ()=>window.removeEventListener('keydown',key);},[searchOpen,dataOpen,visible]);
+ function changeView(next:ExplorationView,kind:CameraRequest['kind']='ensure'){setHistory(h=>visit(h,next,viewportReader.current?.()||viewport.current,layoutReader.current?.()));setHighlight(null);setHovered(null);setCamera(c=>({id:c.id+1,kind}));}
+ function select(r:Ref,caseId?:string){if(!conceptById[r.id])return;const entry=entryById[r.id],foundation=!!entry&&!entry.existing&&!entry.variants.length;
+ if(!foundation&&view.contextAnchor?.id===r.id&&!r.use&&!query.trim())r={...view.contextAnchor};
+ const contextAnchor=detailIds.has(r.id)?(detailIds.has(selected?.id||'')?view.contextAnchor:selected||undefined):foundation?(view.contextAnchor||selected||undefined):undefined,requested=query.trim().replace(/^mariposa::/,'').replace(/\(\)$/,'');let rSettings=view.rSettings;
+ const foundVariant=entry?.variants.findIndex(v=>v.fn===requested)??-1;if(entry&&foundVariant>=0)rSettings={...rSettings,[r.id]:initialRSettings(entry,foundVariant)};
+ if(entry&&!entry.existing&&entry.variants.length){
+  const explicit=/^v\d+$/.test(r.use||'')?Number(r.use!.slice(1)):undefined;
+  let settings=rSettings?.[r.id];if(!settings||explicit!==undefined&&settings.variant!==explicit)settings=initialRSettings(entry,explicit??0);
+  settings={...settings,columns:{...settings.columns}};
+  const roles=rolesFor(entry,settings.variant),used=new Set<string>();
+  if(selected&&foundVariant<0)for(const role of roles.filter(role=>['x','y'].includes(role.key))){const axis=role.key==='y'?'y':r.variable,candidate=selection[axis];if(eligible(role,columnById[candidate],selection.likertMetric)&&!used.has(candidate)){settings.columns[role.key]=[candidate];used.add(candidate);}}
+  const parentEntry=selected?entryById[selected.id]:undefined,parentSettings=selected?(view.rSettings?.[selected.id]||(parentEntry?initialRSettings(parentEntry):undefined)):undefined;
+  if(selected&&foundVariant<0&&parentSettings)for(const role of roles.filter(role=>!['x','y'].includes(role.key))){const inherited=parentSettings.columns[role.key];if(inherited?.length&&inherited.every(id=>eligible(role,columnById[id],selection.likertMetric)))settings.columns[role.key]=[...inherited];}
+  // Retain valid roles together; a repeated measurement cannot also occupy the other slot.
+  for(const role of roles){const values=settings.columns[role.key]||[];if(role.key==='y'&&values[0]===settings.columns.x?.[0])settings.columns.y=role.default.filter(id=>id!==settings.columns.x?.[0]);}
+  rSettings={...rSettings,[r.id]:settings};r={...r,variable:'x',basis:undefined,use:`v${settings.variant}`};
+ }
+ // Auch Grundbegriffe ohne Katalogaufruf gleichen die Spaltenwahl ab: Wer mit Zahlen rechnet (Erwartungswert, Vorhersage …), bekommt keine nominale Spalte (IB11).
+ let columns=reconcileColumns(r.basis==='ranks'?'spearman':outputRef(r).id,selection);
+ if(entry&&!entry.existing&&entry.variants.length){const config=rSettings?.[r.id]||initialRSettings(entry),values=config.columns,chosen=values.x||values.items||values.times||values.variables;const x=chosen?.[0],y=values.y?.[0]||chosen?.[1];if(x)columns={...columns,x,y:y&&y!==x?y:columns.y===x?(x==='lernzeit'?'wissenstest':'lernzeit'):columns.y};}
+  setColumnNotice(columns.x!==selection.x||columns.y!==selection.y?`Passende Spalten eingesetzt: X = ${textTitle(columnById[columns.x].title)}, Y = ${textTitle(columnById[columns.y].title)}.`:'');setQuery('');setSearchOpen(false);if(foundVariant<0&&selected&&keyOf(selected)===keyOf(r)&&selected.variable===r.variable&&(!caseId||caseId===view.caseId)){setHistory(h=>({...h,present:{...h.present,panelOpen:true}}));setCamera(c=>({id:c.id+1,kind:'ensure'}));return;}changeView({...view,selected:r,columns,rSettings,contextAnchor,variable:r.variable,route:routeAfterSelection(selected,r,view.route),caseId:caseId||view.caseId,panelOpen:true});}
+ function travel(direction:'back'|'forward'){const next=step(history,direction,viewportReader.current?.()||viewport.current,pairs.map(p=>p.id),layoutReader.current?.());setHistory(next);setHighlight(null);setHovered(null);setCamera(c=>({id:c.id+1,kind:'restore',viewport:next.present.viewport}));}
+ function wholeMap(){changeView({...view,selected:null,contextAnchor:undefined,trace:false,panelOpen:false,gravity:false},'all');}
+ function changePairs(next:DataPair[]){setSurvey(rows=>updateProjectedPairs(rows,selection,next));}
+ function changeColumns(next:ColumnSelection){
+ const id=selected?.basis==='ranks'?'spearman':selected?outputRef(selected).id:'series',columns=reconcileColumns(id,next),entry=selected?entryById[selected.id]:undefined;let rSettings=view.rSettings;
+ if(entry&&!entry.existing&&entry.variants.length){const config=rSettings?.[entry.id]||initialRSettings(entry),changed={...config,columns:{...config.columns}};for(const role of rolesFor(entry,config.variant))if(['x','y'].includes(role.key)){const value=columns[role.key as 'x'|'y'];if(eligible(role,columnById[value],columns.likertMetric))changed.columns[role.key]=[value];}rSettings={...rSettings,[entry.id]:changed};}
+ setColumnNotice(columns.x!==next.x||columns.y!==next.y?'Für diese Rechnung wurden passende Spalten eingesetzt.':'');changeView({...view,columns,rSettings},'none');
+ }
+
+ function resetSurvey(){setResetRevision(n=>n+1);setSurvey(createSurvey());}
+
+ function changeVariable(variable:Variable){if(!selected||selected.variable===variable)return;select({...selected,variable});}
+ function changeRoute(route:Route){if(route===view.route)return;changeView({...view,route},'none');}
+ function data(){setDataOpen(true);}
+ function changeRSettings(settings:RSettings){if(!selected)return;const entry=entryById[selected.id],chosen=settings.columns.x||settings.columns.items||settings.columns.times||settings.columns.variables,x=chosen?.[0],y=settings.columns.y?.[0]||chosen?.[1],columns=!entry?.existing&&x?{...view.columns,x,y:y&&y!==x?y:view.columns.y===x?(x==='lernzeit'?'wissenstest':'lernzeit'):view.columns.y}:view.columns;changeView({...view,columns,selected:entry&&!entry.existing?{...selected,use:`v${settings.variant}`} :selected,rSettings:{...view.rSettings,[selected.id]:settings}},'none');}
+ toolApi.current={read:()=>({selected:view.selected,columns:view.columns,rSettings:view.selected?view.rSettings?.[view.selected.id]:undefined,cases:survey.length}),open:id=>flushSync(()=>select(ref(id)))};
+ const handledRequest=useRef<number|undefined>(undefined),dataButton=useRef<HTMLButtonElement>(null);
+ useEffect(()=>{if(!visible||!conceptRequest||handledRequest.current===conceptRequest.sequence)return;const timer=setTimeout(()=>{handledRequest.current=conceptRequest.sequence;toolApi.current.open(conceptRequest.id);document.getElementById('inspector-title')?.focus({preventScroll:true});},120);return ()=>clearTimeout(timer);},[conceptRequest,visible]);
+ const hoverConcept=highlight?.split(':')[0]||hovered;
+ const highlightRef=useMemo(()=>{const parts=highlight?.split(':');return parts?ref(parts[0],parts[1]==='y'?'y':parts[1]==='x'?'x':view.variable,parts[2]||undefined,parts[3]==='ranks'?'ranks':undefined):undefined;},[highlight,view.variable]);
+ const mapActions=useStableActions({onSelect:select,onHover:setHovered,onViewport:(v:Viewport)=>{viewport.current=v;},onViewportReader:(read:()=>Viewport)=>{viewportReader.current=read;},onLayoutReader:(read:()=>MapLayout)=>{layoutReader.current=read;},onLayoutChange:(layout:MapLayout)=>changeView({...view,layout,gravity:false},'none'),onBackground:()=>setSearchOpen(false)});
+ const inspectorActions=useStableActions({onRSettings:changeRSettings,onColumns:changeColumns,onData:data,onHighlight:setHighlight,onSelect:select,onHover:setHovered,onClose:()=>setHistory(h=>({...h,present:{...h.present,panelOpen:false}})),onFocusMap:()=>setCamera(c=>({id:c.id+1,kind:'focus'})),onCase:(caseId:string)=>setHistory(h=>({...h,present:{...h.present,caseId}})),onPairs:changePairs,onRows:(rows:SurveyRow[])=>{if(validSurvey(rows))setSurvey(rows);},onReset:resetSurvey,onVariable:changeVariable,onRoute:changeRoute,onTrace:()=>changeView({...view,trace:!view.trace},'none'),onExperimentFocused:()=>setExperimentRequest(0),onExperiment:setExperimentOpen});
+ // Verändert „Ausprobieren“ oder der Datensatz-Dialog die 200 Befragten, steht das auch in der Werkzeugleiste.
+ const surveyModified=useMemo(()=>modifiedFrom(survey,baseSurvey()),[survey]);
+ const explainWide=!!(selected&&view.panelOpen&&explainMode==='ausfuehrlich'&&(explainFor(selected.id)||tabsFor(selected.id)));
+  // Wird der Inspector breiter oder schmaler, bleibt der gewählte Punkt sichtbar.
+  useEffect(()=>{if(selected&&view.panelOpen)setCamera(c=>({id:c.id+1,kind:'ensure'}));},[explainWide]);
+  // Werkbank: gemerkte oder Standardbreite; während des Ziehens gilt der Entwurf.
+  const viewportWidth=useViewportWidth(),savedBench=useWorkbenchWidth(),[benchDraft,setBenchDraft]=useState<number|null>(null);
+  const benchWidth=fitWidth(benchDraft??savedBench??standardWidth(viewportWidth),viewportWidth);
+  function changeBench(width:number,done:boolean){if(!done){setBenchDraft(fitWidth(width,viewportWidth));return;}workbenchStore.set(fitWidth(width,viewportWidth));setBenchDraft(null);setCamera(c=>({id:c.id+1,kind:'ensure'}));}
+  function resetBench(){workbenchStore.set(null);setBenchDraft(null);setCamera(c=>({id:c.id+1,kind:'ensure'}));}
+  // Schließt sich die Werkbank mitten im Ziehen, verfällt der Entwurf.
+  useEffect(()=>{if(!explainWide)setBenchDraft(null);},[explainWide]);
+  return <div className={`network-app ${selected?'has-selection':''} ${selected&&view.panelOpen?'has-inspector':''} ${explainWide?'explain-wide':''}`} style={explainWide?{'--xw-panel':`${benchWidth}px`} as CSSProperties:undefined}><a className="skip-link" href={selected?'#inspector-title':'#network-search'}>Zur Begriffsauswahl springen</a>
+  <header className="network-header"><strong>Statistikatlas<span>.</span></strong><span>Statistik hängt zusammen.</span><div className="network-search"><Search size={16}/><input id="network-search" ref={searchInput} type="search" aria-label="Begriff im Netzwerk finden" placeholder="Begriff oder R-Funktion …" value={query} onFocus={()=>setSearchOpen(true)} onChange={e=>{setQuery(e.target.value);setSearchOpen(true);}} onKeyDown={e=>{if(e.key==='Enter'&&matches[0]){e.preventDefault();select(ref(matches[0].id,view.variable));}}} aria-expanded={searchOpen} aria-controls="search-results"/>{query&&<button onClick={()=>setQuery('')} aria-label="Suche leeren"><X size={14}/></button>}{searchOpen&&<div className="network-search-results" id="search-results"><div className="search-result-caption"><span>{query?`${matches.length} passende Begriffe`:`Alle ${concepts.length} Begriffe`}</span><button onClick={()=>setSearchOpen(false)} aria-label="Suchergebnisse schließen"><X size={14}/></button></div>{matches.map(c=><button key={c.id} onClick={()=>select(ref(c.id,view.variable))} onFocus={()=>setHovered(c.id)} onBlur={()=>setHovered(null)} onPointerEnter={()=>setHovered(c.id)} onPointerLeave={()=>setHovered(null)}><strong>{titleFor(ref(c.id))}</strong><small>{c.short}</small></button>)}{!matches.length&&<p>Kein Begriff gefunden.</p>}</div>}</div></header>
+  <nav className="network-toolbar" aria-label="In der Karte navigieren"><div className="history-controls"><button aria-label="Vorherige Ansicht" disabled={!history.past.length} onClick={()=>travel('back')}><ArrowLeft size={17}/></button><button aria-label="Nächste Ansicht" disabled={!history.future.length} onClick={()=>travel('forward')}><ArrowRight size={17}/></button></div><button className="whole-map-button" onClick={wholeMap}><Scan size={16}/>Ganze Karte</button><div className="exploration-trail" aria-label="Zuletzt erkundet"><span>Dein Weg</span>{recent.map((v,i)=><span className="trail-item" key={`${keyOf(v.selected!)}-${i}`}><button onClick={()=>{setQuery('');setSearchOpen(false);changeView({...v,panelOpen:true},'ensure');}} onPointerEnter={()=>setHovered(v.selected!.id)} onPointerLeave={()=>setHovered(null)}>{titleFor(v.selected!)}</button><ChevronRight size={12}/></span>)}<strong>{selected?titleFor(selected):'Die ganze Karte'}</strong></div><button aria-label={`Datensatz mit 200 Befragten öffnen${surveyModified?', Daten verändert':''}`} className="network-data-button" ref={dataButton} onClick={data}><SlidersHorizontal size={15}/><span>200 Befragte{surveyModified?', verändert':''}</span></button>{surveyModified&&<button className="network-reset-button" aria-label="Ausgangsdaten wiederherstellen" onClick={()=>{resetSurvey();/* Der Knopf verschwindet; der Fokus geht auf den Datensatz-Knopf daneben. */requestAnimationFrame(()=>dataButton.current?.focus());}}><RotateCcw size={14}/><span>Zurücksetzen</span></button>}</nav>
+  <main className="network-workspace"><NetworkMap visible={visible} contextAnchor={view.contextAnchor} selected={selected} context={context} hovered={hoverConcept} visited={visited} {...mapActions} camera={camera} layout={view.layout} gravity={!!view.gravity} trace={view.trace} inspectorOpen={view.panelOpen} highlightRef={highlightRef}/>
+   {(selected||view.layout)&&<div className="gravity-control">{selected&&<button title="Verbundene Bausteine einmal näher zusammenrücken" onClick={()=>changeView({...view,gravity:true,layout:gravityLayout(selected,view.route,view.trace,layoutReader.current?.()||view.layout,view.contextAnchor)},'focus')}><Magnet size={16}/><span>Bezüge heranziehen</span></button>}{view.layout&&<button title="Zur Anordnung des gesamten Netzes zurückkehren" onClick={()=>changeView({...view,gravity:false,layout:undefined},selected?'ensure':'all')}><RotateCcw size={16}/><span>Anordnung zurücksetzen</span></button>}</div>}
+   {!selected&&invitationOpen&&<section className="map-invitation"><button className="invitation-close" aria-label="Einführung schließen" onClick={()=>setInvitationOpen(false)}><X size={16}/></button><div className="invitation-head"><Companion name="hallo"/><div><span className="eyebrow">Ein Netz. Viele Wege.</span><h1>Wo möchtest du anfangen?</h1></div></div><p>Jeder Punkt ist ein Begriff. Fahre darüber, um seine Bezüge zu sehen, oder klicke für die Erklärung.</p><p className="small-copy">Zoome für mehr Begriffe. Pfeile zeigen, wie Bausteine zusammenwirken; die Rechnung entfaltest du rechts.</p></section>}
+   {explainWide&&<WorkbenchHandle width={benchWidth} viewport={viewportWidth} onWidth={changeBench} onReset={resetBench}/>}
+   {selected&&view.panelOpen&&<MemoConceptInspector contextAnchor={view.contextAnchor} rows={survey} rSettings={view.rSettings?.[selected.id]} selected={selected} context={context} selection={selection} columnNotice={columnNotice} highlight={highlight} resetRevision={resetRevision} trace={view.trace} experimentRequest={experimentRequest} experimentOpen={experimentOpen} {...inspectorActions}/>}
+   {selected&&!view.panelOpen&&<button className="reopen-inspector" onClick={()=>{setHistory(h=>({...h,present:{...h.present,panelOpen:true}}));setCamera(c=>({id:c.id+1,kind:'ensure'}));}}>{titleFor(selected)}<ChevronUp size={17}/><span>Erklärung öffnen</span></button>}
+   <div className="network-map-note" aria-live="polite">{selected?<><span className="selected-dot"/>{view.gravity?(view.trace?'Voraussetzungen herangezogen':'Direkte Bezüge herangezogen'):view.trace?'Voraussetzungen werden verfolgt':'Direkte Bezüge hervorgehoben'}<button onClick={wholeMap}>Ganze Karte</button></>:<><span>{MAP_NOTE}</span><span>Bausteine · Verfahren · Einordnung</span></>}</div>
+  </main>{dataOpen&&<SurveyData rows={survey} selection={selection} caseId={view.caseId} procedure={selected?.basis==='ranks'?'spearman':selected?outputRef(selected).id:'series'} onCase={caseId=>setHistory(h=>({...h,present:{...h.present,caseId}}))} onChange={rows=>{if(validSurvey(rows))setSurvey(rows);}} onSelection={changeColumns} onReset={resetSurvey} onClose={()=>setDataOpen(false)}/>}<footer className="network-footer"><div className="network-legend"><span><i/>Aufbau</span><span><i className="condition"/>Voraussetzung</span><span><i className="optional"/>Ergänzender Bezug</span><span><i className="meaning"/>Einordnung</span></div>{storageError?<span role="status">Daten können gerade nur für diese Sitzung behalten werden.</span>:<span>200 synthetische Befragte · lokal gespeichert</span>}<a href={typeof location!=='undefined'&&location.protocol==='file:'?location.href:'./Statistikatlas-offline.html'} download="Statistikatlas-offline.html">Offline öffnen</a></footer>
+ </div>;
+}
+
+
+export default function App(){
+ const [tab,setTab]=useState<'learn'|'map'>(()=>typeof location!=='undefined'&&new URLSearchParams(location.search).get('ansicht')==='karte'?'map':'learn');
+ const [sessionIndex,setSessionIndex]=useState(0);
+ // Kapitel zeigen: mit ?vorschau=kapitel oder in einem Bau mit VITE_KAPITEL=1 (zweite Seite „statistikatlas-neu“).
+ const [preview]=useState(()=>import.meta.env?.VITE_KAPITEL==='1'||typeof location!=='undefined'&&new URLSearchParams(location.search).get('vorschau')==='kapitel');
+ const toolApi=useRef<WorkspaceApi>({read:()=>({selected:null,columns:defaultSelection,cases:200}),open:()=>{}});
+ const [mapOpened,setMapOpened]=useState(tab==='map'),[conceptRequest,setConceptRequest]=useState<{id:string;sequence:number}|null>(null);
+ function changeTab(next:'learn'|'map',focusContent=false){setTab(next);if(next==='map')setMapOpened(true);if(focusContent)requestAnimationFrame(()=>document.getElementById(next==='learn'?'learning-heading':'network-search')?.focus({preventScroll:true}));}
+ function showConcept(id:string){setConceptRequest(r=>({id,sequence:(r?.sequence||0)+1}));changeTab('map');}
+ function returnToLearning(){changeTab('learn',true);}
+ const workspaceActions=useStableActions({read:()=>toolApi.current.read(),open:showConcept});
+ useEffect(()=>registerAtlasTools((document as Document&{modelContext?:AtlasToolContext}).modelContext,workspaceActions),[workspaceActions]);
+ return <div className="atlas-shell"><a className="skip-link" href={tab==='learn'?'#learning-main':'#network-search'}>Zum Inhalt springen</a><nav className="workspace-switcher" aria-label="Arbeitsbereich"><div className="workspace-tabs" role="tablist" aria-label="Lernpfad und Orientierung" onKeyDown={e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const next=e.key==='Home'?'learn':e.key==='End'?'map':tab==='learn'?'map':'learn';changeTab(next);document.getElementById(`tab-${next}`)?.focus();}}><button id="tab-learn" role="tab" aria-selected={tab==='learn'} aria-controls="panel-learn" tabIndex={tab==='learn'?0:-1} onClick={()=>changeTab('learn')}><BookOpen size={18}/>Lernpfad</button><button id="tab-map" role="tab" aria-selected={tab==='map'} aria-controls="panel-map" tabIndex={tab==='map'?0:-1} onClick={()=>changeTab('map')}><Network size={18}/>Freie Karte</button></div>{tab==='learn'?null:<button className="map-learning-return" onClick={returnToLearning}><ArrowLeft size={16}/>{`Zurück zu Sitzung ${sessionIndex+1}`}</button>}</nav><section className="atlas-panel" id="panel-learn" role="tabpanel" aria-labelledby="tab-learn" hidden={tab!=='learn'}><LearningPath onConcept={showConcept} sessionIndex={sessionIndex} onSessionChange={setSessionIndex} preview={preview}/></section><section className="atlas-panel atlas-map-panel" id="panel-map" role="tabpanel" aria-labelledby="tab-map" hidden={tab!=='map'}>{mapOpened&&<AtlasWorkspace conceptRequest={conceptRequest} visible={tab==='map'} toolApi={toolApi}/>}</section></div>;
+}

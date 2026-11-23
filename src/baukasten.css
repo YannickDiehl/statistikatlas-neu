@@ -1,0 +1,253 @@
+/* Baukasten für die ganze Seite: dieselben Bausteine wie in den Kapiteln (src/chapter/chapter.css).
+   Wird nach den älteren Stilen geladen. Bausteine:
+   - Papier #FFFDF9, Seitenleiste #FFF6EC, Linie #EFE6DA, Rand für Bedienelemente #857A6B
+   - Karte: weiß, 2px Linie, 20px Rundung, Stein-Schatten 0 3px 0
+   - Kasten: Pastellfläche ohne Rand, 14–16px Rundung (blau = Kurz gesagt, grün = Ziel/richtig, gelb = Hinweis)
+   - Knopf hell: weiß, 2px Rand #857A6B, 12px Rundung, fett; gewählt: Rand + Fläche in der Bereichsfarbe
+   - Knopf dunkel: Tinte #1E2D3C, weiße Schrift
+   - Stein: Steinfarbe mit Noppen oben und Schatten unten
+   Die freie Karte hat als Bereichsfarbe das Gelb des E-Books (wie :root im E-Book-Theme). */
+
+:root{
+  --kh:#FFF6DA;--kc:#FFE7A3;--k2:#EFC867;--kd:#7a5c0c;
+  --karte:2px solid var(--line-soft);--stein:0 3px 0 var(--line-soft);
+}
+body{background:var(--paper);color:var(--txt)}
+:is(h1,h2,h3,h4){font-family:var(--rund);font-weight:600;color:var(--ink);letter-spacing:0}
+a{color:var(--blaud)}
+.begleiter{display:inline-block;line-height:0;flex:none}
+.begleiter svg{display:block;width:100%;height:auto}
+.eyebrow{font:800 13px/1.4 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--kd)}
+:where(.atlas-shell) :where(button,a,summary,select,input):focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ========== Seitenrahmen ========== */
+
+/* Kopfleiste: Steinreihe, Reiter als Steine */
+.workspace-switcher{position:relative;border-top:0;border-bottom:var(--karte);background:var(--paper);padding-top:6px;min-height:64px}
+.workspace-switcher::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;
+  background:repeating-linear-gradient(90deg,#BFE3F7 0 48px,#CDEFD9 48px 96px,#DCD6F8 96px 144px,#FFD2BC 144px 192px,#F7C9DA 192px 240px,#C6ECE8 240px 288px,#FFE7A3 288px 336px,#E6D3F2 336px 384px,#D8EBC4 384px 432px)}
+.workspace-tabs{align-items:center;gap:10px}
+.workspace-tabs button{border:2px solid transparent;border-radius:12px;padding:6px 16px;font:600 17px/1.3 var(--rund);color:var(--muted)}
+.workspace-tabs button:hover{background:var(--side);color:var(--ink)}
+.workspace-tabs button[aria-selected=true]{background:var(--kh);border-color:var(--k2);box-shadow:0 3px 0 var(--k2);color:var(--ink)}
+.map-learning-return{color:var(--blaud);font:700 16px var(--sans)}
+
+/* Lernpfad wie das E-Book: Seitenleiste über die volle Höhe, Inhalt mittig */
+.learning-path{grid-template-columns:300px minmax(0,1fr);gap:0;padding:0;justify-content:stretch}
+.learning-rail{background:var(--side);border-right:0;padding:28px 18px 40px;min-height:100%}
+.learning-lesson{width:100%;max-width:1120px;margin:0 auto;padding:36px 44px 80px}
+.learning-brand{font:600 30px var(--rund);color:var(--ink);text-decoration:none}
+.learning-brand span,.network-header>strong>span{color:#F0A27E}
+.learning-eyebrow{font:800 13px/1.5 var(--sans);letter-spacing:.07em;color:var(--muted);margin:26px 0 6px}
+.learning-rail h1{font:600 22px/1.25 var(--rund);color:var(--ink);margin:0 0 16px}
+.learning-rail nav ol{display:grid;gap:3px}
+.learning-rail nav li>button{border:0;border-radius:12px;padding:9px 10px;color:#3A4652;align-items:center;gap:12px;font:600 15.5px/1.35 var(--sans)}
+.learning-rail nav li>button>strong{font-weight:600}
+.learning-rail nav li>button>strong small{font:600 13px/1.4 var(--sans);color:var(--muted);margin-top:1px}
+.learning-rail nav li>button:hover{background:#fff;color:var(--ink)}
+.learning-rail nav li.current>button{background:var(--sth,#fff);color:var(--ink);border-radius:12px}
+.learning-rail nav li.current strong{font-weight:800}
+.learning-rail nav li.done>button>strong small,.learning-rail nav li>button>svg{color:var(--gruend)}
+/* Sitzungsnummer als Stein mit Noppen */
+.learning-rail nav li>button>span{position:relative;display:inline-grid;place-items:center;width:28px;height:24px;min-width:28px;margin-top:5px;font:600 14px/1 var(--rund);color:var(--ink);background:var(--st,#FFE7A3);border-radius:6px;box-shadow:0 2px 0 var(--st2,#EFC867)}
+.learning-rail nav li>button>span::before{content:"";position:absolute;top:-5px;left:5px;right:5px;height:5px;border-radius:2px 2px 0 0;background:repeating-linear-gradient(90deg,var(--st2,#EFC867) 0 7px,transparent 7px 12px)}
+.learning-rail nav li:nth-child(1),.learning-rail nav li:nth-child(10){--st:#BFE3F7;--st2:#86B9DE;--sth:#EAF5FC}
+.learning-rail nav li:nth-child(2),.learning-rail nav li:nth-child(11){--st:#CDEFD9;--st2:#8FCBA6;--sth:#EDF8F1}
+.learning-rail nav li:nth-child(3){--st:#DCD6F8;--st2:#A79FE2;--sth:#F1EFFC}
+.learning-rail nav li:nth-child(4){--st:#FFD2BC;--st2:#F0A27E;--sth:#FFF0E8}
+.learning-rail nav li:nth-child(5){--st:#F7C9DA;--st2:#E39AB6;--sth:#FCEDF3}
+.learning-rail nav li:nth-child(6){--st:#C6ECE8;--st2:#86CBC3;--sth:#EAF7F5}
+.learning-rail nav li:nth-child(7){--st:#FFE7A3;--st2:#EFC867;--sth:#FFF6DA}
+.learning-rail nav li:nth-child(8){--st:#E6D3F2;--st2:#BE9EDB;--sth:#F6EEFB}
+.learning-rail nav li:nth-child(9){--st:#D8EBC4;--st2:#A8CC85;--sth:#F0F7E8}
+.learning-source,.learning-forget{color:var(--blaud);font:700 15px/1.4 var(--sans)}
+
+/* Kopf einer Sitzung */
+.learning-meta{gap:10px;align-items:center;font:600 15px/1.4 var(--sans);color:var(--muted);margin-bottom:14px}
+.learning-meta>span:first-child{font:800 13px/1.4 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--ink);background:var(--side);border-radius:999px;padding:3px 12px}
+.learning-lesson h2{font:600 clamp(30px,3vw,40px)/1.15 var(--rund);letter-spacing:0;color:var(--ink);margin:0 0 14px}
+.learning-lead{font:600 19px/1.6 var(--sans);color:var(--muted)}
+
+/* Alte Sitzungsseiten (ohne Kapitel) */
+.learning-terms,.learning-mission{border-top:0;padding-top:0}
+.learning-terms{background:#fff;border:var(--karte);border-radius:20px;padding:6px 22px 18px;box-shadow:var(--stein)}
+.learning-terms .learning-eyebrow{margin-top:16px}
+.learning-term-list button{border:2px solid var(--blau);border-radius:12px;background:#fff;color:var(--ink);font:700 15px/1.4 var(--sans)}
+.learning-term-list button:hover{background:var(--blauh)}
+.learning-term-list span{border:2px dashed var(--line);border-radius:12px;font:600 15px/1.4 var(--sans)}
+.learning-mission-soon{border:2px dashed var(--line);border-radius:20px;background:#fff}
+.learning-pagination{border-top:2px dashed var(--line-soft)}
+.learning-pagination button{border:2px solid var(--rand);border-radius:12px;background:#fff;color:var(--ink);font:600 16px/1.4 var(--rund)}
+.learning-pagination button:last-child{background:var(--ink);border-color:var(--ink);color:#fff}
+.learning-pagination button:disabled{border-color:var(--line);background:#fff;color:var(--muted)}
+
+@media(max-width:1050px){
+  .learning-path{grid-template-columns:260px minmax(0,1fr)}
+  .learning-lesson{padding:28px 28px 70px}
+}
+@media(max-width:720px){
+  .learning-path{display:block;padding:0}
+  .learning-rail{min-height:0;padding:18px 14px 14px}
+  .learning-rail h1{font-size:20px}
+  .learning-eyebrow{margin-top:14px}
+  .learning-rail nav ol{display:flex;gap:8px;padding:8px 2px 12px}
+  .learning-rail nav li>button{min-width:170px;border:2px solid var(--line-soft);background:#fff}
+  .learning-lesson{padding:22px 16px 60px}
+}
+
+/* ========== Freie Karte ========== */
+
+.network-header{border-bottom:var(--karte);background:var(--paper)}
+.network-header>strong{font:600 28px/1 var(--rund);color:var(--ink)}
+.network-header>span{font:600 15px var(--sans);color:var(--muted)}
+.network-header .network-search{border:2px solid var(--rand);border-radius:12px;background:#fff;padding:0 12px;color:var(--muted)}
+.network-search:focus-within{outline:3px solid var(--focus);outline-offset:2px}
+.network-search-results{border:var(--karte);border-radius:20px;box-shadow:var(--stein),0 14px 30px #1e2d3c14;padding:8px}
+.network-search-results>button{border-radius:12px}
+.network-search-results>button:hover,.network-search-results>button:focus-visible{background:var(--kh)}
+.network-search-results strong{font:600 18px/1.3 var(--rund)}
+.network-toolbar{border-bottom:var(--karte);background:var(--paper);font:600 14px/1.5 var(--sans)}
+.network-toolbar .whole-map-button,.network-toolbar .network-data-button,.network-reset-button{border:2px solid var(--rand);border-radius:12px;padding:2px 12px;background:#fff;color:var(--ink);font:700 14px/1.4 var(--sans)}
+.network-toolbar .whole-map-button:hover,.network-toolbar .network-data-button:hover,.network-reset-button:hover{background:var(--kh)}
+.network-toolbar .history-controls button{border-radius:10px;padding:5px}
+.network-toolbar .history-controls button:not(:disabled):hover{background:var(--side)}
+.exploration-trail>span:first-child{font:800 13px/1.4 var(--sans);letter-spacing:.07em}
+.exploration-trail>strong{color:var(--ink);font:600 16px var(--rund)}
+
+.network-canvas{background:radial-gradient(ellipse at 50% 45%,var(--paper) 0%,var(--paper) 55%,var(--side) 100%)}
+.organic-node.hovered .organic-point span,.organic-node.selected .organic-point span{background:var(--ink);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--k2)}
+.organic-label{font:500 16px/20px var(--rund);color:var(--txt);border-radius:8px;padding:2px 6px}
+.organic-node.hovered .organic-label,.organic-node.selected .organic-label{color:var(--ink);background:var(--kh);box-shadow:0 0 0 2px var(--k2)}
+.organic-node:not(.flow-neutral) .organic-label{box-shadow:0 0 0 2px color-mix(in srgb,var(--node-flow) 30%,transparent)}
+.organic-point:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:50%}
+.organic-edge-caption{border:var(--karte);border-radius:16px;box-shadow:var(--stein),0 5px 18px #1e2d3c12}
+.organic-edge-caption strong{font-weight:600}
+
+/* Kästen über der Karte: weiße Karten */
+.map-invitation{background:#fff;border:var(--karte);border-radius:20px;box-shadow:var(--stein);padding:16px 18px}
+.invitation-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.invitation-head .begleiter{width:58px}
+.map-invitation .eyebrow{display:block}
+.map-invitation h1{font:600 23px/1.2 var(--rund);margin:2px 0 0}
+.map-invitation p{font:15px/1.55 var(--sans);color:var(--txt)}
+.map-invitation .small-copy{color:var(--muted)}
+.invitation-close,.inspector-close{border-radius:10px;color:var(--muted)}
+.invitation-close:hover,.inspector-close:hover{background:var(--side);color:var(--ink)}
+.network-map-note{border:var(--karte);border-radius:14px;background:#fff;color:var(--muted);font:600 13px/1.4 var(--sans)}
+.network-map-note button{color:var(--blaud);font-weight:800;border-left:2px solid var(--line-soft)}
+.gravity-control button{border:2px solid var(--rand);border-radius:12px;background:#fff;color:var(--ink);font:700 14px/1.4 var(--sans);box-shadow:none}
+.gravity-control button:hover{background:var(--kh)}
+.gravity-control button[aria-pressed=true]{border-color:var(--kd);background:var(--kh)}
+.reopen-inspector{border:var(--karte);border-radius:20px;background:#fff;box-shadow:var(--stein),0 5px 16px #1e2d3c10;font:600 20px/1.3 var(--rund);color:var(--ink)}
+.network-canvas .react-flow__controls{border-radius:12px;overflow:hidden;border:var(--karte);box-shadow:var(--stein)}
+.network-canvas .react-flow__controls-button{background:#fff;border-bottom:var(--karte)}
+.network-canvas .react-flow__controls-button:hover{background:var(--side)}
+.network-canvas .react-flow__minimap{border:var(--karte);border-radius:12px;overflow:hidden}
+.network-footer{border-top:var(--karte);background:var(--paper);font:600 13px/1.4 var(--sans);color:var(--muted)}
+.network-footer a{color:var(--blaud);font-weight:800}
+
+/* Erklärfeld rechts: Papier mit weißen Karten wie im Kapitel */
+.network-inspector{border:var(--karte);border-radius:20px;background:var(--paper);box-shadow:0 4px 0 var(--line-soft),0 12px 32px #1e2d3c12;color:var(--txt);font-size:17px;line-height:1.68}
+.network-inspector h1{font:600 32px/1.15 var(--rund);color:var(--ink);letter-spacing:0;margin:6px 0 10px}
+.network-inspector .eyebrow{color:var(--kd)}
+.map-focus-link{color:var(--blaud);font:700 14px/1.4 var(--sans)}
+.relations-heading h2{font:600 21px/1.2 var(--rund)}
+.relations-heading button{color:var(--blaud);font:700 13px/1.4 var(--sans);border-bottom:0}
+.relations-heading button[aria-pressed=true]{color:var(--ink)}
+.relation-link{border:var(--karte);border-radius:14px;background:#fff;padding:9px 12px;margin-top:6px;color:var(--blaud)}
+.relation-link.after,.relation-link.relation-condition{color:var(--pfirsichd)}
+.relation-link:hover{background:var(--kh)}
+.relation-link strong{font:600 17px/1.3 var(--rund);color:var(--ink)}
+.inspector-disclosure{border:var(--karte);border-radius:16px;background:#fff;padding:0 14px;margin:12px 0}
+.inspector-disclosure>summary{font:600 17px/1.4 var(--rund);color:var(--ink);padding:10px 0;cursor:pointer}
+.conditions li{border-radius:12px}
+
+/* Bedienelemente im Erklärfeld und im Datensatz: Knopf hell */
+:is(.network-inspector,.survey-dialog) :is(.variable-control button,.route-control button,.experiment-actions>button,.add-case,.case-picker button,.median-result button,.text-button,.analysis-table button,.assign-column button,.survey-grid-tools button,.survey-pagination button,.respondent-editor>div>button,.condition-link,.calculation-steps button),
+.survey-dialog>footer>button,.survey-dialog>header>button{border:2px solid var(--rand);border-radius:12px;background:#fff;color:var(--ink);font-weight:700}
+:is(.network-inspector,.survey-dialog) :is(.variable-control button,.route-control button)[aria-pressed=true]{border-color:var(--kd);background:var(--kh)}
+:is(.network-inspector,.survey-dialog) :is(select,input:not([type=range]):not([type=checkbox]):not([type=radio])){border:2px solid var(--rand);border-radius:10px;background:#fff}
+.survey-grid-tools button.primary,.r-actions button.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* Formelwerkstatt und Begriffskarten */
+.xw{color:var(--txt);font-size:17px;line-height:1.68}
+.xw p{font-size:17px;line-height:1.68}
+.xw h3,.xw h4{font:600 16px/1.4 var(--rund);text-transform:none;letter-spacing:0;color:var(--ink)}
+.xw .xw-section>h2,.xw .xw-wofuer>h2,.xw-dataset-heading{font:600 22px/1.25 var(--rund);color:var(--ink)}
+.xw-dataset-heading{border-top:2px dashed var(--line-soft)}
+.xw-mode{border:2px solid var(--rand);border-radius:12px;padding:2px;gap:2px;background:#fff}
+.xw-mode button{border:0!important;border-radius:9px;background:transparent;color:var(--muted);font:700 13px/1.4 var(--sans)}
+.xw-mode button[aria-pressed=true]{background:var(--ink);color:#fff}
+.xw-kurz{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;border:0;background:var(--blauh);border-radius:14px;padding:12px 16px;margin:12px 0}
+.xw-kurz .begleiter{width:44px}
+.xw-kurz>div>strong{display:block;font:600 17px/1.3 var(--rund);letter-spacing:0;text-transform:none;color:var(--ink)}
+.xw .xw-kurz p{margin:2px 0}
+.xw .xw-kurz .xw-fach{font-size:15px;color:var(--muted)}
+.xw-tabs{gap:6px;border-bottom:0;padding:0;margin:16px 0 4px;flex-wrap:wrap;align-items:center}
+.xw-tabs [role=tab]{border:2px solid var(--rand);border-radius:999px;background:#fff;padding:4px 14px;margin:0;font:600 15px/1.3 var(--rund);color:var(--ink)}
+.xw-tabs [role=tab]:hover{background:var(--kh)}
+.xw-tabs [role=tab][aria-selected=true]{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:600}
+.xw-tabs [role=tab]:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.xw .xw-presets button,.xw .xw-button,.xw .xw-options button,.xw .xw-people button,.xw .xw-check-row button,.xw .xw-rule button,.xw .xw-arrows button{border:2px solid var(--rand);border-radius:12px;background:#fff;color:var(--ink);font-weight:700}
+.xw .xw-steps button,.xw .xw-legend>button{border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+.xw .xw-legend-item{border:var(--karte);border-radius:12px;background:#fff}
+.xw .xw-presets button[aria-pressed=true],.xw .xw-people button[aria-pressed=true],.xw .xw-steps button[aria-pressed=true],.xw .xw-legend>button.on{border-color:var(--kd);background:var(--kh);color:var(--ink)}
+.xw-steps button[aria-pressed=true] span{color:var(--ink)}
+.xw .xw-options button.right{border-color:var(--gruend);background:var(--gruenh)}
+.xw .xw-options button.wrong{border-color:var(--red);background:#FDEEEA}
+.xw-metrics>div{background:#fff;border:var(--karte);border-radius:14px}
+.xw-metrics strong{font-weight:600;color:var(--ink)}
+.xw-card{background:#fff;border:var(--karte);border-radius:20px;box-shadow:var(--stein);padding:16px 18px}
+.xw-fp.on,.xw .xw-fp.on{background:var(--kc);color:var(--ink)}
+.xw-table .on{background:var(--kh);color:var(--ink)}
+.xw-table thead th{font:700 14px var(--sans)}
+.xw-genau,.xw-glyphs{border-top:2px dashed var(--line-soft)}
+/* Rechnungen mischen Zahlen und Sätze: in der Textschrift, Zahlen gleich breit */
+.xw .xw-card p.xw-rechnung,.xw p.xw-rechnung,.xw .xw-lines p,.xw-worked-steps span{font:600 18px/1.6 var(--sans);font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* ========== Datensatz-Fenster ========== */
+.survey-dialog{border:var(--karte);border-radius:22px;background:var(--paper);box-shadow:0 4px 0 var(--line-soft),0 24px 60px #1e2d3c2a}
+.survey-dialog h1{font:600 30px/1.2 var(--rund)}
+.survey-dialog .eyebrow{color:var(--kd)}
+
+/* ========== Datei-Zone (ALLBUS freischalten) ========== */
+.sandbox-drop{border:2px dashed var(--rand);border-radius:20px;background:#fff}
+.sandbox-drop.over,.sandbox-drop:hover{border-color:var(--gruend);background:var(--gruenh)}
+.sandbox-drop strong{font-family:var(--rund);font-weight:600;color:var(--ink)}
+.sandbox-drop input::file-selector-button{font:600 15px var(--rund);color:#fff;background:var(--ink);border:2px solid var(--ink);border-radius:12px;padding:4px 14px;margin-right:10px;cursor:pointer}
+
+@media(max-width:760px){
+  .network-inspector{border-radius:20px 20px 0 0;border-bottom:0}
+  .network-inspector h1{font-size:26px}
+  .invitation-head .begleiter{width:44px}
+  .map-invitation h1{font-size:20px}
+}
+
+/* Legende der Richtungen: weiße Karte */
+.map-direction-key{background:#fffffff2;border:var(--karte);border-radius:16px;box-shadow:var(--stein);color:var(--muted)}
+.map-direction-key p{font:600 14px/1.45 var(--sans)}
+.map-direction-key p strong{font-family:var(--rund)}
+/* Erklärfeld: Schließen-Knopf nie über dem Umschalter */
+.inspector-top{padding-right:40px}
+@media(max-width:760px){
+  /* Nunito ist breiter als die frühere Schrift: Der Kartenhinweis bricht um, die Legende steht darüber. */
+  .has-inspector .map-direction-key{bottom:calc(51% + 84px)}
+}
+.inspector-top{flex-wrap:wrap;row-gap:6px}
+.xw-mode button{padding:3px 10px}
+@media(max-width:760px){
+  .xw-kurz{grid-template-columns:34px minmax(0,1fr);gap:10px;padding:10px 12px}
+  .xw-kurz .begleiter{width:34px;align-self:start;margin-top:4px}
+}
+@media(max-width:760px){
+  .inspector-top .xw-mode{margin-left:0}
+  .xw-tabs [role=tab]{font-size:14px;padding:3px 12px}
+}
+
+/* Alte Aufgaben (bis die Kapitel live sind): Auftrag und Werkzeugkasten als Karten */
+.task-brief,.task-toolbox{border:var(--karte);border-radius:20px;box-shadow:var(--stein);padding:18px 22px}
+.task-brief{background:var(--gelbh);border-color:#F1DFA6}
+.task-brief h3{font:600 24px/1.25 var(--rund)}
+.task-toolbox{background:#fff}
+.s02-takeaway{border-left:0;border-radius:14px;background:var(--gruenh)}
+.s01-example,.s02-example{border-left:4px solid #8FCBA6;border-radius:0 12px 12px 0}
