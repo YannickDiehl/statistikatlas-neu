@@ -527,3 +527,6 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Ein Modell bauen und prüfen', minuten: 5, Inhalt: Ueberblick,
     karten: [['k5-weg', 'Wie kommt eine Variable ins Modell?'], ['k5-kontrolle', 'Was du kontrollierst'], ['k5-voraussetzungen', 'Voraussetzungen'], ['k5-satz', 'Ein Satz über ein B']] },
 ];
+
+/* ---------- Bilder für die „?“-Fenster der Aufgaben (denk in kapitel.js); nur zeigende Bilder mit Beispielzahlen ---------- */
+export const BILDER = { AgeHealth, FormulaGrows, FourGroups, DummyTable, TwoGroups, Reference, BetaRuler, InteractionPlot, EinflussErklaert };

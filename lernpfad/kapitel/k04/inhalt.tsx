@@ -366,3 +366,6 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Welche Grafik für welche Frage?', minuten: 5, Inhalt: Ueberblick,
     karten: [['k5-wahl', 'Zwei Fragen entscheiden']] },
 ];
+
+/* Bilder für die ausgebauten „?“-Fenster in den Aufgaben (Engine: denk(…, { bild: Name })). */
+export const BILDER = { TurmZumStapel, AchseVergleich, LinealZumBoxplot, Shapes };

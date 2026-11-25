@@ -605,8 +605,10 @@ body.zieht-gerade iframe{pointer-events:none}
 .af-inhalt .schritt{padding:0;border:0;margin:0;list-style:none}
 .af-inhalt .s-nr,.af-inhalt .s-kopf h3{display:none}
 .af-inhalt .cb{margin-top:8px}
-@media (max-width:1023px){
-  body.ap-offen .mehr-panel{right:10px;z-index:60}
+/* Mit offenem Journal: neben dem Journal nur so breit, wie Platz ist; unter 1280 px (Journal als Überlagerung) über dem Journal */
+body.ap-offen .mehr-panel{width:min(470px,calc(100vw - var(--dock-w) - 30px))}
+@media (max-width:1279px){
+  body.ap-offen .mehr-panel{right:10px;z-index:60;width:min(470px,calc(100vw - 20px))}
 }
 
 /* v12: kompakter Arbeitsplatz für alle Größen (Container-Abfragen auf die Breite des Arbeitsplatzes) */
@@ -783,3 +785,62 @@ body.ap-offen .kap-menue{display:inline-flex}
   .j-zw-wahl button{min-height:34px;padding:3px 14px;font-size:14px}
 }
 @media (forced-colors:active){.j-zw-plus{opacity:1}}
+
+/* v17: Passt der Journal-Kopf (aufgeklappte Auftragskarte, Environment) nicht in seine Zeile, scrollt das Journal als Ganzes,
+   statt unter Konsole und Plots durchzuscheinen; die Blöcke behalten eine Mindesthöhe. */
+.journal{overflow-y:auto;overscroll-behavior:contain}
+.j-inhalt{min-height:140px}
+.unten{background:#fff}
+
+/* v18: R-Code farbig (RFarbe in tasten.js); nur Farben, damit der Text im Journal genau unter dem Eingabefeld liegt */
+.r-kom{color:#6b7078;font-style:italic}
+.r-str{color:#1a7f37}
+.r-zahl{color:#b35c00}
+.r-kw{color:#8250df}
+.r-fn{color:#0550ae}
+.r-arg{color:#0b7285}
+.r-op{color:#c2255c}
+mark .r-kom,mark .r-str,mark .r-zahl,mark .r-kw,mark .r-fn,mark .r-arg,mark .r-op{color:inherit}
+@media (forced-colors:active){.r-kom,.r-str,.r-zahl,.r-kw,.r-fn,.r-arg,.r-op{color:CanvasText}}
+/* Rückgängig/Wiederholen in der Einfüge-Leiste */
+.einfuegen .ins-undo{font-size:16px;min-width:34px}
+.einfuegen .ins-undo+.ins-undo{margin-right:6px}
+
+/* v18: Unter 1280 px keine Überlagerung mehr: Das Journal nimmt die ganze Fläche ein, ab 1280 px teilt sich der Bildschirm */
+@media (max-width:1279px){
+  :root{--dock-w:100vw!important}
+  .arbeitsplatz{left:0;width:auto;border-left:0;box-shadow:none}
+  .ap-lasche,.ap-schleier{display:none!important}
+  .viewer{right:0!important;left:0;z-index:50;border-right:0}
+}
+
+/* v19: ausgebaute „?“-Fenster (denk): Kurz gesagt, Dein Denkweg, Im Bild, Verwechslung */
+.mehr-panel.breit{width:min(620px,calc(100vw - 20px))}
+body.ap-offen .mehr-panel.breit{width:min(620px,calc(100vw - var(--dock-w) - 30px))}
+@media (max-width:1279px){body.ap-offen .mehr-panel.breit{width:min(620px,calc(100vw - 20px))}}
+.d-teil{margin:0 0 16px}
+.d-teil h3{font:600 15px/1.2 var(--rund);color:var(--lilad);margin:0 0 6px;letter-spacing:.01em}
+.d-kurz p{margin:0;background:var(--lilah);border-radius:12px;padding:10px 14px;color:var(--ink)}
+.d-denken ol{list-style:none;counter-reset:d;margin:0;padding:0;display:grid;gap:8px}
+.d-denken li{counter-increment:d;position:relative;padding:2px 0 2px 38px;line-height:1.5}
+.d-denken li::before{content:counter(d);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font:700 14px var(--rund);background:#fff;border:2px solid var(--lila);color:var(--lilad)}
+.d-bild .bildtext{font-size:14px;color:var(--mute);margin:6px 0 0}
+.d-react{border:1.5px solid var(--line);border-radius:12px;padding:10px;background:#fff;overflow-x:auto}
+.d-react .chapter{max-width:none}
+.d-verw{background:#FFF4E5;border-left:4px solid #E0A04A;border-radius:0 12px 12px 0;padding:8px 14px;font-size:15px;margin:0 0 14px}
+.d-zusatz{font-size:14px;color:var(--mute)}
+/* Bilder aus „Verstehen“ im Fenster: nicht im Raster der Kapitelseite (Randspalte), sondern in voller Breite */
+.d-react>.chapter.d-wurzel{display:block}
+
+/* v20: Große Bildschirme: Die Kapitelleiste links bleibt stehen, wenn das Journal aufgeht (Wunsch des Dozenten).
+   Platz schafft dafür bis 1919 px die rechte Fortschrittsleiste, die dann als Kopfzeile über der Aufgabe steht. */
+@media (min-width:1440px){
+  body.ap-offen{--links:216px}
+  body.ap-offen .sitzungen{display:block}
+  body.ap-offen .kap-menue{display:none}
+}
+@media (min-width:1440px) and (max-width:1919px){
+  body.ap-offen{--rechts:0px}
+  body.ap-offen .fortschritt{display:none}
+  body.ap-offen .mini-fortschritt{display:flex}
+}

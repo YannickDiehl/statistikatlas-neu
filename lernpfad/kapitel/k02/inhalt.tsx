@@ -458,3 +458,7 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Vom Kreuz zur Zelle', minuten: 5, Inhalt: Ueberblick,
     karten: [['k5-ablauf', 'Vom Kreuz zur Zelle'], ['k5-zellen', 'Was in einer Zelle stehen kann'], ['k5-pruefen', 'Bevor du rechnest']] },
 ];
+
+/* Bilder für die ausgebauten „?“-Fenster in den Aufgaben (Engine: denk(…, { bild: Name })). Nur Bilder, die schon in Verstehen stehen. */
+const Pv01Codes = () => <Pv01 codes={PV01.codes} />;
+export const BILDER = { SheetsToPlate, DreiBeschriftungen, Pa02a, Pv01Codes, Typen };

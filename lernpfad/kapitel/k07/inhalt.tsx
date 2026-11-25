@@ -463,6 +463,9 @@ export function Ueberblick() {
   </section>;
 }
 
+/* ---------- Bilder für die „?“-Fenster der Aufgaben (nur zeigende Bilder mit Beispielen, keine Aufgabenzahlen) ---------- */
+export const BILDER = { TFormula, EffectRuler, WelchFormula, FFormula, MeansCI };
+
 /* ---------- Themen für den Reiter „Verstehen“ (Reihenfolge, Karten für die rechte Leiste) ---------- */
 export const THEMEN: Thema[] = [
   { id: 'vorweg', n: 'R', kurz: 'R lesen', titel: 'Vorweg: R lesen', minuten: 10, Inhalt: Vorweg,

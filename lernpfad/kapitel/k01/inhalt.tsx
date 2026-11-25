@@ -519,3 +519,6 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Vom Rechner bis zur passenden Variable', minuten: 5, Inhalt: Ueberblick,
     karten: [['ue', 'Welches Werkzeug für welche Frage?']] },
 ];
+
+/* Bilder für die ausgebauten „?“-Fenster in den Aufgaben (Engine: denk(…, { bild: Name })). */
+export const BILDER = { ProjectPicture, FindVarPicture, SearchLab, ErrorConsole };

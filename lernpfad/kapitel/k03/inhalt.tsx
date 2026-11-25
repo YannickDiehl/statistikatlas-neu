@@ -417,3 +417,6 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Eine Tabelle lesen, eine Mitte wählen', minuten: 5, Inhalt: Ueberblick,
     karten: [['k5-tabelle', 'Vier Fragen an eine Tabelle'], ['k5-mitte', 'Welche Mitte passt?'], ['k5-voraus', 'Voraussetzungen']] },
 ];
+
+/* Bilder für die ausgebauten „?“-Fenster in den Aufgaben (Engine: denk(…, { bild: Name })). Nur Bilder, die schon in Verstehen stehen. */
+export const BILDER = { TowerToTable, FrequencyTable, BuecherStreifen, RegaleErklaert, HundredStones, ThreeBases, DescribeOutput, HaushaltsReihe, ScaleLevels, HaushaltsStreifen };

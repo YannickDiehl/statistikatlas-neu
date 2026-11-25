@@ -12,8 +12,10 @@ const META = window.KMETA;
 const NR = META.nr, PFX = 'k' + String(NR).padStart(2, '0');
 const bild = (key, label) => ({ art: 'bild', label, titel: label.replace(/^Bild: /, ''), key });
 const warum = (label, html, grund) => ({ art: 'warum', label, titel: label, html, grund });
+/** Ausgebautes „?“-Fenster: Kurz gesagt, Denkweg (Fragen ohne Antworten), Bild aus „Verstehen“, Verwechslung. */
+const denk = (label, o) => ({ art: 'warum', label, titel: label, grund: o.grund, denk: o });
 const probier = (label, html, code, aufgabe) => ({ art: 'code', label, titel: label, html, code, aufgabe, idee: label });
-const KAP = window.KAPITEL({ D, T, esc, codeHtml, bild, warum, probier });
+const KAP = window.KAPITEL({ D, T, esc, codeHtml, bild, warum, probier, denk });
 const BILD = KAP.BILD || {};
 const TASKS = KAP.TASKS;
 const FREI = KAP.FREI || {};
@@ -51,12 +53,7 @@ function marken(vorlage) {
   return { code: code + vorlage.slice(last), ranges };
 }
 function malen(code, ranges) {
-  let out = '', pos = 0;
-  for (const r of [...ranges].sort((a, b) => a.from - b.from)) {
-    out += esc(code.slice(pos, r.from)) + '<mark>' + esc(code.slice(r.from, r.to)) + '</mark>'; pos = r.to;
-  }
-  out += esc(code.slice(pos));
-  return out.split('\n').map(z => z.trimStart().startsWith('#') && !z.includes('<mark>') ? '<span class="kom">' + z + '</span>' : z).join('\n') + '\n';
+  return RFarbe.html(code, ranges) + '\n';
 }
 
 /* ---------- Code-Block auf der Seite: dokumentiert, nicht editierbar ---------- */
@@ -98,6 +95,8 @@ function editor(block, beiAenderung, beiLauf) {
     if (!st.hidden) st.innerHTML = block.ranges.length ? 'Anpassen: ' + block.ranges.map(r => `<mark>${esc(r.wort)}</mark>`).join(' ') : '✓ Alle gelben Stellen angepasst.';
   };
   ta.value = block.code; zeichnen();
+  // Rückgängig stellt auch die gelben Stellen wieder her.
+  ta.verlaufExtra = { holen: () => block.ranges.map(r => ({ ...r })), setzen: v => { block.ranges = v; zeichnen(); beiAenderung(); } };
   ta.addEventListener('input', () => {
     const neu = ta.value; let a = 0;
     while (a < alt.length && a < neu.length && alt[a] === neu[a]) a++;
@@ -498,30 +497,48 @@ function aufgabeBauen(t) {
 }
 
 /* ---------- Leiste „Mehr“ ---------- */
-let mehrAuslöser = null;
+let mehrAuslöser = null, denkAus = [];
+const denkAbbauen = () => { denkAus.forEach(f => { try { f(); } catch { /* egal */ } }); denkAus = []; };
+/** Inhalt eines ausgebauten Fensters. `bild`: Schlüssel eines Aufgabenbilds (D.SVG) oder Name eines Bilds aus „Verstehen“ (BILDER in inhalt.tsx). */
+function denkHtml(o) {
+  let h = `<section class="d-teil d-kurz"><h3>Kurz gesagt</h3><p>${o.kurz}</p></section>`;
+  if (o.denken?.length) h += `<section class="d-teil d-denken"><h3>Dein Denkweg</h3><ol>${o.denken.map(x => `<li>${x}</li>`).join('')}</ol></section>`;
+  if (o.bild) {
+    h += `<section class="d-teil d-bild"><h3>Im Bild</h3>`;
+    h += D.SVG?.[o.bild] ? `<div role="img" aria-label="${esc(D.ALT?.[o.bild] || '')}">${D.SVG[o.bild]}</div><p class="bildtext">${o.bildtext ?? BILD[o.bild]}</p>`
+      : `<div class="d-react" data-denkbild="${esc(o.bild)}"></div>${o.bildtext ? `<p class="bildtext">${o.bildtext}</p>` : ''}`;
+    h += `</section>`;
+  }
+  if (o.verwechslung) h += `<p class="d-verw"><b>Häufige Verwechslung:</b> ${o.verwechslung}</p>`;
+  if (o.zusatz) h += `<p class="d-zusatz">${o.zusatz}</p>`;
+  return h;
+}
 function mehrOeffnen(btn) {
   const [wo, i] = btn.dataset.mehr.split(/:(?=\d+$)/); const m = MEHR[wo][+i];
   if (m.grundlage) { tabWechsel('verstehen', m.grundlage); return; }
   const panel = $('#mehr'), inh = $('.mehr-inhalt', panel);
   document.querySelectorAll('.mehr-knopf[aria-expanded=true]').forEach(b => b.setAttribute('aria-expanded', 'false'));
   if (mehrAuslöser === btn && !panel.hidden) { mehrZu(); return; }
+  denkAbbauen(); panel.classList.toggle('breit', !!m.denk?.bild);
   btn.setAttribute('aria-expanded', 'true'); mehrAuslöser = btn;
   $('#mehr-titel').textContent = m.titel;
   let html = '';
   if (m.art === 'bild') html = `<div role="img" aria-label="${esc(D.ALT[m.key])}">${D.SVG[m.key]}</div><p class="bildtext">${BILD[m.key]}</p>`;
+  if (m.denk) html += denkHtml(m.denk);
   if (m.html) html += `<p>${m.html}</p>`;
   if (m.hilfe) html += D.HINTS[m.hilfe].map((h, k) => `<details class="stufe"${k === 0 ? ' open' : ''}><summary><b>${['Stufe 1: Denkanstoß', 'Stufe 2: Wo schaue ich?', 'Stufe 3: Lösung'][k]}</b></summary><p style="margin:6px 0 0">${codeHtml(h)}</p></details>`).join('');
   if (m.fehler) html += `<table><thead><tr><th>R meldet</th><th>Das hilft</th></tr></thead><tbody>${D.ERROR_HELP.map(r => `<tr><td>${rich(r.says)}</td><td>${rich(r.helps)}</td></tr>`).join('')}</tbody></table>`;
   if (m.code) html += `<pre>${esc(m.code)}</pre><button type="button" class="knopf" data-konsole>→ Konsole</button> ${m.aufgabe ? '<button type="button" class="knopf hell" data-journal>→ Journal</button>' : ''}`;
-  if (m.grund) html += `<a href="#${m.grund}" class="zur-grundlage" data-grund="${m.grund}">Ausführlich im Teil „Verstehen“ →</a>`;
+  if (m.grund) html += `<a href="#${m.grund}" class="zur-grundlage" data-grund="${m.grund}">${m.denk ? 'Die ganze Erklärung in „Verstehen“ →' : 'Ausführlich im Teil „Verstehen“ →'}</a>`;
   inh.innerHTML = html;
   if (m.code) $('[data-konsole]', inh).onclick = () => Konsole.einfuegen(m.code);
   if (m.aufgabe) $('[data-journal]', inh).onclick = () => { mehrZu(); Journal.probierHolen(m.code, m.aufgabe, 'Weiterdenken: ' + m.idee); };
   const g = $('[data-grund]', inh); if (g) g.onclick = e => { e.preventDefault(); mehrZu(); tabWechsel('verstehen', m.grund); };
-  panel.hidden = false; panel.focus();
+  panel.hidden = false; panel.focus(); inh.scrollTop = 0;
+  inh.querySelectorAll('[data-denkbild]').forEach(el => { const aus = window.LernpfadBild?.zeige(el, el.dataset.denkbild); if (aus) denkAus.push(aus); else el.closest('.d-bild')?.remove(); });
 }
 function rich(parts) { return parts.map(p => typeof p === 'string' ? esc(p) : p.code ? `<code>${esc(p.code)}</code>` : esc(p.text)).join(''); }
-function mehrZu() { $('#mehr').hidden = true; if (mehrAuslöser) { mehrAuslöser.setAttribute('aria-expanded', 'false'); mehrAuslöser.focus(); } mehrAuslöser = null; }
+function mehrZu() { denkAbbauen(); $('#mehr').hidden = true; if (mehrAuslöser) { mehrAuslöser.setAttribute('aria-expanded', 'false'); mehrAuslöser.focus(); } mehrAuslöser = null; }
 document.addEventListener('click', e => {
   const fr = e.target.closest('[data-frei]');
   if (fr) { const [a, i] = fr.dataset.frei.split(':'); const f = FREI[a][+i]; Journal.probierHolen('', a, `${f.stufe}: ${f.text}`); }
@@ -570,6 +587,8 @@ function beobachten() {
 
 /* ---------- Reiter ---------- */
 function tabWechsel(name, ziel) {
+  // Unter 1280 px deckt das Journal die Seite zu: Wer zu „Verstehen“ oder „Mitnehmen“ springt, soll das Ziel auch sehen.
+  if (name !== 'aufgaben' && !$('#arbeitsplatz').hidden && matchMedia('(max-width:1279px)').matches) Arbeitsplatz.offen(false);
   ['aufgaben', 'verstehen', 'mitnehmen'].forEach(n => {
     const an = n === name; const t = $('#tab-' + n);
     t.setAttribute('aria-selected', an); t.tabIndex = an ? 0 : -1; $('#p-' + n).hidden = !an;

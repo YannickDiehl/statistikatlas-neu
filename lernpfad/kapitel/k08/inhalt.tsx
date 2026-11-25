@@ -445,6 +445,9 @@ export function Ueberblick() {
   </section>;
 }
 
+/* ---------- Bilder für die „?“-Fenster der Aufgaben (nur zeigende Beispielbilder, keine Aufgabenzahlen) ---------- */
+export const BILDER = { RowMean, ReliabilityOutput, AlphaOhneBeispiel, ReverseLab, Reverse };
+
 /* ---------- Themen für den Reiter „Verstehen“ (Reihenfolge, Karten für die rechte Leiste) ---------- */
 export const THEMEN: Thema[] = [
   { id: 'vorweg', n: 'R', kurz: 'R lesen', titel: 'Vorweg: R lesen', minuten: 10, Inhalt: Vorweg,

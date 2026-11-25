@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { createPortal } from 'react-dom';
 import { ChapterStateProvider } from '@atlas/chapter/ChapterContext';
 import { THEMEN } from '@kapitel/inhalt';
+import * as Inhalt from '@kapitel/inhalt';
 import * as Bausteine from '@kapitel/bausteine';
 import { Mitnehmen } from './mitnehmen';
 import { judgeWithFeedback } from '@atlas/chapter/answers';
@@ -155,3 +156,15 @@ document.querySelectorAll<HTMLElement>('[data-baustein]').forEach(el => {
   const id = el.dataset.schritt!;
   createRoot(el).render(<ChapterStateProvider sessionId={NR}><div className="chapter v-wurzel baustein-wurzel"><B fertig={() => (window as unknown as Fertig).K4Vorlage?.fertig(id)} /></div></ChapterStateProvider>);
 });
+
+/* Bilder aus „Verstehen“ für die ausgebauten „?“-Fenster der Aufgaben: inhalt.tsx exportiert optional BILDER = { Name: Komponente }.
+   Die Engine ruft LernpfadBild.zeige(el, name) beim Öffnen und die zurückgegebene Funktion beim Schließen. */
+const BILDER = (Inhalt as unknown as { BILDER?: Record<string, ComponentType> }).BILDER ?? {};
+(window as unknown as { LernpfadBild: object }).LernpfadBild = {
+  zeige(el: HTMLElement, name: string) {
+    const B = BILDER[name]; if (!B) return null;
+    const root = createRoot(el);
+    root.render(<ChapterStateProvider sessionId={NR}><div className="chapter v-wurzel d-wurzel"><B /></div></ChapterStateProvider>);
+    return () => root.unmount();
+  },
+};

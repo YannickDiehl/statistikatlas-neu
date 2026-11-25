@@ -148,6 +148,31 @@ export const BAUSTEINE: Record<string, Baustein> = { Name: ({ fertig }) => <…/
 
 Hinweise zur Engine (Stand nachts): Jeder Schritt kann `haken: true` oder `haken: 'Text'` bekommen (Haken zum Abhaken). Nach „Prüfen“ feuert `document` das Ereignis `lernpfad:antworten` mit `{ schritt, antworten }` (für Bausteine, die erst nach den Antworten erscheinen). Backticks in Antwortmöglichkeiten und Vorhersage-Prompts werden zu Code. `aufloesung` darf auch `resolution`/`resolve` heißen. Verweise in Verstehen auf Karten in einem anderen Thema schalten das Thema selbst um (kein eigener Klick-Handler nötig). „Richtig:“/„Noch nicht.“ am Anfang von Rückmeldungen werden nicht doppelt gesetzt. Bausteine stehen vor dem Haken eines Schritts.
 
+## Ausgebaute „?“-Fenster in den Aufgaben (`denk`, seit 25.11.2026)
+
+**Zweck (Dozent):** Die Studierenden wissen, *was* sie tun sollen. Das Fenster hilft ihnen, den **Gedankenprozess** für den Schritt schnell zu ordnen, mit allem, was sie zur eigenen Bewältigung brauchen, **ohne Lösungen**. Die ganze Erklärung bleibt in „Verstehen“.
+
+**Vorbild:** Kapitel 4, Aufgabe 1 (`kapitel/k04/kapitel.js`, Schritte `a1-p` bis `a1-5`). Lies es zuerst und übernimm Ton, Länge und Aufbau.
+
+**Form:** `denk(label, { grund, kurz, denken, bild, bildtext, verwechslung, zusatz })` in `mehr: [...]` eines Schritts (die Engine übergibt `denk` an `window.KAPITEL`; nimm es in die Parameterliste auf). Das Fenster zeigt in dieser Reihenfolge:
+- `kurz` – **Kurz gesagt:** 2–3 Sätze, was in diesem Schritt passiert und warum; Fachbegriff fett, einfach erklärt.
+- `denken` – **Dein Denkweg:** 3–4 Einträge in der Reihenfolge, in der man denkt: wohin schauen, was vergleichen, was sich fragen. Fragen oder Hinweise, **keine Antworten**.
+- `bild` – **Im Bild** (optional): entweder ein Schlüssel aus `D.SVG` (die Bilder der bisherigen `bild(...)`-Knöpfe; Unterschrift aus `BILD[key]` oder `bildtext`) oder der Name einer React-Komponente aus „Verstehen“, die `inhalt.tsx` als `export const BILDER = { Name, … }` bereitstellt (nur reine Erklärbilder aus figuren.tsx/inhalt.tsx bzw. Atlas-Bilder, die schon in Verstehen stehen). Nur, wenn das Bild genau diesen Schritt erklärt.
+- `verwechslung` – **Häufige Verwechslung:** ein Satz (aus den Mixup-Texten der Karte, wo passend).
+- `zusatz` – kleine Praxis-Notiz (optional, z. B. RStudio-Hinweis aus dem bisherigen Text).
+- `grund` – Id der Karte in Verstehen, die den Schritt erklärt („Die ganze Erklärung in Verstehen →“).
+
+**Regeln**
+1. **Jeder Schritt jeder Aufgabe bekommt genau ein `denk`-Fenster**, an erster Stelle in `mehr`. Ein vorhandenes passendes `warum(...)` wird dazu ausgebaut (Label beibehalten, wenn es passt). Andere Einträge (`probier`, „Lieber in RStudio?“, weitere Hintergründe) bleiben dahinter. Ein `bild(...)`-Knopf, dessen Bild jetzt im Fenster steht, fällt weg. Schritte ohne `mehr` (z. B. festlegen, fragen) bekommen eins.
+2. **Keine Lösungen.** Prüfe gegen alles, was der Schritt oder die Aufgabe abfragt: `D.QUESTIONS[aN]` (Ergebnis festhalten), `D.PREDICTIONS` (Festlegen), Auswahlfragen wie `D.A1_AXIS` samt richtiger Option, eigene Schrittarten in kapitel.js/bausteine.tsx, `D.HINTS` Stufe 3. Nenne keine gesuchten Zahlen, keine richtige Option, keine Deutung, die gefragt ist. Erlaubt: *wo* man etwas abliest und *wie* man vorgeht. Zeigt ein vorhandenes Bild selbst eine gesuchte Zahl, nimm es nicht ins Fenster und melde es im Bericht.
+3. **Länge:** kurz + Denkweg zusammen etwa 80–150 Wörter. Lieber knapp und klar.
+4. **Fakten nur aus den Quellen** (content.ts, Verstehen-Karten, Aufgabentexte). Schrittnummern nach Seitenzählung („Erst festlegen“ ist Schritt 1).
+5. **Stil** wie oben (Regel 6): du-Form, einladend, keine Pointen, Code als `<code>…</code>` mit `&gt;`/`&lt;` maskiert.
+6. **Barrierefreiheit:** Das Fenster muss ohne Bild verständlich sein.
+7. **Nur** `kapitel/kNN/kapitel.js` und (für `BILDER`) `kapitel/kNN/inhalt.tsx` ändern. Engine, react/, andere Kapitel und src/ nicht anfassen. Nicht committen, nicht pushen.
+
+**Prüfen:** `node scripts/build-lernpfad.mjs kNN`, dann `LERNPFAD_URL=http://127.0.0.1:8781/lernpfad/ node scripts/lernpfad-pruefen.mjs kNN` (Server läuft auf 8781). Zusätzlich jedes Fenster im Kopf gegen die Fragen der Aufgabe lesen.
+
 ## Bauen und prüfen (Pflicht, bis alles grün ist)
 
 ```bash

@@ -194,6 +194,7 @@ const AC = {
     const fn = x.art === 'Funktion' && !nachFrage;
     const ins = fn ? x.name + '()' : x.art === 'Argument' ? x.name + ' = ' : x.name;
     const pos = a + ins.length - (fn ? 1 : 0);
+    if (typeof Tasten !== 'undefined') Tasten.merken(ta);
     this.still = true; ta.value = ta.value.slice(0, a) + ins + ta.value.slice(b); ta.setSelectionRange(pos, pos);
     ta.dispatchEvent(new Event('input', { bubbles: true })); this.still = false; this.zu(); ta.focus();
     if (fn) this.hinweis(ta, x.name);

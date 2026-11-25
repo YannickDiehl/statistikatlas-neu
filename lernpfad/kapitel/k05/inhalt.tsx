@@ -6,7 +6,7 @@ import { HeadingLevel } from '@atlas/chapter/blocks/level';
 import { ReadR } from '@atlas/chapter/s05/ReadR';
 import { CHI, PREREQUISITES, U1, U1_OPTIONS, WEIGHTED } from '@atlas/chapter/s05/content';
 import { ReadingDirectionFigure } from '@atlas/chapter/s05/figures/Bars5';
-import { PercentFormula, PointsFormula, ThreeBasesFigure } from '@atlas/chapter/s05/figures/Tables';
+import { PercentFormula, PointsFormula, RuleFigure, ThreeBasesFigure } from '@atlas/chapter/s05/figures/Tables';
 import { UmpolenFigure } from '@atlas/chapter/s05/figures/Towers';
 import { de } from '@atlas/chapter/s05/figures/parts';
 import type { Thema } from '../../react/typen';
@@ -390,3 +390,13 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Basis wählen, Grenzen kennen', minuten: 8, Inhalt: Ueberblick,
     karten: [['k5-basis', 'Wer ist 100 %?'], ['k5-voraus', 'Voraussetzungen'], ['k5-chi', 'Zufall oder Zusammenhang?']] },
 ];
+
+/* ---------- Bilder für die ausgebauten „?“-Fenster in den Aufgaben (Engine: denk(…, { bild: Name })) ----------
+   Nur Erklärbilder, die auch in „Verstehen“ stehen; alle am Beispiel der Erwerbstätigkeit oder der Wirtschaftslage. */
+function Leserichtung() {
+  return <ReadingDirectionFigure caption={<>Jede Zeile ist eine Gruppe der UV und für sich 100 %. Verglichen wird von oben nach unten: Frauen arbeiten 33,8 Prozentpunkte häufiger Teilzeit als Männer. <span>ALLBUS 2023, Erwerbstätige, n = 3.359, ungewichtet.</span></>} />;
+}
+function Umpolen() {
+  return <UmpolenFigure caption={<>Umpolen dreht nur die Zahlen um. Jeder Aufkleber wandert mit seinem Stein, und in jeder Stufe stehen gleich viele Menschen wie vorher. Aus ‚höher heißt schlechter‘ wird ‚höher heißt besser‘. <span>Anzahlen: ALLBUS 2023, n = 5.194, ungewichtet.</span></>} />;
+}
+export const BILDER = { Regel: RuleFigure, BasisSchalter, NennerBeispiel, Leserichtung, Prozentpunkte: PointsFormula, Umpolen };

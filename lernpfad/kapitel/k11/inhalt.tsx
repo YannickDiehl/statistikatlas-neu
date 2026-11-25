@@ -9,6 +9,7 @@ import { ExpBTable, Factor, FormulaLogit, FormulaPercent, LogitAndCurve, ReadOut
 import { WayBack } from '@atlas/chapter/s11/figures/Topic3';
 import { FormulaNull, HitRate, MinusTwoLL, WhichRegression } from '@atlas/chapter/s11/figures/Topic4';
 import '@atlas/chapter/s11/s11.css';
+import type { ComponentType } from 'react';
 import type { Thema } from '../../react/typen';
 import { ZweiSchritte } from './figuren';
 import { Abschnitt, Bezug, Code, Frage } from '../../react/gemeinsam';
@@ -482,3 +483,12 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Logistische Regression lesen', minuten: 5, Inhalt: Ueberblick,
     karten: [['k5-sprachen', 'Drei Sprachen, eine Zahl'], ['k5-welche', 'Welches Regressionsmodell?'], ['k5-voraus', 'Voraussetzungen']] },
 ];
+
+/* Bilder für die ausgebauten „?“-Fenster in den Aufgaben (Engine: denk(…, { bild: Name })). Nur Erklärbilder aus Verstehen,
+   alle mit dem Smartphone-Beispiel, keines mit Zahlen der Wahlabsicht.
+   Die Wurzel trägt die Klasse .chapter (Raster mit Randspalte); im Fenster soll das Bild die ganze Breite nutzen, wie bei den Bausteinen. */
+const einspaltig = (B: ComponentType) => () => <><style>{'[data-denkbild] > .d-wurzel{display:block}'}</style><B /></>;
+export const BILDER = {
+  ZeroOneTower: einspaltig(ZeroOneTower), ThreeLanguages: einspaltig(ThreeLanguages), ReadOutput: einspaltig(ReadOutput),
+  FormulaPercent: einspaltig(FormulaPercent), WayBack: einspaltig(WayBack), HitRate: einspaltig(HitRate), FormulaNull: einspaltig(FormulaNull),
+};

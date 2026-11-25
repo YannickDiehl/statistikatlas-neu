@@ -425,3 +425,10 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Maß wählen, Grenzen kennen', minuten: 5, Inhalt: Ueberblick,
     karten: [['k5-baum', 'Das niedrigere Skalenniveau entscheidet'], ['k5-tabelle', 'Voraussetzungen und Eigenheiten'], ['k5-vergleich', 'Dieselben Daten, verschiedene Maße']] },
 ];
+
+/* Bilder für die ausgebauten „?“-Fenster in den Aufgaben (Engine: denk(…, { bild: Name })).
+   Nur Erklärbilder, die auch in „Verstehen“ stehen; keins zeigt Zahlen, nach denen die Aufgaben fragen. */
+export const BILDER = {
+  OstStichprobe, Gewicht: WeightBricks, Mischpult: MixingDesk, ChiQuadrat: ChiBricks, Lineal: StrengthRuler,
+  GammaTau: GammaBricks, Richtung: Direction, PunkteLabor: PointLab, Drittvariable: ThirdVariable,
+};

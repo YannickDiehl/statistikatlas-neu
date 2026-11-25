@@ -472,3 +472,6 @@ export const THEMEN: Thema[] = [
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Eine Regression lesen, prüfen, berichten', minuten: 5, Inhalt: Ueberblick,
     karten: [['k5-zahlen', 'Fünf Zahlen für einen Bericht'], ['k5-voraussetzungen', 'Voraussetzungen'], ['k5-ursache', 'Zusammenhang, nicht Ursache']] },
 ];
+
+/* ---------- Bilder für die „?“-Fenster der Aufgaben (denk in kapitel.js); nur zeigende Bilder mit Beispielzahlen ---------- */
+export const BILDER = { PunktwolkeMitGerade, FormulaSteps, R2Squares, SpreadBars, GroupBy, Curve };
