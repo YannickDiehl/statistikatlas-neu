@@ -746,3 +746,40 @@ body.tastatur .arbeitsplatz:not(:has(.unten :focus)){grid-template-rows:minmax(0
 .aufloesung{margin-top:10px;background:var(--gelbh);border-left:4px solid #E0C46A;border-radius:0 12px 12px 0;padding:8px 14px;font-size:15.5px}
 /* Unter 1280 px steht die Lasche „Lernjournal und Konsole“ senkrecht am rechten Rand: die Fortschrittsleiste weicht ihr aus */
 @media (max-width:1279px){ body:not(.ap-offen) .fortschritt{padding-right:52px} }
+
+/* v16: Kapitel-Menü, sobald die linke Leiste fehlt (unter 1181 px oder mit offenem Journal) */
+.kap-menue{display:none;align-items:center;gap:6px;border:2px solid var(--line2);background:#fff;color:var(--ink);border-radius:10px;padding:4px 12px;font:800 14.5px var(--sans);min-height:36px;margin-left:-6px}
+.kap-menue:hover,.kap-menue[aria-expanded=true]{background:var(--side);border-color:var(--ink)}
+.kap-menue span{font-size:17px;line-height:1}
+body.ap-offen .kap-menue{display:inline-flex}
+@media (max-width:1180px){.kap-menue{display:inline-flex}}
+.kap-schleier{position:fixed;inset:var(--kopf) 0 0 0;z-index:68;background:rgba(30,45,60,.25)}
+.kap-schleier[hidden]{display:none}
+.sitzungen.schublade{display:block!important;position:fixed;z-index:69;top:var(--kopf);left:0;bottom:0;height:auto;width:min(310px,88vw);box-shadow:12px 0 36px rgba(30,45,60,.22);animation:kap-rein .22s ease-out}
+@keyframes kap-rein{from{transform:translateX(-100%)}to{transform:none}}
+@media (pointer:coarse){.sitzungen li{padding:10px 8px}}
+@media (max-width:560px){.app-kopf{gap:12px;padding:0 12px}.marke{font-size:19px}.app-reiter a{padding:5px 9px;font-size:14px}}
+@media (max-width:420px){.marke{display:none}}
+
+/* v16: freies Lernjournal: Einfügestellen zwischen Blöcken, Knöpfe am Ende */
+.j-zw{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;min-height:16px;margin:0}
+.j-zw::before{content:"";position:absolute;left:4px;right:4px;top:50%;border-top:1.5px dashed transparent;pointer-events:none}
+.j-zw:hover::before,.j-zw.offen::before,.j-zw:focus-within::before{border-color:var(--lila)}
+.j-zw-plus{position:relative;width:22px;height:22px;padding:0;border-radius:50%;border:1.5px solid var(--line2);background:#fff;color:var(--mute);font:800 15px/1 var(--sans);opacity:.4;transition:opacity .12s}
+.j-zw:hover .j-zw-plus,.j-zw-plus:focus-visible{opacity:1}
+.j-zw-wahl{position:relative;display:none;gap:6px}
+.j-zw.offen .j-zw-wahl{display:flex}
+.j-zw.offen .j-zw-plus{display:none}
+@media (hover:hover){.j-zw:hover .j-zw-wahl{display:flex}.j-zw:hover .j-zw-plus{display:none}}
+.j-zw-wahl button{border:1.5px solid var(--lila);background:#fff;color:var(--lilad);border-radius:999px;padding:1px 12px;font:700 12.5px var(--sans);min-height:24px}
+.j-zw-wahl button:hover,.j-zw-wahl button:focus-visible{background:var(--lilah)}
+.j-oben:not(:has(.jc,.jn)) .j-zw{min-height:10px}
+.j-ende{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.j-ende .j-plus{margin-top:0}
+.j-leer+.j-ende{margin-top:10px}
+@media (pointer:coarse){
+  .j-zw{min-height:30px}
+  .j-zw-plus{opacity:.75;width:28px;height:28px}
+  .j-zw-wahl button{min-height:34px;padding:3px 14px;font-size:14px}
+}
+@media (forced-colors:active){.j-zw-plus{opacity:1}}

@@ -12,12 +12,14 @@
 </head>
 <body>
 <header class="app-kopf">
+  <button type="button" class="kap-menue" id="kap-menue" aria-expanded="false" aria-controls="sitzungen"><span aria-hidden="true">☰</span> Kapitel</button>
   <a class="marke" href="../../">Statistikatlas<span>.</span></a>
   <nav class="app-reiter" aria-label="Ansicht"><a aria-current="page" href="./">Lernpfad</a><a href="../../?ansicht=karte">Freie Karte</a></nav>
 </header>
 
+<div class="kap-schleier" id="kap-schleier" hidden></div>
 <div class="rahmen">
-  <nav class="sitzungen" aria-label="Sitzungen">
+  <nav class="sitzungen" id="sitzungen" aria-label="Sitzungen">
     <p class="eyebrow">Lernpfad</p>
     <ol>
 {{SITZUNGEN}}

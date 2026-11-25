@@ -20,6 +20,19 @@ const FREI = KAP.FREI || {};
 const ALLE_SCHRITTE = TASKS.flatMap(t => t.schritte.map(s => ({ ...s, aufgabe: t })));
 
 try { localStorage.setItem('lernpfad-letzte', META.kapitel); } catch { /* egal */ }
+/* ---------- Kapitel-Menü: wenn die linke Leiste fehlt (schmale Bildschirme, Journal offen), öffnet „☰ Kapitel“ sie als Schublade ---------- */
+const KapMenue = {
+  offen(an) {
+    const nav = document.getElementById('sitzungen'), knopf = document.getElementById('kap-menue');
+    an = an ?? !nav.classList.contains('schublade');
+    nav.classList.toggle('schublade', an); document.getElementById('kap-schleier').hidden = !an; knopf.setAttribute('aria-expanded', an);
+    if (an) (nav.querySelector('li.jetzt') || nav).scrollIntoView({ block: 'center' }), nav.querySelector('a')?.focus({ preventScroll: true }); else knopf.focus({ preventScroll: true });
+  },
+};
+document.getElementById('kap-menue').onclick = () => KapMenue.offen();
+document.getElementById('kap-schleier').onclick = () => KapMenue.offen(false);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('sitzungen').classList.contains('schublade')) { e.stopImmediatePropagation(); KapMenue.offen(false); } }, true);
+
 
 /* ---------- Gespeicherter Stand (nur Bequemlichkeit) ---------- */
 const KEY = PFX + '-fokus-v1';
@@ -214,18 +227,24 @@ const Journal = {
       Konsole.umgebung(true);
     };
     box.append(start);
-    if (!this.bloecke.length) { box.insertAdjacentHTML('beforeend', '<p class="j-leer">Noch leer. Hol dir Code aus den Aufgaben mit <b>→ Journal</b>. Darunter kannst du Notizen schreiben, und Ergebnisse aus „Ergebnis festhalten“ landen auch hier.</p>'); return; }
-    let sek = null;
-    for (const b of this.bloecke) {
-      const t = TASKS.find(x => x.id === b.aufgabe);
+    const B = this.bloecke;
+    if (!B.length) {
+      box.insertAdjacentHTML('beforeend', '<p class="j-leer">Noch leer. Hol dir Code aus den Aufgaben mit <b>→ Journal</b>, oder leg hier selbst einen Block an. Ergebnisse aus „Ergebnis festhalten“ landen auch hier.</p>');
+      box.append(this.endKnoepfe(() => 0, null)); return;
+    }
+    // Blöcke ohne Aufgabe stehen oben, direkt unter dem Startblock.
+    let ziel = document.createElement('div'); ziel.className = 'j-bloecke j-oben'; box.append(ziel);
+    ziel.append(this.zwischen(0, null));
+    B.forEach((b, i) => {
       if (b.typ === 'aufgabe') {
-        sek = document.createElement('section'); sek.className = 'j-abschnitt'; sek.id = b.id;
-        sek.innerHTML = `<div class="j-h"><span class="st c7" aria-hidden="true">A${t.n}</span><h3>Aufgabe ${t.n}: ${esc(t.titel)}</h3></div><p class="j-frage">${esc(t.frage)}</p><div class="j-bloecke"></div><button type="button" class="j-plus" data-p="notiz">+ Notiz</button> <button type="button" class="j-plus" data-p="code">+ Eigener Code</button>`;
-        $('[data-p=notiz]', sek).onclick = () => this.notiz(t.id);
-        $('[data-p=code]', sek).onclick = () => this.probierHolen('', t.id, 'Eigener Code');
-        box.append(sek); continue;
+        const t = TASKS.find(x => x.id === b.aufgabe);
+        const sek = document.createElement('section'); sek.className = 'j-abschnitt'; sek.id = b.id;
+        sek.innerHTML = `<div class="j-h"><span class="st c7" aria-hidden="true">A${t.n}</span><h3>Aufgabe ${t.n}: ${esc(t.titel)}</h3></div><p class="j-frage">${esc(t.frage)}</p><div class="j-bloecke"></div>`;
+        sek.append(this.endKnoepfe(() => this.bloecke.map(x => x.aufgabe).lastIndexOf(t.id) + 1, t.id));
+        box.append(sek); ziel = $('.j-bloecke', sek);
+        ziel.append(this.zwischen(i + 1, b.aufgabe));
+        return;
       }
-      const ziel = $('.j-bloecke', sek);
       if (b.typ === 'code') {
         const el = document.createElement('div'); el.className = 'jc' + (b.frei ? ' frei-block' : ''); el.id = b.id;
         el.innerHTML = `<div class="jc-kopf"><span class="lbl" title="${esc(b.titel)}">${esc(b.titel)}</span><button type="button" class="run">▶ Ausführen</button><button type="button" class="weg" aria-label="Block entfernen">✕</button></div>`;
@@ -244,7 +263,36 @@ const Journal = {
         $('.weg', el).onclick = () => this.weg(b.id);
         ziel.append(el); requestAnimationFrame(hoch);
       }
-    }
+      // Einfügestelle nach jedem Block; am Ende eines Abschnitts stehen stattdessen die sichtbaren Knöpfe.
+      const n = B[i + 1];
+      if (n && !(b.aufgabe && n.typ === 'aufgabe')) ziel.append(this.zwischen(i + 1, b.aufgabe));
+    });
+    if (!B.some(b => b.typ === 'aufgabe')) box.append(this.endKnoepfe(() => this.bloecke.length, null));
+  },
+  /** Neuer leerer Block an Stelle pos (Index in bloecke), zugehörig zu einer Aufgabe oder frei (null). */
+  einfuegen(pos, aufgabe, typ) {
+    Arbeitsplatz.offen(true);
+    const b = typ === 'code' ? { typ: 'code', key: null, schritt: null, frei: true, titel: 'Eigener Code', code: '', ranges: [] } : { typ: 'notiz', text: '' };
+    b.id = this.id(); b.aufgabe = aufgabe;
+    this.bloecke.splice(Math.max(0, Math.min(pos, this.bloecke.length)), 0, b);
+    this.sichern(); this.zeichnen(); this.zeigen(b.id, true); fortschritt();
+  },
+  /** Schmale Einfügestelle zwischen zwei Blöcken: „+“, bei Zeigen oder Tippen „+ Code“ und „+ Notiz“. */
+  zwischen(pos, aufgabe) {
+    const d = document.createElement('div'); d.className = 'j-zw';
+    d.innerHTML = '<button type="button" class="j-zw-plus" aria-expanded="false" title="Hier einen Block einfügen"><span aria-hidden="true">+</span><span class="sr-only">Hier einen Block einfügen</span></button><span class="j-zw-wahl"><button type="button" data-t="code">+ Code</button><button type="button" data-t="notiz">+ Notiz</button></span>';
+    const plus = $('.j-zw-plus', d);
+    plus.onclick = () => { const auf = !d.classList.contains('offen'); d.classList.toggle('offen', auf); plus.setAttribute('aria-expanded', auf); if (auf) $('[data-t=code]', d).focus(); };
+    d.addEventListener('focusout', e => { if (!d.contains(e.relatedTarget)) { d.classList.remove('offen'); plus.setAttribute('aria-expanded', 'false'); } });
+    d.querySelectorAll('[data-t]').forEach(k => k.onclick = () => this.einfuegen(pos, aufgabe, k.dataset.t));
+    return d;
+  },
+  /** Sichtbare Knöpfe am Ende eines Abschnitts (oder des leeren Journals). */
+  endKnoepfe(pos, aufgabe) {
+    const d = document.createElement('div'); d.className = 'j-ende';
+    d.innerHTML = '<button type="button" class="j-plus" data-t="code">+ Code-Block</button><button type="button" class="j-plus" data-t="notiz">+ Notiz</button>';
+    d.querySelectorAll('[data-t]').forEach(k => k.onclick = () => this.einfuegen(pos(), aufgabe, k.dataset.t));
+    return d;
   },
   vorschauHtml() {
     let h = `<h1>Sitzung ${NR}: ${esc(META.titel)}</h1><p class="sub">Mein Lernjournal</p><pre>${esc(T.start.code)}</pre>`;
@@ -269,7 +317,7 @@ const Journal = {
       const t = TASKS.find(x => x.id === b.aufgabe);
       if (b.typ === 'aufgabe') s += `\n## Aufgabe ${t.n}: ${t.titel}\n\n*${t.frage}*\n`;
       else if (b.typ === 'code') {
-        let l = (b.schritt || b.aufgabe + '-probieren'), k = 2; while (lbl.has(l)) l = (b.schritt || b.aufgabe + '-probieren') + '-' + k++; lbl.add(l);
+        const l0 = b.schritt || (b.aufgabe || 'eigen') + '-probieren'; let l = l0, k = 2; while (lbl.has(l)) l = l0 + '-' + k++; lbl.add(l);
         s += '\n```{r}\n#| label: ' + l + '\n' + kommentarKopf(b) + nurInteraktiv(b.code.replace(/\n+$/, '')) + '\n```\n';
       } else if (b.typ === 'ergebnis') { const [kopf, ...z] = b.text.trim().split('\n'); s += `\n**${kopf}**\n\n` + z.filter(x => x.trim()).map(x => '- ' + x).join('\n') + '\n'; }
       else if (b.text.trim()) s += '\n' + b.text.trim() + '\n';
