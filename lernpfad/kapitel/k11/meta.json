@@ -1,0 +1,25 @@
+{
+  "nr": 11,
+  "titel": "Logistische Regression",
+  "leitfrage": "Wer geht wählen – und wie wahrscheinlich?",
+  "ziele": [
+    "erklären, warum man für eine Variable mit nur zwei Ausprägungen (0 und 1) keine Gerade nimmt, und eine Wahrscheinlichkeit in eine Chance (Odds) und einen Logit übersetzen und zurück",
+    "ein logistisches Modell gewichtet schätzen und in der Ausgabe B, Exp(B) und Sig. finden",
+    "Exp(B) in Alltagssprache deuten: ein Faktor für die Chance, nicht für die Wahrscheinlichkeit",
+    "vorhergesagte Wahrscheinlichkeiten für Beispielpersonen ausrechnen und erklären, warum derselbe Faktor je nach Ausgangspunkt verschieden viele Prozentpunkte bringt; den durchschnittlichen marginalen Effekt (AME) als Mittelwert lesen",
+    "die Güte eines Modells einschätzen: Trefferquote gegen die einfachste Regel, −2LL und Omnibus-Test, Pseudo-R²",
+    "die Voraussetzungen nennen: richtig kodierte 0/1-Variable, genug Fälle in der selteneren Gruppe, gleichmäßiger Verlauf im Logit, unabhängige Fälle, Gewichtung für Aussagen über Deutschland, keine Ursache aus Zusammenhang",
+    "<code>logistic_regression()</code>, <code>exp()</code>, <code>tibble()</code> mit <code>c()</code>, <code>predict(…, type = \"response\")</code> und <code>marginal_effects()</code> lesen und anpassen"
+  ],
+  "bekannt": "der Startblock und <code>lm30</code> mit seinem TNZ: FILTER (Sitzung 1), Ketten mit <code>%&gt;%</code> (Sitzung 4), neue Variablen mit <code>rec()</code> in <code>mutate()</code>, auch Umpolen mit <code>rules = \"rev\"</code>, und Kreuztabellen mit Zeilenprozent (Sitzung 5), Gewichten mit <code>weights = wghtpew</code> (Sitzung 6), <code>summary()</code>, Sig. und Konfidenzintervall (Sitzung 7), die lineare Regression mit Konstante, B und Vorhersage = Konstante + B × Wert (Sitzung 9), mehrere Prädiktoren mit <code>+</code> und „bei gleichem …“ (Sitzung 10).",
+  "content": "s11",
+  "ersetzungen": [
+    ["In der Code-Werkstatt hier auf der Seite ist das schon erledigt; dort wird <code>allbus</code> vor jedem Ausführen frisch geladen. Darum bildet jede Vorlage die Variablen, die sie braucht, selbst.", "Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal. Jede Vorlage bildet die Variablen, die sie braucht, selbst; so läuft sie auch für sich allein."],
+    ["Das Beispiel kennst du aus den Grundlagen:", "Das Beispiel begegnet dir in „Verstehen“ immer wieder:"],
+    ["was darin steht, lernst du in den Grundlagen 2 und 4.", "was darin steht, erklärt „Verstehen“ zu Aufgabe 2 und 4."],
+    ["Führe jede Vorlage einmal aus. Was die Zahlen bedeuten, lernst du in den Grundlagen 2 und 3.", "Unter jeder Vorlage steht, was R ausgibt. Was die Zahlen bedeuten, erklärt „Verstehen“ zu Aufgabe 2 und 3."],
+    ["Ausgabe der Kurzzeile zur Kontrolle:", "So sieht die Kurzzeile aus:"],
+    ["Ausgabe zur Kontrolle:", "So sieht die Ausgabe aus:"],
+    ["<a href=\"#ueberblick\">Überblick</a>", "<a href=\"#k5-voraus\">Überblick</a>"]
+  ]
+}

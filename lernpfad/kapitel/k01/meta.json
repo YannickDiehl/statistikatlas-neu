@@ -1,0 +1,23 @@
+{
+  "nr": 1,
+  "titel": "Einstieg",
+  "leitfrage": "Wie kommt der ALLBUS in R, und wie findest du darin die Frage, die dich interessiert?",
+  "ziele": [
+    "in RStudio die vier Fenster unterscheiden: Wo schreibe ich Code, wo antwortet R, wo sehe ich meine Daten?",
+    "ein Projekt anlegen und die ALLBUS-Datei so ablegen, dass R sie findet",
+    "den Startblock lesen und ausführen: Pakete laden, die Datei einlesen und unter dem Namen <code>allbus</code> ablegen",
+    "eine Zeile R lesen: Objekt, Pfeil <code>&lt;-</code>, Funktion, Argumente, Text in Anführungszeichen",
+    "mit <code>find_var()</code> Variablen suchen und erklären, warum „kein Treffer“ nicht „gibt es nicht“ heißt und ein Treffer noch nicht passen muss",
+    "mit dem Codebuch (<code>codebook()</code>) und einem ersten Blick in <code>frequency()</code> lesen, was eine Variable misst: Variablenlabel, Codes, Wertelabels, fehlende Werte",
+    "sagen, wem eine Frage gestellt wurde und wie viele gültig geantwortet haben",
+    "eine Fehlermeldung lesen und die häufigsten Fehler selbst beheben"
+  ],
+  "bekannt": "Variable, Fall und Wert aus Methoden Ia; im Sommer hast du 30 Blobs von Hand ausgezählt. R ist neu: Alles, was du hier brauchst, wird Schritt für Schritt eingeführt.",
+  "content": "s01",
+  "ersetzungen": [
+    ["In der Code-Werkstatt hier auf der Seite ist das schon für dich erledigt.", "Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal."],
+    ["In der Werkstatt steht ‚Error in‘ statt ‚Fehler in‘;", "Im Lernjournal steht nur ‚Fehler:‘, ohne Funktion;"],
+    ["Du arbeitest hier in der Werkstatt.", "Du arbeitest hier im Lernjournal."],
+    ["zeigt Thema 3.", "zeigt Verstehen zu Aufgabe 3."]
+  ]
+}

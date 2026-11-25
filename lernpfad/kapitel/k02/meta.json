@@ -1,0 +1,24 @@
+{
+  "nr": 2,
+  "titel": "Vom Fragebogen zum Datensatz",
+  "leitfrage": "Was steht eigentlich in einer Zeile des ALLBUS?",
+  "ziele": [
+    "einen Datensatz als Datenmatrix lesen: Jede Zeile ist ein Fall, jede Spalte eine Variable, jede Zelle ein Wert",
+    "aus einem ausgefüllten Fragebogen mit dem Codebuch eine Zeile machen und erklären, wer dabei was entscheidet",
+    "einen Eintrag im Codebuch lesen: Variablenname, Variablenlabel, Wertelabels und die Richtung einer Skala",
+    "erklären, warum Codes Namen sind und nicht immer „mehr“ bedeuten, und wann man mit einer Zahl rechnen darf",
+    "fehlende Werte nach ihrem Grund unterscheiden: keine Angabe, weiß nicht, nicht gefragt, zwei Kreuze",
+    "die Datentypen in R erkennen: Zahl, Text, Zahl mit Wertelabel",
+    "Code lesen und anpassen: mit <code>&lt;-</code> etwas unter einem Namen ablegen, mit <code>codebook()</code> nachschlagen, mit <code>%&gt;%</code> und <code>filter()</code> nur bestimmte Befragte behalten, <code>==</code> von <code>=</code> unterscheiden"
+  ],
+  "bekannt": "der Startblock mit Objekt und <code>&lt;-</code>, <code>dim(allbus)</code> und die 3.037.434 Zellen, <code>find_var()</code>, das ganze Codebuch mit <code>codebook(allbus)</code> in RStudio und der erste Blick mit <code>frequency()</code>; Code, Wertelabel, Variablenlabel und die Bedeutung von TNZ (trifft nicht zu, nicht gefragt) (Sitzung 1); die Begriffe Datenmatrix, Fall, Variable, Wert und Datenreihe (Methoden Ia).",
+  "content": "s02",
+  "ersetzungen": [
+    ["In RStudio führst du ihn zu Beginn aus. In der Code-Werkstatt hier auf der Seite ist das schon erledigt.", "In RStudio führst du ihn zu Beginn aus. Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal."],
+    ["Wie die Bauplatte aussieht, schaust du dir in <a href=\"#g1\">Grundlage 1</a> genauer an.", "Wie die Bauplatte aussieht, schaust du dir in <a href=\"#k1-matrix\">Verstehen zu Aufgabe 1</a> genauer an."],
+    ["In der Code-Werkstatt erscheint derselbe Eintrag als Text.", "In deinem Lernjournal erscheint derselbe Eintrag als Text."],
+    ["<th scope=\"col\">In der Werkstatt</th>", "<th scope=\"col\">Im Lernjournal</th>"],
+    ["'Typ (Grundlage 4)'", "'Typ (Aufgabe 4)'"],
+    ["Mehr dazu in Grundlage 3.", "Mehr dazu in Aufgabe 3."]
+  ]
+}

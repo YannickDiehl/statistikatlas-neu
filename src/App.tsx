@@ -113,6 +113,11 @@ function AtlasWorkspace({conceptRequest,visible,toolApi}:{conceptRequest:{id:str
 }
 
 
+// Zweite Seite „statistikatlas-neu“ (VITE_KAPITEL=1): Der Lernpfad liegt als eigene Kapitelseiten unter lernpfad/ (Fokus-Format, scripts/build-lernpfad.mjs).
+// Die Startseite führt dorthin; die freie Karte bleibt hier unter ?ansicht=karte.
+const lernpfadSeiten=import.meta.env?.VITE_KAPITEL==='1';
+if(lernpfadSeiten&&typeof location!=='undefined'&&new URLSearchParams(location.search).get('ansicht')!=='karte')location.replace('lernpfad/');
+
 export default function App(){
  const [tab,setTab]=useState<'learn'|'map'>(()=>typeof location!=='undefined'&&new URLSearchParams(location.search).get('ansicht')==='karte'?'map':'learn');
  const [sessionIndex,setSessionIndex]=useState(0);
@@ -120,7 +125,7 @@ export default function App(){
  const [preview]=useState(()=>import.meta.env?.VITE_KAPITEL==='1'||typeof location!=='undefined'&&new URLSearchParams(location.search).get('vorschau')==='kapitel');
  const toolApi=useRef<WorkspaceApi>({read:()=>({selected:null,columns:defaultSelection,cases:200}),open:()=>{}});
  const [mapOpened,setMapOpened]=useState(tab==='map'),[conceptRequest,setConceptRequest]=useState<{id:string;sequence:number}|null>(null);
- function changeTab(next:'learn'|'map',focusContent=false){setTab(next);if(next==='map')setMapOpened(true);if(focusContent)requestAnimationFrame(()=>document.getElementById(next==='learn'?'learning-heading':'network-search')?.focus({preventScroll:true}));}
+ function changeTab(next:'learn'|'map',focusContent=false){if(lernpfadSeiten&&next==='learn'){location.href='lernpfad/';return;}setTab(next);if(next==='map')setMapOpened(true);if(focusContent)requestAnimationFrame(()=>document.getElementById(next==='learn'?'learning-heading':'network-search')?.focus({preventScroll:true}));}
  function showConcept(id:string){setConceptRequest(r=>({id,sequence:(r?.sequence||0)+1}));changeTab('map');}
  function returnToLearning(){changeTab('learn',true);}
  const workspaceActions=useStableActions({read:()=>toolApi.current.read(),open:showConcept});

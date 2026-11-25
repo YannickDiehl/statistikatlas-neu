@@ -1,0 +1,24 @@
+{
+  "nr": 9,
+  "titel": "Lineare Regression",
+  "leitfrage": "Wie gut sagt eine Gerade etwas vorher – und für wen liegt sie daneben?",
+  "ziele": [
+    "erklären, was eine lineare Regression tut: Sie legt die Gerade durch eine Punktwolke, die im Mittel am nächsten an den Punkten liegt (kleinste Quadrate)",
+    "Konstante und Steigung (Regressionskoeffizient B) in einfachen Worten deuten und damit eine Vorhersage von Hand ausrechnen",
+    "Residuen als „wie weit daneben“ lesen und R² als „um wie viel besser als der Mittelwert“ deuten; sagen, warum eine steile Gerade nicht dasselbe ist wie eine gute Vorhersage",
+    "drei Voraussetzungen prüfen und in Worten erklären: ein gerader Zusammenhang (Linearität), keine einzelnen Punkte, die die Gerade wegziehen (Ausreißer), gleich große Fehler für alle (gleiche Fehlervarianz)",
+    "wissen, dass eine Regression einen Zusammenhang beschreibt und keine Ursache belegt",
+    "<code>linear_regression(y ~ x, weights = wghtpew)</code> lesen und anpassen, in der Ausgabe von <code>summary()</code> B, Beta, R² und N finden, mit <code>group_by()</code> getrennt nach Gruppen rechnen und <code>levene_test()</code> lesen"
+  ],
+  "bekannt": "R als Taschenrechner und TNZ: SPLIT (Sitzung 1); <code>describe()</code> (Sitzung 3); Ketten mit <code>%&gt;%</code>, <code>drop_na()</code>, <code>show = …</code> und Ausreißer im Boxplot (Sitzung 4); abhängige und unabhängige Variable (AV und UV), das Umpolen mit <code>rec(…, rules = \"rev\")</code> in <code>mutate()</code> und „ein Zusammenhang ist keine Ursache“ (Sitzung 5); das Gewicht <code>weights = wghtpew</code>, die Punktwolke, die Pearson-Korrelation r und dass r nur gerade Zusammenhänge sieht (Sitzung 6); <code>summary()</code> für die ausführliche Ausgabe, der p-Wert und die Faustregel, ob Gruppen ähnlich stark streuen (Sitzung 7).",
+  "content": "s09",
+  "ersetzungen": [
+    ["In der Code-Werkstatt hier auf der Seite ist das schon erledigt.", "Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal."],
+    ["<p><b>Wichtig in der Code-Werkstatt</b></p>", "<p><b>Wichtig: Jede Vorlage steht für sich</b></p>"],
+    ["Jede Werkstatt startet mit dem frisch geladenen ALLBUS. Was eine andere Werkstatt umgepolt oder neu gebildet hat, kennt sie nicht. Darum steht das Umpolen in jeder Vorlage, die es braucht, noch einmal.", "Was eine Kette mit <code>mutate()</code> umpolt, gilt nur innerhalb dieser Kette. Gespeichert wird es erst mit <code>allbus &lt;- allbus %&gt;% …</code>, wie in Aufgabe 3 und 4. Darum steht das Umpolen in jeder Vorlage, die es braucht, noch einmal, und jede Vorlage läuft nach dem Startblock auch für sich allein."],
+    ["Führe die Vorlage aus und wähl dann eine Zahl. Was sie bedeutet, lernst du in den Grundlagen; hier geht es darum, wo sie steht.", "Unter der Vorlage steht ihre Ausgabe. Wähl eine Zahl, dann wird sie in der Ausgabe markiert. Was sie bedeutet, steht in Verstehen zu den Aufgaben; hier geht es darum, wo sie steht."],
+    ["aus Grundlage 2c", "aus Verstehen zu Aufgabe 2"],
+    ["Mehr in Grundlage 1.", "Mehr in Verstehen zu Aufgabe 1."],
+    ["Mehr in Grundlage 2.", "Mehr in Verstehen zu Aufgabe 2."]
+  ]
+}

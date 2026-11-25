@@ -1,0 +1,19 @@
+{
+  "nr": 6,
+  "titel": "Gewichtung und Zusammenhang",
+  "leitfrage": "Was hängt mit der Zufriedenheit mit der Demokratie zusammen – und wie misst man, wie stark?",
+  "ziele": [
+    "<i>Verfahren:</i> erklären, warum der ALLBUS den Osten stärker befragt und wie das Gewicht <code>wghtpew</code> das ausgleicht; zu zwei Variablen das passende Zusammenhangsmaß wählen: Cramér-V und Phi (nominal), Gamma und Tau-b (ordinal), Spearman-ρ und Pearson-r (metrisch).",
+    "<i>Interpretation:</i> Stärke am Betrag und Richtung am Vorzeichen ablesen und in einem Satz „Je …, desto …“ sagen; die Stärke mit einer Faustregel einordnen.",
+    "<i>Voraussetzungen:</i> wissen, welches Skalenniveau ein Maß braucht, warum Gamma größer ausfällt als Tau-b, warum Pearson-r Ausreißer und Kurven schlecht verträgt und wie man mit einer Drittvariable prüft, ob ein Zusammenhang von etwas Drittem herrührt (dass ein Zusammenhang keine Ursache ist, kennst du aus Sitzung 5).",
+    "<i>Code lesen:</i> <code>weights = wghtpew</code> in eine Funktion setzen; <code>cramers_v()</code>, <code>phi()</code>, <code>goodman_gamma()</code>, <code>kendall_tau()</code>, <code>spearman_rho()</code> und <code>pearson_cor()</code> mit zwei Variablen aufrufen und ihre Ausgabe lesen."
+  ],
+  "bekannt": "der Startblock (Sitzung 1), <code>filter(eastwest == 2)</code> (Sitzung 2), <code>frequency()</code> mit Valid % und Cum. % und fehlenden Werten (Sitzung 3), Ketten mit <code>%&gt;%</code>, <code>drop_na()</code>, <code>ggplot()</code> und die Skalenniveaus nominal, ordinal, metrisch (Sitzung 4), <code>mutate()</code> mit <code>rec()</code> samt <code>rules = \"rev\"</code> (dort am Beispiel der Wirtschaftslage <code>ep01</code>), <code>crosstab()</code> mit Zeilenprozenten, „ein Zusammenhang ist keine Ursache“ und der Chi-Quadrat-Test als Wiederholung aus der Vorlesung (Sitzung 5).",
+  "content": "s06",
+  "ersetzungen": [
+    ["In der Code-Werkstatt hier ist das schon erledigt, in RStudio führst du ihn zu Beginn aus.", "Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal. In RStudio führst du ihn zu Beginn aus."],
+    ["Probier es aus:", "In den Aufgaben stehen solche Ketten paarweise, erst ohne und dann mit Gewicht:"],
+    ["Warum, klärt Thema 1.", "Warum, klärt „Verstehen“ zu Aufgabe 1."],
+    ["nur die Zahl, manchmal mit Minus (Thema 2)", "nur die Zahl, manchmal mit Minus (siehe Aufgabe 2)"]
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "nr": 8,
+  "titel": "Index und Skala",
+  "leitfrage": "Wie misst man Populismus mit mehreren Fragen – und woran erkennst du, ob die Fragen zusammenpassen?",
+  "ziele": [
+    "aus mehreren Fragen (Items) einen <b>Mittelwertindex</b> bilden: einen Wert je Person, und erklären, warum mehrere Fragen genauer messen als eine",
+    "andersherum gefragte Items vor dem Zusammenfassen <b>umpolen</b>, damit eine hohe Zahl bei allen Items dasselbe bedeutet",
+    "<b>Cronbachs α</b> und die <b>Trennschärfe</b> eines Items lesen und mit den Faustregeln deuten, und sagen, wo diese Faustregeln an Grenzen stoßen",
+    "einen Indexwert in Worten deuten: was eine hohe oder niedrige Zahl heißt und für wen es überhaupt einen Wert gibt",
+    "die Voraussetzungen eines Mittelwertindex prüfen (gleiche Richtung, ein gemeinsamer Begriff, genug Antworten je Person) und erklären, warum ein hohes α noch nicht heißt, dass die Fragen das Richtige messen; wissen, wann ein <b>Kombinationsindex</b> besser passt",
+    "Code lesen und anpassen: <code>row_means(pick(…), min_valid = …)</code> in <code>mutate()</code>, <code>reliability()</code> mit <code>summary()</code>, <code>rec(…, rules = \"rev\")</code>"
+  ],
+  "bekannt": "der Startblock (Sitzung 1), <code>frequency()</code> und <code>describe()</code> (Sitzung 3), Ketten mit <code>%&gt;%</code> (Sitzung 4), neue Variablen mit <code>mutate()</code> und <code>rec()</code>, auch das Umpolen mit <code>rules = \"rev\"</code> (Sitzung 5), <code>weights = wghtpew</code> und die Korrelation r (Sitzung 6), <code>summary()</code> und die Korrelationsmatrix (Sitzung 7). Messfehler, Reliabilität und Validität kennst du aus der Vorlesung.",
+  "content": "s08",
+  "ersetzungen": [
+    ["In der Code-Werkstatt hier auf der Seite ist das schon erledigt.", "Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal."],
+    ["Führe die Vorlage aus: Bei Code 1 steht jetzt STIMME GAR NICHT ZU.", "Führst du die Vorlage aus, steht bei Code 1 STIMME GAR NICHT ZU."],
+    ["Was die Zahlen bedeuten, lernst du in <a href=\"#g2\">Grundlage 2</a>.", "Was die Zahlen bedeuten, erklärt <a href=\"#v2c\">„Die Ausgabe von reliability() lesen“</a> in Verstehen zu Aufgabe 2."],
+    ["(<a href=\"#v2c\">Grundlage 2c</a>)", "(<a href=\"#v2c\">Die Ausgabe von reliability() lesen</a>)"],
+    ["(Inter-Item Correlation Matrix, Karte 2c)", "(Inter-Item Correlation Matrix)"],
+    ["(die Korrelationstabelle aus Karte 2a)", "(die Korrelationstabelle aus <a href=\"#v2a\">„Stimmig heißt: dieselben Menschen antworten ähnlich“</a>)"]
+  ]
+}

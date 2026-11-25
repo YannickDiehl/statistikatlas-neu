@@ -1,0 +1,45 @@
+{
+  "nr": 3,
+  "titel": "Erste Auszählung",
+  "leitfrage": "Wie viele sagen was – und wen zählst du mit, wenn du Prozent sagst?",
+  "ziele": [
+    "eine Häufigkeitstabelle lesen: wie oft jede Antwort vorkommt (absolute Häufigkeit, Spalte N), welcher Anteil das ist (relative Häufigkeit, Raw % und Valid %) und wie viel bis zu einer Stufe zusammenkommt (kumulierte Prozent, Cum. %)",
+    "den häufigsten Wert (Modus) und die Mitte einer geordneten Antwortreihe (Median) aus der Tabelle ablesen, den Mittelwert mit <code>describe()</code>",
+    "eine Prozentzahl so in einen Satz schreiben, dass klar ist, von wem sie handelt: von allen Befragten oder nur von denen, die geantwortet haben",
+    "Mittelwert und Median vergleichen und sagen, welche Zahl eine schiefe Verteilung ehrlicher beschreibt",
+    "fehlende Werte nach ihrem Grund unterscheiden (nie gefragt, nicht beantwortet, beim Erfassen verloren) und wissen, welche Mitte zu welchem Skalenniveau passt",
+    "<code>allbus %&gt;% frequency(…)</code> und <code>allbus %&gt;% describe(…)</code> ausführen, die Ausgabe lesen und R als Taschenrechner für eine eigene Prozentbasis nutzen"
+  ],
+  "bekannt": "der Startblock, R als Taschenrechner und der erste Blick mit <code>frequency(allbus, …)</code> auf Codes, Wertelabels und die Spalte N (Sitzung 1); die Pipe mit einem Schritt wie <code>frauen &lt;- allbus %&gt;% filter(sex == 2)</code>, das Nachschlagen mit <code>codebook(allbus, …)</code>, die Bauplatte mit ihren Türmen, Steinen und Aufklebern, die Gründe für fehlende Werte (−9, −10, −11, −42 …) und dass Codes für Parteien nur Namen sind (Sitzung 2). Mittelwert und Median kennst du aus Methoden Ia.",
+  "content": "s03",
+  "ersetzungen": [
+    [
+      "In der Code-Werkstatt hier auf der Seite ist das schon erledigt.",
+      "Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal."
+    ],
+    [
+      "Führe jede Vorlage einmal aus und schau dir die Ausgabe an. Was die einzelnen Spalten bedeuten, lernst du in den Grundlagen.",
+      "Zu jedem steht hier eine Vorlage zum Lesen. Was die einzelnen Spalten der Ausgabe bedeuten, steht in den Abschnitten zu den Aufgaben."
+    ],
+    [
+      "2.000 heißt 2, 26.000 heißt 26.",
+      "2.342 heißt 2,342, 2.000 heißt 2."
+    ],
+    [
+      "<code>39,84 + 8,44</code>",
+      "<code>29,70 + 18,27</code>"
+    ],
+    [
+      "<code>39.84 + 8.44</code>",
+      "<code>29.70 + 18.27</code>"
+    ],
+    [
+      "(<code>39.84</code>)",
+      "(<code>29.70</code>)"
+    ],
+    [
+      "Zur Kontrolle: R antwortet mit",
+      "R antwortet mit"
+    ]
+  ]
+}

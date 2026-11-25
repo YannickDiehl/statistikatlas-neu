@@ -1,0 +1,43 @@
+{
+  "nr": 5,
+  "titel": "Kreuztabellen",
+  "leitfrage": "Gehen Misstrauende nicht mehr wählen? Und auf wen beziehen sich die Prozent, die man darüber liest?",
+  "ziele": [
+    "<b>Verfahren:</b> aus einer Frage mit vielen Antworten Gruppen bilden (umkodieren), auch eine Dummyvariable mit nur 0 und 1; zwei Variablen in einer Kreuztabelle gegenüberstellen",
+    "<b>Interpretation:</b> dieselbe Zelle als Zeilen-, Spalten- und Gesamtprozent lesen und sagen, welche Frage jede Zahl beantwortet; Gruppen vergleichen und den Unterschied in Prozentpunkten angeben",
+    "<b>Voraussetzungen:</b> wissen, wer in der Tabelle fehlt (fehlende Werte, Split), warum kleine Gruppen wackelige Prozent liefern und warum ein Zusammenhang noch keine Ursache ist",
+    "<b>Code lesen:</b> eine neue Variable mit <code>mutate()</code> und <code>rec()</code> lesen und ihre Regel anpassen; mit <code>crosstab()</code> und <code>percentages =</code> die passende Prozentbasis einstellen; eine Skala mit <code>rules = \"rev\"</code> umpolen"
+  ],
+  "bekannt": "der Startblock und <code>&lt;-</code> (Sitzung 1), die Pipe und die Codes der Wahlabsicht <code>pv01</code> (Sitzung 2), <code>frequency()</code> mit Valid % und fehlenden Werten, und dass dieselbe Zahl mit verschiedenen Basen verschiedene Prozent ergibt (Sitzung 3, Wahlabsicht), die Kette aus mehreren Schritten, <code>drop_na()</code>, <code>to_label()</code> und Balken auf 100 % (Sitzung 4). Aus der Vorlesung kennst du abhängige und unabhängige Variable (AV und UV) und den Chi-Quadrat-Test. Alle Zahlen sind ungewichtet; wie man gewichtet, lernst du in Sitzung 6.",
+  "content": "s05",
+  "ersetzungen": [
+    [
+      "In RStudio führst du ihn zu Beginn aus, in der Code-Werkstatt hier ist das schon erledigt.",
+      "In RStudio führst du ihn zu Beginn aus. Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal."
+    ],
+    [
+      "Hier auf der Seite beginnt jede Code-Werkstatt mit dem frisch geladenen <code>allbus</code>. Darum bildet jede Vorlage ihre neuen Variablen selbst, am Anfang ihrer Kette.",
+      "Jede Vorlage dieses Kapitels bildet ihre neuen Variablen selbst, am Anfang ihrer Kette. So läuft sie für sich allein, egal welche Vorlagen du vorher ins Journal geholt und ausgeführt hast (mehr in <a href=\"#k2-neu\">Warum jede Vorlage neu umkodiert</a>)."
+    ],
+    [
+      "(<a href=\"#g1\">Grundlage 1</a>, Kurz überlegen)",
+      "(<a href=\"#k1-zuschnitt\">Gruppen zuschneiden</a>, Einteilung E)"
+    ],
+    [
+      "steht in <a href=\"#g1\">Grundlage 1</a>.",
+      "steht in <a href=\"#g1\">Verstehen zu Aufgabe 1</a>."
+    ],
+    [
+      "ist Thema der <a href=\"#g2\">Grundlagen 2</a> und <a href=\"#g3\">3</a>.",
+      "erklären <a href=\"#g2\">Verstehen zu Aufgabe 2</a> und <a href=\"#g3\">zu Aufgabe 3</a>."
+    ],
+    [
+      ">aus Schritt 2</T>",
+      ">aus Schritt 3</T>"
+    ],
+    [
+      "beschriftet deine Regel aus Schritt 2",
+      "beschriftet deine Regel aus Schritt 3"
+    ]
+  ]
+}

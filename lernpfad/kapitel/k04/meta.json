@@ -1,0 +1,16 @@
+{
+  "nr": 4,
+  "titel": "Daten sehen",
+  "leitfrage": "Welche Formen können Antworten haben – und wie zeigst du sie, ohne dass die Grafik mehr verspricht als die Daten?",
+  "ziele": [
+    "eine Verteilung lesen: Wo liegt der Gipfel, wie breit ist sie, läuft sie zu einer Seite aus?",
+    "typische Formen erkennen: symmetrisch, linksschief, rechtsschief, mehrgipflig",
+    "Mittelwert, Median und Boxplot im Bild verstehen",
+    "zur Frage die passende Grafik wählen",
+    "eine Kette in R lesen und anpassen: <code>%&gt;%</code>, <code>to_label()</code>, <code>+</code>, <code>drop_na()</code>",
+    "erklären, warum Hineinzoomen und Abschneiden zu verschiedenen Ergebnissen führen"
+  ],
+  "bekannt": "Startblock (Sitzung 1), die Pipe mit einem Schritt (Sitzung 2), <code>frequency()</code>, <code>describe()</code>, Median und fehlende Werte (Sitzung 3).",
+  "content": "s04",
+  "ersetzungen": [["In der Code-Werkstatt hier auf der Seite ist das schon erledigt.", "Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal."]]
+}

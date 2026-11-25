@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>{{NR}} · {{TITEL}} – Statistikatlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../engine/stil.css?v={{V}}">
+<link rel="stylesheet" href="verstehen.css?v={{V}}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='13' y='5' width='13' height='10' rx='3' fill='%23F0A27E' stroke='%231E2D3C' stroke-width='3.5'/%3E%3Crect x='38' y='5' width='13' height='10' rx='3' fill='%23F0A27E' stroke='%231E2D3C' stroke-width='3.5'/%3E%3Crect x='4' y='13' width='56' height='46' rx='11' fill='%23FFD2BC' stroke='%231E2D3C' stroke-width='4'/%3E%3Ccircle cx='16' cy='42' r='4' fill='%23F4A3B4'/%3E%3Ccircle cx='48' cy='42' r='4' fill='%23F4A3B4'/%3E%3Ccircle cx='23' cy='33' r='4.5' fill='%231E2D3C'/%3E%3Ccircle cx='41' cy='33' r='4.5' fill='%231E2D3C'/%3E%3Cpath d='M25 43q7 6 14 0' fill='none' stroke='%231E2D3C' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="app-kopf">
+  <a class="marke" href="../../">Statistikatlas<span>.</span></a>
+  <nav class="app-reiter" aria-label="Ansicht"><a aria-current="page" href="./">Lernpfad</a><a href="../../?ansicht=karte">Freie Karte</a></nav>
+</header>
+
+<div class="rahmen">
+  <nav class="sitzungen" aria-label="Sitzungen">
+    <p class="eyebrow">Lernpfad</p>
+    <ol>
+{{SITZUNGEN}}
+    </ol>
+  </nav>
+
+  <main id="inhalt" class="kapitel">
+    <div class="kopf">
+      <span class="st l c{{NR}}" aria-hidden="true">{{NR}}</span>
+      <div>
+        <p class="eyebrow">Sitzung {{NR}}</p>
+        <h1>{{TITEL}}</h1>
+        <p class="leitfrage">{{LEITFRAGE}}</p>
+      </div>
+    </div>
+
+    <div class="mini-fortschritt" id="mini-fortschritt" aria-hidden="true"></div>
+    <div class="reiter" role="tablist" aria-label="Teile des Kapitels">
+      <button role="tab" id="tab-aufgaben" aria-controls="p-aufgaben" aria-selected="true">Aufgaben</button>
+      <button role="tab" id="tab-verstehen" aria-controls="p-verstehen" aria-selected="false" tabindex="-1">Verstehen</button>
+      <button role="tab" id="tab-mitnehmen" aria-controls="p-mitnehmen" aria-selected="false" tabindex="-1">Mitnehmen</button>
+    </div>
+
+    <section role="tabpanel" id="p-aufgaben" aria-labelledby="tab-aufgaben">
+      <details class="ziele">
+        <summary>Was du nach dieser Sitzung kannst</summary>
+        <ul>
+{{ZIELE}}
+        </ul>
+        <p class="klein">Schon bekannt: {{BEKANNT}}</p>
+      </details>
+      <div id="datei-hinweis" class="datei-hinweis" hidden>
+        <span>Für das Lernjournal und die Konsole brauchst du deine ALLBUS-Datei. Sie bleibt auf deinem Rechner.</span>
+        <button type="button" class="knopf klein-knopf" data-datei>ALLBUS-Datei wählen</button>
+      </div>
+      <div class="modus-reihe"><span class="modus-label" id="modus-l">Code-Blöcke:</span><div class="j-modus" role="group" aria-labelledby="modus-l"><button type="button" data-vorlage="mit" aria-pressed="true">Mit Vorlagen</button><button type="button" data-vorlage="selbst" aria-pressed="false">Erst selbst versuchen</button></div></div>
+      <p class="so-gehts"><span aria-hidden="true">▤</span> Code holst du mit <b>→ Journal</b> in dein Lernjournal rechts, passt die gelben Stellen an und führst ihn dort aus. Das Journal nimmst du am Ende als Dokument mit.</p>
+      <div id="aufgaben"></div>
+    </section>
+
+    <section role="tabpanel" id="p-verstehen" aria-labelledby="tab-verstehen" hidden></section>
+    <section role="tabpanel" id="p-mitnehmen" aria-labelledby="tab-mitnehmen" hidden></section>
+  </main>
+
+  <aside class="fortschritt" aria-label="Fortschritt in diesem Kapitel" id="fortschritt"><div id="f-aufgaben"></div><div id="f-verstehen" hidden></div></aside>
+</div>
+
+<aside id="mehr" class="mehr-panel" aria-labelledby="mehr-titel" hidden tabindex="-1">
+  <div class="mehr-kopf"><h2 id="mehr-titel"></h2><button type="button" class="zu" aria-label="Schließen">✕</button></div>
+  <div class="mehr-inhalt"></div>
+</aside>
+
+<button type="button" id="ap-auf" class="ap-auf" aria-expanded="false" aria-controls="arbeitsplatz"><span aria-hidden="true">▤</span> Lernjournal und Konsole <span id="ap-zahl" class="ap-zahl"></span></button>
+
+<div class="ap-schleier" id="ap-schleier" hidden aria-hidden="true"></div>
+<aside id="arbeitsplatz" class="arbeitsplatz" aria-label="Arbeitsplatz" hidden>
+  <div class="ap-griff" aria-hidden="true" title="Breite ziehen"></div>
+  <button type="button" class="ap-lasche" id="ap-lasche" aria-label="Journal zur Seite schieben, Aufgabe ansehen" title="Zur Seite schieben (oder ziehen)"><span aria-hidden="true">›</span></button>
+  <section class="journal" aria-labelledby="j-titel">
+    <div class="j-kopf">
+      <h2 id="j-titel">Mein Lernjournal <code>sitzung{{NR}}.qmd</code></h2>
+      <div class="j-modus" role="group" aria-label="Ansicht des Journals">
+        <button type="button" aria-pressed="true" data-modus="bearbeiten">Bearbeiten</button><button type="button" aria-pressed="false" data-modus="vorschau">Vorschau</button>
+      </div>
+      <details class="j-speichern">
+        <summary title="Lernjournal herunterladen">↓ Speichern</summary>
+        <div class="j-speichern-menue">
+          <p id="j-status" class="j-status">Wird im Browser gespeichert.</p>
+          <button type="button" class="klein-knopf" id="j-qmd" title="Für RStudio: in den Ordner mit der ALLBUS-Datei legen, öffnen, Render klicken">↓ .qmd für RStudio</button>
+          <button type="button" class="klein-knopf" id="j-html">↓ HTML mit Grafiken</button>
+        </div>
+      </details>
+      <button type="button" id="ap-zurueck" class="ap-zurueck">← Zur Aufgabe</button>
+      <button type="button" id="ap-zu" class="ap-zu" aria-label="Arbeitsplatz schließen">✕</button>
+    </div>
+    <section class="ap-jetzt auftrag" id="ap-jetzt" aria-label="Aktueller Arbeitsauftrag">
+      <div class="af-kopf">
+        <button type="button" class="af-pfeil" id="af-zurueck" aria-label="Voriger Schritt">‹</button>
+        <button type="button" class="af-titel" id="af-titel" aria-expanded="false" aria-controls="af-inhalt"></button>
+        <button type="button" class="af-pfeil" id="af-vor" aria-label="Nächster Schritt">›</button>
+      </div>
+      <div class="af-inhalt" id="af-inhalt"></div>
+      <button type="button" class="af-mehr" id="af-mehr" aria-controls="af-inhalt" aria-expanded="false"></button>
+    </section>
+    <section class="j-env rs-env" aria-label="Environment und History">
+      <div class="rs-tabs" role="tablist" aria-label="Environment-Bereich">
+        <button role="tab" id="envt-env" aria-controls="envp-env" aria-selected="true">Environment</button>
+        <button role="tab" id="envt-hist" aria-controls="envp-hist" aria-selected="false" tabindex="-1">History</button>
+        <span class="env-zahl" id="env-zahl" aria-live="polite"></span>
+        <button type="button" class="env-klapp" id="env-klapp" aria-expanded="true" title="Environment ein- oder ausklappen">▾</button>
+      </div>
+      <div role="tabpanel" id="envp-env" aria-labelledby="envt-env">
+        <div class="rs-leiste">
+          <button type="button" class="rs-ikon" id="env-besen" title="Alle Objekte entfernen (wie der Besen in RStudio)" aria-label="Environment leeren"></button>
+          <span class="rs-trenn"></span>
+          <span class="rs-drop" title="Sprache">R ▾</span>
+          <span class="rs-drop" title="Umgebung">Global Environment ▾</span>
+          <span class="rs-platz"></span>
+          <div class="rs-ansicht" role="group" aria-label="Ansicht"><button type="button" data-env-ansicht="list" aria-pressed="true">List</button><button type="button" data-env-ansicht="grid" aria-pressed="false">Grid</button></div>
+          <button type="button" class="rs-ikon" id="env-neu" title="Aktualisieren" aria-label="Environment aktualisieren"></button>
+          <input type="search" id="env-such" class="rs-such" placeholder="🔍" aria-label="Objekte suchen" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+        </div>
+        <div id="env-body" class="rs-body"><p class="rs-leer">Environment is empty</p></div>
+      </div>
+      <div role="tabpanel" id="envp-hist" aria-labelledby="envt-hist" hidden>
+        <div id="hist-body" class="rs-body rs-histbox"></div>
+      </div>
+    </section>
+    <div class="zieh zieh-env" id="zieh-env" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="Höhe des Environments ändern" title="Ziehen: Environment größer oder kleiner"><span></span></div>
+    <div class="j-werkzeug"><div id="j-einfuegen"></div>
+      <details class="kuerzel"><summary>Tastenkürzel</summary><ul>
+        <li><kbd>Strg</kbd>/<kbd>Cmd</kbd>+<kbd>Enter</kbd> Block ausführen</li>
+        <li><kbd>Strg</kbd>/<kbd>Cmd</kbd>+<kbd>Umschalt</kbd>+<kbd>M</kbd> Pipe <code>%&gt;%</code></li>
+        <li><kbd>Alt</kbd>+<kbd>-</kbd> Pfeil <code>&lt;-</code></li>
+        <li><kbd>Enter</kbd> nach <code>%&gt;%</code>, <code>+</code> oder in Klammern rückt ein</li>
+        <li><code>(</code> und <code>"</code> schließen sich selbst</li>
+        <li><kbd>Strg</kbd>/<kbd>Cmd</kbd>+<kbd>Umschalt</kbd>+<kbd>C</kbd> Kommentar an/aus</li>
+        <li>Fängt der Browser ein Kürzel ab (etwa Strg+Umschalt+M in Firefox): Die Knöpfe in der Leiste tun dasselbe. Mac: F1 mit <kbd>fn</kbd>.</li>
+        <li><kbd>Tab</kbd> Vorschläge: Funktionen, Variablen mit ihrer Frage, eigene Objekte; in einer Klammer die Argumente. <kbd>↑</kbd><kbd>↓</kbd> wählen, <kbd>Enter</kbd> übernehmen</li>
+        <li><kbd>F1</kbd> Hilfe zur Funktion am Cursor</li>
+        <li>Konsole: <kbd>Enter</kbd> führt aus, wenn der Befehl fertig ist; sonst neue Zeile. <kbd>↑</kbd> holt frühere Befehle.</li>
+      </ul></details></div>
+    <div id="j-inhalt" class="j-inhalt"></div>
+  </section>
+  <section class="unten" aria-label="Konsole und Environment">
+    <div class="zieh zieh-unten" id="zieh-unten" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="Höhe von Konsole, Plots und Help ändern" title="Ziehen: Konsole größer oder kleiner"><span></span></div>
+    <div class="k-reiter" role="tablist" aria-label="Unterer Bereich">
+      <button role="tab" id="kt-konsole" aria-controls="kp-konsole" aria-selected="true">Konsole</button>
+      <button role="tab" id="kt-plots" aria-controls="kp-plots" aria-selected="false" tabindex="-1">Plots <span id="plot-zahl"></span></button>
+      <button role="tab" id="kt-hilfe" aria-controls="kp-hilfe" aria-selected="false" tabindex="-1">Help</button>
+      <span id="r-status" class="r-status">R ist noch nicht gestartet</span>
+      <button type="button" id="unten-klapp" class="unten-klapp" aria-expanded="true" aria-controls="kp-konsole" title="Unteren Bereich ein- oder ausklappen">▾</button>
+    </div>
+    <div role="tabpanel" id="kp-konsole" aria-labelledby="kt-konsole" class="k-konsole">
+      <div id="k-log" class="k-log" role="log" aria-live="polite" aria-label="Ausgabe der Konsole"></div>
+      <div id="k-einfuegen"></div>
+      <div class="k-eingabe">
+        <span class="prompt" aria-hidden="true">&gt;</span>
+        <textarea id="k-text" rows="1" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" aria-label="R-Befehl. Enter führt aus, Umschalt+Enter macht eine neue Zeile, Pfeil hoch holt frühere Befehle."></textarea>
+        <button type="button" id="k-los" class="knopf run">Ausführen</button>
+      </div>
+    </div>
+    <div role="tabpanel" id="kp-plots" aria-labelledby="kt-plots" class="k-plots" hidden>
+      <p class="leer" id="plot-leer">Grafiken aus der Konsole erscheinen hier. Grafiken aus dem Journal stehen direkt unter ihrem Code.</p>
+      <canvas id="plot-bild" hidden></canvas>
+      <div class="plot-nav" hidden id="plot-nav"><button type="button" class="knopf klein-knopf" id="plot-zurueck">← früher</button><span id="plot-nr"></span><button type="button" class="knopf klein-knopf" id="plot-vor">später →</button></div>
+    </div>
+    <div role="tabpanel" id="kp-hilfe" aria-labelledby="kt-hilfe" class="k-hilfe" hidden>
+      <div class="h-leiste">
+        <button type="button" class="klein-knopf" id="h-zurueck" disabled aria-label="Zurück">←</button>
+        <button type="button" class="klein-knopf" id="h-home">Pakete</button>
+        <input type="search" id="h-such" placeholder="Hilfe suchen: frequency, drop_na, geom_bar …" aria-label="Hilfe suchen" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+        <button type="button" class="klein-knopf" id="h-gross" aria-pressed="false">⤢ größer</button>
+      </div>
+      <div id="h-inhalt" class="h-inhalt"><p class="leer">Die Hilfe erscheint, sobald R gestartet ist.</p></div>
+    </div>
+  </section>
+</aside>
+
+<input type="file" id="datei" accept=".sav" hidden>
+<script>window.KMETA = {{META}};</script>
+<script src="daten.js?v={{V}}"></script>
+<script src="kapitel.js?v={{V}}"></script>
+<div id="ac" class="ac" hidden></div>
+<section id="viewer" class="viewer" hidden aria-labelledby="viewer-titel">
+  <div class="viewer-kopf"><span class="viewer-reiter"><b id="viewer-titel"></b></span><button type="button" class="zu" aria-label="Datenansicht schließen">✕</button></div>
+  <div class="viewer-leiste">
+    <span id="viewer-info"></span><span class="rs-platz"></span>
+    <button type="button" class="klein-knopf" id="viewer-rzurueck">← 100 Zeilen</button><button type="button" class="klein-knopf" id="viewer-rvor">100 Zeilen →</button>
+    <button type="button" class="klein-knopf" id="viewer-czurueck">‹</button><span id="viewer-cols"></span><button type="button" class="klein-knopf" id="viewer-cvor">›</button>
+  </div>
+  <div id="viewer-tab" class="viewer-tab" tabindex="0"></div>
+</section>
+<script src="../engine/hilfe.js?v={{V}}"></script>
+<script src="../engine/tasten.js?v={{V}}"></script>
+<script src="../engine/umgebung.js?v={{V}}"></script>
+<script src="../engine/engine.js?v={{V}}"></script>
+<script src="verstehen.js?v={{V}}"></script>
+</body>
+</html>
