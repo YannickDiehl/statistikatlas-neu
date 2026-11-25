@@ -10,9 +10,9 @@ type Checked = Record<string, string> | null;
 export function shelvesSummary(checked: Record<string, string>): string {
   const chosen = MISSING_CODES.map(c => checked[answerId(c.code)] ?? '');
   const open = chosen.filter(v => v === '').length;
-  if (open) return `Noch ${open} ${open === 1 ? 'Stein' : 'Steine'} ohne Regal.`;
+  if (open) return `Noch ${open} ${open === 1 ? 'Code' : 'Codes'} ohne Regal.`;
   const right = MISSING_CODES.filter((c, i) => chosen[i] === String(c.shelf)).length;
-  return right === MISSING_CODES.length ? 'Alle sieben richtig sortiert.' : `${right} von 7 richtig. Unter jedem Stein steht, worauf du achten kannst.`;
+  return right === MISSING_CODES.length ? 'Alle sieben richtig sortiert.' : `${right} von 7 richtig. Unter jedem Code steht, worauf du achten kannst.`;
 }
 
 /** Feedback texts of the stones put on the wrong shelf, for the live summary („−42 DATENFEHLER: …“). */

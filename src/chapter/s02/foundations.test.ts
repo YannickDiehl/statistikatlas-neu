@@ -54,19 +54,19 @@ test('1a: nine stones are buttons in reading order with a live explanation and a
   const html = render(Foundation1);
   const buttons = [...html.matchAll(/<button type="button" class="s2-stein[^"]*" aria-pressed="false" aria-label="([^"]+)"/g)].map(m => m[1]);
   assert.deepEqual(buttons, [
-    'Reihe 1, Turm sex: 2 FRAU', 'Reihe 1, Turm ls01: 8', 'Reihe 1, Turm rh08b: 3 GAR NICHTS',
-    'Reihe 2, Turm sex: 1 MANN', 'Reihe 2, Turm ls01: 0 GANZ UNZUFRIEDEN', 'Reihe 2, Turm rh08b: 2 ETWAS',
-    'Reihe 3, Turm sex: 2 FRAU', 'Reihe 3, Turm ls01: 7', 'Reihe 3, Turm rh08b: leer, Aufkleber KEINE ANGABE',
+    'Zeile 1, Variable sex: 2 FRAU', 'Zeile 1, Variable ls01: 8', 'Zeile 1, Variable rh08b: 3 GAR NICHTS',
+    'Zeile 2, Variable sex: 1 MANN', 'Zeile 2, Variable ls01: 0 GANZ UNZUFRIEDEN', 'Zeile 2, Variable rh08b: 2 ETWAS',
+    'Zeile 3, Variable sex: 2 FRAU', 'Zeile 3, Variable ls01: 7', 'Zeile 3, Variable rh08b: fehlt, Wertelabel KEINE ANGABE',
   ]);
-  assert.match(html, /<p class="erkl s2-erkl" aria-live="polite">Wähl einen Stein aus\.<\/p>/);
-  const table = textOf(html.match(/<table class="daten"><caption>Drei Bögen als Datenmatrix[\s\S]*?<\/table>/)?.[0] ?? '');
+  assert.match(html, /<p class="erkl s2-erkl" aria-live="polite">Wähl einen Wert aus, im Bild einen Stein\.<\/p>/);
+  const table = textOf(html.match(/<table class="daten"><caption>Drei Fragebögen als Datenmatrix[\s\S]*?<\/table>/)?.[0] ?? '');
   assert.match(table, /1 2 FRAU 8 3 GAR NICHTS 2 1 MANN 0 GANZ UNZUFRIEDEN 2 ETWAS 3 2 FRAU 7 fehlt \(KEINE ANGABE\)/);
-  assert.match(textOf(html), /Jede Zeile ist ein Fall, jede Spalte eine Variable, jede Zelle ein Wert\. Die Bögen sind ein Beispiel mit drei Personen\./);
+  assert.match(textOf(html), /Jede Zeile ist ein Fall, jede Spalte eine Variable, jede Zelle ein Wert\. Die Fragebögen sind ein Beispiel mit drei Personen\./);
 });
 
 test('1b: the tower question with feedback per wrong option', () => {
   for (const [v, text] of Object.entries(G1_TURM_WRONG)) assert.ok(unescape(render(Foundation1, { g1_turm: v })).includes(text), v);
-  assert.match(textOf(render(Foundation1, { g1_turm: '5246' })), /Richtig\. Ein Stein für jede befragte Person, also 5\.246/);
+  assert.match(textOf(render(Foundation1, { g1_turm: '5246' })), /Richtig\. Einen Wert für jede befragte Person, also 5\.246/);
 });
 
 test('2a: the pa02a picture appears only after „1 oder 5?“ is answered', () => {
@@ -89,7 +89,7 @@ test('3a: four sheets, each with its own question; the gaps picture after all fo
   const before = render(Foundation3);
   for (const s of SHEETS) {
     assert.match(before, new RegExp(`<form class="kurzueberlegen" id="${s.id}"`));
-    assert.ok(imageNames(before).some(n => n.startsWith(`Bogen ${s.letter}: `)), s.letter);
+    assert.ok(imageNames(before).some(n => n.startsWith(`Fragebogen ${s.letter}: `)), s.letter);
   }
   assert.ok(!imageNames(before).includes(ALT.luecken));
   assert.ok(!imageNames(render(Foundation3, { g3_a: '0', g3_b: '-9', g3_c: '-42' })).includes(ALT.luecken));
@@ -111,12 +111,12 @@ test('3b and 3c: table of reasons with 17 codes; three cases of error or convent
 test('4b: three switches with aria-pressed, live text, picture text and table', () => {
   const html = render(Foundation4);
   const switches = [...html.matchAll(/<button type="button" aria-pressed="(true|false)">([^<]*)/g)].map(m => `${m[1]} ${m[2].trim()}`);
-  assert.deepEqual(switches, ['true Original', 'false Aufkleber wird zum Wert', 'false Aufkleber abziehen']);
+  assert.deepEqual(switches, ['true Original', 'false Wertelabel wird zum Wert', 'false Wertelabel entfernen']);
   assert.match(html, /<p class="erkl" aria-live="polite">So liegt <code>sex<\/code> im ALLBUS/);
   assert.ok(imageNames(html).includes(convertText('original')));
-  assert.equal(convertText('original'), 'Turm sex, Typ dbl+lbl: 1 MANN, 2 FRAU, 2 FRAU, ein leerer Stein mit dem Aufkleber KEINE ANGABE. Die Steine sind ein Beispiel mit vier Befragten.');
-  assert.match(convertText('label'), /^Turm sex, Typ fct: MANN, FRAU, FRAU, ein leerer Stein ohne Aufkleber, NA\. Der Aufkleber KEINE ANGABE liegt abgefallen daneben\./);
-  assert.match(convertText('numeric'), /^Turm sex, Typ dbl: 1, 2, 2, ein leerer Stein ohne Aufkleber, NA\./);
+  assert.equal(convertText('original'), 'Variable sex, Typ dbl+lbl: 1 MANN, 2 FRAU, 2 FRAU, ein fehlender Wert mit dem Wertelabel KEINE ANGABE. Die Werte sind ein Beispiel mit vier Befragten.');
+  assert.match(convertText('label'), /^Variable sex, Typ fct: MANN, FRAU, FRAU, ein fehlender Wert ohne Wertelabel, NA\. Das Wertelabel KEINE ANGABE liegt abgefallen daneben\./);
+  assert.match(convertText('numeric'), /^Variable sex, Typ dbl: 1, 2, 2, ein fehlender Wert ohne Wertelabel, NA\./);
   assert.match(textOf(html), /Typ: dbl\+lbl Typ: fct Typ: dbl/);
   assert.equal(CONVERT_STATES.length, 3);
   assert.ok(imageNames(html).includes(ALT.typen));
@@ -141,15 +141,15 @@ test('R lesen: three cards, the reading aid, the filter picture and the codebook
   assert.ok(imageNames(html).some(n => n.startsWith('frauen, das Objekt')));
   const t = textOf(html);
   for (const w of ['Label:', 'Values:', 'Value labels:', 'Missing values: … (n = 81)', 'Observations: 5246']) assert.ok(t.includes(w), w);
-  assert.match(t, /Genauer erklärt: == und =, ein Schritt oder eine Kette/);
+  assert.match(t, /Genauer erklärt: == und =, eine Pipe oder mehrere/);
 });
 
 test('review: each 3a legend carries the picture text; the live region announces a sentence, the image sits outside it', () => {
   const before = render(Foundation3);
-  for (const s of SHEETS) assert.ok(unescape(before).includes(`>Bogen ${s.letter}, ${s.picture}: Was steht im Datensatz?</legend>`), s.letter);
+  for (const s of SHEETS) assert.ok(unescape(before).includes(`>Fragebogen ${s.letter}, ${s.picture}: Was steht im Datensatz?</legend>`), s.letter);
   const after = render(Foundation3, SHEETS_DONE);
   const live = after.match(/<p class="hilfe-zeile" aria-live="polite">([^<]*)<\/p>/)?.[1] ?? '';
-  assert.equal(live, 'Alle vier Bögen aufgelöst: Darunter steht jetzt das Bild der Türme.');
+  assert.equal(live, 'Alle vier Fragebögen aufgelöst: Darunter steht jetzt das Bild der Variablen.');
   assert.doesNotMatch(after, /aria-live="polite"[^>]*>(?:(?!<\/p>)[\s\S])*role="img"/);
   assert.ok(imageNames(after).includes(ALT.luecken));
 });

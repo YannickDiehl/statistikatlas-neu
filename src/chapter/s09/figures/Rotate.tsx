@@ -14,23 +14,23 @@ export const sse = (b: number) => EIGHT.reduce((s, p) => s + (p.y - (CY + b * (p
 /** Feedback for a slope (sitzung09.md, B4). */
 export function rotateFeedback(b: number): string {
   const s = num(sse(b));
-  if (b === 0) return 'Steigung 0: Die Gerade zeigt allen den Mittelwert 7. Fehlerquadrate: 18. So gut kommt man ohne die Lage aus.';
-  if (b === 1) return 'Steigung 1: Die Gerade aus R. Fehlerquadrate: 6. Keine andere Steigung kommt mit weniger aus. Genau das heißt kleinste Quadrate.';
-  if (b === 2) return 'Steigung 2: Fehlerquadrate 18, genauso viel wie mit dem Mittelwert. Zu steil ist ebenso schlecht wie flach.';
-  if ((b > 0 && b < 1) || (b > 1 && b < 2)) return `Steigung ${de(b, 2)}: Fehlerquadrate ${s}. Weniger als mit dem Mittelwert, aber mehr als 6. ${b < 1 ? 'Steiler' : 'Flacher'} wird es besser.`;
-  return `Steigung ${de(b, 2)}: Fehlerquadrate ${s}, mehr als mit dem Mittelwert. Diese Gerade ist schlechter als gar keine.`;
+  if (b === 0) return 'Steigung 0: Die Gerade zeigt allen den Mittelwert 7. Quadratsumme der Residuen: 18. So gut kommt man ohne die Lage aus.';
+  if (b === 1) return 'Steigung 1: Die Gerade aus R. Quadratsumme: 6. Keine andere Steigung kommt mit weniger aus. Genau das heißt kleinste Quadrate.';
+  if (b === 2) return 'Steigung 2: Quadratsumme 18, genauso viel wie mit dem Mittelwert. Zu steil ist ebenso schlecht wie flach.';
+  if ((b > 0 && b < 1) || (b > 1 && b < 2)) return `Steigung ${de(b, 2)}: Quadratsumme ${s}. Weniger als mit dem Mittelwert, aber mehr als 6. ${b < 1 ? 'Steiler' : 'Flacher'} wird es besser.`;
+  return `Steigung ${de(b, 2)}: Quadratsumme ${s}, mehr als mit dem Mittelwert. Diese Gerade ist schlechter als gar keine.`;
 }
 
 /** Text version B4 (sitzung09.md). */
-export const ROTATE_TEXT = 'Regler für die Steigung einer Geraden durch den Schwerpunkt 3 und 7. Zu jeder Steigung die Summe der Fehlerquadrate: Steigung 0 ergibt 18, Steigung 0,5 ergibt 9, Steigung 1 ergibt 6, Steigung 1,5 ergibt 9, Steigung 2 ergibt 18. Die kleinste Summe, 6, gibt es bei Steigung 1, der Geraden aus R.';
+export const ROTATE_TEXT = 'Regler für die Steigung einer Geraden durch den Schwerpunkt 3 und 7, den Punkt aus den beiden Mittelwerten. Zu jeder Steigung die Quadratsumme der Residuen: Steigung 0 ergibt 18, Steigung 0,5 ergibt 9, Steigung 1 ergibt 6, Steigung 1,5 ergibt 9, Steigung 2 ergibt 18. Die kleinste Summe, 6, gibt es bei Steigung 1, der Geraden aus R.';
 
-const valueText = (b: number) => `Steigung ${de(b, 2)}, Fehlerquadrate ${num(sse(b))}`;
+const valueText = (b: number) => `Steigung ${de(b, 2)}, Quadratsumme ${num(sse(b))}`;
 
-/** The bar „Summe der Fehlerquadrate“ 0 to 54 with marks for the mean line (18) and, once seen, the best line (6). */
+/** The bar „Quadratsumme der Residuen“ 0 to 54 with marks for the mean line (18) and, once seen, the best line (6). */
 function SseBar({ value, best }: { value: number; best: boolean }) {
   const w = 300, l = 12, r = 12, iw = w - l - r, x = (v: number) => l + v / SSE_MAX * iw;
   return <svg viewBox={`0 0 ${w} 92`} width="100%" aria-hidden="true" focusable="false" className="s9-leiste">
-    <T x={l} y={14} textAnchor="start" fill={C.ink} fontWeight={700}>Summe der Fehlerquadrate</T>
+    <T x={l} y={14} textAnchor="start" fill={C.ink} fontWeight={700}>Quadratsumme der Residuen</T>
     <rect x={l} y={30} width={iw} height={18} rx={4} fill="#fff" stroke={C.grayLight} />
     <rect x={l} y={30} width={x(value) - l} height={18} rx={4} fill={C.orange} />
     <T x={Math.min(x(value) + 4, w - 4)} y={44} textAnchor={x(value) > w - 40 ? 'end' : 'start'} fill={C.ink} fontWeight={700}>{num(value)}</T>
@@ -101,8 +101,8 @@ export function Rotate() {
     <details className="genauer">
       <summary>Alle Stellungen als Tabelle</summary>
       <table className="daten">
-        <caption>Steigung und Summe der Fehlerquadrate</caption>
-        <thead><tr><th scope="col">Steigung</th><th scope="col">Konstante</th><th scope="col">Fehlerquadrate</th></tr></thead>
+        <caption>Steigung und Quadratsumme der Residuen</caption>
+        <thead><tr><th scope="col">Steigung</th><th scope="col">Konstante</th><th scope="col">Quadratsumme</th></tr></thead>
         <tbody>{SLOPES.map((s, i) => <tr key={s}><td>{de(s, 2)}</td><td>{num(CY - CX * s)}</td><td>{num(SSE_BY_SLOPE[i])}</td></tr>)}</tbody>
       </table>
     </details>

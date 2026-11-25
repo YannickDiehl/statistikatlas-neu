@@ -73,7 +73,7 @@ test('foundation 1: machine starts empty, text version with both tables and stac
   assert.match(t, /12 7,10 7,70 −0,60 −1,33 bis 0,13 −1,62 0,11/);
   assert.match(t, /8 bis 9 Stunden: 214/);
   assert.match(t, /−1,2 bis −1,0 Punkte: 4/);
-  assert.match(t, /Der Stapel der Arbeitsstunden hat die Form einer Glocke mit dem Gipfel bei 8 bis 9 Stunden/);
+  assert.match(t, /Die Stichprobenverteilung der Arbeitsstunden hat die Form einer Glocke \(Normalverteilung\) mit dem Gipfel bei 8 bis 9 Stunden/);
   assert.ok(imageNames(html).some(n => n.includes('liegen 127 mindestens 0,6 Punkte von 0 entfernt (in eine der beiden Richtungen: 63 mit den Frauen vorn, 64 mit den Männern vorn)')));
   assert.match(t, /Normalverteilung: kennst du aus der Vorlesung/);
   assert.match(t, /kennst du aus Sitzung 5 Ein Stück davon kennst du schon/);
@@ -81,9 +81,9 @@ test('foundation 1: machine starts empty, text version with both tables and stac
 
 test('machine text follows the state: empty, the samples drawn, all 1.000', () => {
   assert.match(machineText('dw15', 0), /Noch keine Stichprobe gezogen/);
-  assert.equal(machineText('dw15', 1), 'Stapel der Unterschiede Männer minus Frauen, Arbeitsstunden, nach 1 Stichprobe. Steine je Kiste: 1 bei 8 bis 9.');
+  assert.equal(machineText('dw15', 1), 'Stapel der Unterschiede Männer minus Frauen, Arbeitsstunden, nach 1 Stichprobe. Kästchen je Klasse: 1 bei 8 bis 9.');
   assert.match(machineText('ls01', 12), /nach 12 Stichproben/);
-  assert.match(machineText('ls01', 1000), /ein Stein für 10 Stichproben, rote Linie beim wahren Unterschied von −0,01/);
+  assert.match(machineText('ls01', 1000), /ein Kästchen für 10 Stichproben, rote Linie beim wahren Unterschied von −0,01/);
   assert.equal(firstStacks('dw15', 20).reduce((a, b) => a + b, 0), 20);
   assert.ok(SAMPLES.dw15.every(s => s.diff > 0));
   assert.match(MACHINE.dw15.all, /keiner liegt bei 0 oder darunter/);
@@ -109,8 +109,8 @@ test('n slider: text per step, significance from 400 on, fixed effect size', () 
 });
 
 test('pairs, F lab and F as building blocks', () => {
-  assert.equal(alarmText(5), '10 Paare. Wahrscheinlichkeit für mindestens einen Fehlalarm, wenn es nirgends einen Unterschied gibt: 40,1 %');
-  assert.equal(alarmText(2), '1 Paar. Wahrscheinlichkeit für mindestens einen Fehlalarm, wenn es nirgends einen Unterschied gibt: 5,0 %');
+  assert.equal(alarmText(5), '10 Paare. Wahrscheinlichkeit für mindestens einen Fehlalarm (Fehler 1. Art), wenn es nirgends einen Unterschied gibt: 40,1 %');
+  assert.equal(alarmText(2), '1 Paar. Wahrscheinlichkeit für mindestens einen Fehlalarm (Fehler 1. Art), wenn es nirgends einen Unterschied gibt: 5,0 %');
   assert.equal(labLine(labRow(1, 1)), 'Streuung zwischen (je Freiheitsgrad) 6 ÷ Streuung innerhalb (je Freiheitsgrad) 2 = F 3,00, p = 0,080, η² 0,29');
   assert.equal(labLine(labRow(0.5, 2)), 'Streuung zwischen (je Freiheitsgrad) 24 ÷ Streuung innerhalb (je Freiheitsgrad) 0,5 = F 48,00, p < 0,001, η² 0,86');
   assert.equal(labFeedback(labRow(2, 0)), F_LAB_FEEDBACK.none);
@@ -118,7 +118,7 @@ test('pairs, F lab and F as building blocks', () => {
   assert.equal(labFeedback(labRow(2, 1)), F_LAB_FEEDBACK.small);
   for (const r of F_LAB) assert.ok(labFeedback(r), `${r.s} ${r.a}`);
   const t = textOf(render(Foundation3));
-  assert.match(t, /3 Paare\. Wahrscheinlichkeit für mindestens einen Fehlalarm, wenn es nirgends einen Unterschied gibt: 14,3 %/);
+  assert.match(t, /3 Paare\. Wahrscheinlichkeit für mindestens einen Fehlalarm \(Fehler 1\. Art\), wenn es nirgends einen Unterschied gibt: 14,3 %/);
   assert.match(t, /Doppelter Abstand und doppelte Streuung ergeben dasselbe F\. Es zählt das Verhältnis\./);
   assert.match(t, /101\.483,969 ÷ 2 = 50\.741,984/);
   assert.match(t, /1\.645\.598,339 ÷ 5\.221 = 315,188/);
@@ -154,7 +154,7 @@ test('formula fractions: the visual fraction is hidden from screen readers, a se
   const t = render(Foundation1), f = render(Foundation3);
   assert.match(t, /<span class="frac" aria-hidden="true">/);
   assert.match(f, /<span class="frac" aria-hidden="true">/);
-  assert.match(t, /<span class="sr-only">Signal geteilt durch Rauschen gleich t<\/span>/);
+  assert.match(t, /<span class="sr-only">Unterschied der Mittelwerte geteilt durch Standardfehler gleich t<\/span>/);
   assert.match(f, /<span class="sr-only">Streuung zwischen den Gruppen geteilt durch Streuung innerhalb der Gruppen gleich F<\/span>/);
 });
 

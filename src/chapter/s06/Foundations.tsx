@@ -33,7 +33,7 @@ export function Foundation1() {
       <MoreDetail summary="Warum befragt man den Osten stärker?">
         <p>Mit nur 17 von 100 kämen im ALLBUS knapp 900 Ostdeutsche zusammen. Für Aussagen über den Osten allein, etwa getrennt nach Alter oder Bildung, wäre das schnell zu wenig. Darum befragt der ALLBUS dort mehr Menschen. Der Preis: Wer alle Befragten einfach zusammenzählt, holt den Osten fast doppelt so stark ins Bild, wie er in Deutschland ist.</p>
       </MoreDetail>
-      <Mixup>Die Überquote ist kein Fehler der Stichprobe, sondern geplant. Das Gewicht repariert keinen Fehler, es gleicht einen bekannten Plan aus.</Mixup>
+      <Mixup>Die disproportionale Stichprobe ist kein Fehler, sondern geplant. Das Gewicht repariert keinen Fehler, es gleicht einen bekannten Plan aus.</Mixup>
     </Card>
 
     <Card id="k1b" step="1b" title="Formel lesen lernen: Wie groß ist ein Gewicht?" tag={{ kind: 'picture', label: 'Im Bild' }}>
@@ -110,9 +110,9 @@ export function Foundation3() {
   return <Foundation id="g3" n={3} title="Paare vergleichen" taskHref="#a3"
     intro="Wenn beide Merkmale eine Reihenfolge haben, kann man mehr sagen als „hängt zusammen“: in welche Richtung. Drei Schritte, etwa 15 Minuten.">
 
-    <Card id="k3a" step="3a" title="Gleichläufig oder gegenläufig?" tag={{ kind: 'picture', label: 'Im Bild' }}>
+    <Card id="k3a" step="3a" title="Konkordant oder diskordant?" tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Zum Beispiel fünf Befragte, A bis E. Jede Person stuft ihre Schicht ein (1 Unterschicht, 2 Arbeiterschicht, 3 Mittelschicht, 4 obere Mittelschicht) und ihre Gesundheit (1 schlecht, 2 weniger gut, 3 zufriedenstellend, 4 gut). A: Schicht 1, Gesundheit 1. B: 2 und 3. C: 3 und 2. D: 3 und 4. E: 4 und 3.</p>
-      <p className="hilfe-zeile">Wähle ein Paar und ordne es ein: gleichläufig, gegenläufig oder Gleichstand.</p>
+      <p className="hilfe-zeile">Wähle ein Paar und ordne es ein: konkordant (gleichläufig), diskordant (gegenläufig) oder Bindung (Gleichstand).</p>
       <PairCounter />
       <InShort>Gamma und Tau-b vergleichen Paare von Befragten. <b>Gleichläufig</b> (Fachbegriff: konkordant): Wer bei einem Merkmal höher liegt, liegt auch beim anderen höher. <b>Gegenläufig</b> (diskordant): umgekehrt. <b>Gleichstand</b> (Bindung): Beide liegen bei mindestens einem Merkmal gleich hoch.</InShort>
       <Mixup>„Gleichläufig“ heißt nicht „gleiche Werte“. B (2 und 3) und D (3 und 4) sind gleichläufig, obwohl keine Zahl gleich ist: D liegt bei beiden höher.</Mixup>
@@ -123,7 +123,7 @@ export function Foundation3() {
       <Think q={THINK.g3b} />
       <InShort><b>Gamma</b> (Fachbegriff: Goodman-Kruskal-Gamma) und <b>Tau-b</b> (Kendall-Tau-b) reichen von −1 bis +1. Gamma lässt Paare mit Gleichstand weg, Tau-b zählt sie im Nenner mit. Darum ist Tau-b dem Betrag nach nie größer als Gamma, meist deutlich kleiner.</InShort>
       <MoreDetail summary="Echte Zahlen und warum Gleichstände so wichtig sind">
-        <p>Bei Variablen mit wenigen Stufen haben sehr viele Paare einen Gleichstand: Von Tausenden Befragten mit „Mittelschicht“ liegt jedes Paar bei der Schicht gleich auf. Gamma übergeht all diese Paare und fällt deshalb groß aus.</p>
+        <p>Bei Variablen mit wenigen Ausprägungen haben sehr viele Paare eine Bindung (einen Gleichstand): Von Tausenden Befragten mit „Mittelschicht“ liegt jedes Paar bei der Schicht gleich auf. Gamma übergeht all diese Paare und fällt deshalb groß aus.</p>
         <p>Im ALLBUS (gewichtet) hängen Schicht und Gesundheit so zusammen: Gamma 0,36, Tau-b 0,24, wenn die Gesundheit so gepolt ist, dass ein höherer Code „besser“ heißt (warum das fürs Vorzeichen wichtig ist, zeigt 3c). Unter denen, die sich der Unterschicht zurechnen, beurteilen 22,9 % ihre Gesundheit als gut oder sehr gut, in der Arbeiterschicht 45,3 %, in der Mittelschicht 58,9 %, in der oberen Mittelschicht 76,8 %, in der Oberschicht 72,6 % (nur 62 Befragte, gewichtet). Spearman-ρ passt ebenfalls zu geordneten Stufen; es kommt in Thema 4.</p>
         <LayerStack />
       </MoreDetail>
@@ -145,9 +145,9 @@ export function Foundation3() {
   </Foundation>;
 }
 
-/** Grundlage 4: Punktwolke, Ausreißer, Drittvariable (4a Punkte-Labor, 4b Ausreißer, 4c Drittvariable). */
+/** Grundlage 4: Streudiagramm, Ausreißer, Drittvariable (4a Punkte-Labor, 4b Ausreißer, 4c Drittvariable). */
 export function Foundation4() {
-  return <Foundation id="g4" n={4} title="Punktwolke, Ausreißer, Drittvariable" taskHref="#a4"
+  return <Foundation id="g4" n={4} title="Streudiagramm, Ausreißer, Drittvariable" taskHref="#a4"
     intro="Wie misst man einen Zusammenhang, wenn die Abstände zwischen den Werten etwas bedeuten, und wann täuscht die Zahl? Drei Schritte, etwa 15 Minuten.">
 
     <Card id="k4a" step="4a" title="Formel lesen lernen: Pearson-r im Punkte-Labor" tag={{ kind: 'picture', label: 'Im Bild' }}>
@@ -156,22 +156,22 @@ export function Foundation4() {
       <Think q={THINK.g4a} />
       <PointLab />
       <RBricks />
-      <InShort><b>Pearson-r</b> misst, wie gut sich Punkte an eine steigende oder fallende Gerade halten, von −1 bis +1. <b>Spearman-ρ</b> (gesprochen „rho“) macht dasselbe mit Rangplätzen statt mit den Werten selbst. Darum verträgt ρ Ausreißer und passt auch zu geordneten Stufen.</InShort>
+      <InShort><b>Pearson-r</b> misst, wie gut sich Punkte an eine steigende oder fallende Gerade halten, von −1 bis +1. <b>Spearman-ρ</b> (gesprochen „rho“) macht dasselbe mit Rängen statt mit den Werten selbst. Darum verträgt ρ Ausreißer und passt auch zu geordneten Stufen.</InShort>
       <Mixup>„r = 0,97 heißt: Ältere brauchen 97 % länger.“ r ist keine Prozentzahl und keine Steigung. Es sagt nur, wie eng die Punkte an einer Geraden liegen.</Mixup>
     </Card>
 
     <Card id="k4b" step="4b" title="Ausreißer und Kurven: Pearson oder Spearman?" badge={<Badge>Bearbeitungsdauer xt10: kennst du aus Sitzung 4</Badge>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Brauchen ältere Befragte länger für den Fragebogen? In Sitzung 4 hast du gesehen: Einzelne Bögen lagen wochenlang herum, also Zehntausende Minuten, während die Hälfte nach gut einer Stunde fertig war (Median 65 Minuten). Mit allen Bögen ergibt Pearson-r 0,003 (gewichtet), Spearman-ρ 0,24. Nur mit Bögen bis 180 Minuten: r = 0,25, ρ = 0,27.</p>
+      <p className="lead">Brauchen ältere Befragte länger für den Fragebogen? In Sitzung 4 hast du gesehen: Einzelne Fragebögen lagen wochenlang herum, also Zehntausende Minuten, während die Hälfte nach gut einer Stunde fertig war (Median 65 Minuten). Mit allen Bögen ergibt Pearson-r 0,003 (gewichtet), Spearman-ρ 0,24. Nur mit Bögen bis 180 Minuten: r = 0,25, ρ = 0,27.</p>
       <OutlierRuler />
       <Think q={THINK.g4b} />
-      <InShort>Pearson-r braucht metrische Variablen (oder viele Stufen mit etwa gleichen Abständen), einen geradlinigen Zusammenhang und keine extremen Ausreißer. Sonst nimmst du Spearman-ρ.</InShort>
+      <InShort>Pearson-r braucht metrische Variablen (oder viele Ausprägungen mit etwa gleichen Abständen), einen linearen Zusammenhang und keine extremen Ausreißer. Sonst nimmst du Spearman-ρ.</InShort>
       <MoreDetail summary="Was r nicht sieht">
-        <p>r misst nur Geraden. Steigt etwas erst an und fällt dann wieder (ein Bogen), kann r nahe 0 liegen, obwohl ein deutlicher Zusammenhang besteht. Darum: erst die Punktwolke ansehen, dann rechnen. Für die Stärke gilt dieselbe Faustregel wie in Grundlage 2c.</p>
+        <p>r misst nur lineare Zusammenhänge. Steigt etwas erst an und fällt dann wieder (nichtlinear, im Bild ein Bogen), kann r nahe 0 liegen, obwohl ein deutlicher Zusammenhang besteht. Darum: erst das Streudiagramm ansehen, dann rechnen. Für die Stärke gilt dieselbe Faustregel wie in Grundlage 2c.</p>
         <p>In R rechnet <code>spearman_rho()</code> immer ohne Gewicht; mit <code>weights = wghtpew</code> kommt derselbe Wert heraus (hier 0,238). Für Aussagen über Deutschland ist das eine kleine Einschränkung, die du im Bericht nennst.</p>
       </MoreDetail>
       <MapLink concept="pearson">Pearson-Korrelation</MapLink>
       <MapLink concept="spearman">Spearman-Korrelation</MapLink>
-      <Mixup>„r = 0 heißt: kein Zusammenhang.“ r = 0 heißt nur: kein geradliniger. Mit Ausreißern oder bei einem Bogen kann trotzdem einer da sein.</Mixup>
+      <Mixup>„r = 0 heißt: kein Zusammenhang.“ r = 0 heißt nur: kein linearer. Mit Ausreißern oder bei einem nichtlinearen Verlauf kann trotzdem einer da sein.</Mixup>
     </Card>
 
     <Card id="k4c" step="4c" title="Zusammenhang ist keine Ursache: die Drittvariable" badge={<Known session={5} what="Ein Zusammenhang ist keine Ursache" />} tag={{ kind: 'interpret', label: 'Deuten' }}>

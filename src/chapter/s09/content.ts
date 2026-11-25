@@ -92,15 +92,15 @@ export type OutputPick = { id: string; label: string; cells: { line: number; tex
 /** Bild B0: sechs Umschalter über der Ausgabe; `cells` sind die markierten Stellen (Zeile in SUMMARY_LINES, Text). */
 export const OUTPUT_PICKS: OutputPick[] = [
   { id: 'konstante', label: 'Konstante', cells: [{ line: 21, text: '3.570' }],
-    text: 'Die **Konstante** steht in der Zeile `(Intercept)`, Spalte B: 3,570. Das ist die Höhe der Geraden bei lage = 0. Mehr in Grundlage 1.' },
+    text: 'Die **Konstante** (auch Achsenabschnitt) steht in der Zeile `(Intercept)`, Spalte B: 3,570. Das ist die Höhe der Geraden bei lage = 0. Mehr in Grundlage 1.' },
   { id: 'steigung', label: 'Steigung', cells: [{ line: 22, text: '1.073' }],
     text: 'Die **Steigung** (Regressionskoeffizient B) steht in der Zeile der UV, Spalte B: 1,073. So viel steigt die Vorhersage pro Stufe. Mehr in Grundlage 1.' },
   { id: 'beta', label: 'Beta', cells: [{ line: 22, text: '0.450' }],
     text: '**Beta** ist die Steigung in Standardabweichungen gemessen (standardisierter Koeffizient). Mit nur einer UV ist Beta gleich der Pearson-Korrelation r aus Sitzung 6; R oben in Model Summary ist dieselbe Zahl ohne Vorzeichen. Für Vorhersagen brauchst du B, nicht Beta.' },
   { id: 'r2', label: 'R²', cells: [{ line: 15, text: '0.203' }],
     text: '**R Square** ist R²: 0,203. Die Gerade erklärt gut 20 % der Streuung der Lebenszufriedenheit. Mehr in Grundlage 2.' },
-  { id: 'fehler', label: 'Typischer Fehler', cells: [{ line: 17, text: '1.720' }],
-    text: '**Std. Error of the Estimate** sagt, wie weit die Vorhersage typischerweise danebenliegt: 1,72 Punkte. Mehr in Grundlage 2.' },
+  { id: 'fehler', label: 'Standardfehler der Schätzung', cells: [{ line: 17, text: '1.720' }],
+    text: '**Std. Error of the Estimate** ist der Standardfehler der Schätzung. Er sagt, wie weit die Vorhersage typischerweise danebenliegt: 1,72 Punkte. Mehr in Grundlage 2.' },
   { id: 'n', label: 'N', cells: [{ line: 3, text: '5133' }, { line: 10, text: '5133' }, { line: 11, text: '5133' }],
     text: '**N** sind alle, die bei beiden Variablen eine gültige Antwort haben: 5.133. Wer bei einer fehlt, fällt weg.' },
 ];
@@ -315,7 +315,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
         sp(2.168, 'Das stimmt ohne Gewicht. Steht `weights = wghtpew` noch in deiner Vorlage?'),
         sp(4.712, 'Diese Zahl kommt heraus, wenn ps03 nicht umgepolt ist. Rechne mit `demo`.'),
       ] }),
-    number('a1b', 'Wie groß ist die Steigung?', 0.465, 'Steigung 0,465: Mit jeder Stufe mehr Vertrauen liegt die vorhergesagte Zufriedenheit um 0,465 Punkte höher.',
+    number('a1b', 'Wie groß ist die Steigung?', 0.465, 'Steigung 0,465 (Zeile `pt03`, Spalte B).',
       'Lies die Zeile `pt03`, Spalte B.',
       { tolerance: 0.001, short: 'Steigung', special: [
         sp(0.588, 'Das ist Beta, der standardisierte Koeffizient. Für die Gerade brauchst du B.'),
@@ -341,13 +341,13 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
     'B ist die Änderung der Vorhersage pro Stufe der UV, in Punkten der AV.',
     { short: 'Steigung in Worten', wrong: {
       b: 'B ist kein Prozentwert. Es ist die Änderung in Punkten der Zufriedenheit pro Stufe Vertrauen.',
-      c: '„Wird dadurch zufriedener“ behauptet eine Ursache. Die Regression zeigt nur: Wer mehr vertraut, ist im Mittel zufriedener. Es kann auch umgekehrt sein, oder beides hat eine gemeinsame Ursache (Zusammenhang ist keine Ursache, kennst du aus Sitzung 5).',
+      c: '„Wird dadurch zufriedener“ behauptet eine ⟪Ursache|kausalitaet⟫. Die Regression zeigt nur: Wer mehr vertraut, ist im Mittel zufriedener. Es kann auch umgekehrt sein, oder beides hat eine ⟪gemeinsame Ursache|confounding⟫ (Zusammenhang ist keine Ursache, kennst du aus Sitzung 5).',
     } }),
     choice('a1e', 'Was bedeutet hier die Konstante?', [
       ['a', 'die vorhergesagte Zufriedenheit bei Vertrauen 0, einer Stufe, die es nicht gibt'],
       ['b', 'die Zufriedenheit der Menschen ganz ohne Vertrauen (Stufe 1)'],
       ['c', 'die durchschnittliche Zufriedenheit aller Befragten'],
-    ], 'a', 'Genau. pt03 läuft von 1 bis 7; bei 0 gibt es niemanden. Die Konstante ist nur der Rechenanker der Geraden.',
+    ], 'a', 'Genau. pt03 läuft von 1 bis 7; bei 0 gibt es niemanden. Die ⟪Konstante⟫ ist hier nur der Achsenabschnitt: die Höhe der Geraden bei pt03 = 0, wo sie die y-Achse schneiden würde. Du brauchst sie zum Rechnen, deuten kannst du sie hier nicht.',
     'Die Konstante ist die Höhe der Geraden beim Wert 0 der UV.',
     { short: 'Konstante in Worten', wrong: {
       b: 'Für Stufe 1 sagt die Gerade 2,288 + 0,465 = 2,753 vorher. Die Konstante gilt für den Wert 0.',
@@ -367,24 +367,24 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
         sp(0.588, 'Das ist R, die Korrelation. R² ist R mal R.'),
       ] }),
     choice('a2b', 'Was heißt R² = 0,346?', [
-      ['a', 'Mit dem Vertrauen sind die Fehlerquadrate um gut ein Drittel kleiner als mit dem Mittelwert allein.'],
+      ['a', 'Mit dem Vertrauen sind die quadrierten Residuen zusammen gut ein Drittel kleiner als ohne UV.'],
       ['b', '34,6 % der Befragten sind mit der Demokratie zufrieden.'],
       ['c', 'Die Vorhersage stimmt bei 34,6 % der Befragten genau.'],
-    ], 'a', 'Genau: R² vergleicht die Gerade mit dem Mittelwert. Gut ein Drittel der Streuung der Zufriedenheit hängt mit dem Vertrauen zusammen.',
-    'R² vergleicht die Fehlerquadrate mit und ohne UV.',
+    ], 'a', 'Genau: ⟪R²⟫ vergleicht die Gerade mit dem Mittelwert. Gut ein Drittel der Streuung der Zufriedenheit hängt mit dem Vertrauen zusammen.',
+    'R² vergleicht die Quadratsumme der Residuen mit und ohne UV.',
     { short: 'R² in Worten', wrong: {
-      b: 'R² sagt nichts darüber, wie viele zufrieden sind. Es vergleicht Fehlerquadrate mit und ohne UV.',
-      c: 'Genau treffen muss die Gerade niemanden. R² sagt, um wie viel die Fehlerquadrate kleiner werden.',
+      b: 'R² sagt nichts darüber, wie viele zufrieden sind. Es vergleicht die Quadratsumme der Residuen mit und ohne UV.',
+      c: 'Genau treffen muss die Gerade niemanden. R² sagt, um wie viel die Quadratsumme der Residuen kleiner wird.',
     } }),
-    number('a2c', 'Wie weit liegt die Vorhersage mit pt03 typischerweise daneben (typischer Fehler)?', 1.031,
+    number('a2c', 'Wie weit liegt die Vorhersage mit pt03 typischerweise daneben (Std. Error of the Estimate)?', 1.031,
       '1,031 Punkte. Ohne Vertrauen, nur mit dem Mittelwert, wären es 1,274 (Standardabweichung von demo).',
       'Lies Std. Error of the Estimate.',
-      { tolerance: 0.001, short: 'typischer Fehler', help: 'Aus Schritt 1, Model Summary.', special: [
-        sp(1.274, 'Das ist die Standardabweichung von demo, der typische Fehler des Mittelwerts. Gesucht ist der Fehler der Geraden.'),
+      { tolerance: 0.001, short: 'Std. Error of the Estimate', help: 'Aus Schritt 1, Model Summary.', special: [
+        sp(1.274, 'Das ist die Standardabweichung von demo: So weit liegt der Mittelwert allein typischerweise daneben. Gesucht ist der Fehler der Geraden.'),
         sp(1.063, 'Das ist Mean Square in der ANOVA-Tabelle, ein quadrierter Wert.'),
         sp(0.046, 'Das ist der Standardfehler der Konstante.'),
       ] }),
-    number('a2d', 'Wie groß ist R² mit der Schicht (id02)?', 0.060, 'R² = 0,060: Mit der Schicht sind die Fehlerquadrate nur um 6 % kleiner als mit dem Mittelwert.',
+    number('a2d', 'Wie groß ist R² mit der Schicht (id02)?', 0.060, 'R² = 0,060: Mit der Schicht ist die Quadratsumme der Residuen nur um 6 % kleiner als mit dem Mittelwert.',
       'Tausch in Schritt 2 pt03 gegen id02.',
       { tolerance: 0.001, short: 'R² mit id02', help: 'Aus Schritt 2.', special: [
         sp(0.346, 'Das ist noch das Ergebnis für pt03. Tausch die markierte Stelle gegen id02.'),
@@ -402,10 +402,10 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
       ['a', 'Bei der Schicht liegen die Befragten viel weiter von der Geraden entfernt; R² misst die Nähe der Punkte, nicht die Steilheit.'],
       ['b', 'Die Schicht hat weniger Stufen, darum ist ihre Gerade ungenauer berechnet.'],
       ['c', 'Bei der Schicht haben weniger Befragte geantwortet.'],
-    ], 'a', 'Genau. Steigung und R² beantworten verschiedene Fragen: wie viel sich die Vorhersage ändert, und wie nah die Punkte an der Geraden liegen. Der typische Fehler zeigt es auch: 1,233 bei der Schicht gegen 1,031 beim Vertrauen. Dazu kommt: Gut drei Viertel ordnen sich der Arbeiter- oder Mittelschicht zu (78 %); die Schicht streut wenig (Standardabweichung 0,76 gegen 1,61 beim Vertrauen). Über so wenige genutzte Stufen ändert auch eine steile Gerade die Vorhersage kaum.',
+    ], 'a', 'Genau. Steigung und R² beantworten verschiedene Fragen: wie viel sich die Vorhersage ändert, und wie nah die Punkte an der Geraden liegen. Der ⟪Standardfehler der Schätzung⟫ (Std. Error of the Estimate) zeigt es auch: 1,233 bei der Schicht gegen 1,031 beim Vertrauen. Dazu kommt: Gut drei Viertel ordnen sich der Arbeiter- oder Mittelschicht zu (⟪Anteil|relative-haeufigkeit⟫ 78 %); die Schicht streut wenig (Standardabweichung 0,76 gegen 1,61 beim Vertrauen). Über so wenige genutzte Stufen ändert auch eine steile Gerade die Vorhersage kaum.',
     'Steigung und R² beantworten verschiedene Fragen.',
     { short: 'Steigung und R²', wrong: {
-      b: 'Die Zahl der Stufen ist nicht der Grund. Vergleiche den typischen Fehler: 1,233 bei der Schicht, 1,031 beim Vertrauen.',
+      b: 'Die Zahl der Stufen ist nicht der Grund. Vergleiche Std. Error of the Estimate: 1,233 bei der Schicht, 1,031 beim Vertrauen.',
       c: 'Beide Rechnungen haben N = 3.575. An der Zahl der Befragten liegt es nicht.',
     } }),
   ],
@@ -419,11 +419,11 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
       s1: 'Stufe 1 hat die größte SD, 1,325.',
     } }),
     number('a3b', 'Wie stark streut das Residuum bei Menschen ganz ohne Vertrauen (Stufe 1)?', 1.325,
-      '1,325, fast doppelt so viel wie in Stufe 6 (0,713) und mehr als der typische Fehler insgesamt (1,031).',
+      '1,325, fast doppelt so viel wie in Stufe 6 (0,713) und mehr als der ⟪Standardfehler der Schätzung⟫ insgesamt (1,031).',
       'Erste Tabelle (GAR KEIN VERTRAUEN), Spalte SD.',
       { tolerance: 0.001, short: 'Streuung in Stufe 1', help: 'Spalte SD, Gruppe GAR KEIN VERTRAUEN.', special: [
         sp([-0.289, -2.179], 'Das ist der Mittelwert (Mean). Gesucht ist SD.'),
-        sp(1.031, 'Das ist der typische Fehler für alle zusammen. Gesucht ist die SD in Stufe 1.'),
+        sp(1.031, 'Das ist der Standardfehler der Schätzung für alle zusammen. Gesucht ist die SD in Stufe 1.'),
       ] }),
     number('a3c', 'Um wie viel liegt die Gerade bei großem Vertrauen (Stufe 7) im Mittel daneben (Mittelwert des Residuums)?', -0.405,
       '−0,405: Bei großem Vertrauen sagt die Gerade im Mittel 0,4 Punkte zu viel vorher (5,54 statt 5,14). Die Gerade kommt nahe an das Ende der Skala (6), höher kann niemand antworten; die Befragten bleiben im Mittel darunter.',
@@ -438,7 +438,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
       ['b', 'Die Streuungen sind gleich, denn die größte SD ist nicht mehr als doppelt so groß wie die kleinste.'],
       ['c', 'Die Gerade ist falsch berechnet.'],
       ['d', '75 % der Vorhersagen liegen daneben.'],
-    ], 'a', 'Genau. p < 0,001 heißt: So verschiedene Streuungen wären bei gleichen Streuungen in der Bevölkerung sehr unwahrscheinlich. Die Größe zeigen die SD-Werte: 1,325 zu 0,713 ist das 1,86-Fache, knapp unter der Faustregel „mehr als doppelt“ aus Sitzung 7. Also: verschieden, und groß genug, um es zu berichten.',
+    ], 'a', 'Genau. Im ⟪Levene-Test⟫ heißt p < 0,001: So verschiedene Streuungen wären bei gleichen Streuungen in der Bevölkerung sehr unwahrscheinlich. Die Größe zeigen die SD-Werte: 1,325 zu 0,713 ist das 1,86-Fache, knapp unter der Faustregel „mehr als doppelt“ aus Sitzung 7. Also: Die Voraussetzung ⟪gleicher Fehlervarianz|gleiche-fehlervarianz⟫ hält nicht, und der Unterschied ist groß genug, um ihn zu berichten.',
     'Der Test sagt, ob die Streuungen verschieden sind, die SD-Werte, wie groß der Unterschied ist.',
     { short: 'Levene-Test und SD', help: 'Letzte Zeile der Ausgabe und die Spalte SD.', wrong: {
       b: 'Die Faustregel sagt, ob ein Unterschied groß ist, nicht ob es ihn gibt. Der Levene-Test zeigt mit p < 0,001, dass die Streuungen nicht gleich sind. Das 1,86-Fache ist knapp unter „deutlich“, aber weit weg von gleich.',
@@ -465,7 +465,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
         sp(-0.193, 'Das ist Beta. Gesucht ist B.'),
       ] }),
     number('a4b', 'Welche Zufriedenheit sagt die Gerade für „ganz links“ (pa01 = 1) vorher?', 4.717,
-      '4,717: 4,857 − 0,140 × 1. Die Gerade gibt den ganz Linken den höchsten Wert.',
+      '4,717: 4,857 − 0,140 × 1.',
       'Schritt 2: Konstante 4.857, Steigung −0.140, Wert 1.',
       { tolerance: 0.005, short: 'Vorhersage für ganz links', help: 'Ergebnis aus Schritt 2.', special: [
         sp(7.862, 'Das ist noch das Beispiel aus Grundlage 1.'),
@@ -481,7 +481,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
       ['a', 'Beide Ränder sind weniger zufrieden als die Mitte; ganz rechts am wenigsten.'],
       ['b', 'Die Zufriedenheit sinkt gleichmäßig von links nach rechts.'],
       ['c', 'Alle Stufen sind etwa gleich zufrieden.'],
-    ], 'a', 'Genau: von 3,86 links über 4,55 in Stufe 3 bis 2,54 rechts. Ein Bogen, der rechts tiefer endet.',
+    ], 'a', 'Genau: von 3,86 links über 4,55 in Stufe 3 bis 2,54 rechts. Die Mittelwerte steigen erst und fallen dann; rechts liegen sie am tiefsten.',
     'Lies die Mean-Werte der Reihe nach.',
     { short: 'Muster', wrong: {
       b: 'Lies die Mean-Werte der Reihe nach: Von Stufe 1 bis 3 steigen sie, danach fallen sie.',
@@ -491,11 +491,11 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S9Question[]> = {
       ['a', 'Sie beschreibt den Zusammenhang schlecht: Den ganz Linken sagt sie den höchsten Wert vorher, obwohl sie unzufriedener sind als die Mitte. Besser die Mittelwerte je Stufe berichten.'],
       ['b', 'Sie ist trotzdem richtig, denn B ist signifikant (p < 0,001).'],
       ['c', 'Sie ist richtig, R² = 0,037 ist nur klein, weil viele nicht geantwortet haben.'],
-    ], 'a', 'Genau. Die Voraussetzung Linearität ist verletzt. R² = 0,037 ist auch deshalb so klein, weil eine Gerade den Bogen nicht abbilden kann.',
+    ], 'a', 'Genau. Der Zusammenhang ist ⟪nichtlinear⟫: Die Mittelwerte bilden eine Kurve. Damit ist die Voraussetzung ⟪Linearität|linear⟫ verletzt. R² = 0,037 ist auch deshalb so klein, weil eine Gerade diese Kurve nicht abbilden kann.',
     'Vergleiche, was die Gerade vorhersagt, mit den Mittelwerten je Stufe.',
     { short: 'Folgerung', wrong: {
       b: 'Signifikant heißt nur, dass die Steigung nicht 0 ist. Ob eine Gerade die richtige Form ist, sagt p nicht.',
-      c: 'Es rechnen 3.444 Befragte mit. R² ist klein, weil die Gerade den Bogen nicht trifft.',
+      c: 'Es rechnen 3.444 Befragte mit. R² ist klein, weil die Gerade die Form der Mittelwerte nicht trifft.',
     } }),
   ],
 };
@@ -556,8 +556,8 @@ export const K3B_Q: S9Question = choice('k3b-frage', 'Kurz überlegen: Was passi
 /** Grundlage 4: flache Gerade. */
 export const K4_Q: S9Question = choice('k4-frage', 'Kurz überlegen: Die Gerade ist flach, R² ist 0. Heißt das, das Wohlbefinden hängt nicht mit der Temperatur zusammen?', [
   ['ja', 'Ja, R² = 0 heißt kein Zusammenhang.'], ['nein', 'Nein: Der Zusammenhang ist stark, aber nicht gerade. Eine Gerade kann ihn nicht zeigen.'],
-], 'nein', 'Genau. Die Regression misst nur den geraden (linearen) Teil eines Zusammenhangs, wie r in Sitzung 6. Ein Bogen hat keinen.',
-'R² = 0 heißt nur: kein **linearer** Zusammenhang. Schau auf die Punkte: Sie bilden einen deutlichen Bogen.', { short: 'flache Gerade' });
+], 'nein', 'Genau. Die Regression misst nur den geraden (linearen) Teil eines Zusammenhangs, wie r in Sitzung 6. Eine solche Kurve hat keinen.',
+'R² = 0 heißt nur: kein **linearer** Zusammenhang. Schau auf die Punkte: Sie bilden eine deutliche Kurve.', { short: 'flache Gerade' });
 
 /* ---------- Erst festlegen ---------- */
 
@@ -587,9 +587,9 @@ export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> 
     'Konstante 2,288, Steigung 0,465, N = 3.575. In Schritt 3: `2.288 + 0.465 * 7` ergibt 5.543. Die Steigung heißt: Mit jeder Stufe mehr Vertrauen liegt die vorhergesagte Zufriedenheit um knapp einen halben Punkt höher. Die Konstante ist die Höhe bei Vertrauen 0, das es nicht gibt; man deutet sie hier nicht. Von 1 bis 7 unterscheidet sich die Vorhersage um 6 × 0,465 = 2,79 Punkte.',
   ],
   a2: [
-    'R² vergleicht die Fehlerquadrate der Geraden mit denen des Mittelwerts. Eine Gerade kann steil sein und trotzdem weit an den Punkten vorbeigehen.',
+    'R² vergleicht die quadrierten Residuen der Geraden mit denen des Mittelwerts. Frag dich bei jeder Zahl, was sie misst: wie stark sich die Vorhersage ändert, oder wie nah die Befragten an ihr liegen.',
     'R Square und Std. Error of the Estimate stehen im Abschnitt Model Summary, die Standardabweichung von demo in Descriptive Statistics, B in Coefficients. Für die Schicht tauschst du in der Vorlage pt03 gegen id02.',
-    'Vertrauen: R² = 0,346, typischer Fehler 1,031 (ohne UV 1,274). Schicht: R² = 0,060, B = 0,412, typischer Fehler 1,233. Die Steigungen sind fast gleich, aber bei der Schicht streuen die Befragten viel weiter um die Gerade. Das Vertrauen sagt die Zufriedenheit fast sechsmal so gut vorher.',
+    'Vertrauen: R² = 0,346, Std. Error of the Estimate 1,031 (ohne UV 1,274). Schicht: R² = 0,060, B = 0,412, Std. Error of the Estimate 1,233. Die Steigungen sind fast gleich, aber bei der Schicht streuen die Befragten viel weiter um die Gerade. Das Vertrauen sagt die Zufriedenheit fast sechsmal so gut vorher.',
   ],
   a3: [
     'Das Residuum ist, wie weit eine Person von der Geraden entfernt ist. Wenn es in einer Gruppe stark streut, liegt die Gerade dort oft weit daneben. group_by() rechnet das für jede Stufe getrennt.',
@@ -599,7 +599,7 @@ export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> 
   a4: [
     'Eine Gerade kann nur steigen oder fallen. Vergleiche, was sie für die ganz Linken vorhersagt, mit dem, was die ganz Linken im Mittel tatsächlich sagen.',
     'B steht in Coefficients (Zeile pa01). Die Mittelwerte stehen in den zehn Tabellen in der Spalte Mean, von links (1) nach rechts (10).',
-    'B = −0,140, Konstante 4,857, R² = 0,037. Vorhersage ganz links 4,717, tatsächlich 3,864; ganz rechts 3,457 gegen 2,536. Die Mittelwerte steigen bis Stufe 3 (4,549) und fallen dann. Eine Gerade beschreibt diesen Bogen schlecht; besser die Mittelwerte je Stufe berichten. Die Stufen 9 und 10 sind klein (gewichtet 37 und 38 Befragte).',
+    'B = −0,140, Konstante 4,857, R² = 0,037. Vorhersage ganz links 4,717, tatsächlich 3,864; ganz rechts 3,457 gegen 2,536. Die Mittelwerte steigen bis Stufe 3 (4,549) und fallen dann. Eine Gerade beschreibt diese Form schlecht; besser die Mittelwerte je Stufe berichten. Die Stufen 9 und 10 sind klein (gewichtet 37 und 38 Befragte).',
   ],
 };
 
@@ -636,10 +636,10 @@ export const SELF_TEST: { question: string; options: string[]; answer: number; w
     answer: 1, why: 'Wie gut eine Gerade vorhersagt, sagt R², nicht die Steigung (Grundlage 2c, Aufgabe 2).' },
   { question: 'Im Streudiagramm liegen die Punkte links eng an der Geraden und rechts weit gestreut. Welche Voraussetzung ist verletzt?',
     options: ['Linearität', 'gleiche Fehlervarianz', 'keine Ausreißer'],
-    answer: 1, why: 'Ein Fächer heißt: Die Residuen streuen nicht überall gleich stark (Grundlage 3a).' },
+    answer: 1, why: 'Ein Fächer im ⟪Streudiagramm⟫ heißt ⟪Heteroskedastizität|gleiche-fehlervarianz⟫: Die Residuen streuen nicht überall gleich stark (Grundlage 3a).' },
   { question: 'Die Gerade für Alter und Stunden Sport pro Woche ist fast flach, R² = 0,01. Was kannst du sicher sagen?',
-    options: ['Alter und Sport hängen nicht zusammen.', 'Es gibt kaum einen linearen Zusammenhang; ein Bogen wäre noch möglich.', 'Die Regression wurde falsch gerechnet.'],
-    answer: 1, why: 'R² misst nur den geraden Teil eines Zusammenhangs, wie r in Sitzung 6. Ob ein Bogen dahintersteckt, zeigen die Mittelwerte je Stufe (Grundlage 4).' },
+    options: ['Alter und Sport hängen nicht zusammen.', 'Es gibt kaum einen linearen Zusammenhang; ein nichtlinearer wäre noch möglich.', 'Die Regression wurde falsch gerechnet.'],
+    answer: 1, why: 'R² misst nur den ⟪linearen|linear⟫ Teil eines Zusammenhangs, wie r in Sitzung 6. Ob ein ⟪nichtlinearer Zusammenhang|nichtlinear⟫ dahintersteckt, etwa eine Kurve, zeigen die Mittelwerte je Stufe (Grundlage 4).' },
 ];
 
 /* ---------- Skript zum Mitnehmen ---------- */

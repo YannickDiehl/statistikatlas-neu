@@ -23,7 +23,7 @@ function Sheets() {
   return <Svg w={628} h={236}>
     {CROSSES.map(([sex, ls, rh], k) => {
       const x = 4 + k * 208;
-      return <Sheet key={k} x={x} y={4} w={200} h={228} title={`Bogen ${k + 1}`}>
+      return <Sheet key={k} x={x} y={4} w={200} h={228} title={`Fragebogen ${k + 1}`}>
         <T x={x + 10} y={42} textAnchor="start" fontSize={11} fontWeight={700} fill="#2B3540">1. Sie sind …</T>
         {SEX_OPTS.map((o, i) => <TickBox key={o} x={x + 12} y={50 + i * 16} label={o} checked={i === sex} size={10} fontSize={10.5} />)}
         <T x={x + 10} y={116} textAnchor="start" fontSize={10.5} fontWeight={700} fill="#2B3540">2. Wie zufrieden mit dem Leben?</T>
@@ -42,27 +42,27 @@ function explain(v: number, r: number): ReactNode {
   const { variable, question, cells } = BOGEN_PLATTE[v];
   const c = cells[r];
   let value: ReactNode;
-  if (c.empty) value = <>Hier ist der Stein leer: Auf Bogen {r + 1} steht kein Kreuz. Das ist ein <b>fehlender Wert</b>; der Aufkleber sagt, warum. Mehr dazu in Grundlage 3.</>;
-  else if (variable === 'sex') value = <>Der Stein ist ihr <b>Wert</b>: {c.value}, das Wertelabel heißt {c.label}.</>;
-  else if (variable === 'ls01') value = c.label ? <>Der Stein ist ihr <b>Wert</b>: {c.value}, ganz unzufrieden. Auch die 0 ist eine Antwort.</> : <>Der Stein ist ihr <b>Wert</b>: {c.value}.</>;
-  else value = <>Der Stein ist ihr <b>Wert</b>: {c.value}, {c.label}.</>;
-  return <><b>Reihe {r + 1}</b> ist ein <b>Fall</b>: die Person von Bogen {r + 1}. <b>Turm {variable}</b> ist eine <b>Variable</b>: {question}. {value}</>;
+  if (c.empty) value = <>Hier fehlt der Wert, im Bild ist der Stein leer: Auf Fragebogen {r + 1} steht kein Kreuz. Das ist ein <b>fehlender Wert</b>; das Wertelabel sagt, warum. Mehr dazu in Grundlage 3.</>;
+  else if (variable === 'sex') value = <>In der Zelle steht ihr <b>Wert</b>: {c.value}, das Wertelabel heißt {c.label}.</>;
+  else if (variable === 'ls01') value = c.label ? <>In der Zelle steht ihr <b>Wert</b>: {c.value}, ganz unzufrieden. Auch die 0 ist eine Antwort.</> : <>In der Zelle steht ihr <b>Wert</b>: {c.value}.</>;
+  else value = <>In der Zelle steht ihr <b>Wert</b>: {c.value}, {c.label}.</>;
+  return <><b>Zeile {r + 1}</b> ist ein <b>Fall</b>: die Person von Fragebogen {r + 1}. <b>Spalte {variable}</b> ist eine <b>Variable</b>: {question}. {value}</>;
 }
 
-const cellName = (c: Cell) => c.empty ? `leer, Aufkleber ${c.label}` : c.label ? `${c.value} ${c.label}` : c.value;
+const cellName = (c: Cell) => c.empty ? `fehlt, Wertelabel ${c.label}` : c.label ? `${c.value} ${c.label}` : c.value;
 const tableCell = (c: Cell) => c.empty ? `fehlt (${c.label})` : c.label ? `${c.value} ${c.label}` : c.value;
 
 /** One stone as a button (HTML, styled as a brick in s02.css). */
 function StoneButton({ c, v, r, pressed, onPick }: { c: Cell; v: number; r: number; pressed: boolean; onPick: () => void }) {
   return <button type="button" className={`s2-stein${c.empty ? ' leer' : ''}`} aria-pressed={pressed}
-    aria-label={`Reihe ${r + 1}, Turm ${BOGEN_PLATTE[v].variable}: ${cellName(c)}`}
+    aria-label={`Zeile ${r + 1}, Variable ${BOGEN_PLATTE[v].variable}: ${cellName(c)}`}
     style={{ gridRow: r + 2, gridColumn: v + 2 }} onClick={onPick}>
     {c.value ? <span className="s2-code">{c.value}</span> : null}
     {c.label ? <span className={`s2-aufkleber${c.empty ? ' blass' : ''}`}>{c.label}</span> : null}
   </button>;
 }
 
-/** Grundlage 1a: three sheets become a plate; every stone is a button and explains row, tower and value. */
+/** Grundlage 1a: three sheets become a data matrix (a plate in the picture); every cell is a button and explains case, variable and value. */
 export function SheetsToPlate() {
   const [pick, setPick] = useState<{ v: number; r: number } | null>(null);
   return <>
@@ -71,7 +71,7 @@ export function SheetsToPlate() {
       <div className="s2-pfeil" aria-hidden="true">➜</div>
       <div className="s2-platte-wrap">
         <p className="s2-mass" aria-hidden="true">3 × 3</p>
-        <div className="s2-platte" role="group" aria-label="Bauplatte aus den drei Bögen: drei Reihen, drei Türme">
+        <div className="s2-platte" role="group" aria-label="Datenmatrix aus den drei Fragebögen: drei Fälle, drei Variablen">
           {BOGEN_PLATTE.map((t, v) => <div key={t.variable} className="s2-kopf" style={{ gridRow: 1, gridColumn: v + 2 }} aria-hidden="true">
             <b>{t.variable}</b><small>{'<dbl+lbl>'}</small>
           </div>)}
@@ -86,13 +86,13 @@ export function SheetsToPlate() {
         </div>
       </div>
     </div>
-    <p className="erkl s2-erkl" aria-live="polite">{pick ? explain(pick.v, pick.r) : 'Wähl einen Stein aus.'}</p>
+    <p className="erkl s2-erkl" aria-live="polite">{pick ? explain(pick.v, pick.r) : 'Wähl einen Wert aus, im Bild einen Stein.'}</p>
     <table className="daten">
-      <caption>Drei Bögen als Datenmatrix</caption>
-      <thead><tr><th scope="col">Reihe</th>{BOGEN_PLATTE.map(t => <th key={t.variable} scope="col">{t.variable}</th>)}</tr></thead>
+      <caption>Drei Fragebögen als Datenmatrix</caption>
+      <thead><tr><th scope="col">Zeile</th>{BOGEN_PLATTE.map(t => <th key={t.variable} scope="col">{t.variable}</th>)}</tr></thead>
       <tbody>{[0, 1, 2].map(r => <tr key={r}><th scope="row">{r + 1}</th>{BOGEN_PLATTE.map(t => <td key={t.variable}>{tableCell(t.cells[r])}</td>)}</tr>)}</tbody>
     </table>
-    <p className="hilfe-zeile">Jede Zeile ist ein Fall, jede Spalte eine Variable, jede Zelle ein Wert. Die Bögen sind ein Beispiel mit drei Personen.</p>
+    <p className="hilfe-zeile">Jede Zeile ist ein Fall, jede Spalte eine Variable, jede Zelle ein Wert. Die Fragebögen sind ein Beispiel mit drei Personen.</p>
   </>;
 }
 
@@ -100,15 +100,15 @@ export function SheetsToPlate() {
 
 type ConvertId = (typeof CONVERT_STATES)[number]['id'];
 
-/** Text version of the tower sex in one state. */
+/** Text version of the variable sex in one state. */
 export function convertText(id: ConvertId): string {
   const type = CONVERT_STATES.find(s => s.id === id)!.type;
   const stones = CONVERT_STONES.map(c => {
-    if (c.empty) return id === 'original' ? `ein leerer Stein mit dem Aufkleber ${c.label}` : 'ein leerer Stein ohne Aufkleber, NA';
+    if (c.empty) return id === 'original' ? `ein fehlender Wert mit dem Wertelabel ${c.label}` : 'ein fehlender Wert ohne Wertelabel, NA';
     return id === 'original' ? `${c.value} ${c.label}` : id === 'label' ? c.label : c.value;
   });
-  const fallen = id === 'label' ? ' Der Aufkleber KEINE ANGABE liegt abgefallen daneben.' : '';
-  return `Turm sex, Typ ${type}: ${stones.join(', ')}.${fallen} Die Steine sind ein Beispiel mit vier Befragten.`;
+  const fallen = id === 'label' ? ' Das Wertelabel KEINE ANGABE liegt abgefallen daneben.' : '';
+  return `Variable sex, Typ ${type}: ${stones.join(', ')}.${fallen} Die Werte sind ein Beispiel mit vier Befragten.`;
 }
 
 function ConvertTower({ id }: { id: ConvertId }) {
@@ -131,12 +131,12 @@ function ConvertTower({ id }: { id: ConvertId }) {
   </Svg>;
 }
 
-/** Grundlage 4b: three switches change the tower sex; picture, text and text version follow. */
+/** Grundlage 4b: three switches change the variable sex; picture, text and text version follow. */
 export function Convert() {
   const [id, setId] = useState<ConvertId>('original');
   const state = CONVERT_STATES.find(s => s.id === id)!;
   return <>
-    <div className="s2-umschalter" role="group" aria-label="Turm sex umwandeln">
+    <div className="s2-umschalter" role="group" aria-label="Variable sex umwandeln">
       {CONVERT_STATES.map(s => <button key={s.id} type="button" aria-pressed={s.id === id} onClick={() => setId(s.id)}>
         {s.button} <code>{`<${s.type}>`}</code>
       </button>)}
@@ -146,7 +146,7 @@ export function Convert() {
     <details className="werte">
       <summary>Alle drei Zustände als Tabelle</summary>
       <table className="daten">
-        <caption>Turm sex umwandeln</caption>
+        <caption>Variable sex umwandeln</caption>
         <thead><tr>{CONVERT_STATES.map(s => <th key={s.id} scope="col">{s.button}</th>)}</tr></thead>
         <tbody>
           {CONVERT_STONES.map((c, i) => <tr key={i}>
@@ -183,7 +183,7 @@ const STATIONS: { title: string; note?: string; text: string; picture: ReactNode
     </g>)}
     <Plate x={4} y={76} w={192} />
   </Svg> },
-  { title: 'Bauplatte', text: '5,246 × 579', picture: <Svg w={170} h={96}>
+  { title: 'Datensatz', text: '5,246 × 579', picture: <Svg w={170} h={96}>
     {Array.from({ length: 5 }, (_, r) => Array.from({ length: 5 }, (_, k) => <rect key={`${r}-${k}`} x={12 + k * 30} y={8 + r * 15} width={26} height={11}
       fill={C.blue} stroke={C.blueLine} strokeWidth={0.6} />))}
     <rect x={8} y={8 + 2 * 15 - 3} width={154} height={17} fill="none" stroke={C.orange} strokeWidth={2.5} rx={2} />

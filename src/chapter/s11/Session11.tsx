@@ -39,12 +39,12 @@ export function Session11() {
       { href: '#ueberblick', title: 'Zum Schluss', note: 'Überblick, Wichtigstes, Selbsttest, Skript' },
     ]}
     goals={[
-      'erklären, warum man für eine Variable mit nur zwei Ausprägungen (0 und 1) keine Gerade nimmt, und eine Wahrscheinlichkeit in eine Chance (Odds) und einen Logit übersetzen und zurück',
+      'erklären, warum man für eine Variable mit nur zwei Ausprägungen (0 und 1) keine Gerade nimmt, und eine Wahrscheinlichkeit in Odds (Chance) und einen Logit übersetzen und zurück',
       'ein logistisches Modell gewichtet schätzen und in der Ausgabe B, Exp(B) und Sig. finden',
       'Exp(B) in Alltagssprache deuten: ein Faktor für die Chance, nicht für die Wahrscheinlichkeit',
       'vorhergesagte Wahrscheinlichkeiten für Beispielpersonen ausrechnen und erklären, warum derselbe Faktor je nach Ausgangspunkt verschieden viele Prozentpunkte bringt; den durchschnittlichen marginalen Effekt (AME) als Mittelwert lesen',
-      'die Güte eines Modells einschätzen: Trefferquote gegen die einfachste Regel, −2LL und Omnibus-Test, Pseudo-R²',
-      'die Voraussetzungen nennen: richtig kodierte 0/1-Variable, genug Fälle in der selteneren Gruppe, gleichmäßiger Verlauf im Logit, unabhängige Fälle, Gewichtung für Aussagen über Deutschland, keine Ursache aus Zusammenhang',
+      'die Güte eines Modells einschätzen: Trefferquote, −2LL und Omnibus-Test, Pseudo-R²',
+      'die Voraussetzungen nennen: richtig kodierte 0/1-Variable, genug Fälle in der selteneren Gruppe, Linearität im Logit, unabhängige Fälle, Gewichtung für Aussagen über Deutschland, keine Ursache aus Zusammenhang',
       <><code>logistic_regression()</code>, <code>exp()</code>, <code>tibble()</code> mit <code>c()</code>, <code>predict(…, type = "response")</code> und <code>marginal_effects()</code> lesen und anpassen</>,
     ]}
     known={<>der Startblock und <code>lm30</code> mit seinem TNZ: FILTER (Sitzung 1), Ketten mit <code>%&gt;%</code> (Sitzung 4), neue Variablen mit <code>rec()</code> in <code>mutate()</code>, auch Umpolen mit <code>rules = "rev"</code>, und Kreuztabellen mit Zeilenprozent (Sitzung 5), Gewichten mit <code>weights = wghtpew</code> (Sitzung 6), <code>summary()</code>, Sig. und Konfidenzintervall (Sitzung 7), die lineare Regression mit Konstante, B und Vorhersage = Konstante + B × Wert (Sitzung 9), mehrere Prädiktoren mit <code>+</code> und „bei gleichem …“ (Sitzung 10).</>}

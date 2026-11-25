@@ -19,5 +19,6 @@
     ["In der Werkstatt steht ‚Error in‘ statt ‚Fehler in‘;", "Im Lernjournal steht nur ‚Fehler:‘, ohne Funktion;"],
     ["Du arbeitest hier in der Werkstatt.", "Du arbeitest hier im Lernjournal."],
     ["zeigt Thema 3.", "zeigt Verstehen zu Aufgabe 3."]
-  ]
+  ],
+  "begriffe": ["datenmatrix","fall","variable","wert","auspraegung","objekt","funktion","argument","paket","variablenlabel","code","wertelabel","codebuch","fehlende-werte","tnz","gueltige-werte","validitaet","operationalisierung","konsole","skript","environment","stichprobe","erhebungsweg"]
 }

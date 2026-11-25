@@ -54,7 +54,7 @@ test('each foundation has Kurz gesagt, Genauer erklärt and Häufige Verwechslun
   }
 });
 
-/* ---------- Gruppen zuschneiden ---------- */
+/* ---------- Kategorien zusammenfassen ---------- */
 
 test('cutting groups: all rows start open, no share and no feedback yet', () => {
   const html = render(Foundation1);
@@ -73,7 +73,7 @@ test('cutting groups: each named cut gives its share and text; others get the ge
     assert.equal(r.feedback, c.text, c.id);
   }
   const other = cutResult(['1', '0', '0', 'na', 'na'] as Group[]);
-  assert.match(other.feedback, /^Deine Einteilung ergibt 65,2 %\. Frag dich bei jeder Zeile/);
+  assert.match(other.feedback, /^Deine Umkodierung ergibt 65,2 %\. Frag dich bei jeder Zeile/);
   assert.match(cutResult(['na', '1', '1', 'na', 'na'] as Group[]).feedback, /Noch kein Anteil/);
   assert.equal(ruleInWords(CUTS[0].groups), 'Deine Regel in Worten: Teilzeit (1): Teilzeit, nebenher berufstätig. Vollzeit (0): Vollzeit, ganztags. leer: nicht erwerbstätig, ohne gültige Angabe.');
   const partial = cutResult(['0', '1', null, null, null]);

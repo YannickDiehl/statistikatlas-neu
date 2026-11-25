@@ -4,11 +4,11 @@ import type { Question } from '../answers';
 
 /* ---------- Daten ---------- */
 
-/** Größe der Bauplatte allbus (Zeilen × Spalten). */
+/** Größe des Datensatzes allbus (Zeilen × Spalten). */
 export const ALLBUS_DIM = { rows: 5246, cols: 579 };
 
 export type WorkRow = { id: 'voll' | 'teil' | 'neben' | 'nicht' | 'ohne'; label: string; n: number };
-/** Erwerbsform `work`: Antworten mit Code und Zahl der Befragten (Grundlage 1, „Gruppen zuschneiden“). */
+/** Erwerbsform `work`: Antworten mit Code und Zahl der Befragten (Grundlage 1, „Kategorien zusammenfassen“). */
 export const WORK: WorkRow[] = [
   { id: 'voll', label: 'Vollzeit, ganztags (1)', n: 2193 },
   { id: 'teil', label: 'Teilzeit (2)', n: 784 },
@@ -88,20 +88,20 @@ export function percent(c: Cross, basis: Basis, i: number, j: number): number {
 /** Eine Nachkommastelle wie in der Ausgabe von crosstab(). */
 export const round1 = (x: number) => Math.round(x * 10) / 10;
 
-/* ---------- Gruppen zuschneiden (Grundlage 1) ---------- */
+/* ---------- Kategorien zusammenfassen (Grundlage 1) ---------- */
 
 export type Group = '1' | '0' | 'na';
-export const GROUP_LABELS: Record<Group, string> = { '1': 'Gruppe 1: Teilzeit', '0': 'Gruppe 0: Vollzeit', na: 'leer (NA): zählt nicht mit' };
-/** Benannte Einteilungen in der Reihenfolge von WORK, mit Rückmeldung (Anteil in sitzung05-zahlen.R geprüft). */
+export const GROUP_LABELS: Record<Group, string> = { '1': 'Kategorie 1: Teilzeit', '0': 'Kategorie 0: Vollzeit', na: 'leer (NA): zählt nicht mit' };
+/** Benannte Umkodierungen in der Reihenfolge von WORK, mit Rückmeldung (Anteil in sitzung05-zahlen.R geprüft). */
 export const CUTS: { id: string; groups: Group[]; share: number; text: string }[] = [
   { id: 'A', groups: ['0', '1', '1', 'na', 'na'], share: 34.8, text: '34,8 % der Erwerbstätigen arbeiten Teilzeit oder nebenher. So ist auch die Regel in ‚R lesen‘ gebaut.' },
   { id: 'B', groups: ['0', '1', 'na', 'na', 'na'], share: 26.3, text: '26,3 %: Wer nebenher arbeitet, zählt jetzt gar nicht mit. Die Zahl beantwortet eine engere Frage: Wie viele von denen, die Vollzeit oder Teilzeit arbeiten, arbeiten Teilzeit?' },
   { id: 'C', groups: ['0', '1', '0', 'na', 'na'], share: 23.3, text: '23,3 %: Nebenher Arbeitende zählen jetzt als Vollzeit. Passt das zu ihrer Antwort?' },
   { id: 'D', groups: ['0', '1', '1', '0', 'na'], share: 22.4, text: '22,4 %: Nicht Erwerbstätige zählen als Vollzeit. Die Basis sind jetzt fast alle Befragten, nicht die Erwerbstätigen.' },
   { id: 'E', groups: ['0', '1', '1', '0', '0'], share: 22.3, text: '22,3 %: So rechnet R mit else=0. Dann zählt auch, wer gar nichts angegeben hat, als Vollzeit.' },
-  { id: 'F', groups: ['0', '1', '1', '1', 'na'], share: 57.9, text: '57,9 %: Nicht Erwerbstätige zählen als Teilzeit. Die Gruppe heißt Teilzeit, misst aber etwas anderes.' },
+  { id: 'F', groups: ['0', '1', '1', '1', 'na'], share: 57.9, text: '57,9 %: Nicht Erwerbstätige zählen als Teilzeit. Die Kategorie heißt Teilzeit, misst aber etwas anderes.' },
 ];
-export const CUT_OTHER = (share: string) => `Deine Einteilung ergibt ${share} %. Frag dich bei jeder Zeile: Passt die Antwort zum Namen der Gruppe?`;
+export const CUT_OTHER = (share: string) => `Deine Umkodierung ergibt ${share} %. Frag dich bei jeder Zeile: Passt die Antwort zum Namen der Kategorie?`;
 
 /* ---------- Basis-Schalter (Grundlage 2) ---------- */
 
@@ -145,13 +145,13 @@ allbus %>%
   a1_freq: { title: 'Die Codes von pe01', code: `# Welche Codes hat pe01?
 allbus %>%
   frequency(pe01)` },
-  a1_misstrauen: { title: 'Die Gruppe misstrauen bilden', code: `# Neue Variable misstrauen bilden und gleich prüfen
+  a1_misstrauen: { title: 'Die Variable misstrauen bilden', code: `# Neue Variable misstrauen bilden und gleich prüfen
 allbus %>%
   mutate(
     misstrauen = rec(pe01, rules = "⟦1⟧=1 [misstraut]; ⟦2:4⟧=0 [misstraut nicht]; else=NA")
   ) %>%
   frequency(misstrauen)` },
-  a1_nichtwahl: { title: 'Die Gruppe nichtwahl bilden', code: `# Neue Variable nichtwahl bilden und gleich prüfen
+  a1_nichtwahl: { title: 'Die Variable nichtwahl bilden', code: `# Neue Variable nichtwahl bilden und gleich prüfen
 allbus %>%
   mutate(
     nichtwahl = ${NW}
@@ -275,16 +275,16 @@ const BASES: [string, string][] = [['row', '`"row"` (Zeilenprozente)'], ['col', 
 const A2D_OPTIONS: [string, string][] = [['6.5', '6,5 %'], ['87.0', '87,0 %'], ['4.6', '4,6 %']];
 const A2D_GROUP = 'Welche Zahl derselben Zelle beantwortet welche Frage?';
 const A2D_HELP = 'Aus Schritt 2: row %, col %, total %.';
-const A2D_HINT = 'Such die Gruppe nach ‚der‘: Sie ist die Basis. Misstrauende = Zeile, Nichtwählende = Spalte, alle = ganze Tabelle.';
+const A2D_HINT = 'Such die Kategorie nach ‚der‘: Sie ist die Basis. Misstrauende = Zeile, Nichtwählende = Spalte, alle = ganze Tabelle.';
 
 export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Q5[]> = {
   a1: [
     count('a1a', 'Wie viele Befragte zählen nach deiner Regel als „misstraut“?', 2630,
-      '2.630 Befragte, 73,1 % der gültigen Antworten: 1.144 stimmen voll zu, 1.486 eher.',
+      '2.630 Befragte: 1.144 stimmen voll zu, 1.486 eher.',
       'Lies in frequency(misstrauen) die Spalte N in der Zeile ‚misstraut‘. Steht in deiner Regel 1:2=1 und 3:4=0?',
       { short: 'misstraut', help: 'Aus Schritt 2, Spalte N.', wrong: {
         1144: '1.144 sind nur die mit ‚stimme voll zu‘. ‚Stimme eher zu‘ (Code 2) ist auch Zustimmung: Regel 1:2=1, dann 3:4=0.',
-        968: '968 ist die Gruppe ‚misstraut nicht‘. Gesucht ist die Zeile ‚misstraut‘.',
+        968: '968 ist die Kategorie ‚misstraut nicht‘. Gesucht ist die Zeile ‚misstraut‘.',
       } }),
     count('a1b', 'Wie viele Befragte würden nicht wählen?', 236,
       '236 Befragte sagen, sie würden nicht wählen, 3.748 würden wählen.',
@@ -292,12 +292,12 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Q5[]> = {
       { short: 'würde nicht wählen', help: 'Aus Schritt 3, Spalte N.', wrong: { 3748: '3.748 würden wählen. Gesucht ist die Zeile ‚würde nicht wählen‘.' } }),
     choice('a1c', 'Was ist in `nichtwahl` mit den 186 nicht Wahlberechtigten passiert?',
       [['nicht', 'Sie zählen als ‚würde nicht wählen‘'], ['waehlen', 'Sie zählen als ‚würde wählen‘'], ['na', 'Sie sind leer (NA) und zählen nicht mit']], 'na',
-      'Code −50 steht weder bei 91 noch bei 1:90, also greift else=NA. Sie stehen mit allen anderen fehlenden Angaben in der Zeile ‚System‘ (1.262).',
+      'Code −50 steht weder bei 91 noch bei 1:90, also greift else=NA. Sie sind jetzt ⟪fehlende Werte⟫ und stehen mit allen anderen in der Zeile ‚System‘ (1.262).',
       'Schau in die Regel: Aus 91 wird 1, aus 1 bis 90 wird 0. Kommt −50 darin vor? Was macht else=NA mit allem anderen?',
       { short: 'nicht Wahlberechtigte' }),
     choice('a1d', 'Über der Tabelle von `misstrauen` steht `mean=0.73`. Was heißt das?',
       [['anteil', '73 % der gültigen Antworten sind 1, also ‚misstraut‘'], ['skala', 'Die Befragten misstrauen im Schnitt mit 0,73 Punkten auf der Skala von 1 bis 4'], ['fehlen', '73 % der Antworten fehlen']], 'anteil',
-      'Bei einer Dummyvariable ist der Mittelwert der Anteil der Einsen: 0,73 heißt 73 %, wie Valid % 73,10 in der Zeile ‚misstraut‘.',
+      'Bei einer ⟪Dummyvariable⟫ (nur 0 und 1) ist der Mittelwert der Anteil der Einsen: 0,73 heißt 73 %, wie Valid % 73,10 in der Zeile ‚misstraut‘.',
       'Bei einer Variable mit nur 0 und 1 zählt jede 1 als eins, jede 0 als null. Der Mittelwert ist dann der Anteil der Einsen. Vergleiche mit Valid % in der Zeile ‚misstraut‘.',
       { short: 'mean=0.73', help: 'Grundlage 1, Genauer erklärt.' }),
   ],
@@ -306,13 +306,13 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Q5[]> = {
       'Mit `percentages = "col"` steht dort 87.0%, also 87,0 %: Spaltenprozente. Die Nichtwählenden sind 100 %.',
       NO_HINT,
       { short: 'Einstellung', help: 'Probier in Schritt 1 alle drei Einstellungen und schau immer auf dieselbe Zelle.', wrong: {
-        row: 'Bei "row" steht dort 6.5%: Anteil an den Misstrauenden. Probier "col".',
-        total: 'Bei "total" steht dort 4.6%: Anteil an allen 2.785 in der Tabelle. Probier "col".',
+        row: 'Bei "row" sind die Misstrauenden 100 %. Gesucht ist die Einstellung, bei der die Nichtwählenden 100 % sind: "col".',
+        total: 'Bei "total" sind alle 2.785 in der Tabelle 100 %. Gesucht ist die Einstellung, bei der die Nichtwählenden 100 % sind: "col".',
       } }),
     count('a2b', 'Wie viele Befragte stecken in dieser Zelle?', 127,
       '127 Befragte misstrauen und würden nicht wählen.', 'Die obere Zahl in der Zelle ist die Anzahl.',
       { short: 'Anzahl in der Zelle', help: 'Die obere Zahl in der Zelle.', wrong: {
-        146: '146 sind alle Nichtwählenden in der Tabelle (Zeile Total). Gesucht ist die Zelle selbst.',
+        146: '146 ist eine Summe am Rand der Tabelle. Gesucht ist die Zelle selbst: ihre obere Zahl.',
         1956: '1.956 sind alle Misstrauenden (Spalte Total). Gesucht ist die Zelle selbst.',
       } }),
     count('a2c', 'Wie viele Nichtwählende stehen in der Tabelle? Sie sind bei den 87 % die 100 %.', 146,
@@ -335,11 +335,11 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Q5[]> = {
   ],
   a3: [
     choice('a3a', 'Welche Prozentbasis hast du eingestellt?', BASES, 'row',
-      'Zeilenprozente: misstrauen steht in den Zeilen, also ist jede Gruppe 100 %. Jetzt vergleichst du Misstrauende mit übrigen.',
+      '⟪Zeilenprozente⟫: misstrauen steht als UV in den Zeilen, also bildet jede Gruppe der UV ihre eigenen 100 %. Jetzt vergleichst du Misstrauende mit übrigen.',
       NO_HINT,
       { short: 'Prozentbasis', wrong: {
         col: 'Bei "col" sind die Nichtwählenden 100 %; das war die Frage aus Aufgabe 2.',
-        total: 'Bei "total" ist die ganze Tabelle 100 %; dann kannst du die Gruppen nicht vergleichen.',
+        total: 'Bei "total" bilden alle in der Tabelle zusammen die 100 %; dann kannst du Misstrauende und übrige nicht vergleichen.',
       } }),
     pct('a3b', 'Wie viel Prozent der Misstrauenden würden nicht wählen?', 6.5,
       '6,5 %: 127 von 1.956 Misstrauenden.', 'Zeile ‚misstraut‘, Spalte ‚würde nicht wählen‘, mit "row".',
@@ -347,13 +347,13 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Q5[]> = {
     pct('a3c', 'Und wie viel Prozent der übrigen (Zeile „misstraut nicht“)?', 2.3,
       '2,3 %: 19 von 829.', 'Zeile ‚misstraut nicht‘, Spalte ‚würde nicht wählen‘.',
       { short: 'übrige', help: 'Aus Schritt 1, Zeile ‚misstraut nicht‘.', wrong: { 13: '13,0 % sind Spaltenprozente. Stell "row" ein.', 97.7: '97,7 % würden wählen. Gesucht ist ‚würde nicht wählen‘.' } }),
-    pct('a3d', 'Um wie viele Prozentpunkte unterscheiden sich die beiden Gruppen?', 4.2,
+    pct('a3d', 'Um wie viele Prozentpunkte unterscheiden sich Misstrauende und übrige?', 4.2,
       '4,2 Prozentpunkte: 6,5 minus 2,3. Misstrauende wollen fast dreimal so häufig nicht wählen, auf niedrigem Niveau.',
       'Zieh die beiden Prozentzahlen voneinander ab.',
       { short: 'Abstand', help: 'Prozentpunkte: abziehen.', wrong: { 2.8: '2,8 ist das Verhältnis (6,5 geteilt durch 2,3). Gefragt ist der Abstand: abziehen.' } }),
     choice('a3e', 'Welcher Satz passt zu deiner Tabelle?',
       [['gar', 'Wer Politikern misstraut, geht gar nicht mehr wählen.'], ['etwas', 'Misstrauende wollen etwas häufiger nicht wählen als die übrigen, 6,5 % gegenüber 2,3 %. Aber auch von ihnen wollen 93,5 % wählen.'], ['nichts', 'Misstrauen und Wahlabsicht haben nichts miteinander zu tun.']], 'etwas',
-      'Genau: Es gibt einen Zusammenhang, aber ‚gar nicht mehr‘ trägt er nicht. Die große Mehrheit der Misstrauenden will wählen.',
+      'Genau: Es gibt einen ⟪Zusammenhang⟫, aber ‚gar nicht mehr‘ trägt er nicht. Die große Mehrheit der Misstrauenden will wählen.',
       NO_HINT,
       { short: 'Satz', wrong: {
         gar: 'Dann müssten fast alle Misstrauenden ‚würde nicht wählen‘ sagen. Es sind 6,5 %.',
@@ -361,7 +361,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Q5[]> = {
       } }),
     choice('a3f', 'Zeigt die Tabelle, dass Misstrauen Menschen vom Wählen abhält?',
       [['ja', 'Ja, die Prozentzahlen beweisen es.'], ['nein', 'Nein: Sie zeigt einen Zusammenhang. Ob Misstrauen die Ursache ist, ob es umgekehrt wirkt oder ob etwas Drittes beides beeinflusst, etwa politisches Interesse, zeigt sie nicht.'], ['wenig', 'Nein, weil 6,5 % zu wenig sind.']], 'nein',
-      'Eine Kreuztabelle zeigt, was zusammen vorkommt, nicht warum. Die Richtung ist hier eine Annahme.',
+      'Eine Kreuztabelle zeigt, was zusammen vorkommt, nicht warum. Ob das eine das andere bewirkt, also ⟪Kausalität⟫, bleibt offen; die Richtung ist hier eine Annahme.',
       NO_HINT,
       { short: 'Ursache', help: 'Grundlage 3, Genauer erklärt.', wrong: {
         ja: 'Prozent zeigen, was zusammen vorkommt. Eine Ursache bräuchte mehr: zeitliche Abfolge und den Ausschluss anderer Erklärungen.',
@@ -381,17 +381,17 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Q5[]> = {
       '6,9 %: 104 von 1.512.', 'Zeile ‚misstraut‘, Spalte ‚würde nicht wählen‘ in Schritt 2.',
       { short: 'Misstrauende nach pe05', help: 'Aus Schritt 2.', wrong: {
         10.6: 'Bei dir zählt nur Code 1 (‚stimme gar nicht zu‘). ‚Stimme eher nicht zu‘ (Code 2) ist auch Misstrauen: 1:2=1, 3:4=0.',
-        3.2: 'Das ist die andere Zeile, oder deine Regel nimmt 3:4 als Misstrauen. Nach dem Umpolen heißen 1 und 2 Misstrauen.',
+        3.2: 'Prüf Zeile und Regel: Gesucht ist die Zeile ‚misstraut‘, und nach dem Umpolen heißen 1 und 2 Misstrauen.',
       } }),
     pct('a4c', 'Und wie viel Prozent der übrigen?', 3.2,
-      '3,2 %: Auch mit pe05 wollen Misstrauende etwa doppelt so häufig nicht wählen.', 'Zeile ‚misstraut nicht‘, Spalte ‚würde nicht wählen‘.',
+      '3,2 % der übrigen würden nicht wählen.', 'Zeile ‚misstraut nicht‘, Spalte ‚würde nicht wählen‘.',
       { short: 'übrige nach pe05', help: 'Aus Schritt 2.', wrong: {
         4.2: 'Bei dir zählt nur Code 1. Passe die Regel an: 1:2=1, 3:4=0.',
         6.9: 'Das ist die Zeile ‚misstraut‘. Gesucht ist ‚misstraut nicht‘.',
       } }),
     choice('a4d', 'Was zeigt die Tabelle ohne Umpolen (Schritt 3)?',
       [['vertauscht', 'Die Gruppen sind vertauscht: Unter ‚misstraut‘ stehen die, die pe05 zustimmen, also vertrauen. Darum sieht es aus, als wollten Misstrauende seltener nicht wählen.'], ['gleich', 'Dasselbe Ergebnis wie mit Umpolen.'], ['falsch', 'R rechnet ohne Umpolen falsch.']], 'vertauscht',
-      'Genau: 3,2 % und 6,9 % tauschen die Plätze. R rechnet richtig, aber die Regel passt nicht zur Richtung der Aussage.',
+      'Genau: 3,2 % und 6,9 % tauschen die Plätze. R rechnet richtig, aber die Regel passt nicht zur ⟪Polung⟫ der Aussage, also zu ihrer Richtung.',
       NO_HINT,
       { short: 'ohne Umpolen', wrong: {
         gleich: 'Vergleiche die Zeile ‚misstraut‘ in Schritt 2 (6,9 %) und Schritt 3 (3,2 %).',
@@ -415,12 +415,12 @@ export const A2_REVEAL = ['a2a', 'a2b', 'a2c', 'a2d1', 'a2d2', 'a2d3'];
 
 /* ---------- Kurz überlegen in den Grundlagen ---------- */
 
-export const G1_Q: Q5 = pct('g1-frage', 'In R steht ‚else=0‘ statt ‚else=NA‘: Alles, was nicht Teilzeit oder nebenher ist, kommt in Gruppe 0. Wie viel Prozent sind dann Teilzeit?', 22.3,
+export const G1_Q: Q5 = pct('g1-frage', 'In R steht ‚else=0‘ statt ‚else=NA‘: Alles, was nicht Teilzeit oder nebenher ist, kommt in Kategorie 0. Wie viel Prozent sind dann Teilzeit?', 22.3,
   '22,3 %. Mit else=0 zählen auch die 1.849 nicht Erwerbstätigen und die 35 ohne Angabe als Vollzeit. Die Zahl sieht harmlos aus, beantwortet aber eine andere Frage.',
-  'Leg alle Zeilen außer Teilzeit und nebenher in Gruppe 0, auch ‚ohne gültige Angabe‘, und lies den Anteil ab.',
-  { short: 'mit else=0', tolerance: 0.05 /* 22,4 is grouping D (missing left out), not else=0 */, help: 'Probier es oben aus: Auch ‚ohne gültige Angabe‘ kommt in Gruppe 0. Eine Kommazahl reicht, zum Beispiel 12,5.', wrong: {
-    34.8: '34,8 % sind es mit else=NA. Leg ‚nicht erwerbstätig‘ und ‚ohne gültige Angabe‘ in Gruppe 0.',
-    22.4: '22,4 % ergibt sich, wenn ‚ohne gültige Angabe‘ leer bleibt. Mit else=0 kommt auch sie in Gruppe 0.',
+  'Leg alle Zeilen außer Teilzeit und nebenher in Kategorie 0, auch ‚ohne gültige Angabe‘, und lies den Anteil ab.',
+  { short: 'mit else=0', tolerance: 0.05 /* 22,4 is grouping D (missing left out), not else=0 */, help: 'Probier es oben aus: Auch ‚ohne gültige Angabe‘ kommt in Kategorie 0. Eine Kommazahl reicht, zum Beispiel 12,5.', wrong: {
+    34.8: '34,8 % sind es mit else=NA. Leg ‚nicht erwerbstätig‘ und ‚ohne gültige Angabe‘ in Kategorie 0.',
+    22.4: '22,4 % ergibt sich, wenn ‚ohne gültige Angabe‘ leer bleibt. Mit else=0 kommt auch sie in Kategorie 0.',
   } });
 
 export const G2_Q: Q5 = pct('g2-frage', 'Wie viel Prozent der Teilzeitkräfte sind Männer?', 25.8,
@@ -444,28 +444,28 @@ export const G3_Q2: Q5 = choice('g3-frage2', 'Eine Schlagzeile: ‚Teilzeit ist 
   NO_HINT,
   { short: 'Schlagzeile', wrong: {
     frauen: 'Das wären die Zeilenprozente, 51,7 %. Die 74 % haben eine andere Basis: ‚der Teilzeitkräfte‘.',
-    vergleich: 'Für einen Vergleich muss jede Gruppe der UV 100 % sein. Bei den 74 % sind die Teilzeitkräfte 100 %, nicht Frauen und Männer je für sich.',
+    vergleich: 'Für einen Vergleich muss jede Gruppe der UV für sich 100 % sein. Bei den 74 % sind die Teilzeitkräfte 100 %, nicht Frauen und Männer je für sich.',
   } });
 
 export const G4_Q: Q5 = count('g4-frage', 'Nach dem Umpolen: Welcher Code steht bei ‚GUT‘?', 4,
-  '4: Vorher war GUT die 2, und 6 − 2 = 4.', 'Such GUT im linken Turm (Code 2) und folge dem Pfeil.',
+  '4: Vorher war GUT die 2, und 6 − 2 = 4.', 'Such GUT links bei der Variable vorher (Code 2) und folge dem Pfeil.',
   { short: 'Code von GUT', help: 'Neuer Code = 6 − alter Code.', wrong: { 2: '2 war GUT vor dem Umpolen. Rechne 6 − 2.' } });
 
 /* ---------- Überblick: Wer ist 100 %? ---------- */
 
 export const U1_OPTIONS = ['alle im Osten', 'alle Misstrauenden', 'alle Befragten in der Tabelle', 'West und Ost je für sich'];
 export const U1: { question: string; answer: number; right: string; wrong: string }[] = [
-  { question: 'Wie viel Prozent der Befragten im Osten misstrauen den Politikern?', answer: 0, right: 'Basis: die Befragten im Osten.', wrong: 'Die Gruppe nach ‚der‘: die Befragten im Osten.' },
-  { question: 'Wie viel Prozent der Misstrauenden leben im Osten?', answer: 1, right: 'Basis: die Misstrauenden.', wrong: 'Die Gruppe nach ‚der‘: die Misstrauenden.' },
+  { question: 'Wie viel Prozent der Befragten im Osten misstrauen den Politikern?', answer: 0, right: 'Basis: die Befragten im Osten.', wrong: 'Die Kategorie nach ‚der‘: die Befragten im Osten.' },
+  { question: 'Wie viel Prozent der Misstrauenden leben im Osten?', answer: 1, right: 'Basis: die Misstrauenden.', wrong: 'Die Kategorie nach ‚der‘: die Misstrauenden.' },
   { question: 'Wie viel Prozent aller Befragten sind Misstrauende aus dem Osten?', answer: 2, right: 'Basis: alle. Das sind Gesamtprozente.', wrong: '‚Aller Befragten‘: Die ganze Tabelle ist 100 %.' },
-  { question: 'Misstrauen Befragte im Osten häufiger als im Westen?', answer: 3, right: 'Ein Vergleich: Jede Gruppe der UV ist 100 %.', wrong: 'Für einen Vergleich ist jede Gruppe für sich 100 %, dann vergleichst du die Anteile.' },
+  { question: 'Misstrauen Befragte im Osten häufiger als im Westen?', answer: 3, right: 'Ein Vergleich: Jede Gruppe der UV ist für sich 100 %.', wrong: 'Für einen Vergleich ist jede Gruppe der UV für sich 100 %, dann vergleichst du die Anteile.' },
 ];
 export const U1_ALL_RIGHT = 'Alle vier richtig. In R gibt `crosstab(eastwest, misstrauen, percentages = "row")` die Antwort auf die letzte Frage: Im Westen misstrauen 70,6 %, im Osten 78,3 %.';
 
 /** Ü2: Voraussetzungen der Kreuztabelle. */
 export const PREREQUISITES: [string, string, string][] = [
-  ['Variablen', 'zwei Variablen mit wenigen Stufen', 'Viele Stufen machen die Tabelle unlesbar. Erst zu Gruppen zusammenfassen (Grundlage 1) und sagen, wie.'],
-  ['Gruppen', 'genug Menschen je Gruppe', 'Prozent aus 14 Menschen schwanken stark. n je Gruppe nennen.'],
+  ['Variablen', 'zwei Variablen mit wenigen Ausprägungen', 'Viele Ausprägungen machen die Tabelle unlesbar. Erst zu wenigen Kategorien zusammenfassen (Grundlage 1) und sagen, wie.'],
+  ['Fallzahl', 'genug Fälle je Gruppe der UV', 'Prozent aus 14 Menschen schwanken stark. n je Gruppe nennen.'],
   ['fehlende Werte', 'gültige Angaben bei beiden Variablen', 'Wer bei einer Variable fehlt, steht nicht in der Tabelle; bei Split-Fragen fast ein Drittel. N (valid) nennen.'],
   ['Prozentbasis', 'eine Basis, die zur Frage passt', 'Gleiche Zelle, andere Basis, andere Aussage. Immer sagen, wer 100 % ist.'],
   ['Deutung', 'eine begründete Leserichtung (UV, AV)', 'Ein Zusammenhang ist keine Ursache. Andere Erklärungen bedenken.'],
@@ -477,7 +477,7 @@ export const PREREQUISITES: [string, string, string][] = [
 export const PREDICTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', { id: string; prompt: string; options: string[]; resolve?: string }> = {
   a1: { id: 'a1', prompt: 'Was schätzt du: Wie viele der Befragten mit gültiger Antwort stimmen der Aussage ‚Die Politiker kümmern sich nicht viel darum, was Leute wie ich denken‘ zu, voll oder eher?', options: ['weniger als ein Drittel', 'etwa die Hälfte', 'mehr als zwei Drittel'], resolve: 'Tatsächlich sind es 73,1 %, also mehr als zwei Drittel.' },
   a2: { id: 'a2', prompt: 'Wer ist bei ‚87 Prozent der Nichtwähler‘ die Basis, also 100 %?', options: ['alle Befragten', 'die Nichtwählenden', 'die Misstrauenden'] },
-  a3: { id: 'a3', prompt: 'Welche Gruppen musst du vergleichen, um die Leitfrage zu beantworten?', options: ['Misstrauende mit übrigen: Wie viele von ihnen würden nicht wählen?', 'Nichtwählende mit Wählenden: Wie viele von ihnen misstrauen?'] },
+  a3: { id: 'a3', prompt: 'Wen musst du mit wem vergleichen, um die Leitfrage zu beantworten?', options: ['Misstrauende mit übrigen: Wie viele von ihnen würden nicht wählen?', 'Nichtwählende mit Wählenden: Wie viele von ihnen misstrauen?'] },
   a4: { id: 'a4', prompt: 'Du nimmst die Regel aus Aufgabe 1, `1:2=1 [misstraut]`, ohne Umpolen für pe05. Wen zählt die neue Variable dann als ‚misstraut‘?', options: ['Menschen, die den Politikern misstrauen', 'Menschen, die den Politikern vertrauen'] },
 };
 
@@ -487,11 +487,11 @@ export const PREDICTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', { id: string; prompt
 export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> = {
   a1: [
     'Eine Regel liest du ‚aus diesen alten Codes wird dieser neue Code‘. Zustimmung heißt hier: ‚stimme voll zu‘ und ‚stimme eher zu‘. Welche Codes haben diese beiden Antworten?',
-    'Die Codes von pe01 stehen in Schritt 1 in der Spalte Value. Von bis schreibt R mit Doppelpunkt: 1:2 heißt 1 bis 2. Die Größe der Gruppen steht in den Ausgaben von Schritt 2 und 3 in der Spalte N, der Mittelwert in der Kopfzeile darüber.',
+    'Die Codes von pe01 stehen in Schritt 1 in der Spalte Value. Von bis schreibt R mit Doppelpunkt: 1:2 heißt 1 bis 2. Wie viele in jeder Kategorie sind, steht in den Ausgaben von Schritt 2 und 3 in der Spalte N, der Mittelwert in der Kopfzeile darüber.',
     'In Schritt 2 heißt die Regel für misstrauen `"1:2=1 [misstraut]; 3:4=0 [misstraut nicht]; else=NA"`. Dann misstrauen 2.630 Befragte, 968 nicht; 236 würden nicht wählen, 3.748 wählen. Die 186 nicht Wahlberechtigten sind leer (NA). mean=0.73 heißt: 73 % misstrauen.',
   ],
   a2: [
-    'Bei ‚87 Prozent der Nichtwähler‘ sind die Nichtwählenden 100 %. In der Tabelle sind sie eine Spalte.',
+    'Bei ‚87 Prozent der Nichtwähler‘: Wer ist hier 100 %? Und steht diese Gruppe in der Tabelle in einer Zeile oder in einer Spalte?',
     'Stell in Schritt 1 `percentages = "col"` ein und lies die Zelle Zeile ‚misstraut‘, Spalte ‚würde nicht wählen‘: oben die Anzahl, darunter das Prozent. In Schritt 2 stehen row %, col % und total % derselben Zelle untereinander.',
     'Mit `"col"`: 87,0 %, 127 Befragte, Basis 146 Nichtwählende. Zuordnung: Misstrauende → 6,5 % (row), Nichtwählende → 87,0 % (col), alle → 4,6 % (total). Die Zahl stimmt.',
   ],
@@ -501,7 +501,7 @@ export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> 
     'Mit `"row"`: Misstrauende 6,5 % (127 von 1.956), übrige 2,3 % (19 von 829), Abstand 4,2 Prozentpunkte. 93,5 % der Misstrauenden würden wählen. Ein Zusammenhang ja, ‚gar nicht mehr‘ nein. Die Tabelle zeigt keine Ursache.',
   ],
   a4: [
-    'Wer pe05 zustimmt, vertraut. Nach dem Umpolen steht die kleine Zahl für Ablehnung, also für Misstrauen, genau wie bei pe01.',
+    'Wer pe05 zustimmt, vertraut. Bei pe01 steht eine kleine Zahl für Misstrauen. Was muss nach dem Umpolen bei pe05 eine kleine Zahl heißen, damit es dazu passt?',
     'Welches Wort bei welchem Code steht, zeigt Schritt 1. Misstrauen sind nach dem Umpolen die Codes 1 und 2. Die Prozent liest du in Schritt 2 in der Spalte ‚würde nicht wählen‘.',
     'Regel in Schritt 2: `"1:2=1 [misstraut]; 3:4=0 [misstraut nicht]; else=NA"`. Ergebnis: 6,9 % der Misstrauenden und 3,2 % der übrigen würden nicht wählen. Ohne Umpolen sind die Gruppen vertauscht (3,2 % und 6,9 %). Die Gegenprobe bestätigt Aufgabe 3.',
   ],
@@ -517,7 +517,7 @@ export const ERROR_HELP: { says: Rich; helps: Rich }[] = [
   { says: [{ code: 'konnte Funktion "rec" nicht finden' }, ' (oder ', { code: '"%>%"' }, ', ', { code: '"crosstab"' }, '); englisch ', { code: 'could not find function "rec"' }], helps: ['Den ', { href: '#r1', text: 'Startblock aus „R lesen“' }, ' ausführen.'] },
   { says: [{ code: "Objekt 'allbus' nicht gefunden" }, ' / ', { code: "object 'allbus' not found" }], helps: ['Die Zeile mit ', { code: 'read_spss()' }, ' aus dem Startblock ausführen.'] },
   { says: [{ code: "Can't select columns that don't exist. ✖ Column `misstrauen` doesn't exist." }, ' oder ', { code: 'Row variable `misstrauen` not found in data.' }], helps: ['R kennt die Variable nicht. Steht die ', { code: 'mutate()' }, '-Zeile, die sie bildet, oben in derselben Vorlage, und ist der Name dort genauso geschrieben? Kopiere die Vorlage neu und ändere nur die markierten Stellen.'] },
-  { says: ['Erst erscheint eine lange Tabelle (', { code: '# A tibble: 5,246 × …' }, '), dann ', { code: "Objekt 'misstrauen' nicht gefunden" }, ' / ', { code: "object 'misstrauen' not found" }], helps: ['Nach ', { code: ')' }, ' am Ende von ', { code: 'mutate(' }, ' fehlt ', { code: '%>%' }, '. Dann endet die Kette dort, und ', { code: 'crosstab()' }, ' oder ', { code: 'frequency()' }, ' bekommt keine Daten.'] },
+  { says: ['Erst erscheint eine lange Tabelle (', { code: '# A tibble: 5,246 × …' }, '), dann ', { code: "Objekt 'misstrauen' nicht gefunden" }, ' / ', { code: "object 'misstrauen' not found" }], helps: ['Nach ', { code: ')' }, ' am Ende von ', { code: 'mutate(' }, ' fehlt ', { code: '%>%' }, '. Ohne diese Pipe endet die Kette dort, und ', { code: 'crosstab()' }, ' oder ', { code: 'frequency()' }, ' bekommt keine Daten.'] },
   { says: [{ code: 'Invalid new value: "1 [misstraut], 3:4=0 …"' }], helps: ['Regeln trennt ein Semikolon ', { code: ';' }, ', kein Komma.'] },
   { says: [{ code: 'Invalid new value: "=1" in rule "1:2==1"' }], helps: ['In ', { code: 'rules' }, ' steht ein einfaches ', { code: '=' }, '. Das doppelte ', { code: '==' }, ' gehört in ', { code: 'filter()' }, '.'] },
   { says: [{ code: 'Invalid old value: "STIMME VOLL ZU"' }], helps: ['Links vom ', { code: '=' }, ' stehen Codes (Spalte Value in ', { code: 'frequency()' }, '), keine Wörter.'] },
@@ -525,14 +525,14 @@ export const ERROR_HELP: { says: Rich; helps: Rich }[] = [
   { says: [{ code: "Objekt 'misstraut' nicht gefunden" }, ' / ', { code: "object 'misstraut' not found" }], helps: ['Die Regel braucht Anführungszeichen außen herum: ', { code: 'rules = "1:2=1 [misstraut]; …"' }, '.'] },
   { says: [{ code: `'arg' sollte eines von '"row", "none", "col", "total", "all"' sein` }, ' / ', { code: "'arg' should be one of …" }], helps: [{ code: 'percentages' }, ' falsch geschrieben. Erlaubt sind ', { code: '"row"' }, ', ', { code: '"col"' }, ', ', { code: '"total"' }, ', ', { code: '"all"' }, ', in Anführungszeichen.'] },
   { says: ['In der Konsole erscheint ', { code: '+' }, ' und nichts passiert'], helps: ['Eine Klammer oder ein Anführungszeichen ist nicht geschlossen. Drück Esc und kopiere die Vorlage neu.'] },
-  { says: ['Keine Fehlermeldung, aber eine Regel für einen fehlenden Wert (z. B. ', { code: '-8=2 [weiß nicht]' }, ') erzeugt keine neue Gruppe'], helps: ['Fehlende Werte sind für ', { code: 'rec()' }, ' schon leer; ihre Codes lassen sich in einer Regel nicht ansprechen. Für die Aufgaben ist das nicht nötig.'] },
-  { says: ['Keine Fehlermeldung, aber die Zahl passt nicht'], helps: ['Prüf die neue Variable mit ', { code: 'frequency()' }, ': Stimmen die Gruppen? Und in der Tabelle: Wer ist 100 %, Zeile oder Spalte?'] },
+  { says: ['Keine Fehlermeldung, aber eine Regel für einen fehlenden Wert (z. B. ', { code: '-8=2 [weiß nicht]' }, ') erzeugt keine neue Kategorie'], helps: ['Fehlende Werte sind für ', { code: 'rec()' }, ' schon leer; ihre Codes lassen sich in einer Regel nicht ansprechen. Für die Aufgaben ist das nicht nötig.'] },
+  { says: ['Keine Fehlermeldung, aber die Zahl passt nicht'], helps: ['Prüf die neue Variable mit ', { code: 'frequency()' }, ': Stimmen die Kategorien? Und in der Tabelle: Wer ist 100 %, Zeile oder Spalte?'] },
 ];
 
 /* ---------- Prüf dich selbst ---------- */
 
 export const SELF_TEST: { question: string; options: string[]; answer: number; why: string }[] = [
-  { question: 'In einer Tabelle steht: „78 % der Befragten im Osten misstrauen den Politikern.“ Wer ist 100 %?', options: ['alle Misstrauenden', 'alle Befragten im Osten', 'alle Befragten'], answer: 1, why: 'Die Gruppe nach ‚der‘ ist die Basis: die Befragten im Osten (Grundlage 2).' },
+  { question: 'In einer Tabelle steht: „78 % der Befragten im Osten misstrauen den Politikern.“ Wer ist 100 %?', options: ['alle Misstrauenden', 'alle Befragten im Osten', 'alle Befragten'], answer: 1, why: 'Die Kategorie nach ‚der‘ ist die Basis: die Befragten im Osten (Grundlage 2).' },
   { question: 'Was macht else=NA in rec()?', options: ['setzt alle nicht genannten Codes auf 0', 'macht alle nicht genannten Codes leer, sie zählen nicht mit', 'löscht die alte Variable'], answer: 1, why: 'Alles, was in keiner Regel steht, wird NA und fällt aus Tabellen und Prozenten heraus. Mit else=0 würde es als 0 mitgezählt (Grundlage 1).' },
   { question: 'Du willst wissen, ob Ältere häufiger wählen wollen als Jüngere. Altersgruppen stehen in den Zeilen. Welche Prozent nimmst du?', options: ['Zeilenprozente', 'Spaltenprozente', 'Gesamtprozente'], answer: 0, why: 'Das Alter ist die UV. Jede Altersgruppe ist 100 %, und sie steht in den Zeilen (Grundlage 3).' },
   { question: 'Ein Anteil steigt von 20 % auf 30 %. Wie beschreibst du das richtig?', options: ['um 10 Prozent', 'um 10 Prozentpunkte', 'um 30 Prozentpunkte'], answer: 1, why: 'Abstand zweier Anteile: abziehen, 30 − 20 = 10 Prozentpunkte. In Prozent wären es 50 % mehr (Grundlage 3).' },
@@ -617,13 +617,13 @@ allbus %>%
 /* ---------- Textfassungen der Bilder ---------- */
 
 export const ALT = {
-  regel: 'Die Regel "2:3=1 [Teilzeit]; 1=0 [Vollzeit]; else=NA" in drei Teilen, getrennt durch Semikolons, die „nächste Regel“ bedeuten. Erster Teil: 2:3 sind die alten Codes 2 bis 3, das Gleichheitszeichen heißt „werden zu“, 1 ist der neue Code, Teilzeit in eckigen Klammern ist der Aufkleber; zusammen: Teilzeit und nebenher werden 1 mit dem Aufkleber Teilzeit. Zweiter Teil: Code 1 wird 0 mit dem Aufkleber Vollzeit. Dritter Teil: else=NA, alles andere wird leer, also nicht Erwerbstätige und alle ohne Angabe.',
-  rec: 'Links der Turm work vom Typ dbl+lbl mit sechs Steinen, zum Beispiel sechs Befragte: 1 VOLLZEIT, GANZTAGS; 2 TEILZEIT; 4 NICHT ERWERBSTAETIG; 3 NEBENHER BERUFSTAE.; ein leerer gestrichelter Stein mit dem Aufkleber KEINE ANGABE; 1 VOLLZEIT, GANZTAGS. Ein grüner Pfeil mit dem Code rec(work, rules = "2:3=1 [Teilzeit]; 1=0 [Vollzeit]; else=NA") führt zum Turm teilzeit: 0 Vollzeit; 1 Teilzeit; ein leerer Stein NA, orange umrandet mit der Notiz else=NA; 1 Teilzeit; ein leerer Stein NA; 0 Vollzeit. Darunter wird die Bauplatte allbus mit 5,246 × 579 durch einen grünen Pfeil mutate() zur Bauplatte mit 5,246 × 580; ihr neuer Turm ganz rechts heißt teilzeit.',
+  regel: 'Die Regel "2:3=1 [Teilzeit]; 1=0 [Vollzeit]; else=NA" in drei Teilen, getrennt durch Semikolons, die „nächste Regel“ bedeuten. Erster Teil: 2:3 sind die alten Codes 2 bis 3, das Gleichheitszeichen heißt „werden zu“, 1 ist der neue Code, Teilzeit in eckigen Klammern ist das Wertelabel; zusammen: Teilzeit und nebenher werden 1 mit dem Wertelabel Teilzeit. Zweiter Teil: Code 1 wird 0 mit dem Wertelabel Vollzeit. Dritter Teil: else=NA, alles andere wird leer, also nicht Erwerbstätige und alle ohne Angabe.',
+  rec: 'Links die Variable work vom Typ dbl+lbl als Turm mit sechs Werten, zum Beispiel sechs Befragte: 1 VOLLZEIT, GANZTAGS; 2 TEILZEIT; 4 NICHT ERWERBSTAETIG; 3 NEBENHER BERUFSTAE.; ein fehlender Wert, gestrichelt, mit dem Wertelabel KEINE ANGABE; 1 VOLLZEIT, GANZTAGS. Ein grüner Pfeil mit dem Code rec(work, rules = "2:3=1 [Teilzeit]; 1=0 [Vollzeit]; else=NA") führt zur neuen Variable teilzeit: 0 Vollzeit; 1 Teilzeit; ein fehlender Wert NA, orange umrandet mit der Notiz else=NA; 1 Teilzeit; ein fehlender Wert NA; 0 Vollzeit. Darunter wird der Datensatz allbus mit 5,246 × 579 durch einen grünen Pfeil mutate() zum Datensatz mit 5,246 × 580; seine neue Variable ganz rechts heißt teilzeit.',
   crosstab: 'Ausgabe von crosstab(sex, teilzeit, percentages = "row"). Kopf: Zeilenvariable sex, Spaltenvariable teilzeit, Zeilenprozente, N (valid) 3359, Missing 1887. Männer: 1379 Vollzeit (82,1 %), 301 Teilzeit (17,9 %), zusammen 1680. Frauen: 805 Vollzeit (48,3 %), 860 Teilzeit (51,7 %), zusammen 1665. Divers: 8 Vollzeit (57,1 %), 6 Teilzeit (42,9 %), zusammen 14. Total: 2192 Vollzeit (65,3 %), 1167 Teilzeit (34,7 %), zusammen 3359. Beschriftet sind: die Zeilen- und Spaltenvariable, die Art der Prozent, N und Missing, die Zelle Frau/Teilzeit mit Anzahl oben und Prozent unten, und die Total-Spalte und -Zeile als Summen.',
-  mutateA1: 'Zwei Paare von Türmen aus der Bauplatte allbus, zum Beispiel fünf Befragte. Oben links pe01: 2 STIMME EHER ZU, 4 STIMME GAR NICHT ZU, ein leerer Stein mit dem Aufkleber TNZ: SPLIT, 1 STIMME VOLL ZU, 3 STIMME EHER NICHT ZU. Daneben der neue Turm misstrauen, verbunden durch dünne graue Linien in jeder Zeile: vier gestrichelte Steine mit Fragezeichen, beschriftet deine Regel aus Schritt 2, und in der Split-Zeile ein leerer Stein NA. Unten links pv01: 91 WUERDE NICHT WAEHLEN, 2 SPD, ein leerer Stein mit dem Aufkleber NICHT WAHLBERECHTIGT, 4 DIE GRUENEN, 1 CDU-CSU. Daneben, wieder durch graue Linien Zeile für Zeile verbunden, der neue Turm nichtwahl: 1 würde nicht wählen, 0 würde wählen, ein leerer Stein NA, orange umrandet mit der Notiz minus 50 steht in keiner Regel, else gleich NA, dann 0 würde wählen und 0 würde wählen.',
+  mutateA1: 'Zwei Paare von Variablen aus dem Datensatz allbus, als Türme gezeichnet, zum Beispiel fünf Befragte. Oben links pe01: 2 STIMME EHER ZU, 4 STIMME GAR NICHT ZU, ein fehlender Wert mit dem Wertelabel TNZ: SPLIT, 1 STIMME VOLL ZU, 3 STIMME EHER NICHT ZU. Daneben die neue Variable misstrauen, verbunden durch dünne graue Linien in jeder Zeile: vier gestrichelte Werte mit Fragezeichen, beschriftet deine Regel aus Schritt 2, und in der Split-Zeile ein fehlender Wert NA. Unten links pv01: 91 WUERDE NICHT WAEHLEN, 2 SPD, ein fehlender Wert mit dem Wertelabel NICHT WAHLBERECHTIGT, 4 DIE GRUENEN, 1 CDU-CSU. Daneben, wieder durch graue Linien Zeile für Zeile verbunden, die neue Variable nichtwahl: 1 würde nicht wählen, 0 würde wählen, ein fehlender Wert NA, orange umrandet mit der Notiz minus 50 steht in keiner Regel, else gleich NA, dann 0 würde wählen und 0 würde wählen.',
   dreiBasen: 'Dreimal dieselbe Kreuztabelle von Geschlecht und Erwerbsform; die Zelle Frau und Teilzeit, 860 Befragte, ist jedes Mal orange. Gelb ist die Basis. Links Zeilenprozente, jede Zeile ist 100 Prozent: 51,7 Prozent der Frauen arbeiten Teilzeit. In der Mitte Spaltenprozente, jede Spalte ist 100 Prozent: 73,7 Prozent der Teilzeitkräfte sind Frauen. Rechts Gesamtprozente, alle zusammen sind 100 Prozent: 25,6 Prozent aller Erwerbstätigen sind Frauen in Teilzeit. Alle Zahlen stehen in der Tabelle unter dem Bild.',
   leserichtung: 'Drei Balken auf 100 Prozent. Männer, 1.680 Personen: 82,1 Prozent Vollzeit, 17,9 Prozent Teilzeit. Frauen, 1.665 Personen: 48,3 Prozent Vollzeit, 51,7 Prozent Teilzeit. Divers, 14 Personen, blass gezeichnet mit dem Hinweis, dass Prozent bei so wenigen Menschen stark schwanken: 57,1 Prozent Vollzeit, 42,9 Prozent Teilzeit. Eine grüne Klammer zwischen den Teilzeit-Anteilen von Männern und Frauen: 51,7 minus 17,9 gleich 33,8 Prozentpunkte.',
   nenner: 'Drei waagrechte Balken, so lang wie ihr Nenner. Oben ein kurzer Balken, die 146 Nichtwählenden; das orange Stück von 127 Menschen füllt ihn fast ganz: 87,0 Prozent, Spaltenprozent. In der Mitte ein langer Balken, die 1.956 Misstrauenden; dasselbe orange Stück ist ein kleiner Teil: 6,5 Prozent, Zeilenprozent. Unten der längste Balken, alle 2.785 in der Tabelle: 4,6 Prozent, Gesamtprozent.',
   umpolen: 'Links die Wirtschaftslage vorher: Code 1 sehr gut, 95 Befragte; 2 gut, 1.338; 3 teils/teils, 2.684; 4 schlecht, 919; 5 sehr schlecht, 158. Rechts nach dem Umpolen: Code 1 sehr schlecht, 158; 2 schlecht, 919; 3 teils/teils, 2.684; 4 gut, 1.338; 5 sehr gut, 95. Pfeile verbinden gleiche Wörter. Formel: neuer Code gleich 6 minus alter Code, weil 1 plus 5 gleich 6; zum Beispiel 6 minus 1 gleich 5, 6 minus 2 gleich 4, 6 minus 3 gleich 3. Mittelwert vorher 2,94, nachher 3,06.',
-  umpolenPe05: 'Links der Turm pe05, zum Beispiel fünf Befragte: 1 STIMME VOLL ZU, 3 STIMME EHER NICHT ZU, 4 STIMME GAR NICHT ZU, 2 STIMME EHER ZU und ein leerer Stein TNZ: SPLIT. Ein grüner Pfeil rec(pe05, rules = "rev") führt zum Turm pe05_um: 4 STIMME VOLL ZU, 2 STIMME EHER NICHT ZU, 1 STIMME GAR NICHT ZU, 3 STIMME EHER ZU und ein leerer Stein NA. Unter pe05_um sind die Codes 1 und 2 eingeklammert mit dem Text: jetzt wie bei pe01, kleine Zahl gleich Misstrauen. Unter pe05 grau: vorher, kleine Zahl gleich Vertrauen.',
+  umpolenPe05: 'Links die Variable pe05 als Turm, zum Beispiel fünf Befragte: 1 STIMME VOLL ZU, 3 STIMME EHER NICHT ZU, 4 STIMME GAR NICHT ZU, 2 STIMME EHER ZU und ein fehlender Wert TNZ: SPLIT. Ein grüner Pfeil rec(pe05, rules = "rev") führt zur neuen Variable pe05_um: 4 STIMME VOLL ZU, 2 STIMME EHER NICHT ZU, 1 STIMME GAR NICHT ZU, 3 STIMME EHER ZU und ein fehlender Wert NA. Unter pe05_um sind die Codes 1 und 2 eingeklammert mit dem Text: jetzt wie bei pe01, kleine Zahl gleich Misstrauen. Unter pe05 grau: vorher, kleine Zahl gleich Vertrauen.',
 } as const;

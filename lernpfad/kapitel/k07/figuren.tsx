@@ -46,7 +46,7 @@ export function StichprobenMaschine() {
     ? STACKS[v].map(c => ({ count: c }))
     : firstStacks(v, zahl).map((c, k) => ({ count: c, last: zahl > 0 && binOf(v, SAMPLES[v][zahl - 1].diff) === k }));
   const ziehen = () => { if (zahl < 20) setZahl(zahl + 1); else { fokus.current = 'vorn'; setZahl(1000); } };
-  const zeile = zahl === 0 ? 'Noch keine Stichprobe gezogen.' : zahl <= 20 ? stichprobenZeile(v, zahl) : 'Alle 1.000 Stichproben gezogen. 1 Stein = 10 Stichproben.';
+  const zeile = zahl === 0 ? 'Noch keine Stichprobe gezogen.' : zahl <= 20 ? stichprobenZeile(v, zahl) : 'Alle 1.000 Stichproben gezogen. 1 Kästchen = 10 Stichproben.';
   const rueck = zahl === 0 ? '' : zahl <= 20 ? MACHINE[v].early : MACHINE[v].all;
 
   return <div className="s07-maschine">

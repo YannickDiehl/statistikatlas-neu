@@ -4,6 +4,8 @@
 const D = window.KDATEN;
 const T = D.TEMPLATES;
 const $ = (s, el = document) => el.querySelector(s);
+/* Marken ⟪…⟫ nie in Journal-Daten oder Export übernehmen (Texte aus Aufgaben, Schritten, Kapitel-Meta). */
+const ohne = s => (window.Begriffe?.ohne ?? (x => x))(String(s ?? ''));
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const codeHtml = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
 
@@ -85,7 +87,7 @@ function codeBlock(key, schritt, aufgabe) {
 function editor(block, beiAenderung, beiLauf) {
   const wrap = document.createElement('div');
   wrap.innerHTML = `<div class="wk-editor"><div class="wk-nr" aria-hidden="true"></div><div class="wk-feld"><pre class="wk-back" aria-hidden="true"></pre>
-    <textarea autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" aria-label="Code: ${esc(block.titel)}" placeholder="${block.frei ? 'Dein Code, zum Beispiel allbus %>% …' : block.hinweis ? 'Schreib hier deinen Code. Die Vorlage siehst du links unter „Vorlage zeigen“.' : ''}"></textarea></div></div><p class="wk-stellen" ${block.ranges.length ? '' : 'hidden'}></p>`;
+    <textarea autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" aria-label="Code: ${esc(ohne(block.titel))}" placeholder="${block.frei ? 'Dein Code, zum Beispiel allbus %>% …' : block.hinweis ? 'Schreib hier deinen Code. Die Vorlage siehst du links unter „Vorlage zeigen“.' : ''}"></textarea></div></div><p class="wk-stellen" ${block.ranges.length ? '' : 'hidden'}></p>`;
   const ta = $('textarea', wrap), back = $('.wk-back', wrap), nr = $('.wk-nr', wrap), st = $('.wk-stellen', wrap);
   let alt = block.code;
   const zeichnen = () => {
@@ -135,11 +137,11 @@ function geradeZeichen(code) {
   }
   return aus;
 }
-const kommentarKopf = b => (b.frei ? `# ${b.titel}\n` : '') + (b.hinweis ? `# ${b.hinweis}\n` : '');
+const kommentarKopf = b => (b.frei ? `# ${ohne(b.titel)}\n` : '') + (b.hinweis ? `# ${ohne(b.hinweis)}\n` : '');
 const JKEY = PFX + '-journal-v1';
 const Journal = {
   bloecke: [], modus: 'bearbeiten', aus: new Map(), zahl: 0,
-  laden() { try { const j = JSON.parse(localStorage.getItem(JKEY) || 'null'); if (j) { this.bloecke = j.bloecke; this.zahl = j.zahl || 0; } } catch { /* leer */ } },
+  laden() { try { const j = JSON.parse(localStorage.getItem(JKEY) || 'null'); if (j) { this.bloecke = (j.bloecke || []).map(b => { for (const f of ['text', 'titel', 'hinweis']) if (typeof b[f] === 'string') b[f] = ohne(b[f]); return b; }); this.zahl = j.zahl || 0; } } catch { /* leer */ } },
   sichern() {
     try { localStorage.setItem(JKEY, JSON.stringify({ bloecke: this.bloecke, zahl: this.zahl })); $('#j-status').textContent = 'Im Browser gespeichert, ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr. Am Ende herunterladen.'; } catch { $('#j-status').textContent = 'Kann nicht im Browser speichern – bitte herunterladen.'; }
     const n = this.bloecke.filter(b => b.typ !== 'aufgabe').length;
@@ -167,12 +169,12 @@ const Journal = {
     let hinweis = null;
     if (S.vorlage === 'selbst') { hinweis = `Ziel: ${zielVon(p.code)}. Du brauchst: ${brauchstVon(p.code).join(', ')}`; p = { code: '', ranges: [] }; }
     const nr = aufgabe.schritte.indexOf(schritt) + 1;
-    const id = this.einordnen(aufgabe.id, [{ typ: 'code', key, schritt: schritt.id, titel: `Schritt ${nr}: ${schritt.titel}`, hinweis, code: p.code, ranges: p.ranges }]);
+    const id = this.einordnen(aufgabe.id, [{ typ: 'code', key, schritt: schritt.id, titel: ohne(`Schritt ${nr}: ${schritt.titel}`), hinweis: hinweis && ohne(hinweis), code: p.code, ranges: p.ranges }]);
     this.zeigen(id);
   },
   probierHolen(code, aufgabeId, titel) {
     Arbeitsplatz.offen(true);
-    const id = this.einordnen(aufgabeId, [{ typ: 'code', key: null, schritt: null, frei: true, titel, code: code.replace(/\n+$/, ''), ranges: [] }]);
+    const id = this.einordnen(aufgabeId, [{ typ: 'code', key: null, schritt: null, frei: true, titel: ohne(titel), code: code.replace(/\n+$/, ''), ranges: [] }]);
     this.zeigen(id, true); fortschritt();
   },
   notiz(aufgabeId, text = '', art = 'notiz') {
@@ -238,7 +240,7 @@ const Journal = {
       if (b.typ === 'aufgabe') {
         const t = TASKS.find(x => x.id === b.aufgabe);
         const sek = document.createElement('section'); sek.className = 'j-abschnitt'; sek.id = b.id;
-        sek.innerHTML = `<div class="j-h"><span class="st c7" aria-hidden="true">A${t.n}</span><h3>Aufgabe ${t.n}: ${esc(t.titel)}</h3></div><p class="j-frage">${esc(t.frage)}</p><div class="j-bloecke"></div>`;
+        sek.innerHTML = `<div class="j-h"><span class="st c7" aria-hidden="true">A${t.n}</span><h3>Aufgabe ${t.n}: ${esc(ohne(t.titel))}</h3></div><p class="j-frage">${esc(ohne(t.frage))}</p><div class="j-bloecke"></div>`;
         sek.append(this.endKnoepfe(() => this.bloecke.map(x => x.aufgabe).lastIndexOf(t.id) + 1, t.id));
         box.append(sek); ziel = $('.j-bloecke', sek);
         ziel.append(this.zwischen(i + 1, b.aufgabe));
@@ -246,7 +248,7 @@ const Journal = {
       }
       if (b.typ === 'code') {
         const el = document.createElement('div'); el.className = 'jc' + (b.frei ? ' frei-block' : ''); el.id = b.id;
-        el.innerHTML = `<div class="jc-kopf"><span class="lbl" title="${esc(b.titel)}">${esc(b.titel)}</span><button type="button" class="run">▶ Ausführen</button><button type="button" class="weg" aria-label="Block entfernen">✕</button></div>`;
+        el.innerHTML = `<div class="jc-kopf"><span class="lbl" title="${esc(ohne(b.titel))}">${esc(ohne(b.titel))}</span><button type="button" class="run">▶ Ausführen</button><button type="button" class="weg" aria-label="Block entfernen">✕</button></div>`;
         if (b.hinweis) el.insertAdjacentHTML('beforeend', `<p class="jc-hinweis">${esc(b.hinweis)}</p>`);
         el.append(editor(b, () => this.sichern(), () => this.lauf(b, el)));
         el.insertAdjacentHTML('beforeend', '<div class="wk-aus" hidden><p class="label">Ausgabe</p><div class="wk-status"></div><pre class="ausgabe-text" hidden></pre><ul class="meldungen"></ul><div class="bilder"></div></div>');
@@ -294,10 +296,10 @@ const Journal = {
     return d;
   },
   vorschauHtml() {
-    let h = `<h1>Sitzung ${NR}: ${esc(META.titel)}</h1><p class="sub">Mein Lernjournal</p><pre>${esc(T.start.code)}</pre>`;
+    let h = `<h1>Sitzung ${NR}: ${esc(ohne(META.titel))}</h1><p class="sub">Mein Lernjournal</p><pre>${esc(T.start.code)}</pre>`;
     for (const b of this.bloecke) {
       const t = TASKS.find(x => x.id === b.aufgabe);
-      if (b.typ === 'aufgabe') h += `<h2>Aufgabe ${t.n}: ${esc(t.titel)}</h2><p><em>${esc(t.frage)}</em></p>`;
+      if (b.typ === 'aufgabe') h += `<h2>Aufgabe ${t.n}: ${esc(ohne(t.titel))}</h2><p><em>${esc(ohne(t.frage))}</em></p>`;
       else if (b.typ === 'code') {
         h += `<pre>${esc(kommentarKopf(b) + b.code)}</pre>`;
         const o = this.aus.get(b.id);
@@ -309,12 +311,12 @@ const Journal = {
   },
   qmd() {
     const lbl = new Set();
-    let s = '---\ntitle: "Sitzung ' + NR + ': ' + META.titel.replace(/"/g, "'") + '"\nsubtitle: "Mein Lernjournal"\nauthor: "Dein Name"\ndate: today\nlang: de\nformat:\n  html:\n    toc: true\n    embed-resources: true\nexecute:\n  error: true\n---\n\n'
+    let s = '---\ntitle: "Sitzung ' + NR + ': ' + ohne(META.titel).replace(/"/g, "'") + '"\nsubtitle: "Mein Lernjournal"\nauthor: "Dein Name"\ndate: today\nlang: de\nformat:\n  html:\n    toc: true\n    embed-resources: true\nexecute:\n  error: true\n---\n\n'
       + '<!-- So wird daraus ein Dokument: Leg diese Datei in denselben Ordner wie die ALLBUS-Datei (ZA8831_v1-3-0.sav),\n     öffne sie in RStudio und klick oben auf „Render“. Fehler im Code halten das Rendern nicht an,\n     sie stehen dann im Dokument unter dem jeweiligen Block. -->\n\n';
     s += '```{r}\n#| label: start\n#| message: false\n# Liegt die ALLBUS-Datei im selben Ordner wie dieses Dokument, findet R sie.\n' + T.start.code.replace(/^# .*\n/, '') + '\n```\n';
     for (const b of this.bloecke) {
       const t = TASKS.find(x => x.id === b.aufgabe);
-      if (b.typ === 'aufgabe') s += `\n## Aufgabe ${t.n}: ${t.titel}\n\n*${t.frage}*\n`;
+      if (b.typ === 'aufgabe') s += `\n## Aufgabe ${t.n}: ${ohne(t.titel)}\n\n*${ohne(t.frage)}*\n`;
       else if (b.typ === 'code') {
         const l0 = b.schritt || (b.aufgabe || 'eigen') + '-probieren'; let l = l0, k = 2; while (lbl.has(l)) l = l0 + '-' + k++; lbl.add(l);
         s += '\n```{r}\n#| label: ' + l + '\n' + kommentarKopf(b) + nurInteraktiv(b.code.replace(/\n+$/, '')) + '\n```\n';
@@ -324,7 +326,7 @@ const Journal = {
     return s;
   },
   html() {
-    return `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Sitzung ${NR}: ${esc(META.titel)} – Mein Lernjournal</title><style>body{max-width:820px;margin:30px auto;padding:0 20px;font:16px/1.6 Georgia,serif;color:#222}h1,h2{font-family:system-ui,sans-serif}h2{border-bottom:1px solid #ddd;padding-bottom:3px;margin-top:28px}pre{background:#f6f6f6;border-radius:6px;padding:8px 12px;font:13px/1.5 Menlo,monospace;overflow-x:auto}pre.out{background:#fff;border:1px solid #eee}img{max-width:100%}.sub{color:#666;margin-top:0}</style></head><body>${this.vorschauHtml()}</body></html>`;
+    return `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Sitzung ${NR}: ${esc(ohne(META.titel))} – Mein Lernjournal</title><style>body{max-width:820px;margin:30px auto;padding:0 20px;font:16px/1.6 Georgia,serif;color:#222}h1,h2{font-family:system-ui,sans-serif}h2{border-bottom:1px solid #ddd;padding-bottom:3px;margin-top:28px}pre{background:#f6f6f6;border-radius:6px;padding:8px 12px;font:13px/1.5 Menlo,monospace;overflow-x:auto}pre.out{background:#fff;border:1px solid #eee}img{max-width:100%}.sub{color:#666;margin-top:0}</style></head><body>${this.vorschauHtml()}</body></html>`;
   },
   laden_herunter(name, text, typ) {
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: typ })); a.download = name; document.body.append(a); a.click();
@@ -427,7 +429,7 @@ function fragenBlock(s) {
       const zeilen = [];
       if (p && S.wahl[p.id]) zeilen.push(`Vermutet hatte ich: ${S.wahl[p.id]}.`);
       richtig.forEach(q => zeilen.push(`${(q.short || q.label).replace(/^./, c => c.toUpperCase())}: ${q.right}`));
-      Journal.notiz(t.id, 'Ergebnis\n' + zeilen.join('\n'), 'ergebnis');
+      Journal.notiz(t.id, ohne('Ergebnis\n' + zeilen.join('\n')), 'ergebnis');
     };
   };
   f.onsubmit = ev => {
@@ -788,7 +790,7 @@ window.K4Vorlage = {
   journalStand() {
     const B = Journal.bloecke;
     return {
-      aufgaben: TASKS.map(t => ({ n: t.n, titel: t.titel, code: B.filter(b => b.aufgabe === t.id && b.typ === 'code').length, notizen: B.filter(b => b.aufgabe === t.id && (b.typ === 'notiz' || b.typ === 'ergebnis') && (b.text || '').trim()).length })),
+      aufgaben: TASKS.map(t => ({ n: t.n, titel: ohne(t.titel), code: B.filter(b => b.aufgabe === t.id && b.typ === 'code').length, notizen: B.filter(b => b.aufgabe === t.id && (b.typ === 'notiz' || b.typ === 'ergebnis') && (b.text || '').trim()).length })),
       frei: B.filter(b => b.frei).length, leer: !B.some(b => b.typ !== 'aufgabe'),
     };
   },
@@ -960,3 +962,21 @@ Auftrag.kopf(ALLE_SCHRITTE[0].id);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !ap.hidden && matchMedia('(max-width:1279px)').matches && !e.target.closest('textarea, input') && $('#mehr').hidden) Arbeitsplatz.offen(false); });
 })();
 
+
+/* Sprung per #verstehen=<id> (etwa aus dem Fachbegriff-Fenster eines anderen Kapitels): Reiter „Verstehen“ öffnen und die Karte zeigen.
+   verstehen.js (React-Bündel) lädt nach engine.js; deshalb erst nach „load“ und, falls nötig, kurz warten. */
+(() => {
+  const m = /^#verstehen=([A-Za-z0-9_-]+)$/.exec(location.hash);
+  if (!m) return;
+  const id = m[1];
+  const los = () => {
+    let n = 0;
+    const versuch = () => {
+      if (!window.Verstehen && n++ < 50) { setTimeout(versuch, 100); return; }
+      tabWechsel('verstehen', id);
+      history.replaceState(null, '', location.pathname + location.search);
+    };
+    versuch();
+  };
+  if (document.readyState === 'complete') los(); else addEventListener('load', los);
+})();

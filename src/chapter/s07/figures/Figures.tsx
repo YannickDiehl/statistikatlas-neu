@@ -21,8 +21,8 @@ export function TFormula() {
   const [m, f] = DW15_SEX.groups;
   return <figure className="s07-bausteine" aria-label="t als Bausteine">
     <div className="ebene">
-      <span className="frac" aria-hidden="true"><span><Stone tone="signal">Signal: Unterschied der Mittelwerte</Stone></span><span><Stone tone="noise">Rauschen: Standardfehler</Stone></span></span>
-      <span className="sr-only">Signal geteilt durch Rauschen gleich t</span>
+      <span className="frac" aria-hidden="true"><span><Stone tone="signal">Unterschied der Mittelwerte (Signal)</Stone></span><span><Stone tone="noise">Standardfehler (Rauschen)</Stone></span></span>
+      <span className="sr-only">Unterschied der Mittelwerte geteilt durch Standardfehler gleich t</span>
       <span aria-hidden="true">=</span><Stone tone="result">t</Stone>
     </div>
     <div className="pfeil" aria-hidden="true">↓</div>
@@ -33,8 +33,8 @@ export function TFormula() {
     </div>
     <div className="pfeil" aria-hidden="true">↓</div>
     <ul className="ebene zahlen">
-      <li><b>Signal:</b> {`${de(m.mean, 3)} − ${de(f.mean, 3)} ≈ ${de(DW15_SEX.welch.diff, 3)} Stunden (R zieht die ungerundeten Mittelwerte ab; mit den gerundeten käme 7,989 heraus)`}</li>
-      <li><b>Rauschen:</b> {`√(${de(m.sd, 3)}² ÷ ${whole(m.n)} + ${de(f.sd, 3)}² ÷ ${whole(f.n)}) = √(0,0466 + 0,0742) = √0,1208 ≈ 0,348 Stunden`}</li>
+      <li><b>Unterschied (Signal):</b> {`${de(m.mean, 3)} − ${de(f.mean, 3)} ≈ ${de(DW15_SEX.welch.diff, 3)} Stunden (R zieht die ungerundeten Mittelwerte ab; mit den gerundeten käme 7,989 heraus)`}</li>
+      <li><b>Standardfehler (Rauschen):</b> {`√(${de(m.sd, 3)}² ÷ ${whole(m.n)} + ${de(f.sd, 3)}² ÷ ${whole(f.n)}) = √(0,0466 + 0,0742) = √0,1208 ≈ 0,348 Stunden`}</li>
       <li><b>t</b> {'= 7,988 ÷ 0,348 ≈ 22,95, rund 23 (R rechnet mit allen Nachkommastellen: 22,988)'}</li>
     </ul>
   </figure>;
@@ -44,7 +44,7 @@ export function TFormula() {
 
 export function WelchFormula() {
   const e = WELCH_EXAMPLE;
-  return <figure className="s07-welch" aria-label="Zwei Arten, das Rauschen zu rechnen">
+  return <figure className="s07-welch" aria-label="Zwei Arten, den Standardfehler zu rechnen">
     <div className="spalten">
       <div className="spalte student">
         <p className="kopf">Student: eine gemeinsame Streuung für beide</p>

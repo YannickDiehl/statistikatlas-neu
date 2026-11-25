@@ -15,12 +15,12 @@ const STUFEN: Stufe[] = [
     text: <><b>Median:</b> Zähl von links. Die sechste Person steht genau in der Mitte: fünf links, fünf rechts. Sie arbeitet <b>40 Stunden</b>. Kurz gesagt: Die eine Hälfte arbeitet weniger, die andere mehr.</> },
   { name: 'Quartile', werte: BASIS, median: true, quart: true, kasten: false,
     text: <><b>Quartile:</b> Teil jede Hälfte noch einmal in der Mitte. Die dritte Person (<b>34 Stunden</b>) ist das untere Quartil (Q1), die neunte (<b>43 Stunden</b>) das obere (Q3). Kurz gesagt: Zwischen ihnen steht die mittlere Hälfte der Personen.</> },
-  { name: 'Kasten und Antennen', werte: BASIS, median: true, quart: true, kasten: true,
-    text: <><b>Kasten und Antennen:</b> Um die mittlere Hälfte kommt ein Kasten, der Median als Strich hinein. Die <b>Antennen</b> (Fachbegriff: Whisker) reichen bis zum kleinsten und größten Wert, höchstens anderthalb Kastenlängen weit. Fertig ist der <b>Boxplot</b>. Die Länge des Kastens (43 − 34 = 9 Stunden) heißt <b>Interquartilsabstand</b>.</> },
+  { name: 'Box und Whisker', werte: BASIS, median: true, quart: true, kasten: true,
+    text: <><b>Box und Whisker:</b> Um die mittlere Hälfte kommt ein Kasten, die <b>Box</b>; der Median kommt als Linie hinein. Die <b>Whisker</b> (im Bild: Antennen) reichen bis zum kleinsten und größten Wert, höchstens anderthalb Boxlängen weit. Fertig ist der <b>Boxplot</b>. Die Länge der Box (43 − 34 = 9 Stunden) heißt <b>Interquartilsabstand</b>.</> },
   { name: 'Ein Ausreißer', werte: [0, ...BASIS.slice(1)], median: true, quart: true, kasten: true, grenze: true, neu: [0],
-    text: <><b>Was passiert, wenn die Person mit 22 Stunden in Kurzarbeit null geht?</b> Sie arbeitet jetzt 0 Stunden. Der Mittelwert fällt von 37,4 auf <b>35,4</b>, der Median bleibt bei <b>40</b>: Die Person in der Mitte ist dieselbe. Die 0 liegt links der Grenze (34 − 1,5 × 9 = 20,5), darum zeichnet R sie als eigenen Punkt, als <b>Ausreißer</b>. Die Antenne endet jetzt bei 28 Stunden. Ein Ausreißer ist kein Fehler: Er wird markiert, nicht gelöscht.</> },
+    text: <><b>Was passiert, wenn die Person mit 22 Stunden in Kurzarbeit null geht?</b> Sie arbeitet jetzt 0 Stunden. Der Mittelwert fällt von 37,4 auf <b>35,4</b>, der Median bleibt bei <b>40</b>: Die Person in der Mitte ist dieselbe. Die 0 liegt links der Grenze (34 − 1,5 × 9 = 20,5), darum zeichnet R sie als eigenen Punkt, als <b>Ausreißer</b>. Der Whisker endet jetzt bei 28 Stunden. Ein Ausreißer ist kein Fehler: Er wird markiert, nicht gelöscht.</> },
   { name: 'Zwei fallen weg', werte: BASIS.slice(0, 9), median: true, quart: false, kasten: false,
-    text: <><b>Und wenn die zwei Personen mit 44 und 45 Stunden aus der Auswertung fallen?</b> Neun bleiben. Die fünfte steht jetzt in der Mitte, und sie arbeitet <b>38 Stunden</b>. Der Median rutscht nach unten, weil am oberen Ende Personen fehlen. Ein einzelner Ausreißer bewegt den Median kaum, wer aber Personen weglässt, verschiebt die Mitte der Reihe. Genau das passiert in Aufgabe 4, wenn <code>filter()</code> lange Bögen hinauswirft.</> },
+    text: <><b>Und wenn die zwei Personen mit 44 und 45 Stunden aus der Auswertung fallen?</b> Neun bleiben. Die fünfte steht jetzt in der Mitte, und sie arbeitet <b>38 Stunden</b>. Der Median rutscht nach unten, weil am oberen Ende Personen fehlen. Ein einzelner Ausreißer bewegt den Median kaum, wer aber Personen weglässt, verschiebt die Mitte der Reihe. Genau das passiert in Aufgabe 4, wenn <code>filter()</code> lange Fälle hinauswirft.</> },
 ];
 
 function Lineal({ st }: { st: Stufe }) {
@@ -58,8 +58,8 @@ function Lineal({ st }: { st: Stufe }) {
         <line x1={x(grenze)} x2={x(grenze)} y1={by - 26} y2={by + 26} stroke="#a0452f" strokeWidth={1.8} strokeDasharray="4 3" />
         <SvgText x={x(grenze)} y={by - 30} fontSize={11.5} fill="#a0452f" fontWeight={800}>{`Grenze ${de(grenze, 1)}`}</SvgText>
       </> : null}
-      <SvgText x={x(lo) + (x(q1) - x(lo)) / 2} y={by - 8} fontSize={11.5}>Antenne (Whisker)</SvgText>
-      <SvgText x={x(q1) - 4} y={by + 34} fontSize={11.5} textAnchor="start">Kasten: mittlere Hälfte</SvgText>
+      <SvgText x={x(lo) + (x(q1) - x(lo)) / 2} y={by - 8} fontSize={11.5}>Whisker</SvgText>
+      <SvgText x={x(q1) - 4} y={by + 34} fontSize={11.5} textAnchor="start">Box: mittlere Hälfte</SvgText>
     </>;
   }
   return <svg viewBox={`0 0 ${w} ${h}`} width="100%" aria-hidden="true" focusable="false">
@@ -83,7 +83,7 @@ const linealText = (st: Stufe) => {
   const s = [...st.werte].sort((a, b) => a - b), mean = s.reduce((a, b) => a + b, 0) / s.length, [q1, q3] = quartile(s);
   return `${s.length} Personen auf dem Lineal: ${s.join(', ')} Stunden. Mittelwert ${de(mean, 1)}.`
     + (st.median ? ` Median ${de(mitte(s), 0)}.` : '') + (st.quart ? ` Quartile ${de(q1, 0)} und ${de(q3, 0)}.` : '')
-    + (st.kasten ? (st.grenze ? ' Kasten von 34 bis 43, Antennen von 28 bis 45, die 0 ist ein Ausreißer-Punkt.' : ' Kasten von 34 bis 43, Antennen von 22 bis 45.') : '');
+    + (st.kasten ? (st.grenze ? ' Box von 34 bis 43, Whisker von 28 bis 45, die 0 ist ein Ausreißer-Punkt.' : ' Box von 34 bis 43, Whisker von 22 bis 45.') : '');
 };
 
 /** Vom Lineal zum Boxplot in sechs Schritten, ohne Frage: Die beiden „Was wäre, wenn“-Fälle sind eigene Schritte. */
@@ -127,15 +127,15 @@ const FARBE: [string, string][] = [['#BFE3F7', '#2C6CA8'], ['#CDEFD9', '#2f7a4f'
 /** Zwölf Befragte, wie sie im Datensatz untereinander stehen (Index in KAT). */
 const TURM = [1, 2, 0, 5, 2, 1, 3, 2, 0, 1, 4, 2];
 const TZ_SCHRITTE: { name: string; text: ReactNode; bild: string }[] = [
-  { name: 'Der Turm', bild: 'Ein Turm hs01 aus zwölf Steinen, einer je befragter Person, in der Reihenfolge des Datensatzes. Auf jedem Stein steht die Antwort als Wort. Ein Stein ist leer und gestrichelt: NA.',
-    text: <>In R ist <code>hs01</code> ein <b>Turm</b>: ein Stein je befragter Person, hier zum Beispiel zwölf. Nach <code>to_label()</code> steht auf jedem Stein ein Wort statt eines Codes. Ein Stein ist leer: Diese Person hat keine gültige Antwort, in R <code>NA</code>.</> },
-  { name: 'Sortieren', bild: 'Die zwölf Steine sind nach ihrer Antwort auf sechs Stapel verteilt: sehr gut 2, gut 3, zufriedenstellend 4, weniger gut 1, schlecht 1, NA 1.',
+  { name: 'Die Variable', bild: 'Die Variable hs01 als Turm aus zwölf Steinen, ein Stein je Fall, in der Reihenfolge des Datensatzes. Auf jedem Stein steht der Wert als Wort. Ein Stein ist leer und gestrichelt: NA.',
+    text: <>In R ist <code>hs01</code> eine <b>Variable</b>, im Bild ein Turm: ein Stein je <b>Fall</b>, also je befragter Person, hier zum Beispiel zwölf. Nach <code>to_label()</code> steht auf jedem Stein ein Wort statt eines Codes. Ein Stein ist leer: Diese Person hat keine gültige Antwort, in R <code>NA</code>.</> },
+  { name: 'Sortieren', bild: 'Die zwölf Steine (Werte) sind nach ihrer Antwort auf sechs Stapel verteilt, ein Stapel je Antwort, seine Höhe ist ihre Häufigkeit: sehr gut 2, gut 3, zufriedenstellend 4, weniger gut 1, schlecht 1, NA 1.',
     text: <><code>geom_bar()</code> sortiert die Steine nach ihrer Antwort und legt gleiche aufeinander. Die Reihenfolge auf der Achse kommt von den Codes: 1 heißt „sehr gut“, 5 heißt „schlecht“. Der leere Stein bekommt einen eigenen Stapel: <b>NA</b>.</> },
-  { name: 'Zählen', bild: 'Dieselben Stapel mit einer y-Achse count von 0 bis 4 und der Zahl über jedem Stapel: 2, 3, 4, 1, 1 und 1 bei NA.',
+  { name: 'Zählen', bild: 'Dieselben Stapel mit einer y-Achse count von 0 bis 4 und der absoluten Häufigkeit über jedem Stapel: 2, 3, 4, 1, 1 und 1 bei NA.',
     text: <>Die Höhe jedes Stapels ist die Zahl der Personen, die <b>absolute Häufigkeit</b>. Genau das zeigt die y-Achse: <code>count</code>. So sieht deine Grafik nach <b>Schritt 2</b> der Aufgabe aus, nur mit 5.246 statt zwölf Personen.</> },
-  { name: 'Fehlende weglassen', bild: 'Der Stapel NA ist verschwunden. Fünf Stapel bleiben mit zusammen elf Steinen.',
+  { name: 'Fehlende weglassen', bild: 'Der Stapel NA mit dem fehlenden Wert ist verschwunden. Fünf Stapel bleiben, ihre Häufigkeiten ergeben zusammen elf.',
     text: <><code>drop_na(hs01)</code> nimmt den leeren Stein heraus, <b>bevor</b> gezeichnet wird. Der Stapel NA verschwindet. Übrig bleiben elf gültige Antworten: <b>n = 11</b>. Das ist <b>Schritt 3</b> der Aufgabe.</> },
-  { name: 'Anteil', bild: 'Der Stapel zufriedenstellend ist hervorgehoben: 4 von 11 gültigen Steinen, etwa 36 Prozent.',
+  { name: 'Anteil', bild: 'Der Stapel zufriedenstellend ist hervorgehoben: absolute Häufigkeit 4 von 11 gültigen Werten, etwa 36 Prozent.',
     text: <>Wie groß ist ein Stapel im Vergleich zu allen? Teil die Steine im Stapel durch alle gültigen Steine: 4 von 11 sagen „zufriedenstellend“, das sind etwa 36 %. Das ist die <b>relative Häufigkeit</b>. Der leere Stein zählt nicht mit, er ist ja keine Antwort.</> },
 ];
 
@@ -153,7 +153,7 @@ export function TurmZumStapel() {
   });
   const zahl = [2, 3, 4, 1, 1, 1];
   return <>
-    <ul className="schritt-nav" aria-label="Vom Turm zum Stapel">
+    <ul className="schritt-nav" aria-label="Von der Variable zur Häufigkeit">
       {TZ_SCHRITTE.map((x, k) => <li key={x.name}><button type="button" aria-current={k === s ? 'step' : 'false'} onClick={() => setS(k)}>{`${k + 1}: ${x.name}`}</button></li>)}
     </ul>
     <div className="grafik tz" role="img" aria-label={TZ_SCHRITTE[s].bild}>
@@ -181,7 +181,7 @@ export function TurmZumStapel() {
       <span><b>Anteil</b> „zufriedenstellend“</span><span aria-hidden="true">=</span>
       <span className="frac" aria-hidden="true"><span>Steine im Stapel</span><span>alle gültigen Steine</span></span><span aria-hidden="true">=</span>
       <span className="frac" aria-hidden="true"><span>4</span><span>11</span></span><span aria-hidden="true">≈</span><span className="gross" aria-hidden="true">36 %</span>
-      <span className="sr-only">Anteil zufriedenstellend gleich Steine im Stapel geteilt durch alle gültigen Steine: 4 geteilt durch 11, also etwa 36 Prozent.</span>
+      <span className="sr-only">Anteil zufriedenstellend gleich absolute Häufigkeit, also Steine im Stapel, geteilt durch alle gültigen Werte: 4 geteilt durch 11, also etwa 36 Prozent.</span>
     </div> : null}
     <div className="erkl" aria-live="polite">{TZ_SCHRITTE[s].text}</div>
   </>;

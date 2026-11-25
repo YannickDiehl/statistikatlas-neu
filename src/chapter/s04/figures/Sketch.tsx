@@ -13,7 +13,7 @@ export function sketchFeedback(heights: number[]): string {
   const top = Math.max(...heights);
   const peaks = heights.map((h, i) => (h === top ? i : -1)).filter(i => i >= 0);
   const mine7 = heights.slice(7).reduce((a, b) => a + b, 0) / sum * 100;
-  const peak = peaks.length > 1 ? `Dein Gipfel ist breit: ${peaks.join(', ')}.` : `Dein Gipfel liegt bei ${peaks[0]}.`;
+  const peak = peaks.length > 1 ? `Dein Modus ist breit: ${peaks.join(', ')}.` : `Dein Modus liegt bei ${peaks[0]}.`;
   return `${peak} In den Daten liegt er bei ${DATA_PEAK}. In deiner Skizze sagen ${de(mine7, 0)} % 7 oder mehr, in den Daten ${de(DATA_7UP, 0)} %.`;
 }
 const STEP: Record<string, number> = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1, PageUp: 3, PageDown: -3 };
@@ -55,7 +55,7 @@ export function Sketch() {
   const sum = heights.reduce((a, b) => a + b, 0);
 
   function tip() {
-    if (!sum) { setFeedback({ ok: false, text: 'Zieh zuerst mindestens eine Säule hoch. Es gibt kein Falsch, nur deine Erwartung.' }); return; }
+    if (!sum) { setFeedback({ ok: false, text: 'Zieh zuerst mindestens einen Balken hoch. Es gibt kein Falsch, nur deine Erwartung.' }); return; }
     setFeedback({ ok: true, text: sketchFeedback(heights) });
     setRevealed(true);
     focusLater(() => again.current);
@@ -69,15 +69,15 @@ export function Sketch() {
   }
 
   return <>
-    <p className="hilfe-zeile" id="sk-anleitung">Zieh jede Säule auf die Höhe, die du erwartest. Mit der Tastatur: Säule mit Tab anwählen, dann Pfeil hoch oder runter. Am Ende zählt nur, wie hoch die Säulen im Vergleich zueinander sind.</p>
+    <p className="hilfe-zeile" id="sk-anleitung">Zieh jeden Balken auf die Höhe, die du erwartest. Mit der Tastatur: Balken mit Tab anwählen, dann Pfeil hoch oder runter. Am Ende zählt nur, wie hoch die Balken im Vergleich zueinander sind.</p>
     <div className={revealed ? 'aufgedeckt' : undefined}>
-      <div className="skizze" ref={box} role="group" aria-label="Deine Skizze: elf Säulen für die Antworten 0 bis 10" aria-describedby="sk-anleitung"
+      <div className="skizze" ref={box} role="group" aria-label="Deine Skizze: elf Balken für die Antworten 0 bis 10" aria-describedby="sk-anleitung"
         onPointerDown={e => { if (revealed) return; dragging.current = true; box.current?.setPointerCapture?.(e.pointerId); fromPointer(e); }}
         onPointerMove={e => { if (dragging.current) fromPointer(e); }}
         onPointerUp={() => { dragging.current = false; }}
         onPointerCancel={() => { dragging.current = false; }}>
         {LS01.map((a, i) => <div key={i} className="sk-col" tabIndex={0} ref={el => { cols.current[i] = el; }}
-          role="slider" aria-orientation="vertical" aria-label={`Säule für Antwort ${i}`}
+          role="slider" aria-orientation="vertical" aria-label={`Balken für Antwort ${i}`}
           aria-valuemin={0} aria-valuemax={10} aria-valuenow={heights[i]} aria-valuetext={`Höhe ${heights[i]} von 10`}
           aria-readonly={revealed || undefined} onKeyDown={onKey(i)}>
           <div className="sk-ich" style={{ height: `${heights[i] * 10}%` }} />

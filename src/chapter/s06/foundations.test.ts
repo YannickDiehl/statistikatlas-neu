@@ -109,7 +109,7 @@ test('2a: table with three views, live sentence, all three tables as text; 2b fi
   const g2 = render(Foundation2);
   assert.match(g2, /aria-pressed="true"[^>]*>beobachtet/);
   assert.match(g2, /aria-live="polite">So sind die 100 Befragten verteilt\./);
-  const all = g2.match(/<details class="werte"><summary>Alle drei Tafeln als Tabellen<\/summary>([\s\S]*?)<\/details>/)?.[1] ?? '';
+  const all = g2.match(/<details class="werte"><summary>Alle drei Ansichten als Tabellen<\/summary>([\s\S]*?)<\/details>/)?.[1] ?? '';
   assert.deepEqual([...all.matchAll(/<caption>([^<]*)<\/caption>/g)].map(m => m[1]), ['Beobachtet', 'Erwartet ohne Zusammenhang', 'Abweichung: beobachtet minus erwartet']);
   for (const v of ['44,8', '35,2', '11,2', '8,8', '↑ +7,2', '↓ −7,2']) assert.ok(all.includes(v), v);
   const t = textOf(g2);
@@ -120,12 +120,12 @@ test('2a: table with three views, live sentence, all three tables as text; 2b fi
 
 test('3a: pair sentences of the plan; 3c: both codings as text', () => {
   const s = (id: string) => pairSentence(PAIRS.find(p => p.id === id)!);
-  assert.equal(s('AB'), 'B hat die höhere Schicht und die bessere Gesundheit: gleichläufig.');
-  assert.equal(s('BC'), 'C hat die höhere Schicht, aber die schlechtere Gesundheit: gegenläufig.');
-  assert.equal(s('DE'), 'E hat die höhere Schicht, aber die schlechtere Gesundheit: gegenläufig.');
-  assert.equal(s('CD'), 'C und D haben dieselbe Schicht: Gleichstand, keine Richtung erkennbar.');
-  assert.equal(s('BE'), 'B und E haben dieselbe Gesundheit: Gleichstand.');
-  assert.equal(END_TEXT, 'Endstand: 6 gleichläufig, 2 gegenläufig, 1 Gleichstand bei der Schicht, 1 bei der Gesundheit.');
+  assert.equal(s('AB'), 'B hat die höhere Schicht und die bessere Gesundheit: konkordant (gleichläufig).');
+  assert.equal(s('BC'), 'C hat die höhere Schicht, aber die schlechtere Gesundheit: diskordant (gegenläufig).');
+  assert.equal(s('DE'), 'E hat die höhere Schicht, aber die schlechtere Gesundheit: diskordant (gegenläufig).');
+  assert.equal(s('CD'), 'C und D haben dieselbe Schicht: eine Bindung (Gleichstand), keine Richtung erkennbar.');
+  assert.equal(s('BE'), 'B und E haben dieselbe Gesundheit: eine Bindung (Gleichstand).');
+  assert.equal(END_TEXT, 'Endstand: 6 konkordant, 2 diskordant, 1 Bindung bei der Schicht, 1 bei der Gesundheit.');
   const g3 = render(Foundation3);
   assert.equal([...g3.matchAll(/aria-pressed="false"[^>]*>[A-E]{2}</g)].length, 10, 'ten pair buttons');
   assert.match(textOf(g3), /Textfassung: Personen und Paare A: Schicht 1, Gesundheit 1/);
@@ -140,7 +140,7 @@ test('3a: pair sentences of the plan; 3c: both codings as text', () => {
 test('4a: lab text for every step, stretched axis from 200; 4c: three states as text', () => {
   assert.equal(labText(0), 'Person B: 50 Minuten. r = 0,974, ρ = 0,952. Fast alle Punkte liegen in den Plus-Feldern: starker positiver Zusammenhang.');
   assert.equal(labText(4), 'Person B: 500 Minuten. r = −0,335, ρ = 0,476.');
-  assert.match(labText(5), /^Person B: 1\.500 Minuten\. r = −0,377, ρ = 0,476\. Ein Bogen/);
+  assert.match(labText(5), /^Person B: 1\.500 Minuten\. r = −0,377, ρ = 0,476\. Ein Fragebogen/);
   assert.equal(LAB_STEPS.length, 6);
   const g4 = render(Foundation4);
   assert.match(g4, /aria-live="polite">Person B: 50 Minuten/);
@@ -151,7 +151,7 @@ test('4a: lab text for every step, stretched axis from 200; 4c: three states as 
   assert.match(thirdText('mid'), /48,3 % gegen 29,6 % \(867 und 98 Befragte, gewichtet\), Abstand 18,7 Punkte, Phi 0,11\./);
   assert.match(thirdText('old'), /35,5 % gegen 20,4 % \(310 und 255 Befragte, gewichtet\), Abstand 15,1 Punkte, Phi 0,17\. Innerhalb gleich alter Menschen/);
   assert.match(textOf(g4), /Internetnutzung: 98,5 % \(18 bis 59\), 89,8 % \(60 bis 74\), 54,9 % \(75 und älter\)/);
-  assert.match(textOf(g4), /z-Wert; Standardabweichung kennst du aus Sitzung 3/);
+  assert.match(textOf(g4), /z-Wert; die Standardabweichung kennst du aus Sitzung 3/);
 });
 
 test('overview: decision tree read once, five assignments with feedback, requirements table', () => {

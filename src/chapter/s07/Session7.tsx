@@ -20,10 +20,10 @@ const TOC: TocGroup[] = [
 
 const TAKE_AWAY = [
   <>Mittelwerte schwanken von Stichprobe zu Stichprobe. Wie stark, sagt der <b>Standardfehler</b>; er wird mit mehr Befragten kleiner.</>,
-  <>t = Unterschied ÷ Standardfehler: Signal durch Rauschen. Der <b>p-Wert</b> sagt, wie oft ein mindestens so großer Unterschied ohne echten Unterschied vorkäme; unter 0,05 heißt <b>signifikant</b>.</>,
+  <>Der <b>t-Wert</b> ist Unterschied ÷ Standardfehler, im Bild: Signal durch Rauschen. Der <b>p-Wert</b> sagt, wie oft ein mindestens so großer Unterschied ohne echten Unterschied vorkäme; unter 0,05 heißt <b>signifikant</b>.</>,
   <>Das <b>95-%-Konfidenzintervall</b> zeigt, wo der wahre Unterschied plausibel liegt. Enthält es die 0, ist der Unterschied nicht signifikant, aber auch nicht als „gleich“ bewiesen.</>,
   <>Signifikant heißt nicht groß: Die <b>Effektstärke</b> (Hedges&apos; g, η²) sagt, wie groß ein Unterschied ist.</>,
-  <>Zwei Gruppen: <b>t-Test</b>, Welch-Zeile lesen. Drei oder mehr: <b>ANOVA</b>, danach <b>Tukey</b>, weil viele einzelne Tests Fehlalarme anhäufen.</>,
+  <>Zwei Gruppen: <b>t-Test</b>, Welch-Zeile lesen. Drei oder mehr: <b>ANOVA</b>, danach <b>Tukey</b>, weil sich bei vielen einzelnen Tests die Fehler 1. Art häufen.</>,
   <>Voraussetzungen: metrische Variable, unabhängige Gruppen, genug Befragte je Gruppe, ähnliche Streuung (sonst Welch). Für Deutschland gewichten.</>,
   <>In R: <code>t_test(y, group = g, weights = wghtpew)</code>, <code>oneway_anova(y, group = g, weights = wghtpew) %&gt;% tukey_test()</code>, <code>pearson_cor(a, b, c, weights = wghtpew)</code>; <code>summary()</code> am Ende zeigt die ganze Tabelle.</>,
 ];

@@ -21,12 +21,12 @@ const TOC: TocGroup[] = [
 
 const TAKE_AWAY = [
   <>Ein Datensatz ist eine <b>Datenmatrix</b>: Zeile = Fall (befragte Person), Spalte = Variable, Zelle = Wert. Der ALLBUS 2023 hat 5.246 Fälle und 579 Variablen.</>,
-  <>Im Datensatz stehen <b>Codes</b>. Was sie bedeuten, sagen die <b>Wertelabels</b> im Codebuch; die Richtung einer Skala legt der Fragebogen fest.</>,
+  <>Im Datensatz stehen <b>Codes</b>. Was sie bedeuten, sagen die <b>Wertelabels</b> im Codebuch; die Polung einer Skala legt der Fragebogen fest.</>,
   <>Codes für Kategorien sind Namen, keine Mengen: Mit ihnen zählt man, rechnet aber nicht.</>,
   <><b>Fehlende Werte</b> haben Gründe: nicht geantwortet (−9), nicht gewusst (−8), nicht gefragt (−10, −11), zwei Kreuze (−42). In R werden sie zu NA, der Grund bleibt im Codebuch sichtbar.</>,
   <>Wo das Codebuch nicht entscheidet, braucht es eine dokumentierte Regel (<b>Konvention</b>).</>,
   <><b>Datentypen</b>: Zahl <code>&lt;dbl&gt;</code>, Text <code>&lt;chr&gt;</code>, Zahl mit Wertelabel <code>&lt;dbl+lbl&gt;</code>. Umwandeln ändert die Form und lässt etwas weg.</>,
-  <>In R: <code>&lt;-</code> legt ab, <code>codebook(daten, variable)</code> schlägt nach, <code>daten %&gt;% filter(variable == code)</code> behält nur bestimmte Reihen; alle Variablen bleiben.</>,
+  <>In R: <code>&lt;-</code> legt ab, <code>codebook(daten, variable)</code> schlägt nach, <code>daten %&gt;% filter(variable == code)</code> behält nur bestimmte Fälle; alle Variablen bleiben.</>,
 ];
 
 /** The whole session 2 chapter. Expects a `ChapterStateProvider` (sessionId 2) around it; LearningPath keeps the h2 title. */
@@ -49,7 +49,7 @@ export function Session2() {
       <>Code lesen und anpassen: mit <code>&lt;-</code> etwas unter einem Namen ablegen, mit <code>codebook()</code> nachschlagen, mit <code>%&gt;%</code> und <code>filter()</code> nur bestimmte Befragte behalten, <code>==</code> von <code>=</code> unterscheiden</>,
     ]}
     known={<>der Startblock mit Objekt und <code>&lt;-</code>, <code>dim(allbus)</code> und die 3.037.434 Zellen, <code>find_var()</code>, das ganze Codebuch mit <code>codebook(allbus)</code> in RStudio und der erste Blick mit <code>frequency()</code>; Code, Wertelabel, Variablenlabel und die Bedeutung von TNZ (trifft nicht zu, nicht gefragt) (Sitzung 1); die Begriffe Datenmatrix, Fall, Variable, Wert und Datenreihe (Methoden Ia).</>}
-    knownNote={<>Solche Stellen tragen ein graues Schild „kennst du aus Sitzung 1“ bzw. „kennst du aus Methoden Ia“. Neu ist heute der Blick von der anderen Seite: wie aus einem ausgefüllten Bogen eine Zeile wird und wer dabei was entscheidet.</>}
+    knownNote={<>Solche Stellen tragen ein graues Schild „kennst du aus Sitzung 1“ bzw. „kennst du aus Methoden Ia“. Neu ist heute der Blick von der anderen Seite: wie aus einem ausgefüllten Fragebogen eine Zeile wird und wer dabei was entscheidet.</>}
     howToExtra={[<>Die <b>Code-Werkstatt</b> kennst du aus Sitzung 1. Neu ist, dass du in einer Vorlage nur die markierte Stelle tauschst.</>]}
     jumps={[{ href: '#a1', label: 'Aufgabe 1' }, { href: '#a2', label: 'Aufgabe 2' }, { href: '#a3', label: 'Aufgabe 3' }, { href: '#a4', label: 'Aufgabe 4 (Zusatz)' }]}
     toc={TOC}>

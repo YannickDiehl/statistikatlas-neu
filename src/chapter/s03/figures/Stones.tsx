@@ -50,7 +50,7 @@ export function HundredStones() {
         <li className="gross">{`kommt darauf an: ${big} %`}</li>
       </ul>
     </div>
-    <p className="hilfe-zeile">„Sonstiges“ (7 Personen, unter 1 %) bekommt keinen eigenen Stein. ALLBUS 2023, ungewichtet.</p>
+    <p className="hilfe-zeile">„Sonstiges“ (7 Personen, unter 1 %) bekommt kein eigenes Kästchen. ALLBUS 2023, ungewichtet.</p>
     <p className="sr-only" aria-live="polite">{STONES_TEXT[base]}</p>
   </>;
 }
@@ -64,7 +64,7 @@ export function ThreeBases() {
   ];
   return <div className="formel s3-formel" role="img" aria-label={BASES_TEXT}>
     <span className="s3-zaehler">{whole(ST01.depends.n)}</span>
-    <span>Steine im Stapel, geteilt durch:</span>
+    <span>absolute Häufigkeit (N), geteilt durch:</span>
     <ul className="s3-eingesetzt">{rows.map(([b, v, name]) => <li key={name}>{`${b} → ${v} (${name})`}</li>)}</ul>
   </div>;
 }
@@ -85,7 +85,7 @@ export function OneNumeratorThreeBases() {
           <rect x={300} y={46} width={159} height={22} rx={4} fill={C.yellow} stroke={C.yellowStroke} />
           <SvgText x={380} y={61} fontSize={12} fill={C.ink} fontWeight={800}>CDU-CSU</SvgText>
           <SvgText x={474} y={38} textAnchor="start" fontSize={18} fill={C.ink} fontWeight={800}>{String(PV01.cdu.n)}</SvgText>
-          <SvgText x={474} y={58} textAnchor="start" fontSize={12}>Steine im Stapel</SvgText>
+          <SvgText x={474} y={58} textAnchor="start" fontSize={12}>Antworten (N)</SvgText>
         </g>
         {plates.map(p => {
           const w = p.n * scale;

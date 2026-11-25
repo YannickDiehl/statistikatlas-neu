@@ -96,7 +96,7 @@ export function Task1() {
 export function Task2() {
   return <TaskBlock id="a2" n={2} title="Macht Abitur zufriedener?" required={false} kind="interpret"
     question="Wie groß ist der Unterschied in der Lebenszufriedenheit zwischen Menschen mit und ohne Abitur, und hängt die Antwort davon ab, wen man fragt?"
-    goal="Am Ende kannst du begründen, warum ein Unterschied signifikant und trotzdem klein sein kann, und warum die Welch-Zeile ein breiteres Intervall zeigt, wenn eine kleine Gruppe stärker streut als eine große."
+    goal="Am Ende kannst du prüfen, ob ein signifikanter Unterschied auch groß ist, und erklären, wann die Welch-Zeile ein breiteres Intervall zeigt."
     foundationHref="#g2"
     basis={<a href="#g2">Grundlage 2 (Signifikant, groß oder beides?)</a>}>
     <p>Du vergleichst die Lebenszufriedenheit (<code>ls01</code>, 0 bis 10) zwischen ohne und mit Abitur, einmal bei allen Befragten und einmal nur bei den unter 30-Jährigen. Die Gruppen bildest du wie in <a href="#a1">Aufgabe 1</a>.</p>

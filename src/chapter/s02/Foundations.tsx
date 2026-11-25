@@ -13,25 +13,25 @@ export function Foundation1() {
   return <Foundation id="g1" n={1} title="Die Datenmatrix: Fall, Variable, Wert" taskHref="#a1"
     intro="Was steht in einem Datensatz, und wie hängt er mit dem Fragebogen zusammen? Zwei kurze Schritte, etwa 10 Minuten.">
 
-    <Card id="g1a" step="1a" title="Vom Bogen zur Zeile" badge={<Badge>Datenmatrix: kennst du aus Methoden Ia</Badge>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Drei Menschen haben einen Fragebogen ausgefüllt. Aus jedem Bogen wird eine <b>Zeile</b> im Datensatz, aus jeder Frage eine <b>Spalte</b>. Tipp auf einen Stein, um zu sehen, was er ist.</p>
+    <Card id="g1a" step="1a" title="Vom Fragebogen zur Zeile" badge={<Badge>Datenmatrix: kennst du aus Methoden Ia</Badge>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+      <p className="lead">Drei Menschen haben einen Fragebogen ausgefüllt. Aus jedem Fragebogen wird eine <b>Zeile</b> im Datensatz, aus jeder Frage eine <b>Spalte</b>. Im Bild ist jede Zelle ein Stein. Tipp auf einen Stein, um zu sehen, was er ist.</p>
       <SheetsToPlate />
-      <InShort>Ein Datensatz ist eine <b>Datenmatrix</b>: Jede Zeile ist ein <b>Fall</b> (im ALLBUS eine befragte Person), jede Spalte eine <b>Variable</b> (meist eine Frage), jede Zelle ein <b>Wert</b>. Im Bild: Reihe, Turm, Stein. Die ganze Bauplatte ist der Datensatz.</InShort>
+      <InShort>Ein Datensatz ist eine <b>Datenmatrix</b>: Jede Zeile ist ein <b>Fall</b> (im ALLBUS eine befragte Person), jede Spalte eine <b>Variable</b> (meist eine Frage), jede Zelle ein <b>Wert</b>. Im Bild ist der Datensatz eine Bauplatte: jeder Fall eine Reihe, jede Variable ein Turm, jeder Wert ein Stein.</InShort>
       <MoreDetail summary="Fall, Variable, Wert, Datenreihe">
         <ul>
           <li>Ein <b>Fall</b> ist die Einheit, über die du etwas weißt, im ALLBUS eine befragte Person. Ein anderes Wort dafür ist Merkmalsträger.</li>
           <li>Eine <b>Variable</b> ist ein Merkmal, das von Fall zu Fall verschieden sein kann, meist eine Frage aus dem Fragebogen. Sie hat einen kurzen Namen wie <code>ls01</code>.</li>
           <li>Ein <b>Wert</b> ist, was ein Fall bei einer Variable hat, also eine Antwort. Die möglichen Antworten einer Variable heißen <b>Ausprägungen</b>.</li>
-          <li>Liest du einen Turm von oben nach unten, hast du die <b>Datenreihe</b> dieser Variable: einen Wert je Person, in der Reihenfolge der Personen. Mit ihr beginnt jede Rechnung.</li>
-          <li>Die Steine haben Farben: Blau heißt Zahl. Mehr zu den Farben in <a href="#g4">Grundlage 4</a>.</li>
+          <li>Liest du eine Variable von oben nach unten, hast du ihre <b>Datenreihe</b>: einen Wert je Person, in der Reihenfolge der Personen. Mit ihr beginnt jede Rechnung.</li>
+          <li>Im Bild haben die Steine Farben: Blau heißt Zahl. Die Farbe steht für den Datentyp; mehr dazu in <a href="#g4">Grundlage 4</a>.</li>
         </ul>
       </MoreDetail>
-      <Mixup>Variable und Wert. „Lebenszufriedenheit“ ist die Variable, der ganze Turm. „8“ ist ein Wert, ein einzelner Stein. Und eine Zeile ist eine Person, nicht eine Frage.</Mixup>
+      <Mixup>Variable und Wert. „Lebenszufriedenheit“ ist die Variable, die ganze Spalte. „8“ ist ein Wert in einer einzelnen Zelle. Und eine Zeile ist eine Person, nicht eine Frage.</Mixup>
       <MapLink concept="series">„Datenreihe“</MapLink>
     </Card>
 
-    <Card id="g1b" step="1b" title="Die ALLBUS-Bauplatte" badge={<Known session={1} />} tag={{ kind: 'estimate', label: 'Kurz überlegen' }}>
-      <p className="lead">Der ALLBUS 2023 ist dieselbe Datenmatrix, nur größer: <b>5.246 Reihen</b>, eine für jede befragte Person, und <b>579 Türme</b>, einer für jede Variable. Die Zahlen kennst du aus Sitzung 1, ebenso die 3.037.434 Zellen, die du dort ausgerechnet hast. R zeigt die Größe als <code>5,246 × 579</code> (R schreibt Tausender mit Komma: 5,246 heißt 5.246).</p>
+    <Card id="g1b" step="1b" title="Der ALLBUS als Datenmatrix" badge={<Known session={1} />} tag={{ kind: 'estimate', label: 'Kurz überlegen' }}>
+      <p className="lead">Der ALLBUS 2023 ist dieselbe Datenmatrix, nur größer: <b>5.246 Fälle</b> (Zeilen), einer für jede befragte Person, und <b>579 Variablen</b> (Spalten). Die Zahlen kennst du aus Sitzung 1, ebenso die 3.037.434 Zellen, die du dort ausgerechnet hast. R zeigt die Größe als <code>5,246 × 579</code> (R schreibt Tausender mit Komma: 5,246 heißt 5.246).</p>
       <ChoiceCheck question={G1_TURM} wrong={G1_TURM_WRONG} />
       <InShort>Der ALLBUS 2023 hat 5.246 Fälle und 579 Variablen. Ein Datensatz ist rechteckig: Jeder Fall hat in jeder Variable genau einen Wert, notfalls einen fehlenden.</InShort>
     </Card>
@@ -44,11 +44,11 @@ export function Foundation2() {
     intro="Wie wird aus einem Kreuz eine Zahl, und woher weißt du, was die Zahl bedeutet? Drei kurze Schritte, etwa 15 Minuten.">
 
     <Card id="g2a" step="2a" title="1 oder 5?" tag={{ kind: 'estimate', label: 'Schätzen' }}>
-      <p className="lead">Im ALLBUS steht die Frage: <em>„Wie stark interessieren Sie sich für Politik?“</em> Angekreuzt wird eines von fünf Kästchen: sehr stark, stark, mittel, wenig, überhaupt nicht. Im Datensatz steht aber kein Wort, sondern eine Zahl. Welche Zahl bekommt „sehr stark“?</p>
+      <p className="lead">Im ALLBUS steht die Frage: <em>„Wie stark interessieren Sie sich für Politik?“</em> Angekreuzt wird eine von fünf Antwortkategorien: sehr stark, stark, mittel, wenig, überhaupt nicht. Im Datensatz steht aber kein Wort, sondern eine Zahl. Welche Zahl bekommt „sehr stark“?</p>
       <ChoiceCheck question={G2_EINS} wrong={{ '5': G2_EINS.hint }}
-        after={<Pa02a caption={<>Die Wertelabels kleben als gelbe Aufkleber an den Steinen. Unter „fehlende Werte“ stehen leere Steine mit ihrem Grund. <span>Codes, Wertelabels und Anzahlen aus dem ALLBUS 2023.</span></>} />} />
-      <InShort>Im Datensatz steht für eine Antwort ein <b>Code</b>, eine Zahl. Was sie bedeutet, sagt das <b>Wertelabel</b>. Welcher Code zu welchem Wort gehört, steht im <b>Codebuch</b>. Raten hilft nicht: Die Richtung einer Skala legt der Fragebogen fest.</InShort>
-      <Mixup>Höher heißt nicht mehr. Bei <code>pa02a</code> heißt die höchste Zahl am wenigsten Interesse. Schau vor jeder Deutung ins Codebuch, in welche Richtung eine Skala läuft.</Mixup>
+        after={<Pa02a caption={<>Im Bild kleben die Wertelabels als gelbe Aufkleber an den Steinen, also an den Werten. Unter „fehlende Werte“ stehen leere Steine mit ihrem Grund. <span>Codes, Wertelabels und Anzahlen aus dem ALLBUS 2023.</span></>} />} />
+      <InShort>Im Datensatz steht für eine Antwort ein <b>Code</b>, eine Zahl. Was sie bedeutet, sagt das <b>Wertelabel</b>. Welcher Code zu welchem Wort gehört, steht im <b>Codebuch</b>. Raten hilft nicht: Die Richtung einer Skala, ihre <b>Polung</b>, legt der Fragebogen fest.</InShort>
+      <Mixup>Höher heißt nicht mehr. Bei <code>pa02a</code> heißt die höchste Zahl am wenigsten Interesse. Schau vor jeder Deutung ins Codebuch, wie eine Skala gepolt ist.</Mixup>
     </Card>
 
     <Card id="g2b" step="2b" title="Drei Beschriftungen" badge={<Known session={1} what="Variablenlabel und Wertelabel" />} tag={{ kind: 'picture', label: 'Im Bild' }}>
@@ -71,13 +71,13 @@ export function Foundation2() {
       -42 = DATENFEHLER: MFN (n = 4)
       -9 = KEINE ANGABE (n = 17)`}</pre>
         <ul>
-          <li><code>[239]</code> ist die Position im Datensatz: pa02a ist der 239. Turm.</li>
+          <li><code>[239]</code> ist die Position im Datensatz: pa02a ist die 239. Variable.</li>
           <li>In Klammern steht der Typ: eine Zahl mit Wertelabels (<a href="#g4">Grundlage 4</a>).</li>
           <li>Umlaute schreibt der ALLBUS als ae, oe, ue: UEBERHAUPT. Bei der Suche mit <code>find_var()</code> hilft das (kennst du aus Sitzung 1).</li>
           <li>Wer selbst einen Datensatz eingibt, vergibt diese Beschriftungen selbst. Wie das in R geht, zeigt der R-Workshop in Kapitel 4 („Variablen- und Wertelabels lesen und setzen“); im Seminar war es nicht dran.</li>
         </ul>
       </MoreDetail>
-      <Mixup>Variablenlabel und Wertelabel. Das Variablenlabel beschriftet den ganzen Turm („Politisches Interesse“), ein Wertelabel einen einzelnen Code („SEHR STARK“).</Mixup>
+      <Mixup>Variablenlabel und Wertelabel. Das Variablenlabel beschriftet die ganze Variable („Politisches Interesse“), ein Wertelabel einen einzelnen Code („SEHR STARK“).</Mixup>
       <MapLink concept="labels">„Variablen- & Wertelabels“</MapLink>
       <MapLink concept="codebook">„Codebuch & Variablensuche“</MapLink>
     </Card>
@@ -91,7 +91,7 @@ export function Foundation2() {
       <MoreDetail summary="Warum 42?">
         <p>Welche Zahl eine Partei bekommt, legen die Macherinnen und Macher der Befragung fest; Lücken und große Zahlen sind dabei erlaubt. Wichtig ist nur: Gleicher Code heißt gleiche Antwort, und welche Antwort das ist, steht im Codebuch. Zählen darfst du die Codes: Im ALLBUS 2023 nennen 480 Befragte die AfD und 260 die Linke.</p>
       </MoreDetail>
-      <Mixup>Platz auf dem Bogen und Code. Steht die Linke auf dem Papierbogen an fünfter Stelle, ist ihr Code trotzdem 6. Wer Listenplätze abzählt, statt im Codebuch nachzusehen, erfasst falsch.</Mixup>
+      <Mixup>Platz auf dem Fragebogen und Code. Steht die Linke auf dem Papierbogen an fünfter Stelle, ist ihr Code trotzdem 6. Wer Listenplätze abzählt, statt im Codebuch nachzusehen, kodiert falsch.</Mixup>
     </Card>
   </Foundation>;
 }
@@ -112,11 +112,11 @@ function FourSheets() {
   return <>
     <div className="s2-vier">
       {SHEETS.map((s, i) => <div key={s.id}>
-        <SmallSheet letter={s.letter} crosses={s.letter === 'A' ? [0] : s.letter === 'C' ? [7, 8] : []} missing={s.letter === 'D'} alt={`Bogen ${s.letter}: ${s.picture}.`} />
+        <SmallSheet letter={s.letter} crosses={s.letter === 'A' ? [0] : s.letter === 'C' ? [7, 8] : []} missing={s.letter === 'D'} alt={`Fragebogen ${s.letter}: ${s.picture}.`} />
         <ChoiceCheck question={SHEET_QUESTIONS[i]} />
       </div>)}
     </div>
-    <p className="hilfe-zeile" aria-live="polite">{all ? 'Alle vier Bögen aufgelöst: Darunter steht jetzt das Bild der Türme.' : 'Wenn du alle vier Bögen aufgelöst hast, erscheint hier das Bild der Türme.'}</p>
+    <p className="hilfe-zeile" aria-live="polite">{all ? 'Alle vier Fragebögen aufgelöst: Darunter steht jetzt das Bild der Variablen.' : 'Wenn du alle vier Fragebögen aufgelöst hast, erscheint hier das Bild der Variablen.'}</p>
     {all ? <Luecken /> : null}
   </>;
 }
@@ -125,12 +125,12 @@ function FourSheets() {
 export function Foundation3() {
   return <Foundation id="g3" n={3} title="Fehlt ist nicht gleich fehlt" taskHref="#a3"
     intro="Was trägt man ein, wenn keine gültige Antwort da ist, und warum steht dort ein Grund? Drei kurze Schritte, etwa 15 Minuten.">
-    <p className="g-intro"><Known session={1} what="fehlende Werte und TNZ" /> In Sitzung 1 hast du fehlende Werte in der Ausgabe von <code>frequency()</code> gelesen. Heute stehst du auf der anderen Seite: Du hältst einen Bogen in der Hand und entscheidest, was in die Zelle kommt.</p>
+    <p className="g-intro"><Known session={1} what="fehlende Werte und TNZ" /> In Sitzung 1 hast du fehlende Werte in der Ausgabe von <code>frequency()</code> gelesen. Heute stehst du auf der anderen Seite: Du hältst einen Fragebogen in der Hand und entscheidest, was in die Zelle kommt.</p>
 
     <Card id="g3a" step="3a" title="Was trägst du ein?" tag={{ kind: 'estimate', label: 'Kurz überlegen' }}>
-      <p className="lead">Nicht jeder Bogen ist sauber ausgefüllt. Vier Bögen, zum Beispiel. Entscheide für jeden, was im Datensatz stehen soll.</p>
+      <p className="lead">Nicht jeder Fragebogen ist sauber ausgefüllt. Vier Fragebögen, zum Beispiel. Entscheide für jeden, was im Datensatz stehen soll.</p>
       <FourSheets />
-      <InShort>Ein <b>fehlender Wert</b> heißt: Für diese Person gibt es bei dieser Variable keine gültige Antwort. Der ALLBUS speichert dazu den Grund als negativen Code, etwa −9 KEINE ANGABE oder −11 TNZ: SPLIT. In R wird daraus ein <code>NA</code>, ein leerer Stein; den Grund merkt sich R als Aufkleber.</InShort>
+      <InShort>Ein <b>fehlender Wert</b> heißt: Für diese Person gibt es bei dieser Variable keine gültige Antwort. Der ALLBUS speichert dazu den Grund als negativen Code, einen <b>Missing-Code</b>, etwa −9 KEINE ANGABE oder −11 TNZ: SPLIT. In R wird daraus ein <code>NA</code>; den Grund merkt sich R als Wertelabel. Im Bild ist das ein leerer Stein mit Aufkleber.</InShort>
       <Mixup>0 und fehlend. Eine 0 kann eine Antwort sein (ganz unzufrieden, 0 Kinder). „Keine Angabe“ dagegen ist −9 und wird nie mitgerechnet.</Mixup>
     </Card>
 
@@ -151,12 +151,12 @@ export function Foundation3() {
           <li>Bei −10 TNZ: FILTER: Arbeitsstunden werden nur erfragt, wenn eine Frage davor das vorsieht; wer dort herausfiel, bekommt −10. Für eine Auswertung heißt das: Die Arbeitsstunden beschreiben nur die Befragten, die danach gefragt wurden.</li>
         </ul>
       </MoreDetail>
-      <Mixup>Leere Zelle und fehlender Wert mit Grund. Lässt man beim Erfassen eine Zelle leer, wird sie in R zu einem <code>NA</code> ohne Grund. Niemand weiß dann mehr, ob die Person nicht geantwortet hat oder nicht gefragt wurde.</Mixup>
+      <Mixup>Leere Zelle und fehlender Wert mit Grund. Lässt man beim Kodieren eine Zelle leer, wird sie in R zu einem <code>NA</code> ohne Grund. Niemand weiß dann mehr, ob die Person nicht geantwortet hat oder nicht gefragt wurde.</Mixup>
       <MapLink concept="missing">„Fehlende Werte“</MapLink>
     </Card>
 
     <Card id="g3c" step="3c" title="Fehler oder Konvention?" tag={{ kind: 'estimate', label: 'Kurz überlegen' }}>
-      <p className="lead">Beim Erfassen gibt es zwei Arten von Abweichungen. Bei manchen sagt das Codebuch genau, was einzutragen ist. Wer etwas anderes einträgt, macht einen <b>Fehler</b>. Bei anderen entscheidet das Codebuch nichts, etwa bei einem Kreuz genau auf der Linie oder einer Randnotiz. Dann muss jemand eine Regel festlegen und aufschreiben: eine <b>Konvention</b>. Oft gibt es nicht die eine richtige Regel, wohl aber eine gut begründete.</p>
+      <p className="lead">Beim Kodieren gibt es zwei Arten von Abweichungen. Bei manchen sagt das Codebuch genau, was einzutragen ist. Wer etwas anderes einträgt, macht einen <b>Fehler</b>. Bei anderen entscheidet das Codebuch nichts, etwa bei einem Kreuz genau auf der Linie oder einer Randnotiz. Dann muss jemand eine Regel festlegen und aufschreiben: eine <b>Konvention</b>. Oft gibt es nicht die eine richtige Regel, wohl aber eine gut begründete.</p>
       {CONVENTION.map(q => <ChoiceCheck key={q.id} question={q} />)}
       <InShort>Jede Zelle im Datensatz ist eine kleine Entscheidung. Wo das Codebuch sie trifft, gibt es eine richtige Zahl. Wo nicht, braucht es eine dokumentierte Regel, sonst bedeutet derselbe Code nicht mehr dasselbe.</InShort>
     </Card>
@@ -166,13 +166,13 @@ export function Foundation3() {
 /** Grundlage 4: Datentypen (4a Steine haben Farben, 4b Umwandeln). */
 export function Foundation4() {
   return <Foundation id="g4" n={4} title="Datentypen" taskHref="#a4"
-    intro="Was für Steine liegen auf der Bauplatte, und was passiert, wenn man sie umwandelt? Zwei kurze Schritte, etwa 10 Minuten.">
+    intro="Welche Datentypen stehen im Datensatz, und was passiert, wenn man sie umwandelt? Zwei kurze Schritte, etwa 10 Minuten.">
 
-    <Card id="g4a" step="4a" title="Steine haben Farben" tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">In R hat jeder Turm einen <b>Datentyp</b>. Er sagt, was für Steine darin liegen. Im Bild zeigt das die Farbe, in der Ausgabe von R steht er in spitzen Klammern über dem Turm. Drei Typen begegnen dir im ALLBUS:</p>
+    <Card id="g4a" step="4a" title="Datentypen, im Bild als Farben" tag={{ kind: 'picture', label: 'Im Bild' }}>
+      <p className="lead">In R hat jede Variable einen <b>Datentyp</b>. Er sagt, welche Art von Werten darin steht. Im Bild zeigt das die Farbe der Steine, in der Ausgabe von R steht er in spitzen Klammern unter dem Variablennamen. Drei Typen begegnen dir im ALLBUS:</p>
       <Typen />
-      <p>Im ALLBUS sind 576 der 579 Variablen Zahlen mit Wertelabels. In der Ausgabe von R siehst du sie als Code mit dem Wertelabel in eckigen Klammern, etwa <code>2 [NEUE BUNDESLAENDER]</code>; lange Wörter kürzt R mit „…“. Nur zwei Variablen sind Text und eine einzige ist eine Zahl ganz ohne Aufkleber.</p>
-      <InShort>Der <b>Datentyp</b> sagt, was in einem Turm steckt: Zahlen (<code>&lt;dbl&gt;</code>), Text (<code>&lt;chr&gt;</code>) oder Zahlen mit Wertelabels (<code>&lt;dbl+lbl&gt;</code>). R zeigt ihn in spitzen Klammern über jedem Turm.</InShort>
+      <p>Im ALLBUS sind 576 der 579 Variablen Zahlen mit Wertelabels. In der Ausgabe von R siehst du sie als Code mit dem Wertelabel in eckigen Klammern, etwa <code>2 [NEUE BUNDESLAENDER]</code>; lange Wörter kürzt R mit „…“. Nur zwei Variablen sind Text und eine einzige ist eine Zahl ganz ohne Wertelabel.</p>
+      <InShort>Der <b>Datentyp</b> sagt, was in einer Variable steckt: Zahlen (<code>&lt;dbl&gt;</code>), Text (<code>&lt;chr&gt;</code>) oder Zahlen mit Wertelabels (<code>&lt;dbl+lbl&gt;</code>). R zeigt ihn in spitzen Klammern bei jeder Variable.</InShort>
       <MoreDetail summary="Woher kommt <dbl+lbl>?">
         <ul>
           <li><code>dbl</code> steht für double, eine Zahl. <code>lbl</code> steht für labelled: An der Zahl klebt ihr Wertelabel. So reist das Codebuch mit den Daten mit.</li>
@@ -181,14 +181,14 @@ export function Foundation4() {
           <li>Mehr im R-Workshop, Abschnitt 4 „Datentypen verstehen mit class()“.</li>
         </ul>
       </MoreDetail>
-      <Mixup>Typ und Bedeutung. Dass ein Turm aus Zahlen besteht, heißt nicht, dass du mit ihm rechnen darfst. Auch eine Postleitzahl ist eine Zahl, aber ein Name für einen Ort.</Mixup>
+      <Mixup>Typ und Bedeutung. Dass eine Variable aus Zahlen besteht, heißt nicht, dass du mit ihr rechnen darfst. Auch eine Postleitzahl ist eine Zahl, aber ein Name für einen Ort.</Mixup>
     </Card>
 
-    <Card id="g4b" step="4b" title="Umwandeln: Aufkleber zum Wert machen oder abziehen" badge={<Badge>Vorgriff auf Sitzung 4</Badge>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Manchmal braucht man statt der Zahl das Wort, etwa damit auf einer Grafik „FRAU“ statt 2 steht. Manchmal braucht man nur die Zahl. Man kann einen Turm deshalb umwandeln. Der Fachbegriff ist <b>Datentypen umwandeln</b> (Konvertierung). Probier beide Wege aus.</p>
+    <Card id="g4b" step="4b" title="Umwandeln: Wertelabel zum Wert machen oder entfernen" badge={<Badge>Vorgriff auf Sitzung 4</Badge>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+      <p className="lead">Manchmal braucht man statt der Zahl das Wort, etwa damit auf einer Grafik „FRAU“ statt 2 steht. Manchmal braucht man nur die Zahl. Man kann eine Variable deshalb umwandeln. Der Fachbegriff ist <b>Datentypen umwandeln</b> (Konvertierung). Probier beide Wege aus.</p>
       <Convert />
       <ChoiceCheck question={G4_VERLUST} />
-      <InShort>Umwandeln ändert den Datentyp. Wird der Aufkleber zum Wert, stehen Wörter im Turm (Faktor); zieht man ihn ab, bleiben Zahlen ohne Bedeutung. Jeder Weg lässt etwas weg.</InShort>
+      <InShort>Umwandeln ändert den Datentyp. Wird das Wertelabel zum Wert, stehen Wörter in der Variable, ein <b>Faktor</b>; entfernt man es, bleiben Zahlen ohne Bedeutung. Jeder Weg lässt etwas weg.</InShort>
       <Mixup>Umwandeln und Umkodieren. Umwandeln ändert nur die Form (Zahl oder Wort), nicht die Antworten. Antworten zusammenfassen oder umdrehen heißt Umkodieren; das kommt in Sitzung 5.</Mixup>
       <MapLink concept="conversion">„Datentypen umwandeln“</MapLink>
     </Card>

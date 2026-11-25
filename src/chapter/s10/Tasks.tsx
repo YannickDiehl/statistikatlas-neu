@@ -96,15 +96,15 @@ export function Task2() {
     <p className="hilfe-zeile">N = 3.222 in der Ausgabe ist die Summe der Gewichte. Gezählt sind es 3.254 Befragte: 1.003 Ost-Bleibende, 91 Ost→West, 97 West→Ost, 2.063 West-Bleibende. Weil der Osten im ALLBUS absichtlich stärker vertreten ist, zählen Befragte im Osten gewichtet weniger.</p>
     <Plenum><p style={{ margin: '4px 0 0' }}>Mit Referenz West-Bleibende hat Ost→West B = −0,166, mit Referenz Ost-Bleibende +0,540. Welche Zahl würdet ihr in einem Zeitungsartikel nennen, und welchen Satz schreibt ihr dazu?</p></Plenum>
     <Hints steps={hints('a2')} />
-    <NoGraphic>Das Raster in der Einleitung zeigt nur die vier Gruppen. Alle Zahlen stehen in der Ausgabe von <code>summary()</code> unter Coefficients.</NoGraphic>
+    <NoGraphic>Die Kreuztabelle in der Einleitung zeigt nur die vier Gruppen. Alle Zahlen stehen in der Ausgabe von <code>summary()</code> unter Coefficients.</NoGraphic>
     <ErrorHelp />
   </TaskBlock>;
 }
 
 export function Task3() {
-  return <TaskBlock id="a3" n={3} title="Was wiegt mehr, und was bleibt von der Ost-West-Lücke?" required kind="interpret"
+  return <TaskBlock id="a3" n={3} title="Was wiegt mehr, und was bleibt vom Ost-West-Unterschied?" required kind="interpret"
     question="Welche von vier Eigenschaften hängt am stärksten mit der Demokratiezufriedenheit zusammen, und wie groß bleibt der Abstand zwischen Ost und West, wenn die anderen drei gleich sind?"
-    goal="Am Ende kannst du Prädiktoren mit Beta vergleichen, korrigiertes R² und VIF eines Modells lesen und sagen, wie viel von der Ost-West-Lücke bleibt, wenn wirtschaftliche Lage und Abitur konstant gehalten werden."
+    goal="Am Ende kannst du Prädiktoren mit Beta vergleichen, korrigiertes R² und VIF eines Modells lesen und sagen, wie viel vom Ost-West-Unterschied bleibt, wenn wirtschaftliche Lage und Abitur konstant gehalten werden."
     foundationHref="#g3" basis={<a href="#g3">Grundlage 3, Vergleichen und prüfen</a>}>
     <p>Ins Modell kommen vier Prädiktoren: die eigene wirtschaftliche Lage (<code>lage</code>) und die Lage Deutschlands (<code>dlage</code>) aus Aufgabe 1, beide von 1 sehr schlecht bis 5 sehr gut; das Wohngebiet (<code>ost</code>: 1 Osten, 0 Westen, eine 0/1-Variable wie in Grundlage 2a) und der Schulabschluss (<code>abitur</code>: 1 Fachhochschulreife oder Abitur, 0 ohne Abschluss, Volks- oder Hauptschule oder Mittlere Reife; „anderer Abschluss“ und „noch Schüler“ fehlen im Modell).</p>
     {predict('a3')}
@@ -113,7 +113,7 @@ export function Task3() {
       <li>Führe die Vorlage aus. Lies unter Coefficients die Spalten B und Beta, unter Model Summary R Square und Adjusted R Square, unter Collinearity Statistics die VIF. <Badge>0/1-Variable mit rec(): wie in Grundlage 2a</Badge>
         <Workshop k="a3" live /></li>
       <li>Vergleiche B und Beta: Welcher Prädiktor hat das größte Beta? Und stimmt die Reihenfolge der B mit der Reihenfolge der Beta überein? Schau besonders auf <code>lage</code> und <code>abitur</code>.</li>
-      <li>Zum Vergleich die Ost-West-Lücke ohne weitere Prädiktoren. Führe die zweite Vorlage aus und vergleiche B von <code>ost</code> mit dem aus Schritt 1.
+      <li>Zum Vergleich: der Ost-West-Unterschied ohne weitere Prädiktoren, der Bruttoeffekt. Führe die zweite Vorlage aus und vergleiche B von <code>ost</code> mit dem aus Schritt 1.
         <Workshop k="a3_ost" live /></li>
     </Steps>
     <TryOut idea="Wie viel trägt die Lage Deutschlands? Nimm sie heraus und vergleiche R², korrigiertes R² und die übrigen B." workshop={<Workshop k="frei_a3" live />} />
@@ -125,27 +125,27 @@ export function Task3() {
 }
 
 export function Task4() {
-  return <TaskBlock id="a4" n={4} title="Ist die Ost-West-Lücke mit Abitur kleiner?" required={false}
-    question="Sind Befragte mit Abitur im Osten ähnlich zufrieden mit der Demokratie wie im Westen, oder gilt die Ost-West-Lücke für beide gleich?"
-    goal="Am Ende kannst du eine Interaktion rechnen und lesen, die Lücke in zwei Gruppen ausrechnen und begründen, ob sie sich unterscheidet. Dazu kannst du sagen, warum kleine Gruppen vorsichtig machen."
+  return <TaskBlock id="a4" n={4} title="Ist der Ost-West-Unterschied mit Abitur kleiner?" required={false}
+    question="Sind Befragte mit Abitur im Osten ähnlich zufrieden mit der Demokratie wie im Westen, oder gilt der Ost-West-Unterschied für beide gleich?"
+    goal="Am Ende kannst du eine Interaktion rechnen und lesen, den Ost-West-Unterschied für Befragte mit und ohne Abitur ausrechnen und begründen, ob er verschieden groß ist. Dazu kannst du sagen, warum kleine Gruppen vorsichtig machen."
     foundationHref="#g4" basis={<a href="#g4">Grundlage 4, Grenzen des Modells</a>}>
-    <p>In Aufgabe 3 ist die Ost-West-Lücke mit Lage und Abitur im Modell nur wenig kleiner geworden. Das sagt aber noch nicht, ob die Lücke bei Befragten mit und ohne Abitur gleich groß ist. Das prüft eine Interaktion.</p>
+    <p>In Aufgabe 3 ist der Ost-West-Unterschied mit Lage und Abitur im Modell nur wenig kleiner geworden. Das sagt aber noch nicht, ob der Unterschied bei Befragten mit und ohne Abitur gleich groß ist. Das prüft eine Interaktion.</p>
     {predict('a4')}
     <Working />
     <Steps>
-      <li>Führe die Vorlage aus. Sie rechnet <code>demo ~ ost + abitur</code>: eine Lücke für alle. Lies B von <code>ost</code>.
+      <li>Führe die Vorlage aus. Sie rechnet <code>demo ~ ost + abitur</code>: ein Unterschied für alle. Lies B von <code>ost</code>.
         <Workshop k="a4" live />
         <Marks>Zeile 9: das Plus zwischen `ost` und `abitur`, in Schritt 2 gegen ein Sternchen tauschen.</Marks></li>
       <li>Tausch das <code>+</code> gegen <code>*</code> und führe die Vorlage erneut aus. Jetzt gibt es eine Zeile <code>ost:abitur</code>. Lies B, Sig. und das Konfidenzintervall dieser Zeile. <Badge>* in der Formel: neu heute</Badge></li>
-      <li>Rechne die Lücke für Befragte mit Abitur aus: B von <code>ost</code> plus B von <code>ost:abitur</code>. B von <code>ost</code> ist jetzt die Lücke ohne Abitur. Die Vorlage rechnet noch das Beispiel aus <a href="#v4b">Grundlage 4b</a> (Abstand der Erwerbstätigen ab 60). Tausch beide markierten Zahlen gegen deine aus Schritt 2.
+      <li>Rechne den Ost-West-Unterschied für Befragte mit Abitur aus: B von <code>ost</code> plus B von <code>ost:abitur</code>. B von <code>ost</code> ist jetzt der Unterschied ohne Abitur. Die Vorlage rechnet noch das Beispiel aus <a href="#v4b">Grundlage 4b</a> (Abstand der Erwerbstätigen ab 60). Tausch beide markierten Zahlen gegen deine aus Schritt 2.
         <p className="hilfe-zeile">Kommazahlen mit Punkt, ein Minus gehört mit dazu.</p>
         <Workshop k="a4_rechnen" live />
         <Marks>Zeile 3: zwei Zahlen, B von `ost` und B von `ost:abitur`. Vor dem Tausch gibt R `[1] 0.056` aus.</Marks></li>
-      <li>Deuten: Ist die Lücke mit Abitur anders? Und: In Aufgabe 2 beruhten zwei Gruppen auf 91 und 97 Befragten. Was folgt daraus für ihre B? (Fragen a4c und a4d unten)</li>
+      <li>Deuten: Ist der Unterschied mit Abitur anders? Und: In Aufgabe 2 beruhten zwei Gruppen auf 91 und 97 Befragten. Was folgt daraus für ihre B? (Fragen a4c und a4d unten)</li>
     </Steps>
-    <TryOut idea="Ist die Lücke bei Menschen, die sich politisch links einstufen, anders?" workshop={<Workshop k="frei_a4" live />} />
+    <TryOut idea="Ist der Ost-West-Unterschied bei Menschen, die sich politisch links einstufen, anders?" workshop={<Workshop k="frei_a4" live />} />
     {questions('a4')}
-    <Plenum><p style={{ margin: '4px 0 0' }}>Zwei Sätze zur Wahl: „Mit und ohne Abitur ist die Ost-West-Lücke gleich groß.“ und „Wir finden keinen Hinweis, dass die Ost-West-Lücke mit Abitur anders ist.“ Welcher passt zu den Daten, und warum ist der Unterschied wichtig? Zum Vergleich: Die Probier-Idee mit der Links-rechts-Einstufung zeigt eine Interaktion, die signifikant ist.</p></Plenum>
+    <Plenum><p style={{ margin: '4px 0 0' }}>Zwei Sätze zur Wahl: „Mit und ohne Abitur ist der Ost-West-Unterschied gleich groß.“ und „Wir finden keinen Hinweis, dass der Ost-West-Unterschied mit Abitur anders ist.“ Welcher passt zu den Daten, und warum ist der Unterschied wichtig? Zum Vergleich: Die Probier-Idee mit der Links-rechts-Einstufung zeigt eine Interaktion, die signifikant ist.</p></Plenum>
     <Hints steps={hints('a4')} />
     <NoGraphic>Diese Aufgabe hat keine Grafik. Die Zahlen stehen in der Ausgabe der Vorlage, einmal mit <code>+</code> und einmal mit <code>*</code>.</NoGraphic>
     <ErrorHelp />

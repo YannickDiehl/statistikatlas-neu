@@ -1,7 +1,7 @@
 import { C, T } from './plot';
 
 /** Text version B8 (sitzung09.md). */
-export const GROUP_BY_TEXT = 'group_by(pt03) legt alle Reihen mit demselben Wert bei pt03 auf eine eigene Platte. describe() rechnet dann für jede Platte getrennt Mittelwert und Standardabweichung des Residuums.';
+export const GROUP_BY_TEXT = 'group_by(pt03) legt alle Fälle mit demselben Wert bei pt03 in eine eigene Gruppe. describe() rechnet dann für jede Gruppe getrennt Mittelwert und Standardabweichung des Residuums.';
 
 /** Six example rows: pt03, demo, residuum (= demo − (2.288 + 0.465 × pt03), gerundet). */
 const ROWS: [number, number, string][] = [[1, 2, '-0.75'], [4, 5, '0.85'], [7, 6, '0.46'], [1, 4, '1.25'], [4, 3, '-1.15'], [7, 5, '-0.54']];

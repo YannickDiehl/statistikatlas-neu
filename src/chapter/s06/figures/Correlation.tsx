@@ -5,6 +5,7 @@ import { CAT, CAT_DARK, ROLE } from '../../../tasks/kit/palette';
 import { pearson, spearman } from '../../../tasks/kit/stats';
 import { AGE_XT10, ALT, INTERNET, LAB_PEOPLE, LAB_STEPS, LAB_Z } from '../content';
 import { Picture, Ruler, SvgText, Toggle, de, whole } from './util';
+import { Begriff } from '../../Begriff';
 
 /** Alter und Minuten der acht Personen, wenn Person B `minutes` braucht. */
 export function labData(minutes: number) {
@@ -76,7 +77,7 @@ export function RBricks() {
   const list = (xs: number[]) => xs.map(v => de(v, 2)).join(', ');
   return <figure className="ebild s6-bild">
     <ol className="s6-bausteine" role="list">
-      <li><span className="s6-nr" aria-hidden="true">1</span><div><b>Abstand vom Mittelwert, gemessen in Standardabweichungen</b> (Fachbegriff: z-Wert; Standardabweichung kennst du aus Sitzung 3). Alter A bis H: {list(LAB_Z.age)}. Minuten A bis H: {list(LAB_Z.minutes)}.</div></li>
+      <li><span className="s6-nr" aria-hidden="true">1</span><div><b>Abstand vom Mittelwert, gemessen in Standardabweichungen</b> (Fachbegriff: z-Wert; die <Begriff id="standardabweichung">Standardabweichung</Begriff> kennst du aus Sitzung 3). Alter A bis H: {list(LAB_Z.age)}. Minuten A bis H: {list(LAB_Z.minutes)}.</div></li>
       <li><span className="s6-nr" aria-hidden="true">2</span><div><b>Je Person malnehmen:</b> {list(LAB_Z.products)}. <span className="s6-merke">Beide auf derselben Seite des Mittelwerts: Plus. Auf verschiedenen Seiten: Minus.</span></div></li>
       <li><span className="s6-nr" aria-hidden="true">3</span><div><b>Zusammenzählen und durch n − 1 teilen:</b> {de(LAB_Z.sum, 2)} / 7 = 0,97.</div></li>
       <li><span className="s6-nr" aria-hidden="true">=</span><div><b>Ergebnis:</b> r = 0,97 (genau 0,974).{' '}
@@ -89,8 +90,8 @@ export function RBricks() {
 export function OutlierRuler() {
   return <Picture text={ALT.ausreisser} caption="Alter und Bearbeitungsdauer, ALLBUS 2023 (r gewichtet). Kreise: r, Rauten: ρ.">
     <Ruler from={-1} to={1} ticks={[-1, -0.5, 0, 0.5, 1]} height={190} marks={[
-      { value: AGE_XT10.rAll, label: `r, alle Bögen: ${de(AGE_XT10.rAll, 3)}`, color: CAT_DARK[0], row: 0 },
-      { value: AGE_XT10.rhoAll, label: `ρ, alle Bögen: ${de(AGE_XT10.rhoAll, 2)}`, color: CAT_DARK[1], shape: 'diamond', row: 1 },
+      { value: AGE_XT10.rAll, label: `r, alle Fälle: ${de(AGE_XT10.rAll, 3)}`, color: CAT_DARK[0], row: 0 },
+      { value: AGE_XT10.rhoAll, label: `ρ, alle Fälle: ${de(AGE_XT10.rhoAll, 2)}`, color: CAT_DARK[1], shape: 'diamond', row: 1 },
       { value: AGE_XT10.r180, label: `r, bis 180 Minuten: ${de(AGE_XT10.r180, 2)}`, color: CAT_DARK[0], row: 2 },
       { value: AGE_XT10.rho180, label: `ρ, bis 180 Minuten: ${de(AGE_XT10.rho180, 2)}`, color: CAT_DARK[1], shape: 'diamond', row: 3 },
     ]} />

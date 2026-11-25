@@ -49,7 +49,7 @@ test('session 8 is registered as a preview-only chapter', () => {
 test('headings in the order of spec §5 (Variante B)', () => {
   const texts = headings(html).map(x => x.text);
   const order = [
-    'Vorweg: R lesen', 'R Startblock und Umpolen: kennst du schon', 'R Neu heute: ein Wert je Person und die Stimmigkeit',
+    'Vorweg: R lesen', 'R Startblock und Umpolen: kennst du schon', 'R Neu heute: ein Wert je Person und die Reliabilität',
     'Thema 1: Mehrere Fragen, ein Wert: der Mittelwertindex', 'Mehrere Fragen, ein Wert', 'Aufgabe 1: Wie populistisch denken die Befragten?',
     'Thema 2: Passen die Fragen zusammen? Cronbachs α', 'Passen die Fragen zusammen?', 'Aufgabe 2: Messen die sieben Aussagen dasselbe?',
     'Thema 3: Alle in eine Richtung: Umpolen', 'Alle in eine Richtung', 'Aufgabe 3: Andersherum gefragt: Einstellungen zu Islam und Muslimen',

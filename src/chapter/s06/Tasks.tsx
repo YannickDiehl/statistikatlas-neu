@@ -63,7 +63,7 @@ export function Task1() {
     goal="Am Ende kannst du sagen, wie viel Prozent mindestens etwas zufrieden sind, ohne und mit Gewicht, und erklären, warum die Zahl mit Gewicht anders ausfällt."
     foundationHref="#g1"
     basis={<a href="#g1">Grundlage 1, Gewichtung</a>}>
-    <p>Der ALLBUS fragt nach der Zufriedenheit mit der Demokratie in Deutschland (<code>ps03</code>). Es gibt sechs Stufen: 1 sehr zufrieden, 2 ziemlich zufrieden, 3 etwas zufrieden, 4 etwas unzufrieden, 5 ziemlich unzufrieden, 6 sehr unzufrieden. Gut zwei Drittel der Befragten haben diese Frage bekommen; die übrigen hatten eine andere Fragebogen-Variante und stehen bei den fehlenden Werten unter „TNZ: SPLIT“ (fehlende Werte kennst du aus Sitzung 3). Als „zufrieden“ zählen hier alle mit 1, 2 oder 3.</p>
+    <p>Der ALLBUS fragt nach der Zufriedenheit mit der Demokratie in Deutschland (<code>ps03</code>). Es gibt sechs Ausprägungen: 1 sehr zufrieden, 2 ziemlich zufrieden, 3 etwas zufrieden, 4 etwas unzufrieden, 5 ziemlich unzufrieden, 6 sehr unzufrieden. Gut zwei Drittel der Befragten haben diese Frage bekommen; die übrigen hatten eine andere Fragebogen-Variante und stehen bei den fehlenden Werten unter „TNZ: SPLIT“ (fehlende Werte kennst du aus Sitzung 3). Als „zufrieden“ zählen hier alle mit 1, 2 oder 3.</p>
     {predict('a1')}
     {WORK_HINT}
     <Steps>
@@ -88,7 +88,7 @@ export function Task1() {
 export function Task2() {
   return <TaskBlock id="a2" n={2} title="Zufriedenheit und Wahlabsicht" required
     question="Hängt die Zufriedenheit mit der Demokratie damit zusammen, welche Partei jemand wählen würde?"
-    goal="Am Ende kannst du mit Zeilenprozenten zeigen, in welchen Gruppen die Zufriedenheit hoch oder niedrig ist, und mit Cramér-V sagen, wie stark der Zusammenhang ist."
+    goal="Am Ende kannst du mit Zeilenprozenten zeigen, bei welchen Parteien die Zufriedenheit hoch oder niedrig ist, und mit Cramér-V sagen, wie stark der Zusammenhang ist."
     foundationHref="#g2"
     basis={<a href="#g2">Grundlage 2, χ², Phi und Cramér-V</a>}>
     <p>Die Wahlabsicht (<code>pv01</code>) fragt, welche Partei jemand bei einer Bundestagswahl wählen würde. Die Antworten: CDU-CSU, SPD, FDP, DIE GRUENEN, DIE LINKE, AFD, ANDERE PARTEI, WUERDE NICHT WAEHLEN. Wer nicht wahlberechtigt ist oder nichts angibt, fehlt. Die Zufriedenheit (<code>ps03</code>) teilst du wie in Aufgabe 1 in zwei Gruppen: zufrieden (1 bis 3) und unzufrieden (4 bis 6).</p>
@@ -122,7 +122,7 @@ export function Task3() {
     goal="Am Ende kannst du Gamma und Tau-b für zwei geordnete Merkmale ausrechnen, Stärke und Richtung in einem Satz sagen und erklären, warum Gamma größer ausfällt."
     foundationHref="#g3"
     basis={<a href="#g3">Grundlage 3, Gamma und Tau-b</a>}>
-    <p>Die Wirtschaftslage in Deutschland (<code>ep01</code>) <Badge>kennst du aus Sitzung 5, Grundlage Umpolen</Badge> hat fünf Stufen: 1 sehr gut, 2 gut, 3 teils/teils, 4 schlecht, 5 sehr schlecht. Ein höherer Code heißt also: schlechter eingeschätzt. Diesmal bleibt <code>ep01</code>, wie es ist. Die Zufriedenheit mit der Demokratie (<code>ps03</code>) polst du zuerst um, damit ein höherer Code „zufriedener“ heißt. Beide Merkmale haben eine Reihenfolge, aber keine sicher gleichen Abstände: ordinal.</p>
+    <p>Die Wirtschaftslage in Deutschland (<code>ep01</code>) <Badge>kennst du aus Sitzung 5, Grundlage Umpolen</Badge> hat fünf Ausprägungen: 1 sehr gut, 2 gut, 3 teils/teils, 4 schlecht, 5 sehr schlecht. Ein höherer Code heißt also: schlechter eingeschätzt. Diesmal bleibt <code>ep01</code>, wie es ist. Die Zufriedenheit mit der Demokratie (<code>ps03</code>) polst du zuerst um, damit ein höherer Code „zufriedener“ heißt. Beide Merkmale haben eine Reihenfolge, aber keine sicher gleichen Abstände: ordinal.</p>
     {predict('a3')}
     {WORK_HINT}
     <Steps>
@@ -152,11 +152,11 @@ export function Task4() {
     goal="Am Ende kannst du Pearson-r und Spearman-ρ rechnen und einordnen und prüfen, ob der Zusammenhang in beiden Landesteilen gleich stark ist."
     foundationHref="#g4"
     basis={<a href="#g4">Grundlage 4</a>}>
-    <p>Die Lebenszufriedenheit (<code>ls01</code>) reicht von 0 (ganz unzufrieden) bis 10 (ganz zufrieden); elf Stufen, die man wie Zahlen mit gleichen Abständen behandeln darf (quasi-metrisch). Die Zufriedenheit mit der Demokratie hat sechs Stufen; umgepolt (höher = zufriedener) behandelst du sie hier ebenfalls als quasi-metrisch und vergleichst zur Sicherheit mit Spearman-ρ.</p>
+    <p>Die Lebenszufriedenheit (<code>ls01</code>) reicht von 0 (ganz unzufrieden) bis 10 (ganz zufrieden); elf Ausprägungen, die man wie Zahlen mit gleichen Abständen behandeln darf (quasi-metrisch). Die Zufriedenheit mit der Demokratie hat sechs Ausprägungen; umgepolt (höher = zufriedener) behandelst du sie hier ebenfalls als quasi-metrisch und vergleichst zur Sicherheit mit Spearman-ρ.</p>
     {predict('a4')}
     {WORK_HINT}
     <Steps>
-      <li>Pole um (wie in Aufgabe 3) und sieh dir die Punktwolke an. <code>geom_jitter()</code> streut die Punkte leicht, weil sie sonst bei so wenigen Stufen übereinanderliegen (in Sitzung 4 im Überblick erwähnt; <code>ggplot()</code> kennst du von dort); <code>alpha = 0.2</code> macht sie durchscheinend, damit dichte Stellen dunkler wirken. Das Bild zeigt alle Befragten ohne Gewicht; für einen ersten Blick reicht das.
+      <li>Pole um (wie in Aufgabe 3) und sieh dir das Streudiagramm an. <code>geom_jitter()</code> streut die Punkte leicht, weil sie sonst bei so wenigen Ausprägungen übereinanderliegen (in Sitzung 4 im Überblick erwähnt; <code>ggplot()</code> kennst du von dort); <code>alpha = 0.2</code> macht sie durchscheinend, damit dichte Stellen dunkler wirken. Das Bild zeigt alle Befragten ohne Gewicht; für einen ersten Blick reicht das.
         <Workshop k="a4a" live />
         <p className="sr-only">{`Textfassung der Grafik: ${ALT.punktwolke}`}</p></li>
       <li>Rechne Pearson-r (gewichtet) und Spearman-ρ. <Badge>neu heute: pearson_cor() und spearman_rho()</Badge> Die Vorlage polt oben wieder um, weil jede Werkstatt mit dem frisch geladenen <code>allbus</code> beginnt.

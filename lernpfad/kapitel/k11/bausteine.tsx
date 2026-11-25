@@ -7,6 +7,7 @@ import { CROSSTAB, QUESTIONS, withSpecialHint } from '@atlas/chapter/s11/content
 import { Ceiling } from '@atlas/chapter/s11/figures/Topic1';
 import { PersonAB } from '@atlas/chapter/s11/figures/Topic3';
 import '@atlas/chapter/s11/s11.css';
+import { Begriff } from '@lernpfad/Begriff';
 
 /**
  * Prüfung aller Fragen der Seite: wie der Atlas, dazu die Sonderfälle aus SPECIAL (eine typische falsche Zahl mit Spielraum
@@ -19,7 +20,7 @@ export function PRUEFEN(q: Question, input: string | undefined): { result: 'open
 }
 
 /** Verweise der Rückmeldungen („Grundlage 2b“) auf die Karten in „Verstehen“, wie in kapitel.js. */
-const KARTE: Record<string, string> = { '1b': 'Warum eine Gerade scheitert', '1c': 'Drei Sprachen', '2b': 'Exp(B): ein Faktor für die Chance', '3b': 'Gleicher Faktor, verschiedene Prozentpunkte', '3c': 'Eine Zahl im Mittel: der AME', '4a': 'Trefferquote: besser als Raten?', '4c': 'Pseudo-R²' };
+const KARTE: Record<string, string> = { '1b': 'Warum eine Gerade scheitert', '1c': 'Drei Sprachen', '2b': 'Exp(B): ein Faktor für die Chance', '3b': 'Gleicher Faktor, verschiedene Prozentpunkte', '3c': 'Eine Zahl im Mittel: der AME', '4a': 'Die Trefferquote einordnen', '4c': 'Pseudo-R²' };
 const neuerVerweis = (t: string) => t.replace(/Grundlage (\d[a-c])/g, (m, k: string) => KARTE[k] ? `„${KARTE[k]}“ in Verstehen` : m);
 
 /** Aufgabe 1, Schritt 3: welche Antwort welchen Code hat (pe09 und pflicht) und das Bild „Decke“. */
@@ -59,7 +60,7 @@ const PersonABNachFragen: Baustein = ({ fertig }) => {
   return <div aria-live="polite">{EINSPALTIG}{da
     ? <figure className="ebild">
       <PersonAB />
-      <figcaption>Person A und Person B bekommen eine Stufe mehr Pflichtgefühl. <span>Die Kurven sind mit den gerundeten Zahlen aus Aufgabe 2 gezeichnet, die Punkte stammen aus <code>predict()</code>.</span></figcaption>
+      <figcaption>Person A und Person B bekommen eine Stufe mehr Pflichtgefühl. B steht schon oben, wo kaum noch Platz ist: ein <Begriff id="deckeneffekt">Deckeneffekt</Begriff>. <span>Die Kurven sind mit den gerundeten Zahlen aus Aufgabe 2 gezeichnet, die Punkte stammen aus <code>predict()</code>.</span></figcaption>
     </figure>
     : <p className="hilfe-zeile">Noch verdeckt: Beantworte zuerst alle Fragen in Schritt 5 und drück <b>Prüfen</b>.</p>}</div>;
 };

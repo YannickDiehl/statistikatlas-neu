@@ -1,4 +1,4 @@
-// Sitzung 8, Thema 1: Bilder B1 (Messfehler), B2 (eine Reihe, ein Wert), B2b (Formel), B3 (Index im ALLBUS), B-A1 (min_valid).
+// Sitzung 8, Thema 1: Bilder B1 (Messfehler), B2 (eine Zeile, ein Wert), B2b (Formel), B3 (Index im ALLBUS), B-A1 (min_valid).
 import { useState } from 'react';
 import { ALT, FIVE_ROWS, MP_INDEX, MP_INDEX_W, ONE_PERSON, THREE_ROWS } from '../content';
 import { BLUE, GRAY, GREEN, INK, ORANGE, Pic, Stone, Svg, T, de, short } from './kit';
@@ -42,7 +42,7 @@ export function MeasurementError() {
 
 /* ---------- B2 s8-reihe ---------- */
 
-const STEP_NAMES = ['Reihe lesen', 'Mittelwert der Reihe', 'neuer Turm'];
+const STEP_NAMES = ['Zeile lesen', 'Mittelwert der Zeile', 'neue Variable'];
 const valid = (vs: (number | null)[]) => vs.filter((v): v is number => v !== null);
 const rowMean = (vs: (number | null)[]) => { const g = valid(vs); return g.reduce((a, b) => a + b, 0) / g.length; };
 const formula = (vs: (number | null)[]) => { const g = valid(vs); return `(${g.join(' + ')}) / ${g.length} = ${short(Math.round(rowMean(vs) * 100) / 100)}`; };
@@ -51,12 +51,12 @@ const formula = (vs: (number | null)[]) => { const g = valid(vs); return `(${g.j
 export function rowText(s: number, minValid: 3 | 4): string {
   const [a, b, c] = THREE_ROWS;
   if (s === 1) return `Person A: ${valid(a.values).slice(0, -1).join(', ')} und ${valid(a.values).at(-1)}.`;
-  if (s === 2) return `Mittelwert je Reihe. Person A: ${formula(a.values)}. Person B: ${formula(b.values)}, der leere Stein zählt nicht mit. Person C: ${formula(c.values)}.`;
+  if (s === 2) return `Mittelwert je Zeile. Person A: ${formula(a.values)}. Person B: ${formula(b.values)}, der fehlende Wert zählt nicht mit. Person C: ${formula(c.values)}.`;
   const bText = minValid === 4 ? 'leer (NA), nur 3 von 4 gültig' : short(Math.round(rowMean(b.values) * 100) / 100);
-  return `Neuer Turm fluechtlinge mit min_valid = ${minValid}: Person A ${short(rowMean(a.values))}, Person B ${bText}, Person C ${short(rowMean(c.values))}.`;
+  return `Neue Variable fluechtlinge mit min_valid = ${minValid}: Person A ${short(rowMean(a.values))}, Person B ${bText}, Person C ${short(rowMean(c.values))}.`;
 }
 
-/** Bild B2: eine Reihe der Bauplatte, ihr Mittelwert und der neue Turm; drei Schritte und ein Umschalter für min_valid. */
+/** Bild B2: eine Zeile des Datensatzes, ihr Mittelwert und die neue Variable; drei Schritte und ein Umschalter für min_valid. */
 export function RowMean() {
   const [s, setS] = useState(1);
   const [minValid, setMinValid] = useState<3 | 4>(3);
@@ -168,7 +168,7 @@ export function MinValid() {
   const cols = ['pa29', 'pa30', 'pa31', 'pa32', 'pa33', 'pa34', 'pa35'];
   const cx = (j: number) => 50 + j * 54, ry = (i: number) => 56 + i * 40, sw = 46, sh = 28;
   const value = (vs: (number | null)[], m: number) => (valid(vs).length >= m && valid(vs).length > 0 ? de(rowMean(vs), 2) : undefined);
-  return <Pic alt={ALT.minValid} caption={<>Je kleiner min_valid, desto mehr Befragte bekommen einen Wert. Wer die Fragen gar nicht bekam (Split), bekommt nie einen. <span>Die Steine sind ein Beispiel mit fünf Befragten.</span></>}>
+  return <Pic alt={ALT.minValid} caption={<>Je kleiner min_valid, desto mehr Befragte bekommen einen Wert. Wer die Fragen gar nicht bekam (Split), bekommt nie einen. <span>Die Werte sind ein Beispiel mit fünf Befragten.</span></>}>
     <Svg w={760} h={262}>
       {cols.map((c, j) => <T key={c} x={cx(j) + sw / 2} y={40} fill={INK} fontWeight={700} fontFamily="JetBrains Mono,monospace" fontSize={12}>{c}</T>)}
       <T x={448} y={40} fill={INK} fontWeight={700}>gültig</T>

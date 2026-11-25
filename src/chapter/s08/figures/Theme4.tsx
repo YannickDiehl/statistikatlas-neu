@@ -9,7 +9,7 @@ import { BLUE, GRAY, GREEN, INK, ORANGE, Pic, Stone, Svg, T, de } from './kit';
 export function Balance() {
   const rows = [{ name: 'A', values: [1, 1, 4], all: false }, { name: 'B', values: [2, 2, 2], all: true }];
   const ry = (i: number) => 50 + i * 64;
-  return <Pic alt={ALT.ausgleich} caption={<>Im Mittelwert gleicht eine Ablehnung zwei starke Zustimmungen aus. Die Regel „allen zugestimmt“ lässt keinen Ausgleich zu. <span>Die Steine sind ein Beispiel mit zwei Befragten.</span></>}>
+  return <Pic alt={ALT.ausgleich} caption={<>Beide haben den Mittelwert 2. Die Regel „allen zugestimmt“ erfüllt nur Person B. <span>Die Werte sind ein Beispiel mit zwei Befragten.</span></>}>
     <Svg w={700} h={190}>
       <T x={430} y={30} fill={INK} fontWeight={700}>Mittelwert</T>
       <T x={580} y={30} fill={INK} fontWeight={700}>allen zugestimmt (1 oder 2)?</T>
@@ -105,7 +105,7 @@ export function Inglehart() {
 const FLOW: [string, string][] = [
   ['Items lesen: Was messen sie, wofür steht die 1?', 'frequency()'],
   ['Gleiche Richtung herstellen', 'rec(…, rules = "rev")'],
-  ['Stimmigkeit prüfen: α, Trennschärfen', 'reliability() + summary()'],
+  ['Reliabilität prüfen: α, Trennschärfen', 'reliability() + summary()'],
   ['Index bilden: Regel für fehlende Antworten', 'row_means(pick(…), min_valid = …)'],
   ['Beschreiben und deuten, mit Gewicht', 'describe(…, weights = wghtpew)'],
 ];

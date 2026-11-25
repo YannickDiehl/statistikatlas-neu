@@ -2,7 +2,7 @@ import { EIGHT, FAN, NINE_LINE, NINTH, ROOMS, ROOMS_LINE, EIGHT_LINE, type Point
 import { C, frame, leastSquares, spread, T } from './plot';
 
 /** Text version B11 (sitzung09.md). */
-export const ASSUMPTIONS_TEXT = 'Vier kleine Bilder. Erstens: Punkte liegen gleichmäßig um eine steigende Gerade, alles in Ordnung. Zweitens: Punkte bilden einen Bogen, die Gerade ist flach, Linearität verletzt. Drittens: ein einzelner Punkt unten rechts zieht die Gerade flach, ein Ausreißer. Viertens: links streuen die Punkte weit, rechts eng, gleiche Fehlervarianz verletzt.';
+export const ASSUMPTIONS_TEXT = 'Vier kleine Bilder. Erstens: Punkte liegen gleichmäßig um eine steigende Gerade, alles in Ordnung. Zweitens: Punkte bilden eine Kurve, die Gerade ist flach, Linearität verletzt. Drittens: ein einzelner Punkt unten rechts zieht die Gerade flach, ein Ausreißer. Viertens: links streuen die Punkte weit, rechts eng, gleiche Fehlervarianz verletzt.';
 
 function Small({ title, points, line, x, red }: { title: string; points: Point[]; line: { a: number; b: number }; x: [number, number]; red?: Point }) {
   const f = frame(200, 170, { l: 12, r: 10, t: 30, b: 14 }, x, [0, 10]);
@@ -27,7 +27,7 @@ export function Assumptions() {
       <Small title="passt" points={EIGHT} line={{ a: EIGHT_LINE.intercept, b: EIGHT_LINE.slope }} x={[0.5, 5.5]} />
       <Small title="Kurve" points={ROOMS} line={{ a: ROOMS_LINE.intercept, b: ROOMS_LINE.slope }} x={[13, 33]} />
       <Small title="Ausreißer" points={[...EIGHT, NINTH]} line={{ a: NINE_LINE.intercept, b: NINE_LINE.slope }} x={[0.5, 5.5]} red={NINTH} />
-      <Small title="Fächer" points={FAN} line={leastSquares(FAN)} x={[0.5, 5.5]} />
+      <Small title="ungleiche Streuung" points={FAN} line={leastSquares(FAN)} x={[0.5, 5.5]} />
     </div>
   </figure>;
 }

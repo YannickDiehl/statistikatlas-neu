@@ -50,9 +50,9 @@ function Ruler({ step }: { step: number }) {
     </g>)}
     {n % 2 ? <>
       <path d={`M150,70 V76 H${150 + 3 * 40 + SW} V70`} fill="none" stroke={C.mute} strokeWidth={1.5} />
-      <SvgText x={150 + 1.5 * 40 + SW / 2} y={92} fontSize={11.5}>4 Steine</SvgText>
+      <SvgText x={150 + 1.5 * 40 + SW / 2} y={92} fontSize={11.5}>4 Werte</SvgText>
       <path d={`M${150 + 5 * 40},70 V76 H${150 + 8 * 40 + SW} V70`} fill="none" stroke={C.mute} strokeWidth={1.5} />
-      <SvgText x={150 + 6.5 * 40 + SW / 2} y={92} fontSize={11.5}>4 Steine</SvgText>
+      <SvgText x={150 + 6.5 * 40 + SW / 2} y={92} fontSize={11.5}>4 Werte</SvgText>
     </> : null}
     {values.map((v, i) => {
       const k = height[v] = (height[v] ?? 0) + 1;
@@ -67,7 +67,7 @@ function Ruler({ step }: { step: number }) {
     </g>)}
     <line x1={xr(stats.median)} x2={xr(stats.median)} y1={BASE - 4 * SH - 16} y2={BASE + 2} stroke={C.orangeDark} strokeWidth={2.2} strokeDasharray="5 4" />
     <SvgText x={xr(stats.median) + 6} y={BASE - 4 * SH - 6} textAnchor="start" fontSize={12} fill={C.orangeDark} fontWeight={800}>
-      {withWg ? 'Median 2 (zwischen dem 5. und 6. Stein)' : `Median ${stats.median}`}</SvgText>
+      {withWg ? 'Median 2 (zwischen dem 5. und 6. Wert)' : `Median ${stats.median}`}</SvgText>
     {step >= 2 ? <>
       {withWg ? <path d={`M${xr(ROW_STATS.nine.mean)},${BASE + 28} l-8,14 h16 Z`} fill={C.orange} opacity={0.3} /> : null}
       <path d={`M${xr(stats.mean)},${BASE + 28} l-9,16 h18 Z`} fill={C.orange} stroke={C.orangeDark} />
@@ -97,7 +97,7 @@ export function HouseholdRow() {
     if (!answered && step === 3) setStep(2);
     was.current = answered;
   }, [answered, step]);
-  const steps = ['Turm', 'Reihe', 'Mittelwert', ...(answered ? ['mit der WG'] : [])];
+  const steps = ['Datenreihe', 'sortiert', 'Mittelwert', ...(answered ? ['mit der WG'] : [])];
   const stats = step === 3 ? ROW_STATS.ten : ROW_STATS.nine;
   const sorted = [...HOUSEHOLDS9].sort((a, b) => a - b);
 
@@ -110,9 +110,9 @@ export function HouseholdRow() {
     </div>
     {step >= 2 ? <div className="s3-rechnung" aria-hidden="true">
       {step === 3
-        ? <><span>{`${ROW_STATS.nine.sum} + ${WG} = ${ROW_STATS.ten.sum}`}</span><span>{`${ROW_STATS.ten.sum} geteilt durch 10 Steine = ${de(ROW_STATS.ten.mean, 1)}`}</span></>
-        : <><span>{`${sorted.join(' + ')} = ${stats.sum}`}</span><span>{`${stats.sum} geteilt durch 9 Steine = ${de(stats.mean)}`}</span></>}
-      <small>Das Dreieck ist der Schwerpunkt: Auf diesem Punkt würde das Lineal im Gleichgewicht liegen.</small>
+        ? <><span>{`${ROW_STATS.nine.sum} + ${WG} = ${ROW_STATS.ten.sum}`}</span><span>{`${ROW_STATS.ten.sum} geteilt durch 10 Werte = ${de(ROW_STATS.ten.mean, 1)}`}</span></>
+        : <><span>{`${sorted.join(' + ')} = ${stats.sum}`}</span><span>{`${stats.sum} geteilt durch 9 Werte = ${de(stats.mean)}`}</span></>}
+      <small>Das Dreieck ist der Mittelwert, der Schwerpunkt: Auf diesem Punkt würde das Lineal im Gleichgewicht liegen.</small>
     </div> : null}
     {step === 3 ? <div className="reihe-knoepfe"><button type="button" className="knopf hell" onClick={backToMean}>Wieder ohne die WG</button></div> : null}
     <p className="sr-only" aria-live="polite">{`Schritt ${step + 1}: ${ROW_TEXT[step]}`}</p>

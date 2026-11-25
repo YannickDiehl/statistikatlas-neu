@@ -22,7 +22,7 @@ const binLabel = (from: number, b: number) => (b === 1 ? `${from} Jahre` : `${fr
 /** Live text: bin width, number of bins and the fullest bin. */
 export function histText(width: number): string {
   const bins = ageBins(width), top = bins.reduce((m, x) => (x.n > m.n ? x : m));
-  return `Kistenbreite ${widthText(width)}: ${bins.length} Kisten. Die vollste Kiste: ${binLabel(top.from, width)} mit ${whole(top.n)} Befragten.`;
+  return `Klassenbreite ${widthText(width)}: ${bins.length} Klassen. Die vollste Klasse: ${binLabel(top.from, width)} mit ${whole(top.n)} Befragten.`;
 }
 
 /** Grundlage 3a: histogram of age with a bin-width slider; the text below names the bins and the fullest one. */
@@ -35,7 +35,7 @@ export function Histogram() {
   for (let v = 20; v <= 100; v += 10) if (v >= start) labels.push(v);
   return <>
     <div className="feld">
-      <label htmlFor="hist-breite">Kistenbreite</label>
+      <label htmlFor="hist-breite">Klassenbreite</label>
       <input type="range" id="hist-breite" min={0} max={4} step={1} value={k} aria-valuetext={widthText(b)} onChange={e => setK(Number(e.target.value))} />
       {/* The live text below already announces the width; the output (implicit status role) stays silent. */}
       <output htmlFor="hist-breite" aria-live="off">{widthText(b)}</output>
@@ -56,7 +56,7 @@ export function Histogram() {
     <details className="werte">
       <summary>Werte als Tabelle</summary>
       <table className="daten">
-        <caption>{`Befragte je Kiste, Kistenbreite ${widthText(b)}`}</caption>
+        <caption>{`Befragte je Klasse, Klassenbreite ${widthText(b)}`}</caption>
         <thead><tr><th scope="col">Alter</th><th scope="col">Befragte</th></tr></thead>
         <tbody>{bins.map(bin => <tr key={bin.from}><td>{binLabel(bin.from, b)}</td><td>{whole(bin.n)}</td></tr>)}</tbody>
       </table>

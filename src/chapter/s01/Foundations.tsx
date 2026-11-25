@@ -190,7 +190,7 @@ export function Foundation3() {
         <ul>
           <li><b>TNZ: SPLIT</b> (−11): Die Frage stand nur in einer Fassung des Fragebogens. Bei pi08 betrifft das 1.647 Befragte.</li>
           <li><b>TNZ: FILTER</b> (−10): Die Frage wurde nur gestellt, wenn eine frühere Antwort passte. Mit welchen Geräten jemand das Internet nutzt (<code>lm27</code> bis <code>lm34</code>), fragt man nur Menschen, die das Internet nutzen. {`Bei `}<code>lm30</code>{` (Smartphone) haben ${TNZ.lm30Filter} Befragte TNZ: FILTER.`}</li>
-          <li><b>TNZ: MODE</b> (−15): Die Frage gab es nur auf einem Erhebungsweg. ‚Nutzen Sie privat das Internet?‘ (<code>xr19</code>){` wurde den ${TNZ.xr19Mode.toLocaleString('de-DE')} Menschen, die online geantwortet haben, nicht gestellt; die Antwort ergibt sich ja aus dem Weg.`}</li>
+          <li><b>TNZ: MODE</b> (−15): Die Frage gab es nicht auf jedem Erhebungsweg. Der ALLBUS befragt im persönlichen Interview, online oder auf Papier. ‚Nutzen Sie privat das Internet?‘ (<code>xr19</code>){` wurde den ${TNZ.xr19Mode.toLocaleString('de-DE')} Befragten, die online geantwortet haben, nicht gestellt; die Antwort ergibt sich ja aus dem Erhebungsweg.`}</li>
           <li>Beim Einlesen hat <code>read_spss()</code> alle negativen Codes als fehlend markiert. Darum rechnet R später nur mit den gültigen Antworten. Mehr zu fehlenden Werten in Sitzung 3.</li>
         </ul>
       </MoreDetail>
@@ -253,9 +253,9 @@ export function Overview() {
             <tr><td>Lesen: <code>frequency()</code>, <code>codebook()</code></td><td>Variablenname genau, klein, ohne Anführungszeichen</td><td>Total ist nicht Total valid; TNZ heißt: nicht gefragt; Zahlen sind ungewichtet</td></tr>
           </tbody>
         </table>
-        <p className="box-notiz">Für alle gilt: Das Variablenlabel ist eine Kurzfassung. Ob eine Variable deine Idee misst (ihre <b>Gültigkeit</b>, <a href="#a2">Aufgabe 2</a>), entscheidest du mit Label, Wertelabels und notfalls dem Fragebogen.</p>
+        <p className="box-notiz">Für alle gilt: Das Variablenlabel ist eine Kurzfassung. Ob eine Variable deine Idee misst (ihre <b>Validität</b>, <a href="#a2">Aufgabe 2</a>), entscheidest du mit Label, Wertelabels und notfalls dem Fragebogen.</p>
       </div>
-      <Mixup>Eine Variable finden und eine Variable verstehen. <code>find_var()</code> sagt dir, dass es pt03 gibt. Erst <code>frequency()</code> oder das Codebuch zeigt, dass nur gut zwei Drittel gefragt wurden und was die sieben Stufen bedeuten.</Mixup>
+      <Mixup>Eine Variable finden und eine Variable verstehen. <code>find_var()</code> sagt dir, dass es pt03 gibt. Erst <code>frequency()</code> oder das Codebuch zeigt, dass nur gut zwei Drittel gefragt wurden und was die sieben Ausprägungen bedeuten.</Mixup>
     </Card>
   </Foundation>;
 }

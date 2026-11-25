@@ -10,6 +10,11 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { build } from 'vite';
 import react from '@vitejs/plugin-react';
+import { register } from 'tsx/esm/api';
+
+// begriffe.ts ist TypeScript: tsx registrieren, damit der Aufruf mit schlichtem `node` genügt.
+register();
+const { markenEntfernen } = await import('../src/lib/begriffe.ts');
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const lp = path.join(root, 'lernpfad');
@@ -26,7 +31,9 @@ const sitzungen = JSON.parse(execFileSync(process.execPath, ['--import', 'tsx', 
   "import('./src/domain/curriculum.ts').then(m => process.stdout.write(JSON.stringify(m.sessions.map(s => ({ id: s.id, title: s.title })))))"], { cwd: root, encoding: 'utf8' }));
 
 fs.mkdirSync(path.join(ziel, 'engine'), { recursive: true });
-for (const f of ['stil.css', 'engine.js', 'hilfe.js', 'tasten.js', 'umgebung.js']) fs.copyFileSync(path.join(lp, 'engine', f), path.join(ziel, 'engine', f));
+for (const f of ['stil.css', 'begriffe.js', 'engine.js', 'hilfe.js', 'tasten.js', 'umgebung.js']) fs.copyFileSync(path.join(lp, 'engine', f), path.join(ziel, 'engine', f));
+// Fachbegriffe: ein Verzeichnis für alle Kapitel (window.BEGRIFFE).
+fs.writeFileSync(path.join(ziel, 'begriffe.js'), `window.BEGRIFFE = ${JSON.stringify(JSON.parse(fs.readFileSync(path.join(lp, 'begriffe.json'), 'utf8')))};\n`);
 // Einstieg: zum zuletzt besuchten Kapitel, sonst zum ersten.
 fs.writeFileSync(path.join(ziel, 'index.html'), `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Lernpfad – Statistikatlas</title>
 <script>var k='${alle[0]}';try{var l=localStorage.getItem('lernpfad-letzte');if(l&&/^k\\d\\d$/.test(l))k=l;}catch(e){}location.replace(k+'/');</script></head>
@@ -56,6 +63,15 @@ for (const k of kapitel) {
       if (importer && /\/workshop\/CodeWorkshop$/.test(src)) return path.join(lp, 'react', 'CodeWorkshopErsatz.tsx');
     },
   };
+  // Atlas-Fassung von Begriff (nur Text) durch die Lernpfad-Fassung ersetzen.
+  const begriffErsatz = {
+    name: 'begriff-ersatz', enforce: 'pre',
+    async resolveId(src, importer, opts) {
+      if (!importer || !/(^|\/)Begriff$/.test(src)) return;
+      const r = await this.resolve(src, importer, { ...opts, skipSelf: true });
+      if (r && r.id.split('?')[0] === path.join(root, 'src', 'chapter', 'Begriff.tsx')) return path.join(lp, 'react', 'Begriff.tsx');
+    },
+  };
   const textErsatz = {
     name: 'text-ersatz', enforce: 'pre',
     transform(code, id) {
@@ -66,7 +82,7 @@ for (const k of kapitel) {
   };
   await build({
     configFile: false, root: lp, logLevel: 'warn',
-    plugins: [werkstattErsatz, textErsatz, react()],
+    plugins: [markenEntfernen(), begriffErsatz, werkstattErsatz, textErsatz, react()],
     define: { 'process.env.NODE_ENV': '"production"' },
     resolve: {
       alias: [
@@ -83,6 +99,9 @@ for (const k of kapitel) {
     },
   });
 
+  // Begriffs-Marken ⟪…⟫ dürfen nicht im React-Bündel landen (markenEntfernen() erreicht nur src/; in React-Texten <Begriff id>).
+  if (fs.readFileSync(path.join(aus, 'verstehen.js'), 'utf8').includes('⟪')) throw new Error(`Lernpfad ${k}: verstehen.js enthält eine Begriffs-Marke ⟪…⟫. In React-Texten <Begriff id="…"> verwenden.`);
+
   // 3. Seite
   const nr = meta.nr;
   const html = vorlage
@@ -96,7 +115,7 @@ for (const k of kapitel) {
     .replaceAll('{{LEITFRAGE}}', esc(meta.leitfrage))
     .replaceAll('{{TITEL}}', esc(meta.titel))
     .replaceAll('{{NR}}', String(nr))
-    .replaceAll('{{META}}', JSON.stringify({ nr, titel: meta.titel, kapitel: k }).replace(/</g, '\\u003c'))
+    .replaceAll('{{META}}', JSON.stringify({ nr, titel: meta.titel, kapitel: k, begriffe: meta.begriffe ?? [] }).replace(/</g, '\\u003c'))
     .replaceAll('{{V}}', V);
   fs.writeFileSync(path.join(aus, 'index.html'), html);
 }

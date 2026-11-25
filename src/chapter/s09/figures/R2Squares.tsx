@@ -1,7 +1,7 @@
 import { C, T } from './plot';
 
 /** Text version B5 (sitzung09.md). */
-export const R2_TEXT = 'Mit dem Mittelwert allein ergeben die acht Befragten 18 Fehlerquadrate, mit der Geraden 6. Die Gerade spart 12 von 18, das sind zwei Drittel: R² gleich 12 durch 18 gleich 0,67. Im echten ALLBUS: Die Gerade aus der Lage spart von 19.041 Fehlerquadraten 3.859; übrig bleiben 15.182. R² gleich 1 minus 15.182 durch 19.041 gleich 0,203.';
+export const R2_TEXT = 'Mit dem Mittelwert allein ist die Quadratsumme der Residuen der acht Befragten 18, mit der Geraden 6. Die Gerade spart 12 von 18, das sind zwei Drittel: R² gleich 12 durch 18 gleich 0,67. Im echten ALLBUS: Die Gerade aus der Lage spart von der Quadratsumme 19.041 genau 3.859; übrig bleiben 15.182. R² gleich 1 minus 15.182 durch 19.041 gleich 0,203.';
 
 /** Bild B5 „s9-r2“ (static): 18 squares against 6, the bracket „erklärt: 12“, and R² as a fraction of stones. */
 export function R2Squares() {

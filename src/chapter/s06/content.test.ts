@@ -136,8 +136,8 @@ test('constructed examples: five persons give 6, 2, 1, 1 pairs, Gamma 0,5 and Ta
   assert.deepEqual(c, { con: 6, dis: 2, tieLayer: 1, tieHealth: 1 });
   assert.equal((c.con - c.dis) / (c.con + c.dis), 0.5);
   assert.equal(Math.round((c.con - c.dis) / Math.sqrt((c.con + c.dis + c.tieLayer) * (c.con + c.dis + c.tieHealth)) * 100) / 100, 0.44);
-  assert.equal(PAIRS.find(p => p.id === 'CD')!.kind, 'Gleichstand Schicht');
-  assert.equal(PAIRS.find(p => p.id === 'BE')!.kind, 'Gleichstand Gesundheit');
+  assert.equal(PAIRS.find(p => p.id === 'CD')!.kind, 'Bindung Schicht');
+  assert.equal(PAIRS.find(p => p.id === 'BE')!.kind, 'Bindung Gesundheit');
 });
 
 test('constructed examples: eight persons, r and ρ for every step of person B, z-values', () => {

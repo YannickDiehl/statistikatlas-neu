@@ -39,7 +39,7 @@ export function Session9() {
       { href: '#ueberblick', title: 'Zum Schluss', note: 'Überblick, Wichtigstes, Selbsttest, Skript' },
     ]}
     goals={[
-      'erklären, was eine lineare Regression tut: Sie legt die Gerade durch eine Punktwolke, die im Mittel am nächsten an den Punkten liegt (kleinste Quadrate)',
+      'erklären, was eine lineare Regression tut: Sie legt die Gerade durch ein Streudiagramm, die im Mittel am nächsten an den Punkten liegt (kleinste Quadrate)',
       'Konstante und Steigung (Regressionskoeffizient B) in einfachen Worten deuten und damit eine Vorhersage von Hand ausrechnen',
       'Residuen als „wie weit daneben“ lesen und R² als „um wie viel besser als der Mittelwert“ deuten; sagen, warum eine steile Gerade nicht dasselbe ist wie eine gute Vorhersage',
       'drei Voraussetzungen prüfen und in Worten erklären: ein gerader Zusammenhang (Linearität), keine einzelnen Punkte, die die Gerade wegziehen (Ausreißer), gleich große Fehler für alle (gleiche Fehlervarianz)',

@@ -57,7 +57,7 @@ export function NSlider() {
 const PALETTE = ['#86B9DE', '#8FCBA6', '#A79FE2', '#F0A27E', '#E39AB6', '#86CBC3'];
 export const alarmText = (groups: number) => {
   const a = ALARM.find(x => x.groups === groups)!;
-  return `${a.pairs} ${a.pairs === 1 ? 'Paar' : 'Paare'}. Wahrscheinlichkeit für mindestens einen Fehlalarm, wenn es nirgends einen Unterschied gibt: ${de(a.risk, 1)} %`;
+  return `${a.pairs} ${a.pairs === 1 ? 'Paar' : 'Paare'}. Wahrscheinlichkeit für mindestens einen Fehlalarm (Fehler 1. Art), wenn es nirgends einen Unterschied gibt: ${de(a.risk, 1)} %`;
 };
 
 export function PairsCounter() {

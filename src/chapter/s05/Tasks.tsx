@@ -44,25 +44,25 @@ function predict(key: keyof typeof PREDICTIONS) {
 /* ---------- Aufgabe 1 ---------- */
 
 export function Task1() {
-  return <TaskBlock id="a1" n={1} title="Zwei Gruppen für die Wahlfrage" required
+  return <TaskBlock id="a1" n={1} title="Zwei neue Variablen für die Wahlfrage" required
     question="Wer misstraut den Politikern, und wer würde nicht wählen?"
-    goal={<>Am Ende hast du zwei neue Variablen mit nur 0 und 1, <code>misstrauen</code> und <code>nichtwahl</code>, und kannst sagen, wie groß jede Gruppe ist und wer herausfällt.</>}
+    goal={<>Am Ende hast du zwei neue Variablen mit nur 0 und 1, <code>misstrauen</code> und <code>nichtwahl</code>, und kannst sagen, wie viele Befragte in jeder Kategorie sind und wer herausfällt.</>}
     foundationHref="#g1"
-    basis={<><a href="#g1">Grundlage 1, Gruppen bilden</a>; Vorweg: <a href="#r2">eine neue Variable mit <code>mutate()</code> und <code>rec()</code></a></>}>
-    <p>Im ALLBUS 2023 sollten die Befragten sagen, ob sie dieser Aussage zustimmen: „Die Politiker kümmern sich nicht viel darum, was Leute wie ich denken.“ (<code>pe01</code>, von „stimme voll zu“ bis „stimme gar nicht zu“). Und sie wurden gefragt, welche Partei sie wählen würden, wenn am nächsten Sonntag Bundestagswahl wäre (<code>pv01</code>). Wer antwortet, er würde nicht wählen, hat den Code 91. Für eine Kreuztabelle brauchst du aus beiden Fragen je zwei Gruppen. <Badge><code>pv01</code> und seine fehlenden Werte: kennst du aus Sitzung 2 und 3</Badge></p>
-    <p>Ob die Zustimmung zu dieser Aussage Misstrauen misst, ist eine Frage der <b>Gültigkeit</b> (kennst du aus Sitzung 1): Streng genommen fragt <code>pe01</code>, ob man sich von Politikern beachtet fühlt, nicht nach Vertrauen. Wir nennen die Gruppe hier kurz <code>misstrauen</code>. Wenn du über das Ergebnis berichtest, nennst du die genaue Aussage.</p>
+    basis={<><a href="#g1">Grundlage 1, Kategorien bilden</a>; Vorweg: <a href="#r2">eine neue Variable mit <code>mutate()</code> und <code>rec()</code></a></>}>
+    <p>Im ALLBUS 2023 sollten die Befragten sagen, ob sie dieser Aussage zustimmen: „Die Politiker kümmern sich nicht viel darum, was Leute wie ich denken.“ (<code>pe01</code>, von „stimme voll zu“ bis „stimme gar nicht zu“). Und sie wurden gefragt, welche Partei sie wählen würden, wenn am nächsten Sonntag Bundestagswahl wäre (<code>pv01</code>). Wer antwortet, er würde nicht wählen, hat den Code 91. Für eine Kreuztabelle fasst du beide Fragen erst zu je zwei Kategorien zusammen. <Badge><code>pv01</code> und seine fehlenden Werte: kennst du aus Sitzung 2 und 3</Badge></p>
+    <p>Ob die Zustimmung zu dieser Aussage Misstrauen misst, ist eine Frage der <b>Gültigkeit</b> (kennst du aus Sitzung 1): Streng genommen fragt <code>pe01</code>, ob man sich von Politikern beachtet fühlt, nicht nach Vertrauen. Wir nennen die Variable hier kurz <code>misstrauen</code>. Wenn du über das Ergebnis berichtest, nennst du die genaue Aussage.</p>
     {predict('a1')}
     <Steps>
       <li><b>Schau dir die Codes von <code>pe01</code> an.</b> <Badge>frequency(): kennst du aus Sitzung 3</Badge><br />
         Führe die Vorlage aus. In der Spalte Value steht der Code jeder Antwort, daneben ihr Wort. Unten fällt eine große Zahl auf: 1.596 Befragte bei ‚TNZ: SPLIT‘. Das heißt: Diese Frage stand nur in einem Teil der Fragebögen (Fragebogensplit). Diese Menschen haben also nicht verweigert, sie wurden nicht gefragt.
         <Workshop k="a1_freq" live /></li>
-      <li><b>Bilde die Gruppe <code>misstrauen</code> und prüfe sie.</b> <Badge>neu heute</Badge><br />
+      <li><b>Bilde die Variable <code>misstrauen</code> und prüfe sie.</b> <Badge>neu heute</Badge><br />
         Eine Regel liest du ‚aus diesen alten Codes wird dieser neue Code‘: <code>1=1</code> heißt, aus 1 wird 1; <code>2:4=0</code> heißt, aus 2 bis 4 wird 0. Die Vorlage zählt bisher nur ‚stimme voll zu‘ als Misstrauen. Wer zustimmt, ob voll oder eher, sagt aber, dass sich Politiker nicht kümmern. Passe die beiden markierten Stellen an: Welche Codes gehören zu ‚misstraut‘, welche zu ‚misstraut nicht‘? Die Codes stehen in Schritt 1 in der Spalte Value. Die Kette bildet die Variable und zählt sie gleich aus: Schau auf die Spalte N und auf die Kopfzeile mit <code>mean=</code>.
         <Workshop k="a1_misstrauen" live /></li>
-      <li><b>Bilde die Gruppe <code>nichtwahl</code> und prüfe sie.</b><br />
-        Diese Regel ist fertig: <code>91=1</code> heißt, aus 91 wird 1; <code>1:90=0</code> heißt, aus 1 bis 90 wird 0 (das sind alle Parteien); alles andere wird leer. Führe die Vorlage aus und schau, wie viele in jeder Gruppe sind und wie viele leer bleiben (Zeile System).
+      <li><b>Bilde die Variable <code>nichtwahl</code> und prüfe sie.</b><br />
+        Diese Regel ist fertig: <code>91=1</code> heißt, aus 91 wird 1; <code>1:90=0</code> heißt, aus 1 bis 90 wird 0 (das sind alle Parteien); alles andere wird leer. Führe die Vorlage aus und schau, wie viele in jeder Kategorie sind und wie viele leer bleiben (Zeile System).
         <Workshop k="a1_nichtwahl" live />
-        <MutateA1Figure caption={<><code>mutate()</code> stellt neue Türme neben die alten, in Schritt 2 <code>misstrauen</code>, in Schritt 3 <code>nichtwahl</code>. Bei <code>nichtwahl</code> wird aus 91 eine 1 und aus jeder Partei eine 0. Wer nicht wahlberechtigt ist (Code −50), steht in keiner Regel und wird mit <code>else=NA</code> leer. Wer im Split die Frage nicht bekam, bleibt auch bei <code>misstrauen</code> leer. Wie die übrigen Steine von <code>misstrauen</code> aussehen, entscheidet deine Regel. <span>Die Steine sind ein Beispiel mit fünf Befragten.</span></>} /></li>
+        <MutateA1Figure caption={<><code>mutate()</code> stellt neue Variablen neben die alten (im Bild: Türme), in Schritt 2 <code>misstrauen</code>, in Schritt 3 <code>nichtwahl</code>. Bei <code>nichtwahl</code> wird aus 91 eine 1 und aus jeder Partei eine 0. Wer nicht wahlberechtigt ist (Code −50), steht in keiner Regel und wird mit <code>else=NA</code> leer. Wer im Split die Frage nicht bekam, bleibt auch bei <code>misstrauen</code> leer. Wie die übrigen Werte von <code>misstrauen</code> aussehen (im Bild: Steine), entscheidet deine Regel. <span>Die Werte sind ein Beispiel mit fünf Befragten.</span></>} /></li>
     </Steps>
     <TryOut idea={<>Bei <code>nichtwahl</code> fallen 1.262 Befragte heraus, darunter 603 mit „weiß nicht“ (kennst du aus Sitzung 3). Antworten die übrigen auf <code>pe01</code> anders als alle zusammen? Der Vorschlag behält nur, wer bei <code>nichtwahl</code> eine gültige Angabe hat (<code>drop_na()</code> kennst du aus Sitzung 4), und zählt dann <code>pe01</code> aus. Vergleiche die Spalte Valid % mit Schritt 1.</>}
       workshop={<Workshop k="frei_a1" live />} />
@@ -112,10 +112,10 @@ export function Task2() {
 export function Task3() {
   return <TaskBlock id="a3" n={3} title="Gehen Misstrauende nicht mehr wählen?" required kind="interpret"
     question="Gehen Misstrauende nicht mehr wählen?"
-    goal="Am Ende kannst du mit der passenden Prozentbasis sagen, ob Misstrauende häufiger nicht wählen wollen als die übrigen, um wie viele Prozentpunkte, und was die Tabelle nicht zeigt."
+    goal="Am Ende kannst du mit der passenden Prozentbasis sagen, ob Misstrauen und Nichtwahl zusammenhängen, wie groß der Unterschied in Prozentpunkten ist und was die Tabelle nicht zeigt."
     foundationHref="#g3"
     basis={<a href="#g3">Grundlage 3, Leserichtung</a>}>
-    <p>In Aufgabe 2 hast du gesehen: Die 87 % stimmen, aber ihre Basis sind die Nichtwählenden. Die Leitfrage fragt etwas anderes: Ob Misstrauen mit Nichtwahl zusammenhängt, siehst du nur, wenn du Misstrauende mit den übrigen vergleichst.</p>
+    <p>In Aufgabe 2 hast du gesehen: Die 87 % stimmen, aber ihre Basis sind die Nichtwählenden. Die Leitfrage fragt etwas anderes: ob Misstrauen mit Nichtwahl zusammenhängt. Wen du dafür mit wem vergleichen musst, legst du gleich fest.</p>
     {predict('a3')}
     <Steps>
       <li><b>Stell die Prozentbasis ein.</b><br />
@@ -139,7 +139,7 @@ export function Task3() {
 export function Task4() {
   return <TaskBlock id="a4" n={4} title="Gegenprobe mit einer umgedrehten Aussage" required={false}
     question="Kommt dasselbe heraus, wenn man Misstrauen mit einer anderen Aussage misst?"
-    goal="Am Ende hast du eine zweite Aussage umgepolt, daraus eine Misstrauens-Gruppe gebildet und weißt, warum die Regel aus Aufgabe 1 ohne Umpolen das Gegenteil misst."
+    goal="Am Ende hast du eine zweite Aussage umgepolt, daraus eine neue Variable für Misstrauen gebildet und geprüft, was die Regel aus Aufgabe 1 ohne Umpolen misst."
     foundationHref="#g4"
     basis={<a href="#g4">Grundlage 4, Umpolen</a>}>
     <p>Im selben Fragebogenteil stand die Aussage: „Die Politiker vertreten die Interessen der Bevölkerung.“ (<code>pe05</code>, wieder von 1 „stimme voll zu“ bis 4 „stimme gar nicht zu“). Wer hier zustimmt, vertraut den Politikern. Misstrauen zeigt, wer <b>nicht</b> zustimmt. Die Aussage ist also andersherum gestellt als <code>pe01</code>.</p>
@@ -148,15 +148,15 @@ export function Task4() {
       <li><b>Pol pe05 um.</b> <Badge>neu heute</Badge><br />
         <code>rules = "rev"</code> dreht die Codes um: Aus 1 wird 4, aus 2 wird 3, aus 3 wird 2, aus 4 wird 1. Prüf in der Ausgabe, welches Wort jetzt bei Code 1 steht.
         <Workshop k="a4_um" live />
-        <UmpolenPe05Figure caption={<>Umpolen dreht die Codes, die Wörter wandern mit. Danach heißt eine kleine Zahl bei pe05 dasselbe wie bei pe01: Misstrauen. Fehlende Werte bleiben leer. <span>Die Steine sind ein Beispiel mit fünf Befragten.</span></>} /></li>
-      <li><b>Bilde die Misstrauens-Gruppe und vergleiche.</b><br />
-        Die Kette polt pe05 wie in Schritt 1 um, bildet daraus <code>misstrauen_pe05</code> und dazu <code>nichtwahl</code> wie in Aufgabe 1. Nach dem Umpolen steht bei <code>pe05_um</code> die 1 für ‚stimme gar nicht zu‘ und die 2 für ‚stimme eher nicht zu‘. Wie in Aufgabe 1 zählt bisher nur der äußerste Code als Misstrauen. Passe die markierten Stellen an: Welche Codes von <code>pe05_um</code> heißen jetzt Misstrauen?
+        <UmpolenPe05Figure caption={<>Umpolen dreht die Codes, die Wertelabels wandern mit. Danach heißt eine kleine Zahl bei pe05 dasselbe wie bei pe01: Misstrauen. Fehlende Werte bleiben leer. <span>Die Werte sind ein Beispiel mit fünf Befragten.</span></>} /></li>
+      <li><b>Bilde die Variable für Misstrauen und vergleiche.</b><br />
+        Die Vorlage polt pe05 wie in Schritt 1 um, bildet daraus <code>misstrauen_pe05</code> und dazu <code>nichtwahl</code> wie in Aufgabe 1. Nach dem Umpolen steht bei <code>pe05_um</code> die 1 für ‚stimme gar nicht zu‘ und die 2 für ‚stimme eher nicht zu‘. Wie in Aufgabe 1 zählt bisher nur der äußerste Code als Misstrauen. Passe die markierten Stellen an: Welche Codes von <code>pe05_um</code> heißen jetzt Misstrauen?
         <Workshop k="a4_mutate" live /></li>
       <li><b>Zum Vergleich: ohne Umpolen.</b><br />
         Was wäre passiert, wenn du die Regel aus Aufgabe 1 einfach auf pe05 übertragen hättest? Führe die Vorlage aus und vergleiche mit Schritt 2. Hier fehlt die Zeile mit <code>rev</code>.
         <Workshop k="a4_ohne" live /></li>
     </Steps>
-    <TryOut idea={<>Eine dritte Aussage, „Politiker vertreten nur die Interessen der Reichen“ (<code>pa35</code>), hat fünf Stufen mit „teils/teils“ in der Mitte. Wohin gehört „teils/teils“, und ändert das etwas?</>}
+    <TryOut idea={<>Eine dritte Aussage, „Politiker vertreten nur die Interessen der Reichen“ (<code>pa35</code>), hat fünf Ausprägungen mit „teils/teils“ in der Mitte. Wohin gehört „teils/teils“, und ändert das etwas?</>}
       workshop={<Workshop k="frei_a4" live />} />
     <Questions5 id="a4-fragen" questions={QUESTIONS.a4} predictionId={PREDICTIONS.a4.id} />
     <Hints steps={hints('a4')} />

@@ -3,7 +3,7 @@
   "titel": "Kreuztabellen",
   "leitfrage": "Gehen Misstrauende nicht mehr wählen? Und auf wen beziehen sich die Prozent, die man darüber liest?",
   "ziele": [
-    "<b>Verfahren:</b> aus einer Frage mit vielen Antworten Gruppen bilden (umkodieren), auch eine Dummyvariable mit nur 0 und 1; zwei Variablen in einer Kreuztabelle gegenüberstellen",
+    "<b>Verfahren:</b> aus einer Frage mit vielen Antworten wenige Kategorien bilden (umkodieren), auch eine Dummyvariable mit nur 0 und 1; zwei Variablen in einer Kreuztabelle gegenüberstellen",
     "<b>Interpretation:</b> dieselbe Zelle als Zeilen-, Spalten- und Gesamtprozent lesen und sagen, welche Frage jede Zahl beantwortet; Gruppen vergleichen und den Unterschied in Prozentpunkten angeben",
     "<b>Voraussetzungen:</b> wissen, wer in der Tabelle fehlt (fehlende Werte, Split), warum kleine Gruppen wackelige Prozent liefern und warum ein Zusammenhang noch keine Ursache ist",
     "<b>Code lesen:</b> eine neue Variable mit <code>mutate()</code> und <code>rec()</code> lesen und ihre Regel anpassen; mit <code>crosstab()</code> und <code>percentages =</code> die passende Prozentbasis einstellen; eine Skala mit <code>rules = \"rev\"</code> umpolen"
@@ -21,7 +21,7 @@
     ],
     [
       "(<a href=\"#g1\">Grundlage 1</a>, Kurz überlegen)",
-      "(<a href=\"#k1-zuschnitt\">Gruppen zuschneiden</a>, Einteilung E)"
+      "(<a href=\"#k1-zuschnitt\">Kategorien zusammenfassen</a>, Umkodierung E)"
     ],
     [
       "steht in <a href=\"#g1\">Grundlage 1</a>.",
@@ -39,5 +39,6 @@
       "beschriftet deine Regel aus Schritt 2",
       "beschriftet deine Regel aus Schritt 3"
     ]
-  ]
+  ],
+  "begriffe": ["kreuztabelle","zeilenprozente","spaltenprozente","gesamtprozente","rekodieren","umpolen","dummy","abhaengige-variable","unabhaengige-variable","zusammenhang","kausalitaet","grundgesamtheit","chi-quadrat","p-wert","signifikanzniveau","randhaeufigkeit","prozentpunkte","stichprobe","datenmatrix","fall","variable","wert","auspraegung","code","wertelabel","fehlende-werte","tnz","objekt","pipe","prozentbasis","absolute-haeufigkeit","mittelwert","polung","validitaet","relative-haeufigkeit","gueltige-werte","balkendiagramm","gewichte","skript"]
 }

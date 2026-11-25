@@ -17,9 +17,9 @@ import { SpreadBars } from './figures/SpreadBars';
 /** Grundlage 1: Die Gerade: Konstante und Steigung (1a schätzen, 1b Formel als Bausteine, 1c Vorhersage ist ein Durchschnitt). */
 export function Foundation1() {
   return <Foundation id="g1" n={1} title="Die Gerade: Konstante und Steigung" taskHref="#a1"
-    intro="Was beschreibt eine Gerade durch eine Punktwolke, und wie liest man sie? Drei kurze Schritte, etwa 15 Minuten.">
+    intro="Was beschreibt eine Gerade durch ein Streudiagramm, und wie liest man sie? Drei kurze Schritte, etwa 15 Minuten.">
 
-    <Card id="k1a" step="1a" title="Erst schätzen: Wo verläuft die Gerade?" badge={<Known session={6} what="Punktwolke" />} tag={{ kind: 'estimate', label: 'Schätzen' }}>
+    <Card id="k1a" step="1a" title="Erst schätzen: Wo verläuft die Gerade?" badge={<Known session={6} what="Streudiagramm" />} tag={{ kind: 'estimate', label: 'Schätzen' }}>
       <p className="lead">Hängt die Lebenszufriedenheit mit der eigenen wirtschaftlichen Lage zusammen? Im Bild steht jede Kombination aus Lage (von 1 sehr schlecht bis 5 sehr gut) und Lebenszufriedenheit (0 bis 10) als Kreis. Je größer der Kreis, desto mehr Befragte haben genau diese Kombination angegeben. Leg eine Gerade durch die Wolke, die die Punkte so gut wie möglich trifft.</p>
       <Estimate />
       <InShort>Eine <b>lineare Regression</b> legt eine Gerade durch die Punktwolke. Die Gerade sagt für jeden Wert der UV vorher, welchen Wert der AV man im Mittel erwartet. Sie folgt den Mittelwerten der Stufen, nicht den einzelnen Punkten.</InShort>
@@ -169,7 +169,7 @@ export function Foundation4() {
       <QuickCheck question={K4_Q} />
       <p className="absatz"><b>Und im ALLBUS?</b> Bei der Lebenszufriedenheit nach Lage (Grundlage 1) passt die Gerade gut: Die Mittelwerte der Stufen liegen höchstens 0,27 Punkte neben ihr, in der Mitte fast genau darauf, an beiden Rändern etwas darunter (−0,27 und −0,26).</p>
       <InShort><b>Linearität</b> heißt: Der Zusammenhang lässt sich durch eine Gerade beschreiben. Prüfen kannst du das, indem du die Mittelwerte jeder Stufe neben die Gerade legst. Liegen sie in einem Bogen um die Gerade, beschreibt sie den Zusammenhang schlecht.</InShort>
-      <MoreDetail summary="Was tun bei einem Bogen?">
+      <MoreDetail summary="Was tun bei einer Kurve?">
         <ul>
           <li>Die Gerade nicht deuten, sondern die Mittelwerte je Stufe berichten.</li>
           <li>Oder die UV in Gruppen einteilen und jede Gruppe mit einer eigenen Zahl ins Modell nehmen (Dummyvariablen, Sitzung 10).</li>

@@ -3,7 +3,7 @@
   "titel": "Mittelwerte vergleichen",
   "leitfrage": "Unterscheiden sich Gruppen im Mittel – und ist das mehr als Zufall?",
   "ziele": [
-    "<b>Verfahren:</b> erklären, wie ein t-Test einen Unterschied (Signal) gegen den Zufall (Rauschen) abwägt, und warum man bei mehr als zwei Gruppen eine Varianzanalyse (ANOVA) mit anschließendem Tukey-Test rechnet",
+    "<b>Verfahren:</b> erklären, wie ein t-Test einen Unterschied der Mittelwerte gegen seinen Standardfehler abwägt (im Bild: Signal gegen Rauschen), und warum man bei mehr als zwei Gruppen eine Varianzanalyse (ANOVA) mit anschließendem Tukey-Test rechnet",
     "<b>Interpretation:</b> p-Wert und Konfidenzintervall in eigenen Worten erklären; die Größe eines Unterschieds mit einer Effektstärke (Hedges' g, η²) einordnen; wissen, dass „signifikant“ nicht „groß“ und „nicht signifikant“ nicht „gleich“ heißt",
     "<b>Voraussetzungen:</b> prüfen, ob ein Mittelwertvergleich passt: metrische Variable, unabhängige Gruppen, genug Befragte je Gruppe, ähnliche Streuung (sonst Welch); für Aussagen über Deutschland gewichten",
     "<b>Code lesen:</b> <code>t_test()</code>, <code>oneway_anova()</code> und <code>tukey_test()</code> mit <code>weights = wghtpew</code> lesen und anpassen, mit <code>summary()</code> die ganze Tabelle holen und die Ausgabe Zeile für Zeile lesen; mit <code>pearson_cor()</code> viele Paare auf einmal rechnen (Korrelationsmatrix)"
@@ -14,8 +14,9 @@
     ["In der Code-Werkstatt hier auf der Seite ist das schon erledigt; in RStudio führst du ihn zu Beginn aus.", "Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal. In RStudio führst du ihn zu Beginn aus."],
     ["Lies die Kette von oben nach unten und führe sie aus.", "Lies die Kette von oben nach unten."],
     ["<a href=\"#k2c\">Grundlage 2c</a>", "<a href=\"#k2c\">Verstehen zu Aufgabe 2, „Welch oder Student?“</a>"],
-    ["<a href=\"#k1b\">Grundlage 1b</a>", "<a href=\"#k1b\">Verstehen zu Aufgabe 1, „Signal durch Rauschen“</a>"],
+    ["<a href=\"#k1b\">Grundlage 1b</a>", "<a href=\"#k1b\">Verstehen zu Aufgabe 1, „Der t-Wert“</a>"],
     ["<a href=\"#k1c\">Grundlage 1c</a>", "<a href=\"#k1c\">Verstehen zu Aufgabe 1, „p-Wert und Konfidenzintervall“</a>"],
     ["<a href=\"#k1d\">Grundlage 1d</a>", "<a href=\"#k1d\">Verstehen zu Aufgabe 1, „Effektstärke“</a>"]
-  ]
+  ],
+  "begriffe": ["stichprobenverteilung","standardfehler","normalverteilung","t-test","nullhypothese","konfidenzintervall","fehlerarten","mehrfachvergleiche","effektgroesse","welch-test","varianzhomogenitaet","varianz","anova","tukey","korrelationsmatrix","ausschluss","freiheitsgrade","hedges-g","eta-quadrat","p-wert","signifikanzniveau","mittelwert","standardabweichung","streuung","abhaengige-variable","unabhaengige-variable","stichprobe","grundgesamtheit","gewichte","pearson","rekodieren","metrisch","fallzahl","faustregel-cohen","kausalitaet","datenmatrix","variable","wert","code","tnz","fehlende-werte","kodieren","skalenniveau","nominal","relative-haeufigkeit","verteilung","schiefe","kreuztabelle","zusammenhang","chi-quadrat","cramers-v","spearman","drittvariable","erhebungsweg","skript","klasse","histogramm","auspraegung"]
 }

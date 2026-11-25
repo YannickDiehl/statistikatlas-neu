@@ -13,7 +13,7 @@ import {
 test('labels and help texts keep code in backticks', () => {
   const label = (id: string) => [...QUESTIONS.a1, ...QUESTIONS.a3, ...QUESTIONS.a4].find(q => q.id === id)!.label;
   assert.equal(label('a1c'), 'Welche Zahl gehört nach `n =` in deine Bildunterschrift?');
-  assert.equal(label('a3c'), 'Wie viele Bögen bleiben mit `filter(xt10 <= 180)` übrig?');
+  assert.equal(label('a3c'), 'Wie viele Fälle bleiben mit `filter(xt10 <= 180)` übrig?');
   assert.match(label('a3d'), /^Bei `binwidth = 1`:/);
   assert.match(label('a3e'), /`binwidth = 30`\?$/);
   assert.match(label('a4b'), /^Abschneiden mit `filter\(\)`:/);
@@ -32,7 +32,7 @@ test('labels and help texts keep code in backticks', () => {
 test('every task question has the short name from pruefe() in the prototype', () => {
   const short = (qs: { short?: string }[]) => qs.map(q => q.short);
   assert.deepEqual(short(QUESTIONS.a1), ['Balken ganz rechts', 'Personen im NA-Balken', 'n für die Bildunterschrift', 'häufigste Antwort']);
-  assert.deepEqual(short(QUESTIONS.a3), ['Median', 'eine Säule', 'übrige Bögen', 'Spitze', 'breite Kisten']);
+  assert.deepEqual(short(QUESTIONS.a3), ['Median', 'Histogramm mit einer Säule', 'übrige Fälle', 'Spitze', 'breite Klassen']);
   assert.deepEqual(short(QUESTIONS.a4), ['Hineinzoomen', 'Abschneiden', 'herausgefallene Papierbögen', 'Reihenfolge', 'Bericht']);
   assert.equal(judge(V2_Q, '19,0'), 'right');
   assert.equal(judge(V2_Q, '21'), 'wrong');

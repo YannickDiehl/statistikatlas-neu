@@ -844,3 +844,23 @@ body.ap-offen .mehr-panel.breit{width:min(620px,calc(100vw - var(--dock-w) - 30p
   body.ap-offen .fortschritt{display:none}
   body.ap-offen .mini-fortschritt{display:flex}
 }
+
+/* Fachbegriffe: antippbare Begriffe (begriffe.js, <Begriff> im React-Bündel) und ihr Popover */
+.begriff{display:inline;margin:0;padding:0;border:0;border-radius:3px;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-align:inherit;cursor:help;text-decoration:underline dotted;text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-color:var(--mute)}
+.begriff:hover,.begriff[aria-expanded=true]{background:var(--kh);text-decoration-color:var(--ink)}
+.begriff:focus-visible{outline:3px solid var(--blaud);outline-offset:2px}
+.begriff-pop{position:fixed;z-index:80;left:10px;top:10px;width:min(340px,calc(100vw - 20px));max-height:calc(100vh - 20px);overflow:auto;padding:12px 16px 14px;background:#fff;border:2px solid var(--line2);border-radius:16px;box-shadow:0 12px 40px rgba(30,45,60,.18);color:var(--txt);font:15px/1.5 var(--sans);outline:none}
+.begriff-pop:focus-visible{border-color:var(--blaud)}
+.begriff-pop p{margin:0 0 .5em}
+.bp-kopf{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.bp-name{flex:1;margin:0!important;font:600 18px/1.2 var(--rund);color:var(--ink)}
+.bp-name b{font-weight:600}
+.bp-zu{flex:none;width:30px;height:30px;border:0;border-radius:9px;background:var(--side);color:var(--ink);font-size:14px}
+.bp-mehr{display:inline-block;margin-top:2px;font-weight:700}
+@media (forced-colors:active){
+  .begriff{color:ButtonText;text-decoration-color:ButtonText}
+  .begriff:focus-visible{outline:2px solid Highlight}
+  .begriff-pop{border-color:CanvasText}
+  .bp-zu{border:1px solid ButtonText}
+  .begriff-pop:focus-visible{outline:2px solid Highlight}
+}

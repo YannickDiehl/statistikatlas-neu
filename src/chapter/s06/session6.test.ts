@@ -47,8 +47,8 @@ test('headings in the order of spec §5 (Variante B)', () => {
     'Vorweg: R lesen', 'R Neu heute: ein Gewicht als Argument', 'R Ein Zusammenhangsmaß in R: zwei Variablen, eine Zahl',
     'Thema 1: Gewichtung', 'Gewichtung', 'Aufgabe 1: Wie zufrieden ist Deutschland mit der Demokratie?',
     'Thema 2: Kategorien ohne Reihenfolge: χ², Phi und Cramér-V', 'Zusammenhang in der Kreuztabelle', 'Aufgabe 2: Zufriedenheit und Wahlabsicht',
-    'Thema 3: Geordnete Stufen: Gamma und Tau-b', 'Paare vergleichen', 'Aufgabe 3: Wirtschaftslage und Demokratie',
-    'Thema 4: Zahlen mit Abständen: Pearson und Spearman, und die Drittvariable', 'Punktwolke, Ausreißer, Drittvariable', 'Aufgabe 4: Lebenszufriedenheit und Demokratie',
+    'Thema 3: Geordnete Kategorien: Gamma und Tau-b', 'Paare vergleichen', 'Aufgabe 3: Wirtschaftslage und Demokratie',
+    'Thema 4: Zahlen mit Abständen: Pearson und Spearman, und die Drittvariable', 'Streudiagramm, Ausreißer, Drittvariable', 'Aufgabe 4: Lebenszufriedenheit und Demokratie',
     'Überblick: Welches Maß für welche Variablen?', 'Maß wählen, Grenzen kennen',
     'Zum Schluss: Mitnehmen', 'Das Wichtigste aus dieser Sitzung', 'Prüf dich selbst', 'Dein Skript zum Mitnehmen',
   ].map(t => t.replace(/^R /, ''));
@@ -153,7 +153,7 @@ test('solvable without the graphics: a text route for every task and every numer
   // the step pictures carry their text version outside the help levels
   assert.match(elementById(withoutHelp(html), 'a1'), /role="img" aria-label="Beispieltabelle mit vier Codes/);
   assert.match(elementById(withoutHelp(html), 'a3'), /role="img" aria-label="Zwei senkrechte Pfeile/);
-  assert.match(elementById(withoutHelp(html), 'a4'), /Textfassung der Grafik: Punktwolke, x-Achse Lebenszufriedenheit/);
+  assert.match(elementById(withoutHelp(html), 'a4'), /Textfassung der Grafik: Streudiagramm, x-Achse Lebenszufriedenheit/);
 });
 
 test('every role="img" has a text version of at least 40 characters', () => {

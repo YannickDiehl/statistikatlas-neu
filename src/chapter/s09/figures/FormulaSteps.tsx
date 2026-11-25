@@ -9,7 +9,7 @@ export const FORMULA_TEXT = 'Vorhersage gleich Konstante plus Steigung mal Wert 
 /** What each step says (announced when the step changes). */
 export const FORMULA_STEP_TEXT = [
   'Schritt 1: Vorhersage gleich Konstante plus Steigung mal Wert der UV.',
-  'Schritt 2: Die Zahlen wandern in die Steine: Vorhersage gleich 3,570 plus 1,073 mal 4.',
+  'Schritt 2: Die Zahlen wandern in die Bausteine der Formel: Vorhersage gleich 3,570 plus 1,073 mal 4.',
   'Schritt 3: 3,570 plus 1,073 mal 4 gleich 7,862. Eine Stufe mehr Lage: plus 1,073.',
 ];
 

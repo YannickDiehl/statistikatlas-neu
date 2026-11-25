@@ -4,7 +4,7 @@ import { SvgText, whole } from './Bars';
 
 /** Text version of the real boxplot, from the same numbers as the picture. */
 export const AGE_BOXPLOT_TEXT = `Zwei Boxplots. ${WEST_EAST.age.map(g =>
-  `${g.group}, ${whole(g.n)} Personen: Kasten von ${g.q1} bis ${g.q3} Jahre, Median ${g.median}, Antennen von ${g.lo} bis ${g.hi}.`).join(' ')}`;
+  `${g.group}, ${whole(g.n)} Personen: Box von ${g.q1} bis ${g.q3} Jahre, Median ${g.median}, Whisker von ${g.lo} bis ${g.hi}.`).join(' ')}`;
 
 /** „So sieht ein echter Boxplot aus“: age in West and East (aggregates only), with a text version for screen readers. */
 export function AgeBoxplot() {

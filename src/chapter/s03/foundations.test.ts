@@ -56,8 +56,8 @@ test('B1 tower to table: three steps, counts from the example, text per step and
   assert.deepEqual(TOWER_COUNTS, [3, 2, 1, 4, 1]);
   assert.deepEqual([TOWER_VALID, TOWER_EMPTY], [11, 1]);
   const g1 = render(Foundation1);
-  assert.deepEqual([...g1.matchAll(/<button[^>]*>(Schritt \d: [^<]*)<\/button>/g)].map(m => m[1]), ['Schritt 1: Turm', 'Schritt 2: Stapel', 'Schritt 3: Tabelle']);
-  assert.match(g1, /aria-current="step"[^>]*>Schritt 1: Turm/);
+  assert.deepEqual([...g1.matchAll(/<button[^>]*>(Schritt \d: [^<]*)<\/button>/g)].map(m => m[1]), ['Schritt 1: Datenreihe', 'Schritt 2: Häufigkeiten', 'Schritt 3: Tabelle']);
+  assert.match(g1, /aria-current="step"[^>]*>Schritt 1: Datenreihe/);
   assert.match(g1, new RegExp(`<p class="sr-only" aria-live="polite">${TOWER_TEXT[0].slice(0, 30)}`));
   assert.ok(textOf(g1).includes(TOWER_TEXT.join(' ')), 'whole text version under the picture');
   assert.match(TOWER_TEXT[1], /3, 2, 1, 4 und 1 Steine/);
@@ -92,10 +92,10 @@ test('B4 shelves: seven selects with labels, summary and solution after checking
   const g2 = render(Foundation2);
   assert.equal((g2.match(/<select/g) ?? []).length, 7);
   for (const c of ['−11 TNZ: SPLIT', '−41 DATENFEHLER']) assert.ok(textOf(g2).includes(`Regal für ${c}`), c);
-  assert.equal(shelvesSummary({}), 'Noch 7 Steine ohne Regal.');
+  assert.equal(shelvesSummary({}), 'Noch 7 Codes ohne Regal.');
   const all = { 'k2a-11': '1', 'k2a-10': '1', 'k2a-9': '2', 'k2a-8': '2', 'k2a-7': '2', 'k2a-42': '3', 'k2a-41': '3' };
   assert.equal(shelvesSummary(all), 'Alle sieben richtig sortiert.');
-  assert.equal(shelvesSummary({ ...all, 'k2a-42': '2' }), '6 von 7 richtig. Unter jedem Stein steht, worauf du achten kannst.');
+  assert.equal(shelvesSummary({ ...all, 'k2a-42': '2' }), '6 von 7 richtig. Unter jedem Code steht, worauf du achten kannst.');
   const checked = render(Foundation2, { ...all, 'k2a-42': '2' });
   assert.ok(textOf(checked).includes(SHELVES_SOLVED));
   assert.match(textOf(checked), /Noch nicht\. Zwei Kreuze auf dem Papierbogen/);
@@ -122,10 +122,10 @@ test('B8 household row: steps, statistics, step 4 only after answering 3a', () =
   assert.deepEqual([ROW_STATS.ten.sum, ROW_STATS.ten.mean, ROW_STATS.ten.median], [34, 3.4, 2]);
   const before = render(Foundation3);
   const steps = (html: string) => [...html.matchAll(/<button[^>]*>(Schritt \d: [^<]*)<\/button>/g)].map(m => m[1]);
-  assert.deepEqual(steps(before), ['Schritt 1: Turm', 'Schritt 2: Reihe', 'Schritt 3: Mittelwert']);
+  assert.deepEqual(steps(before), ['Schritt 1: Datenreihe', 'Schritt 2: sortiert', 'Schritt 3: Mittelwert']);
   assert.ok(before.includes(`Schritt 1: ${ROW_TEXT[0]}`));
   const after = render(Foundation3, { [K3A_Q.id]: 'mittel' });
-  assert.deepEqual(steps(after), ['Schritt 1: Turm', 'Schritt 2: Reihe', 'Schritt 3: Mittelwert', 'Schritt 4: mit der WG']);
+  assert.deepEqual(steps(after), ['Schritt 1: Datenreihe', 'Schritt 2: sortiert', 'Schritt 3: Mittelwert', 'Schritt 4: mit der WG']);
   assert.match(after, /aria-current="step"[^>]*>Schritt 4: mit der WG/);
   assert.ok(after.includes(`Schritt 4: ${ROW_TEXT[3]}`));
   assert.match(textOf(after), /Wieder ohne die WG/);

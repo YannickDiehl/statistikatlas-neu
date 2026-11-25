@@ -108,18 +108,18 @@ export function mixText(p: number): string {
   return `Ost-Anteil ${de(p, Number.isInteger(p) ? 0 : 1)} %: insgesamt ${total} % ohne Konfession.`;
 }
 
-/** 1c: Mischpult. Der Ost-Anteil verschiebt den Gesamtanteil „keine Konfession“ zwischen West- und Ost-Quote. */
+/** 1c: Mischpult. Der Ost-Anteil verschiebt den Gesamtanteil „keine Konfession“ zwischen den Prozentwerten im Westen und im Osten. */
 export function MixingDesk() {
   const [p, setP] = useState<number>(MIX_P.sample);
   const total = mix(p / 100);
   const w = 500, h = 104, l = 16, r = 16, y = 44, x = (v: number) => l + v / 100 * (w - l - r);
   return <div className="s6-mischpult">
-    <div className="formel" role="group" aria-label="Formel: Anteil in ganz Deutschland gleich Anteil West an allen mal Quote im Westen plus Anteil Ost an allen mal Quote im Osten.">
+    <div className="formel" role="group" aria-label="Formel: Anteil in ganz Deutschland gleich Anteil West an allen mal Prozent im Westen plus Anteil Ost an allen mal Prozent im Osten.">
       <span className="s6-stein" aria-hidden="true">Anteil in ganz Deutschland</span><span aria-hidden="true">=</span>
       <span className="s6-stein" aria-hidden="true" style={{ borderColor: WEST }}>Anteil West an allen</span><span aria-hidden="true">mal</span>
-      <span className="s6-stein" aria-hidden="true" style={{ borderColor: WEST }}>Quote im Westen</span><span aria-hidden="true">+</span>
+      <span className="s6-stein" aria-hidden="true" style={{ borderColor: WEST }}>Prozent im Westen</span><span aria-hidden="true">+</span>
       <span className="s6-stein" aria-hidden="true" style={{ borderColor: EAST }}>Anteil Ost an allen</span><span aria-hidden="true">mal</span>
-      <span className="s6-stein" aria-hidden="true" style={{ borderColor: EAST }}>Quote im Osten</span>
+      <span className="s6-stein" aria-hidden="true" style={{ borderColor: EAST }}>Prozent im Osten</span>
     </div>
     <div className="feld">
       <label htmlFor="s6-mischpult-p">Anteil der Befragten aus dem Osten</label>
@@ -148,7 +148,7 @@ export function MixingDesk() {
       <li><b>ohne Gewicht:</b> 0,68 × 33,7 + 0,32 × 77,4 = 22,9 + 24,8 = 47,7 %</li>
       <li><b>mit Gewicht:</b> 0,832 × 33,66 + 0,168 × 77,55 = 28,0 + 13,0 = 41,0 %</li>
     </ul>
-    <p className="sr-only">{`${ALT.mischpult} Die Quoten mit Gewicht genau: ${de(NONE_WEST, 2)} % im Westen, ${de(NONE_EAST, 2)} % im Osten.`}</p>
+    <p className="sr-only">{`${ALT.mischpult} Die Prozentwerte mit Gewicht genau: ${de(NONE_WEST, 2)} % im Westen, ${de(NONE_EAST, 2)} % im Osten.`}</p>
   </div>;
 }
 

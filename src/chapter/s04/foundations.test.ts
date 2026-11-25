@@ -136,15 +136,15 @@ test('helpers: statistics and age bins as in the prototype', () => {
   assert.equal(five.reduce((s, b) => s + b.n, 0), 5223);
   const top = five.reduce((m, b) => (b.n > m.n ? b : m));
   assert.equal(top.from, 55);
-  assert.match(render(Foundation3), /Kistenbreite 5 Jahre: 17 Kisten\. Die vollste Kiste: 55 bis 59 Jahre mit/);
+  assert.match(render(Foundation3), /Klassenbreite 5 Jahre: 17 Klassen\. Die vollste Klasse: 55 bis 59 Jahre mit/);
 });
 
 test('text versions follow the state: tower, lab, axis, histogram, sketch', () => {
   const tower = [0, 1, 2].map(st => towerText(st as 0 | 1 | 2));
   assert.equal(new Set(tower).size, 3);
-  assert.match(tower[0], /^Ein Turm ls01 mit 21 Steinen, ungeordnet: 8, 7, 9, .*NA, ein leerer Stein/);
-  assert.equal(tower[1], 'Sortiert: 1 Steine bei 4, 2 Steine bei 5, 2 Steine bei 6, 4 Steine bei 7, 6 Steine bei 8, 3 Steine bei 9, 2 Steine bei 10. Der leere Stein liegt auf keinem Stapel. Die Werte 0 bis 3 hat niemand angegeben.');
-  assert.equal(tower[2], 'Alle 5.164 gültigen Antworten, ein Stein für 50 Befragte. Höchster Stapel bei 8 mit 1.506 Befragten.');
+  assert.match(tower[0], /^Die Variable ls01 als Turm mit 21 Steinen, je ein Wert, ungeordnet: 8, 7, 9, .*NA, ein leerer Stein/);
+  assert.equal(tower[1], 'Sortiert: 1 Steine bei 4, 2 Steine bei 5, 2 Steine bei 6, 4 Steine bei 7, 6 Steine bei 8, 3 Steine bei 9, 2 Steine bei 10. Jeder Stapel zeigt eine Häufigkeit; der fehlende Wert liegt auf keinem Stapel. Die Werte 0 bis 3 hat niemand angegeben.');
+  assert.equal(tower[2], 'Alle 5.164 gültigen Werte, ein Stein für 50 Befragte. Die größte Häufigkeit, der höchste Stapel, liegt bei 8 mit 1.506 Befragten.');
 
   assert.match(labText(2, false), /^symmetrisch: Mittelwert 5,0, Median 5,0\. Mittelwert und Median liegen fast gleich\.$/);
   assert.match(labText(0, false), /^stark linksschief: .*Der Mittelwert liegt links vom Median/);
@@ -161,11 +161,11 @@ test('text versions follow the state: tower, lab, axis, histogram, sketch', () =
   assert.doesNotMatch(axisSolution(null), /dein Tipp/);
 
   assert.notEqual(histText(5), histText(10));
-  assert.equal(histText(10), 'Kistenbreite 10 Jahre: 9 Kisten. Die vollste Kiste: 50 bis 59 Jahre mit 999 Befragten.');
+  assert.equal(histText(10), 'Klassenbreite 10 Jahre: 9 Klassen. Die vollste Klasse: 50 bis 59 Jahre mit 999 Befragten.');
 
   const peak8 = [0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0];
-  assert.equal(sketchFeedback(peak8), 'Dein Gipfel liegt bei 8. In den Daten liegt er bei 8. In deiner Skizze sagen 100 % 7 oder mehr, in den Daten 76 %.');
-  assert.match(sketchFeedback([0, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0]), /^Dein Gipfel ist breit: 5, 6\. .* sagen 0 % 7 oder mehr/);
+  assert.equal(sketchFeedback(peak8), 'Dein Modus liegt bei 8. In den Daten liegt er bei 8. In deiner Skizze sagen 100 % 7 oder mehr, in den Daten 76 %.');
+  assert.match(sketchFeedback([0, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0]), /^Dein Modus ist breit: 5, 6\. .* sagen 0 % 7 oder mehr/);
 });
 
 test('screen reader details: value table, live solution, quiet outputs, radiogroup, tree text read once', () => {

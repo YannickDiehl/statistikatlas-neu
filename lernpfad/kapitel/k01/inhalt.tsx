@@ -12,6 +12,7 @@ import { ErrorConsole, FindVarPicture, ProjectPicture, RoutePicture } from '@atl
 import '@atlas/chapter/s01/s01.css';
 import type { Thema } from '../../react/typen';
 import { Abschnitt, Bezug, Code, Frage } from '../../react/gemeinsam';
+import { Begriff } from '@lernpfad/Begriff';
 
 const Ia = () => <Known label="kennst du aus Methoden Ia" />;
 
@@ -38,13 +39,13 @@ export function Vorweg() {
       <Card id="r1" stone="R" title="Eine Zeile R lesen: der Startblock" badge={<Badge>neu</Badge>} tag={{ kind: 'picture', label: 'Code lesen' }}>
         <p className="lead">So beginnt jede Arbeit mit dem ALLBUS in R. Diese vier Zeilen heißen in diesem Kurs <b>Startblock</b>. Du führst sie in RStudio zu Beginn jeder Sitzung aus. Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal.</p>
         <Code k="start" />
-        <p className="absatz">Zeilen mit <code>#</code> am Anfang sind <b>Kommentare</b>: Notizen für Menschen, R überspringt sie. <code>library()</code> lädt ein <b>Paket</b>, eine Sammlung von Werkzeugen. Die letzte Zeile liest die Datei und legt sie unter dem Namen <code>allbus</code> ab. So liest du sie, Baustein für Baustein:</p>
+        <p className="absatz">Zeilen mit <code>#</code> am Anfang sind <b>Kommentare</b>: Notizen für Menschen, R überspringt sie. <code>library()</code> lädt ein <b><Begriff id="paket">Paket</Begriff></b>, eine Sammlung von Werkzeugen. Die letzte Zeile liest die Datei und legt sie unter dem Namen <code>allbus</code> ab. So liest du sie, Baustein für Baustein:</p>
         <LineBlocks />
         <p className="absatz">Die erste Zeile liest du von rechts nach links: Lies die Datei ‚ZA8831_v1-3-0.sav‘ ein und leg das Ergebnis unter dem Namen <code>allbus</code> ab. Die zweite Zeile von links nach rechts: Such in <code>allbus</code> nach dem Wort ‚klima‘.</p>
-        <InShort>Ein <b>Objekt</b> ist ein Name, unter dem R sich etwas merkt. Mit <code>&lt;-</code> legst du etwas unter einem Namen ab. Eine <b>Funktion</b> sagt, was passiert; ihre <b>Argumente</b> in den Klammern sagen, womit und wie. Mehrere Argumente trennt ein Komma.</InShort>
+        <InShort>Ein <b><Begriff id="objekt">Objekt</Begriff></b> ist ein Name, unter dem R sich etwas merkt. Mit <code>&lt;-</code> legst du etwas unter einem Namen ab. Eine <b><Begriff id="funktion">Funktion</Begriff></b> sagt, was passiert. Ihre <b><Begriff id="argument">Argumente</Begriff></b> in den Klammern sagen, womit und wie. Mehrere Argumente trennt ein Komma.</InShort>
         <MoreDetail summary="Objekt, Funktion, Argument">
           <ul>
-            <li><code>allbus</code> ist nach dem Einlesen der ganze Datensatz. Den Namen hast du selbst vergeben; <code>daten &lt;- read_spss(…)</code> ginge genauso. Wir nehmen in allen Sitzungen <code>allbus</code>, damit jede Vorlage passt.</li>
+            <li><code>allbus</code> ist nach dem Einlesen der ganze <Begriff id="datenmatrix">Datensatz</Begriff>, die Tabelle mit allen Befragten und Variablen. Den Namen hast du selbst vergeben; <code>daten &lt;- read_spss(…)</code> ginge genauso. Wir nehmen in allen Sitzungen <code>allbus</code>, damit jede Vorlage passt.</li>
             <li>Eine Funktion erkennst du an den runden Klammern direkt hinter dem Namen. Sie bekommt etwas, tut etwas und gibt etwas zurück. <code>read_spss()</code> bekommt einen Dateinamen und gibt einen Datensatz zurück.</li>
             <li>Argumente haben Namen. <code>read_spss(path = "ZA8831_v1-3-0.sav")</code> ist dasselbe wie <code>read_spss("ZA8831_v1-3-0.sav")</code>. Den Namen darfst du weglassen, wenn die Argumente in der vorgesehenen Reihenfolge stehen. Was du gar nicht angibst, ist voreingestellt.</li>
             <li><b>Text oder Name?</b> Was in Anführungszeichen steht, ist für R ein Text, etwa ein Dateiname oder ein Suchwort. Was ohne Anführungszeichen steht, ist ein Name: der Name eines Objekts wie <code>allbus</code> oder einer Variable wie <code>pi08</code>.</li>
@@ -53,7 +54,7 @@ export function Vorweg() {
           </ul>
         </MoreDetail>
         <Mixup><code>&lt;-</code> und <code>=</code>. Mit <code>&lt;-</code> legst du ein Objekt unter einem Namen ab (<code>allbus &lt;- read_spss(…)</code>). Mit <code>=</code> stellst du ein Argument ein (<code>path = "…"</code>). Und: <code>"allbus"</code> mit Anführungszeichen ist nur ein Wort, <code>allbus</code> ohne ist dein Datensatz.</Mixup>
-        <p className="absatz">Beim Laden schreibt RStudio farbige Zeilen in die Konsole, etwa ‚Attaching core tidyverse packages‘, ‚Conflicts‘ mit ✖ oder ‚Das folgende Objekt ist maskiert ‘package:stats’: frequency‘. Das sind Hinweise, keine Fehler. Die letzte Zeile heißt: Ab jetzt gilt <code>frequency()</code> aus mariposa, nicht die gleichnamige Funktion aus dem Grundpaket stats. Wie du echte Fehler erkennst, steht in <a href="#k4-lesen">„So liest du eine Fehlermeldung“</a>.</p>
+        <p className="absatz">Beim Laden schreibt RStudio farbige Zeilen in die <Begriff id="konsole">Konsole</Begriff>, das Fenster, in dem R antwortet. Das sind etwa ‚Attaching core tidyverse packages‘, ‚Conflicts‘ mit ✖ oder ‚Das folgende Objekt ist maskiert ‘package:stats’: frequency‘. Das sind Hinweise, keine Fehler. Die letzte Zeile heißt: Ab jetzt gilt <code>frequency()</code> aus mariposa, nicht die gleichnamige Funktion aus dem Grundpaket stats. Wie du echte Fehler erkennst, steht in <a href="#k4-lesen">„So liest du eine Fehlermeldung“</a>.</p>
       </Card>
 
       <Card id="r2" stone="R" title="Vorlage, Lernjournal, Konsole" badge={<Badge>neu</Badge>} tag={{ kind: 'interpret', label: 'Werkzeug' }}>
@@ -113,11 +114,11 @@ export function Verstehen1() {
       </div>
       <Frage>Und warum sollst du vorher festlegen, wie viele Menschen befragt wurden?</Frage>
       <p>Wer vorher eine Erwartung notiert, merkt hinterher, wo das eigene Bild danebenlag. Wie groß der ALLBUS wirklich ist, zählt R für dich in Schritt 3. Holst du am Ende deine Ergebnisse ins Journal, steht deine Festlegung daneben.</p>
-      <InShort>Der <b>ALLBUS</b> ist eine wiederholte Bevölkerungsumfrage. Die Datei enthält für jede befragte Person eine <b>Zeile</b> und für jede Frage eine <b>Variable</b> (Spalte). Ein Datensatz, den andere erhoben haben und den du auswertest, heißt <b>Sekundärdaten</b>.</InShort>
+      <InShort>Der <b>ALLBUS</b> ist eine wiederholte Bevölkerungsumfrage. Die Datei enthält für jede befragte Person eine Zeile, einen <b><Begriff id="fall">Fall</Begriff></b>. Für jede Frage enthält sie eine Spalte, eine <b><Begriff id="variable">Variable</Begriff></b>. Ein Datensatz, den andere erhoben haben und den du auswertest, heißt <b>Sekundärdaten</b>.</InShort>
       <MoreDetail summary="Warum Zahlen hier ungewichtet sind">
         <p>Weil der Osten absichtlich stärker vertreten ist, sprechen einfache Zählungen nicht direkt für ganz Deutschland. Dafür gibt es eine <b>Gewichtung</b>; sie ist Thema in Sitzung 6. Bis dahin sind alle Zahlen im Lernpfad ungewichtet, also einfach gezählt. Für die Fragen dieser Sitzung (Wer wurde was gefragt? Wie viele haben geantwortet?) ist das genau richtig.</p>
       </MoreDetail>
-      <Mixup>Befragte und Bevölkerung. Der ALLBUS befragt eine Stichprobe, nicht alle Menschen in Deutschland. Was in der Datei steht, gilt zuerst für die Befragten. Wie man daraus auf alle schließt, kommt im Lauf des Semesters.</Mixup>
+      <Mixup>Befragte und Bevölkerung. Der ALLBUS befragt eine <Begriff id="stichprobe">Stichprobe</Begriff>, also nur einen Teil der Menschen in Deutschland. Was in der Datei steht, gilt zuerst für die Befragten. Wie man daraus auf alle schließt, kommt im Lauf des Semesters.</Mixup>
     </Card>
 
     <Card id="k1-datei" title="Deine Datei bleibt bei dir" badge={<Bezug href="#a1-1">zu Schritt 2</Bezug>} tag={{ kind: 'interpret', label: 'Hintergrund' }}>
@@ -127,23 +128,23 @@ export function Verstehen1() {
       <Frage>Und wo ist sie danach?</Frage>
       <p>In deinem Browser, auf deinem Rechner. Du wählst sie <b>einmal</b>; danach gilt sie für alle Sitzungen des Lernpfads, auch wenn du die Seite neu lädst oder den Browser schließt. Neu wählen musst du sie auf einem anderen Gerät oder in einem anderen Browser, wenn du die Website-Daten gelöscht hast oder Safari sie nach etwa sieben Tagen ohne Besuch entfernt hat.</p>
       <Frage>Wozu braucht der Lernpfad die Datei?</Frage>
-      <p>Damit R im Lernjournal und in der Konsole mit echten Daten rechnet: Aus der Datei wird das Objekt <code>allbus</code>. Ohne Datei kannst du alles lesen und deine Antworten prüfen; nur <span aria-hidden="true">▶</span> Ausführen braucht sie.</p>
+      <p>Damit R im Lernjournal und in der Konsole mit echten Daten rechnet: Aus der Datei wird das <Begriff id="objekt">Objekt</Begriff> <code>allbus</code>, ein Name, unter dem R die Daten ablegt. Ohne Datei kannst du alles lesen und deine Antworten prüfen; nur <span aria-hidden="true">▶</span> Ausführen braucht sie.</p>
       <InShort>Die ALLBUS-Datei ist an dich gebunden. Du wählst sie einmal; sie bleibt in deinem Browser auf deinem Rechner und wird nirgends hochgeladen.</InShort>
     </Card>
 
     <Card id="k1-dim" title="Wie groß ist der ALLBUS? dim()" badge={<Bezug href="#a1-2">zu Schritt 3</Bezug>} tag={{ kind: 'picture', label: 'Code lesen' }}>
-      <p className="lead">Ein Datensatz ist eine Tabelle: für jede befragte Person eine Zeile, für jede Variable eine Spalte. Im Sommer hattest du 30 Blobs und eine Variable. <Ia /> Wie groß die Tabelle beim ALLBUS ist, fragst du R mit einer einzigen Zeile.</p>
+      <p className="lead">Ein Datensatz ist eine Tabelle, in der Fachsprache eine <b><Begriff id="datenmatrix">Datenmatrix</Begriff></b>: für jede befragte Person eine Zeile, für jede Variable eine Spalte. Im Sommer hattest du 30 Blobs und eine Variable. <Ia /> Wie groß die Tabelle beim ALLBUS ist, fragst du R mit einer einzigen Zeile.</p>
       <Code k="a1_dim" />
       <Frage>Was sagt dir die Ausgabe?</Frage>
-      <p><code>dim()</code> steht für <i>dimensions</i>: Die Funktion gibt zwei Zahlen aus, erst die Zeilen (Befragte), dann die Spalten (Variablen). Davor steht <code>[1]</code>. Das heißt nur: Hier beginnt die Ausgabe. Die Zahlen danach sind das Ergebnis.</p>
+      <p><code>dim()</code> steht für <i>dimensions</i>: Die <Begriff id="funktion">Funktion</Begriff> gibt zwei Zahlen aus, erst die Zeilen (Fälle, hier die Befragten), dann die Spalten (Variablen). Davor steht <code>[1]</code>. Das heißt nur: Hier beginnt die Ausgabe. Die Zahlen danach sind das Ergebnis.</p>
       <Frage>Warum steht in der Vorlage kein <code>library()</code> und kein <code>read_spss()</code>?</Frage>
       <p>Weil der Startblock im Lernjournal schon erledigt ist: <code>allbus</code> ist dort deine Datei (<a href="#r1">Der Startblock</a>). In RStudio führst du den Startblock selbst aus, das ist Schritt 5.</p>
       <InShort>Eine Zeile ist ein <b>Fall</b>, hier eine befragte Person. Eine Spalte ist eine <b>Variable</b>. <code>dim()</code> zählt beides: erst Zeilen, dann Spalten.</InShort>
-      <Mixup>Zeilen und Spalten. Die erste Zahl sind die Zeilen, also die Befragten; die zweite die Spalten, also die Variablen. Jede Variable ist eine Frage oder eine Angabe zum Interview.</Mixup>
+      <Mixup>Zeilen und Spalten. Die erste Zahl sind die Zeilen, also die Fälle; die zweite die Spalten, also die Variablen. Zu jeder Frage gibt es eine Variable, dazu kommen Angaben über das Interview.</Mixup>
     </Card>
 
     <Card id="k1-rechnen" title="R rechnet: ein Ergebnis unter einem Namen ablegen" badge={<Bezug href="#a1-3">zu Schritt 4</Bezug>} tag={{ kind: 'picture', label: 'Code lesen' }}>
-      <p className="lead">Jede Befragte hat für jede Variable eine Zelle. Wie viele Zellen sind das? R ist auch ein Taschenrechner.</p>
+      <p className="lead">Jede Befragte hat für jede Variable eine Zelle. Darin steht ihr <b><Begriff id="wert">Wert</Begriff></b>, also ihre Antwort auf diese Frage. Wie viele Zellen sind das? R ist auch ein Taschenrechner.</p>
       <Code k="a1_zellen" />
       <Frage>Was passiert in den drei Teilen der Vorlage?</Frage>
       <ul className="v-liste">
@@ -163,7 +164,7 @@ export function Verstehen1() {
       <p className="lead">Im Sommer hast du 30 Blobs mit Strichliste und Taschenrechner ausgezählt: eine Variable, 30 Werte. <Ia /> Beim ALLBUS geht das von Hand nicht mehr, dafür nimmst du <b>R</b>. R ist die Sprache, die rechnet. <b>RStudio</b> ist das Programm, in dem du mit R arbeitest. Es hat vier Fenster. Wähl ein Fenster und lies, wofür es da ist.</p>
       <RStudioPanes />
       <Frage>Wo schreibst du Code, den du nächste Woche wieder brauchst?</Frage>
-      <p>Im Skript. Das Skript speicherst du als .R-Datei. Die Konsole führt aus, vergisst aber alles, sobald du RStudio schließt; das Environment zeigt nur, was R gerade kennt. Aufheben kannst du Code nur im Skript.</p>
+      <p>Im <Begriff id="skript">Skript</Begriff>. Das Skript speicherst du als .R-Datei. Die <Begriff id="konsole">Konsole</Begriff> führt aus, vergisst aber alles, sobald du RStudio schließt; das Environment zeigt nur, was R gerade kennt. Aufheben kannst du Code nur im Skript.</p>
       <InShort><b>R</b> ist die Sprache, die rechnet. <b>RStudio</b> ist das Programm drumherum, eine sogenannte Entwicklungsumgebung. Im <b>Skript</b> schreibst du, in der <b>Konsole</b> antwortet R, im <b>Environment</b> siehst du deine Objekte.</InShort>
       <MoreDetail summary="Anordnung und Screenreader">
         <ul>
@@ -200,7 +201,7 @@ export function Verstehen1() {
     </Card>
 
     <Card id="k1-pakete" title="Pakete: einmal installieren, jedes Mal laden" badge={<Bezug href="#a1-4">zu Schritt 5</Bezug>} tag={{ kind: 'picture', label: 'Code lesen' }}>
-      <p className="lead"><code>read_spss()</code> und <code>find_var()</code> gehören nicht zu R selbst. Sie stecken im <b>Paket</b> mariposa, das für diesen Kurs geschrieben ist. Ein Paket ist wie eine Werkzeugkiste: Du besorgst sie einmal und holst sie dann jedes Mal hervor, wenn du sie brauchst.</p>
+      <p className="lead"><code>read_spss()</code> und <code>find_var()</code> gehören nicht zu R selbst. Sie stecken im <b><Begriff id="paket">Paket</Begriff></b> mariposa, das für diesen Kurs geschrieben ist. Ein Paket ist wie eine Werkzeugkiste: Du besorgst sie einmal und holst sie dann jedes Mal hervor, wenn du sie brauchst.</p>
       <div className="lesehilfe s1-pakete" role="img" aria-label={ALT.pakete}>
         <span><b style={{ background: 'var(--gruenh)' }}>install.packages("mariposa")</b><small>einmal: besorgen (aus dem Internet installieren)</small></span>
         <span><b style={{ background: 'var(--gruenh)' }}>library(mariposa)</b><small>jedes Mal: hervorholen (für diese Sitzung laden)</small></span>
@@ -242,11 +243,11 @@ export function Verstehen2() {
     ]}>
 
     <Card id="k2-label" title="Name und Variablenlabel" badge={<Bezug href="#a2-p">zu Schritt 1 und 2</Bezug>} tag={{ kind: 'interpret', label: 'Hintergrund' }}>
-      <p className="lead">Der ALLBUS fragt, wie oft Menschen Bücher lesen. In der Datei heißt diese Variable <code>la01</code>. Daneben steht eine kurze Beschreibung: FREIZEIT: BUECHER LESEN. <Known what="Variable" label="kennst du aus Methoden Ia" /></p>
+      <p className="lead">Der ALLBUS fragt, wie oft Menschen Bücher lesen. In der Datei heißt diese <Begriff id="variable">Variable</Begriff> <code>la01</code>. Daneben steht eine kurze Beschreibung: FREIZEIT: BUECHER LESEN. <Known what="Variable" label="kennst du aus Methoden Ia" /></p>
       <p className="absatz">Jede Variable hat zwei Kennzeichen:</p>
       <ul className="s1-liste">
         <li>den <b>Variablennamen</b>, kurz und ohne Leerzeichen, etwa <code>la01</code>. Mit ihm sprichst du die Variable in R an.</li>
-        <li>das <b>Variablenlabel</b>, eine kurze Beschreibung der Frage, etwa FREIZEIT: BUECHER LESEN.</li>
+        <li>das <b><Begriff id="variablenlabel">Variablenlabel</Begriff></b>, eine kurze Beschreibung der Frage, etwa FREIZEIT: BUECHER LESEN.</li>
       </ul>
       <Frage>Wie sind die Labels geschrieben, und warum ist das für die Suche wichtig?</Frage>
       <p>Die Variablenlabels im ALLBUS stehen in GROSSBUCHSTABEN, ohne Umlaute (ü wird UE) und oft abgekürzt. Gesucht wird in genau dieser Schreibweise. Sie entscheidet in den Schritten 2 bis 5, ob eine Suche etwas findet. Variablen, die zusammengehören, haben oft ähnliche Namen: <code>lm27</code> bis <code>lm34</code> fragen alle, mit welchen Geräten jemand das Internet nutzt.</p>
@@ -254,7 +255,7 @@ export function Verstehen2() {
       <MoreDetail summary="Wo steht die ganze Frage?">
         <p>Das Variablenlabel ist eine Kurzfassung. Den genauen Wortlaut der Frage findest du im Fragebogen und im Variablenbericht zum ALLBUS 2023 bei GESIS (Suche nach ZA8831). Für die Suche in R reicht das Variablenlabel.</p>
       </MoreDetail>
-      <Mixup>Variablenlabel und Frage. FREIZEIT: BUECHER LESEN ist nicht der Fragetext. Ob gefragt wurde ‚Wie oft lesen Sie Bücher?‘ oder ‚Lesen Sie gern?‘, zeigt erst der Fragebogen; die Antwortmöglichkeiten zeigt das Codebuch (<a href="#k3-codebuch">Verstehen zu Aufgabe 3</a>).</Mixup>
+      <Mixup>Variablenlabel und Frage. FREIZEIT: BUECHER LESEN ist nicht der Fragetext. Ob gefragt wurde ‚Wie oft lesen Sie Bücher?‘ oder ‚Lesen Sie gern?‘, zeigt erst der Fragebogen; die Antwortmöglichkeiten zeigt das <Begriff id="codebuch">Codebuch</Begriff> (<a href="#k3-codebuch">Verstehen zu Aufgabe 3</a>).</Mixup>
     </Card>
 
     <Card id="k2-suchen" title="Suchen mit find_var()" badge={<Bezug href="#a2-1">zu Schritt 2</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
@@ -262,7 +263,7 @@ export function Verstehen2() {
       <FindVarPicture />
       <p className="absatz">Die Vorlage in Schritt 2 sucht genauso, nur mit einem anderen Suchwort:</p>
       <Code k="a2_idee1" />
-      <p className="absatz">Das erste Argument ist der Datensatz (<code>allbus</code>, ohne Anführungszeichen), das zweite das Suchwort (in Anführungszeichen). In der Ausgabe zeigt <code>col</code>, an welcher Stelle die Variable im Datensatz steht, daneben stehen Name und Variablenlabel.</p>
+      <p className="absatz">Das erste <Begriff id="argument">Argument</Begriff> in den Klammern ist der Datensatz (<code>allbus</code>, ohne Anführungszeichen), das zweite das Suchwort (in Anführungszeichen). In der Ausgabe zeigt <code>col</code>, an welcher Stelle die Variable im Datensatz steht, daneben stehen Name und Variablenlabel.</p>
       <h6 className="zwischen">Suchwort-Labor</h6>
       <p className="unter-zwischen">Wähl ein Suchwort und lies, was R antwortet. Die Ausgaben stammen aus dem ALLBUS 2023.</p>
       <SearchLab />
@@ -301,8 +302,8 @@ export function Verstehen2() {
       <Frage>Warum findet R manchmal etwas, das gar nicht passt?</Frage>
       <p>Weil <code>find_var()</code> das Suchwort auch mitten in einem anderen Wort findet. ‚tier‘ steckt in RESPEKTIEREN; mit Tieren hat diese Frage nichts zu tun. So ein Treffer heißt <b>Scheintreffer</b>. Darum liest du jedes Label Wort für Wort und probierst bei Schritt 5 weitere Wörter, etwa ‚allein‘ oder ‚freund‘.</p>
       <Frage>Und wenn ein Treffer nah dran ist, aber nicht genau?</Frage>
-      <p>Dann geht es um <b>Gültigkeit</b> (Validität): Misst die Variable, was du meinst? Ob man eine Variable trotzdem nimmt, ist eine Entscheidung, die du begründest. Manchmal ist die Antwort: Die Frage müsste man neu stellen.</p>
-      <InShort><b>Ein Treffer</b> heißt nicht ‚passt‘: Lies das Variablenlabel. Ob eine Variable misst, was du meinst, heißt <b>Gültigkeit</b>: Passt die Frage zu deiner Idee?</InShort>
+      <p>Dann geht es um <b><Begriff id="validitaet">Validität</Begriff></b> (Gültigkeit): Misst die Variable, was du meinst? Ob man eine Variable trotzdem nimmt, ist eine Entscheidung, die du begründest. Eine Idee in eine genaue Frage mit Antwortvorgaben zu übersetzen, heißt <b><Begriff id="operationalisierung">Operationalisierung</Begriff></b>. Manchmal musst du das selbst tun: Die Frage müsste man neu stellen.</p>
+      <InShort><b>Ein Treffer</b> heißt nicht ‚passt‘: Lies das Variablenlabel. Ob eine Variable misst, was du meinst, heißt <b>Validität</b> (Gültigkeit): Passt die Frage zu deiner Idee?</InShort>
       <Mixup>Suchwort im Label und Thema der Frage. Dass dein Suchwort im Label steht, heißt nur, dass die Buchstaben vorkommen. Worum es in der Frage geht, sagt erst das ganze Label.</Mixup>
     </Card>
 
@@ -311,7 +312,7 @@ export function Verstehen2() {
       <ul className="v-liste">
         <li><b>Welche Variable?</b> Lies das Variablenlabel jedes Treffers und vergleiche es mit der Idee.</li>
         <li><b>Wie viele Treffer?</b> Zähl die Zeilen der Ausgabe. R nummeriert sie am linken Rand.</li>
-        <li><b>Misst sie, was die Idee meint?</b> Das ist die Frage nach der Gültigkeit (<a href="#k2-passt">Ein Treffer ist ein Kandidat</a>).</li>
+        <li><b>Misst sie, was die Idee meint?</b> Das ist die Frage nach der Validität (<a href="#k2-passt">Ein Treffer ist ein Kandidat</a>).</li>
         <li><b>Was folgt daraus?</b> Es gibt drei Ausgänge: Eine Variable passt, eine ist nah dran, oder man müsste neu fragen.</li>
       </ul>
       <p>Fürs Plenum bringst du zu jeder Idee deine Entscheidung und einen Satz Begründung mit. Bei Idee 2 und 3 gibt es keine eindeutige Antwort.</p>
@@ -332,7 +333,7 @@ export function Verstehen3() {
     ]}>
 
     <Card id="k3-codebuch" title="Das Codebuch" badge={<Bezug href="#a3-1">zu Schritt 2</Bezug>} tag={{ kind: 'picture', label: 'Code lesen' }}>
-      <p className="lead">Das <b>Codebuch</b> listet für jede Variable Name, Variablenlabel, Codes mit Wertelabels und wie oft jeder Code vorkommt.</p>
+      <p className="lead">Das <b><Begriff id="codebuch">Codebuch</Begriff></b> listet für jede Variable Name, Variablenlabel, Codes mit Wertelabels und wie oft jeder Code vorkommt.</p>
       <Code k="a3_codebuch" />
       <Frage>Wie liest du die Vorlage?</Frage>
       <p>In RStudio öffnet <code>codebook(allbus)</code> das ganze Codebuch im Viewer (unten rechts). Mit dem Symbol ‚Show in new window‘ öffnest du es im Browser und suchst mit Strg + F (Mac: Cmd + F) nach einem Variablennamen. Mit einem Variablennamen schlägt <code>codebook(allbus, rh08b)</code> nur diese eine Variable nach.</p>
@@ -345,7 +346,7 @@ export function Verstehen3() {
     </Card>
 
     <Card id="k3-codes" title="Codes und Wertelabels: frequency() lesen" badge={<Bezug href="#a3-2">zu Schritt 3</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Die Klimafrage <code>pi08</code> (MEINUNG UEBER DEN KLIMAWANDEL) hat vier Antwortmöglichkeiten. <Known what="Wert" label="kennst du aus Methoden Ia" /> Im Datensatz steht aber kein Wort, sondern eine Zahl, ein <b>Code</b>: 1 für ‚keine Klimaänderung‘, 4 für ‚menschliche Ursachen‘. Das Wort zum Code heißt <b>Wertelabel</b>. So sieht die Variable aus, wenn R sie auszählt:</p>
+      <p className="lead">Die Klimafrage <code>pi08</code> (MEINUNG UEBER DEN KLIMAWANDEL) hat vier Antwortmöglichkeiten, also vier <b><Begriff id="auspraegung">Ausprägungen</Begriff></b>. <Known what="Wert" label="kennst du aus Methoden Ia" /> Im Datensatz steht aber kein Wort, sondern eine Zahl, ein <b><Begriff id="code">Code</Begriff></b>: 1 für ‚keine Klimaänderung‘, 4 für ‚menschliche Ursachen‘. Das Wort zum Code heißt <b><Begriff id="wertelabel">Wertelabel</Begriff></b>. So sieht die Variable aus, wenn R sie auszählt:</p>
       <FrequencyTable />
       <p className="absatz">Die Prozent-Spalten (Raw %, Valid %, Cum. %) und die Kennzahlen in der Kopfzeile (mean, sd, skewness) schauen wir uns in Sitzung 3 und 4 genauer an. Heute zählen Codes, Wertelabels und N.</p>
       <Frage>Und wie liest du dieselbe Ausgabe für die Horoskop-Frage?</Frage>
@@ -356,7 +357,7 @@ export function Verstehen3() {
     </Card>
 
     <Card id="k3-fehlend" title="Fehlende Werte: wer nicht geantwortet hat und wer gar nicht gefragt wurde" badge={<Bezug href="#a3-3">zu Schritt 1 und 4</Bezug>} tag={{ kind: 'picture', label: 'Formel lesen' }}>
-      <p className="lead">Bei pi08 stehen unter den Antworten vier negative Codes. 1.647 Befragte haben den Code −11 TNZ: SPLIT. <b>TNZ</b> heißt ‚trifft nicht zu‘: Diesen Menschen wurde die Frage <b>gar nicht gestellt</b>. Der ALLBUS hat mehrere Fassungen des Fragebogens, und die Klimafrage stand nur in einem Teil davon. Die anderen negativen Codes betreffen Menschen, die gefragt wurden, aber keine gültige Antwort gegeben haben: KEINE ANGABE, WEISS NICHT, DATENFEHLER.</p>
+      <p className="lead">Bei pi08 stehen unter den Antworten vier negative Codes. Sie stehen für <b><Begriff id="fehlende-werte">fehlende Werte</Begriff></b>: Von diesen Befragten gibt es keine Antwort, mit der du rechnen kannst. 1.647 Befragte haben den Code −11 TNZ: SPLIT. <b><Begriff id="tnz">TNZ</Begriff></b> heißt ‚trifft nicht zu‘: Diesen Menschen wurde die Frage <b>gar nicht gestellt</b>. Der ALLBUS hat mehrere Fassungen des Fragebogens, und die Klimafrage stand nur in einem Teil davon. Die anderen negativen Codes betreffen Menschen, die gefragt wurden, aber keine gültige Antwort gegeben haben: KEINE ANGABE, WEISS NICHT, DATENFEHLER.</p>
       <div className="formel s1-formel" role="group" aria-label="Formel für die gültigen Antworten">
         <div className="s1-formel-reihe" aria-hidden="true">
           <span className="s1-f gueltig">gültige Antworten</span><span>=</span><span className="s1-f alle">alle Befragten</span><span>−</span><span className="s1-f fehlend">alle fehlenden Werte</span>
@@ -370,14 +371,14 @@ export function Verstehen3() {
       <Frage>Wie vielen Befragten wurde die Klimafrage dann überhaupt gestellt?</Frage>
       <p>3.599: alle 5.246 minus die 1.647 mit TNZ: SPLIT. Wer KEINE ANGABE oder WEISS NICHT hat, wurde gefragt, hat aber nicht gültig geantwortet. Gültig geantwortet haben davon 3.507. Ob pt03 genauso aufgeteilt ist, legst du in Schritt 1 fest und siehst es erst in Schritt 4.</p>
       <Frage>Was hat das mit der Vertrauensfrage zu tun?</Frage>
-      <p>Deine Festlegung in Schritt 1 fragt genau das für <code>pt03</code>: Wem wurde die Frage gestellt? In Schritt 4 tauschst du im Journal die gelbe Variable gegen <code>pt03</code> und liest die Zeilen unter ‚Total valid‘. Bei den Codes 2 bis 6 steht als Wertelabel nur ‚..‘: Das sind Zwischenstufen zwischen GAR KEIN VERTRAUEN (1) und GROSSES VERTRAUEN (7) ohne eigenes Wort.</p>
+      <p>Deine Festlegung in Schritt 1 fragt genau das für <code>pt03</code>: Wem wurde die Frage gestellt? In Schritt 4 tauschst du im Journal die gelbe Variable gegen <code>pt03</code> und liest die Zeilen unter ‚Total valid‘. Bei den Codes 2 bis 6 steht als Wertelabel nur ‚..‘: Diese Ausprägungen liegen zwischen GAR KEIN VERTRAUEN (1) und GROSSES VERTRAUEN (7) und haben kein eigenes Wort.</p>
       <Code k="a3_pt03" />
-      <InShort><b>Fehlende Werte</b> haben im ALLBUS negative Codes. <b>TNZ</b> (trifft nicht zu) heißt: Die Frage wurde dieser Person nicht gestellt. <b>Gültige Antworten</b> sind alle Befragten minus alle fehlenden Werte. Nur mit ihnen rechnest du.</InShort>
+      <InShort><b>Fehlende Werte</b> haben im ALLBUS negative Codes. <b>TNZ</b> (trifft nicht zu) heißt: Die Frage wurde dieser Person nicht gestellt. <b><Begriff id="gueltige-werte">Gültige Antworten</Begriff></b> sind alle Befragten minus alle fehlenden Werte. Nur mit ihnen rechnest du.</InShort>
       <MoreDetail summary="Drei Arten von TNZ">
         <ul>
           <li><b>TNZ: SPLIT</b> (−11): Die Frage stand nur in einer Fassung des Fragebogens. Bei pi08 betrifft das 1.647 Befragte.</li>
           <li><b>TNZ: FILTER</b> (−10): Die Frage wurde nur gestellt, wenn eine frühere Antwort passte. Mit welchen Geräten jemand das Internet nutzt (<code>lm27</code> bis <code>lm34</code>), fragt man nur Menschen, die das Internet nutzen. {`Bei `}<code>lm30</code>{` (Smartphone) haben ${TNZ.lm30Filter} Befragte TNZ: FILTER.`}</li>
-          <li><b>TNZ: MODE</b> (−15): Die Frage gab es nur auf einem Erhebungsweg. ‚Nutzen Sie privat das Internet?‘ (<code>xr19</code>){` wurde den ${TNZ.xr19Mode.toLocaleString('de-DE')} Menschen, die online geantwortet haben, nicht gestellt; die Antwort ergibt sich ja aus dem Weg.`}</li>
+          <li><b>TNZ: MODE</b> (−15): Die Frage gab es nicht auf jedem <b><Begriff id="erhebungsweg">Erhebungsweg</Begriff></b>. Der ALLBUS befragt im persönlichen Interview, online oder auf Papier. ‚Nutzen Sie privat das Internet?‘ (<code>xr19</code>){` wurde den ${TNZ.xr19Mode.toLocaleString('de-DE')} Befragten, die online geantwortet haben, nicht gestellt; die Antwort ergibt sich ja aus dem Erhebungsweg.`}</li>
           <li>Beim Einlesen hat <code>read_spss()</code> alle negativen Codes als fehlend markiert. Darum rechnet R später nur mit den gültigen Antworten. Mehr zu fehlenden Werten in Sitzung 3.</li>
         </ul>
       </MoreDetail>
@@ -413,7 +414,7 @@ export function Verstehen4() {
     <Card id="k4-lesen" title="So liest du eine Fehlermeldung" badge={<Bezug href="#a4-p">zu Schritt 1</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Jemand will nach ‚klima‘ suchen und schreibt <code>find_var(allbus, klima)</code>. R antwortet in Rot. Das wirkt erschreckend, ist aber eine Auskunft: Die Meldung sagt, wo und was schiefging, und oft auch, wie du es behebst.</p>
       <ErrorConsole />
-      <InShort>Eine <b>Fehlermeldung</b> (Error, Fehler) heißt: R hat aufgehört, es gibt kein Ergebnis. Lies sie von vorn: Wo (welche Funktion)? Was? Der Name in Anführungszeichen oder Backticks zeigt meist die Stelle, die du ändern musst.</InShort>
+      <InShort>Eine <b>Fehlermeldung</b> (Error, Fehler) heißt: R hat aufgehört, es gibt kein Ergebnis. Lies sie von vorn: Wo (welche <Begriff id="funktion">Funktion</Begriff>)? Was? Der Name in Anführungszeichen oder Backticks zeigt meist die Stelle, die du ändern musst.</InShort>
       <MoreDetail summary="Fehler, Warnung, Hinweis">
         <ul>
           <li><b>Fehler</b> (Error, Fehler): kein Ergebnis. Du musst etwas ändern.</li>
@@ -452,7 +453,7 @@ export function Verstehen4() {
       <p className="hilfe-zeile">RStudio schreibt die Meldungen deutsch, das Lernjournal englisch (in Klammern). ‚unexpected end of input‘ gibt es nur im Lernjournal; RStudio wartet mit <code>+</code>, beim Ausführen der ganzen Datei mit Source meldet es ‚unerwartetes Ende der Eingabe‘.</p>
       <InShort>Die meisten Fehlermeldungen am Anfang haben eine von sechs Ursachen: vertippter Funktionsname, falsch geschriebener Name, fehlende Anführungszeichen, fehlende Klammer, Datei am falschen Ort, Paket nicht installiert.</InShort>
       <MoreDetail summary="Wenn die Konsole + zeigt">
-        <p>Steht in der RStudio-Konsole am Anfang ein <code>+</code> statt <code>&gt;</code>, wartet R auf den Rest einer Zeile, meist auf eine Klammer oder ein Anführungszeichen. Drück Esc, reparier die Zeile im Skript und führ sie neu aus. Ein vergessenes Komma zwischen zwei Argumenten meldet R als ‚unerwartete Zeichenkettenkonstante‘ (unexpected string constant).</p>
+        <p>Steht in der <Begriff id="konsole">Konsole</Begriff> von RStudio am Anfang ein <code>+</code> statt <code>&gt;</code>, wartet R auf den Rest einer Zeile, meist auf eine Klammer oder ein Anführungszeichen. Drück Esc, reparier die Zeile im <Begriff id="skript">Skript</Begriff> und führ sie neu aus. Ein vergessenes Komma zwischen zwei <Begriff id="argument">Argumenten</Begriff> meldet R als ‚unerwartete Zeichenkettenkonstante‘ (unexpected string constant).</p>
       </MoreDetail>
       <Mixup>Variablenname und Suchwort. Bei <code>frequency(allbus, pi08)</code> steht der Variablenname ohne Anführungszeichen, bei <code>find_var(allbus, "klima")</code> das Suchwort mit.</Mixup>
     </Card>
@@ -496,9 +497,9 @@ export function Ueberblick() {
               <tr><td>Lesen: <code>frequency()</code>, <code>codebook()</code></td><td>Variablenname genau, klein, ohne Anführungszeichen</td><td>Total ist nicht Total valid; TNZ heißt: nicht gefragt; Zahlen sind ungewichtet</td></tr>
             </tbody>
           </table>
-          <p className="box-notiz">Für alle gilt: Das Variablenlabel ist eine Kurzfassung. Ob eine Variable deine Idee misst (ihre <b>Gültigkeit</b>, <a href="#k2-passt">Aufgabe 2</a>), entscheidest du mit Label, Wertelabels und notfalls dem Fragebogen.</p>
+          <p className="box-notiz">Für alle gilt: Das Variablenlabel ist eine Kurzfassung. Ob eine Variable deine Idee misst (ihre <b><Begriff id="validitaet">Validität</Begriff></b>, <a href="#k2-passt">Aufgabe 2</a>), entscheidest du mit Label, Wertelabels und notfalls dem Fragebogen.</p>
         </div>
-        <Mixup>Eine Variable finden und eine Variable verstehen. <code>find_var()</code> sagt dir, dass es eine Variable gibt. Erst <code>frequency()</code> oder das Codebuch zeigt, wem sie gestellt wurde und was ihre Stufen bedeuten.</Mixup>
+        <Mixup>Eine Variable finden und eine Variable verstehen. <code>find_var()</code> sagt dir, dass es eine Variable gibt. Erst <code>frequency()</code> oder das Codebuch zeigt, wem sie gestellt wurde und was ihre <Begriff id="auspraegung">Ausprägungen</Begriff> bedeuten.</Mixup>
       </Card>
     </HeadingLevel.Provider>
   </section>;

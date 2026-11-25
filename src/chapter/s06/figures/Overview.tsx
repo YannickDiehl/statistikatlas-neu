@@ -6,7 +6,7 @@ import { useAnnounce } from '../../blocks/announce';
 import { ALT, ASSIGN, FIVE, MEASURE_OPTIONS } from '../content';
 import { Picture, Ruler, SvgText, de } from './util';
 
-export const TREE_TEXT = 'Entscheidungsbaum. Start: Welches Skalenniveau haben beide Variablen? Das niedrigere zählt. Mindestens eine nominal: Cramér-V, cramers_v; beide mit genau zwei Kategorien: Phi, phi. Beide mindestens ordinal, mindestens eine ordinal: Tau-b, kendall_tau; daneben Gamma, goodman_gamma, und Spearman-ρ, spearman_rho. Beide metrisch: Pearson-r, pearson_cor; bei Ausreißern oder ohne geradlinigen Verlauf: Spearman-ρ.';
+export const TREE_TEXT = 'Entscheidungsbaum. Start: Welches Skalenniveau haben beide Variablen? Das niedrigere zählt. Mindestens eine nominal: Cramér-V, cramers_v; beide mit genau zwei Kategorien: Phi, phi. Beide mindestens ordinal, mindestens eine ordinal: Tau-b, kendall_tau; daneben Gamma, goodman_gamma, und Spearman-ρ, spearman_rho. Beide metrisch: Pearson-r, pearson_cor; bei Ausreißern oder ohne linearen Verlauf: Spearman-ρ.';
 
 const STROKE = '#978B7B';
 function Node({ x, y, w, title, sub, fill = '#EAF5FC', stroke = '#86B9DE' }: { x: number; y: number; w: number; title: string; sub?: string; fill?: string; stroke?: string }) {
@@ -34,7 +34,7 @@ export function MeasureTree() {
         <Path x1={380} y1={44} x2={130} y2={120} /><Path x1={380} y1={44} x2={380} y2={120} /><Path x1={380} y1={44} x2={640} y2={120} />
         <Path x1={130} y1={148} x2={130} y2={236} /><Path x1={380} y1={148} x2={380} y2={236} /><Path x1={640} y1={148} x2={640} y2={236} />
         <Sign x={240} y={78} lines={['mindestens', 'eine nominal']} /><Sign x={380} y={84} lines={['mindestens', 'eine ordinal']} /><Sign x={520} y={78} lines={['beide', 'metrisch']} />
-        <Sign x={130} y={192} lines={['beide genau zwei', 'Kategorien']} /><Sign x={380} y={192} lines={['daneben']} /><Sign x={640} y={192} lines={['Ausreißer oder', 'nicht geradlinig']} />
+        <Sign x={130} y={192} lines={['beide genau zwei', 'Kategorien']} /><Sign x={380} y={192} lines={['daneben']} /><Sign x={640} y={192} lines={['Ausreißer oder', 'nicht linear']} />
         <Node x={380} y={30} w={420} title="Welches Skalenniveau? Das niedrigere zählt." fill="#FFF0E8" stroke="#F0A27E" />
         <Node x={130} y={134} w={170} title="Cramér-V" sub="cramers_v()" />
         <Node x={380} y={134} w={170} title="Tau-b" sub="kendall_tau()" />

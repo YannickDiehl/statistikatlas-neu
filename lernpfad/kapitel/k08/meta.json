@@ -18,6 +18,7 @@
     ["Was die Zahlen bedeuten, lernst du in <a href=\"#g2\">Grundlage 2</a>.", "Was die Zahlen bedeuten, erklärt <a href=\"#v2c\">„Die Ausgabe von reliability() lesen“</a> in Verstehen zu Aufgabe 2."],
     ["(<a href=\"#v2c\">Grundlage 2c</a>)", "(<a href=\"#v2c\">Die Ausgabe von reliability() lesen</a>)"],
     ["(Inter-Item Correlation Matrix, Karte 2c)", "(Inter-Item Correlation Matrix)"],
-    ["(die Korrelationstabelle aus Karte 2a)", "(die Korrelationstabelle aus <a href=\"#v2a\">„Stimmig heißt: dieselben Menschen antworten ähnlich“</a>)"]
-  ]
+    ["(die Korrelationstabelle aus Karte 2a)", "(die Korrelationstabelle aus <a href=\"#v2a\">„Reliabilität: dieselben Menschen antworten ähnlich“</a>)"]
+  ],
+  "begriffe": ["item","konstrukt","messfehler","mittelwertindex","skalenwert","kombinationsindex","kompensatorisch","reliabilitaet","cronbachs-alpha","trennschaerfe","summenindex","datenmatrix","fall","variable","wert","mittelwert","fehlende-werte","gueltige-werte","umpolen","polung","rekodieren","pearson","korrelationsmatrix","gewichte","validitaet","operationalisierung","kumulierte-haeufigkeit","ausschluss","variablenlabel","wertelabel","code","tnz","funktion","nominal","ordinal","relative-haeufigkeit","median","verteilung","balkendiagramm","streuung","verzerrung","prozentpunkte","zusammenhang","t-test","skript"]
 }

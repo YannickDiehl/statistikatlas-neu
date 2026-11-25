@@ -20,5 +20,6 @@
     ["aus Grundlage 2c", "aus Verstehen zu Aufgabe 2"],
     ["Mehr in Grundlage 1.", "Mehr in Verstehen zu Aufgabe 1."],
     ["Mehr in Grundlage 2.", "Mehr in Verstehen zu Aufgabe 2."]
-  ]
+  ],
+  "begriffe": ["lineare-regression","praediktor","konstante","regressionskoeffizient","vorhersage","beta","residuum","kleinste-quadrate","r-quadrat","standardfehler-schaetzung","gleiche-fehlervarianz","levene-test","korrigiertes-r2","abhaengige-variable","unabhaengige-variable","streudiagramm","pearson","linear","nichtlinear","ausreisser","mittelwert","standardabweichung","standardfehler","p-wert","signifikanzniveau","varianzhomogenitaet","umpolen","gewichte","kausalitaet","fallzahl","auspraegung","datenmatrix","fall","variable","wert","objekt","funktion","argument","pipe","code","tnz","gueltige-werte","skalenniveau","metrisch","absolute-haeufigkeit","relative-haeufigkeit","boxplot","streuung","kreuztabelle","dummy","zusammenhang","stichprobe","drittvariable","confounding","t-test","anova","normalverteilung","messfehler","skript"]
 }

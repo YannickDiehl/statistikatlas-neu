@@ -24,13 +24,13 @@ export function Foundation1() {
   return <Foundation id="g1" n={1} title="Die Häufigkeitstabelle" taskHref="#a1"
     intro={<>Wie liest man eine Tabelle von <code>frequency()</code>, und wo stehen Modus und Median? Drei kurze Schritte, etwa 15 Minuten.</>}>
 
-    <Card id="k1a" step="1a" title="Vom Turm zur Tabelle: Steine zählen"
-      badge={<><Known session={2} what="Turm, Stein, Aufkleber" /><Known session={1} what="Spalte N" /></>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">In Sitzung 1 hast du in der Spalte N abgelesen, wie viele eine Antwort gegeben haben. Woher kommt diese Zahl? Der ALLBUS fragt, wie oft man in der Freizeit Bücher liest, mit fünf Antworten von „täglich“ bis „nie“. Hier siehst du den Turm la01 von zwölf Befragten, zum Beispiel. Jeder Stein ist eine Antwort, der Aufkleber sagt, was der Code bedeutet. Eine Person hat nichts angegeben: Ihr Stein ist leer, trägt aber einen Aufkleber mit dem Grund, KEINE ANGABE. Geh die drei Schritte durch.</p>
+    <Card id="k1a" step="1a" title="Von der Variable zur Tabelle: Werte zählen"
+      badge={<><Known session={2} what="Variable, Wert, Wertelabel" /><Known session={1} what="Spalte N" /></>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+      <p className="lead">In Sitzung 1 hast du in der Spalte N abgelesen, wie viele eine Antwort gegeben haben. Woher kommt diese Zahl? Der ALLBUS fragt, wie oft man in der Freizeit Bücher liest, mit fünf Antworten von „täglich“ bis „nie“. Hier siehst du die Variable la01 von zwölf Befragten als Turm, zum Beispiel. Jeder Stein ist ein Wert, das Wertelabel (im Bild der Aufkleber) sagt, was der Code bedeutet. Eine Person hat nichts angegeben: Ihr Wert fehlt, trägt aber ein Wertelabel mit dem Grund, KEINE ANGABE. Geh die drei Schritte durch.</p>
       <TowerToTable />
-      <InShort>Eine Häufigkeitstabelle zählt, wie oft jeder Wert vorkommt. Diese Zahl heißt <b>absolute Häufigkeit</b>, in R die Spalte <b>N</b>. Gleiche Steine kommen auf einen Stapel, und N ist die Höhe des Stapels. Steine mit einem Missing-Code zählt die Tabelle getrennt: unter „Total missing“.</InShort>
-      <MoreDetail summary="Warum der leere Stein einen Aufkleber hat">
-        <p>Im ALLBUS fehlt keine Antwort einfach so. Jede Lücke hat einen Code mit Grund, etwa −9 KEINE ANGABE oder −11 TNZ: SPLIT. <code>read_spss()</code> macht daraus in R einen fehlenden Wert (NA), behält den Grund aber als Aufkleber. Darum kann <code>frequency()</code> dir unten in der Tabelle zeigen, warum wie viele Antworten fehlen. Mehr dazu in <a href="#g2">Grundlage 2</a>.</p>
+      <InShort>Eine Häufigkeitstabelle zählt, wie oft jeder Wert vorkommt. Diese Zahl heißt <b>absolute Häufigkeit</b>, in R die Spalte <b>N</b>. Gleiche Werte kommen auf einen Stapel, und N ist die Höhe des Stapels. Werte mit einem Missing-Code zählt die Tabelle getrennt: unter „Total missing“.</InShort>
+      <MoreDetail summary="Warum der fehlende Wert ein Wertelabel hat">
+        <p>Im ALLBUS fehlt keine Antwort einfach so. Jeder fehlende Wert hat einen Code mit Grund, etwa −9 KEINE ANGABE oder −11 TNZ: SPLIT. <code>read_spss()</code> macht daraus in R ein NA, behält den Grund aber als Wertelabel. Darum kann <code>frequency()</code> dir unten in der Tabelle zeigen, warum wie viele Antworten fehlen. Mehr dazu in <a href="#g2">Grundlage 2</a>.</p>
       </MoreDetail>
       <Mixup>Die Spalte <b>Value</b> ist der Code, nicht die Anzahl. „4“ in der Spalte Value heißt SELTENER; wie viele das gesagt haben, steht in der Spalte N.</Mixup>
     </Card>
@@ -118,7 +118,7 @@ export function Foundation3() {
   return <Foundation id="g3" n={3} title="Die Mitte: Modus, Median, Mittelwert" taskHref="#a3"
     intro="Welche Zahl beschreibt die Mitte, und welche passt zu welcher Variable? Drei Schritte, etwa 12 Minuten.">
 
-    <Card id="k3a" step="3a" title="Die Mitte einer Reihe" badge={<KnownIa what="Mittelwert und Median" />} tag={{ kind: 'picture', label: 'Im Bild' }}>
+    <Card id="k3a" step="3a" title="Die Mitte der sortierten Werte" badge={<KnownIa what="Mittelwert und Median" />} tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Neun Befragte sagen, wie viele Personen in ihrem Haushalt leben, zum Beispiel. Geh die Schritte durch.</p>
       <HouseholdRow />
       <ChoiceCheck question={K3A_Q} />
@@ -167,9 +167,9 @@ export function Foundation3() {
   </Foundation>;
 }
 
-/** Grundlage 4 (Zusatz): Liegt der Durchschnitt in der Mitte? */
+/** Grundlage 4 (Zusatz): Liegt der Mittelwert in der Mitte? */
 export function Foundation4() {
-  return <Foundation id="g4" n={4} title="Liegt der Durchschnitt in der Mitte?" taskHref="#a4"
+  return <Foundation id="g4" n={4} title="Liegt der Mittelwert in der Mitte?" taskHref="#a4"
     intro="Wie viele liegen über dem Mittelwert, und was verrät das? Etwa 5 Minuten.">
     <Card id="k4" step="4" title="Cum. % und der Mittelwert" badge={<Badge>Cum. %: Grundlage 1</Badge>} tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Im Mittel leben 2,34 Personen im Haushalt der Befragten (<a href="#k3c">Grundlage 3c</a>). Wie viele leben in einem größeren Haushalt als dem Durchschnitt? Die Spalte Cum. % von <code>frequency(dh04)</code> verrät es.</p>
@@ -218,7 +218,7 @@ export function Overview() {
           <tbody>
             <tr><td>Raw %, Valid %</td><td>jede Variable, auch nominal</td><td>Basis nennen; bei Split und Filter ist Raw % fast immer irreführend.</td></tr>
             <tr><td>Cum. %</td><td>geordnete Codes</td><td>Bei nominalen Variablen hängt Cum. % von der zufälligen Reihenfolge der Codes ab.</td></tr>
-            <tr><td>Modus</td><td>jede Variable, auch nominal</td><td>Bei mehreren fast gleich hohen Stapeln wenig aussagekräftig.</td></tr>
+            <tr><td>Modus</td><td>jede Variable, auch nominal</td><td>Bei mehreren fast gleich großen absoluten Häufigkeiten wenig aussagekräftig.</td></tr>
             <tr><td>Median</td><td>geordnete Codes</td><td>Liegt Cum. % genau bei 50, liegt er zwischen zwei Stufen.</td></tr>
             <tr><td>Mittelwert</td><td>gleiche Abstände (metrisch)</td><td>Wird von wenigen extremen Werten gezogen; die Kopfzeile von <code>frequency()</code> rechnet ihn auch dort, wo er nichts bedeutet.</td></tr>
           </tbody>

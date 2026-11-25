@@ -31,7 +31,7 @@ export function Foundation1() {
       <Mixup>Ein Index ist kein Mittelwert über alle Befragten. Er ist ein Wert <b>je Person</b>, also eine neue Variable. Den Mittelwert über alle Befragten rechnest du danach, wie bei jeder Variable, mit <code>describe()</code>.</Mixup>
     </Card>
 
-    <Card id="v1b" step="1b" title="Eine Reihe, ein Wert" badge={<Known session={2} what="Bauplatte, Turm, Stein" />} tag={{ kind: 'picture', label: 'Im Bild' }}>
+    <Card id="v1b" step="1b" title="Eine Reihe, ein Wert" badge={<Known session={2} what="Datenmatrix, Variable, Fall" />} tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Auf der Bauplatte ist jede Variable ein Turm und jede Person eine Reihe. Für einen Index schaust du nicht in einen Turm, sondern quer durch eine Reihe: Welche vier Antworten hat diese Person gegeben? Hier drei Befragte, zum Beispiel. Person B hat eine Frage nicht beantwortet. Geh die Schritte durch.</p>
       <RowMean />
       <p className="absatz"><b>Formel lesen lernen:</b> So steht der Mittelwertindex als Formel.</p>

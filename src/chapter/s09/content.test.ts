@@ -209,7 +209,7 @@ test('answers in R and German notation, minus signs and special feedback (decisi
   assert.match(fb('a4b', '4.997'), /Steigung ist negativ/);
   assert.match(fb('a3a', 's7'), /Eine Tabelle davor/);
   assert.equal(fb('a3a', 's3'), q('a3a').hint);
-  assert.match(fb('a1d', 'c'), /behauptet eine Ursache/);
+  assert.match(fb('a1d', 'c'), /behauptet eine ⟪Ursache\|kausalitaet⟫/);
   assert.equal(fb('a1b', '0.5'), q('a1b').hint);
 });
 

@@ -12,6 +12,7 @@ import { Balance, Flow, Inglehart, WhichIndex } from '@atlas/chapter/s08/figures
 import '@atlas/chapter/s08/s08.css';
 import type { Thema } from '../../react/typen';
 import { AlphaOhneBeispiel } from './figuren';
+import { Begriff } from '@lernpfad/Begriff';
 import { Abschnitt, Bezug, Code, Frage, Leseart } from '../../react/gemeinsam';
 
 /* ---------- Vorweg ---------- */
@@ -47,35 +48,35 @@ export function Verstehen1() {
       <p>Der Mittelwert ihrer vier Antworten, hier 2,75. Mit der Wirtschaft allein wäre sie eher bei „Chance“, mit dem Sozialstaat allein eher bei „Risiko“. Jede einzelne Frage trifft nur einen Ausschnitt und enthält auch Zufall: einen schlechten Tag, eine missverstandene Formulierung. Im Mittelwert gleichen sich solche Ausrutscher teilweise aus.</p>
       <Frage>Und was heißt das für deine Festlegung in Schritt 1?</Frage>
       <p>Der Populismus-Index ist genauso ein Mittelwert, nur aus sieben Antworten je Person. Er bleibt auf der Antwortskala von 1 „stimme voll zu“ bis 5 „lehne ganz ab“ und lässt sich wie eine Antwort lesen: Ein Wert unter 3 heißt im Mittel eher Zustimmung, um 3 teils/teils, über 3 eher Ablehnung. Wo der Mittelwert über alle Befragten liegt, legst du vorher fest. Holst du am Ende deine Ergebnisse ins Journal, steht deine Festlegung daneben.</p>
-      <InShort>Einstellungen wie „Haltung zu Geflüchteten“ oder „Populismus“ kann man nicht direkt beobachten. Man fragt deshalb mehrere <b>Items</b> (einzelne Fragen oder Aussagen) und fasst sie zu einem <b>Index</b> zusammen. Jedes Item hat einen eigenen <b>Messfehler</b>; im Mittelwert mehrerer Items gleichen sich zufällige Fehler teilweise aus.</InShort>
+      <InShort>Einstellungen wie „Haltung zu Geflüchteten“ oder „Populismus“ kann man nicht direkt beobachten. Man fragt deshalb mehrere <b><Begriff id="item">Items</Begriff></b> (einzelne Fragen oder Aussagen) und fasst sie zu einem <b>Index</b> zusammen. Jedes Item hat einen eigenen <b><Begriff id="messfehler">Messfehler</Begriff></b>, eine zufällige Abweichung von der eigentlichen Haltung. Im Mittelwert mehrerer Items gleichen sich solche Fehler teilweise aus.</InShort>
       <MoreDetail summary="Index, Skala, Item">
         <ul>
           <li>Ein <b>Item</b> ist eine einzelne Frage mit ihren Antworten, etwa mp16. Eine <b>Itembatterie</b> sind mehrere Items, die nacheinander mit denselben Antworten gestellt werden.</li>
-          <li>Ein <b>Index</b> fasst mehrere Items nach einer Regel zu einer neuen Variable zusammen. Die häufigste Regel ist der Mittelwert: der <b>Mittelwertindex</b>. Sind die Items vorher auf Stimmigkeit geprüft, spricht man oft von einer <b>Skala</b>. Im Alltag werden beide Wörter fast gleich gebraucht.</li>
-          <li>Der gemeinsame Begriff hinter den Items heißt <b>Konstrukt</b> oder latente Variable: etwas, das wir nicht sehen, aber an mehreren Antworten ablesen wollen.</li>
+          <li>Ein <b>Index</b> fasst mehrere Items nach einer Regel zu einer neuen Variable zusammen. Die häufigste Regel ist der Mittelwert: der <b><Begriff id="mittelwertindex">Mittelwertindex</Begriff></b>. Sind die Items vorher auf ihre Reliabilität geprüft (Aufgabe 2), spricht man oft von einer <b>Skala</b>. Im Alltag werden beide Wörter fast gleich gebraucht.</li>
+          <li>Der gemeinsame Begriff hinter den Items heißt <b><Begriff id="konstrukt">Konstrukt</Begriff></b> oder latente Variable: etwas, das wir nicht sehen, aber an mehreren Antworten ablesen wollen. Ein Konstrukt in genaue Fragen zu übersetzen, heißt <Begriff id="operationalisierung">Operationalisierung</Begriff> (Sitzung 1).</li>
           <li>Mehrere Items helfen gegen zufällige Fehler. Gegen einen gemeinsamen Fehler helfen sie nicht: Wenn alle vier Fragen etwas anderes messen als gedacht, misst auch ihr Mittelwert das Falsche. Das ist eine Frage der <b>Validität</b> (Gültigkeit), nicht der Genauigkeit.</li>
         </ul>
       </MoreDetail>
     </Card>
 
-    <Card id="v1b" title="Eine Reihe, ein Wert: row_means()" badge={<><Bezug href="#a1-1">zu Schritt 2</Bezug><Badge>Bauplatte, Turm, Stein: kennst du aus Sitzung 2</Badge></>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Auf der Bauplatte ist jede Variable ein Turm und jede Person eine Reihe. Für einen Index schaust du nicht in einen Turm, sondern quer durch eine Reihe: Welche Antworten hat diese Person gegeben? Hier drei Befragte mit den vier Fragen zu Geflüchteten, zum Beispiel. Person B hat eine Frage nicht beantwortet. Geh die Schritte durch und schalte <code>min_valid</code> um.</p>
+    <Card id="v1b" title="Eine Zeile, ein Wert: row_means()" badge={<><Bezug href="#a1-1">zu Schritt 2</Bezug><Badge>Datenmatrix, Fall, Variable: kennst du aus Sitzung 1 und 2</Badge></>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+      <p className="lead">In der <Begriff id="datenmatrix">Datenmatrix</Begriff> ist jede <Begriff id="variable">Variable</Begriff> eine Spalte und jede Person eine Zeile, ein <Begriff id="fall">Fall</Begriff>. Im Bild aus Sitzung 2 waren das Türme und Reihen auf der Bauplatte. Für einen Index schaust du nicht in eine Spalte, sondern quer durch eine Zeile: Welche Antworten hat diese Person gegeben? Hier drei Befragte mit den vier Fragen zu Geflüchteten, zum Beispiel. Person B hat eine Frage nicht beantwortet. Geh die Schritte durch und schalte <code>min_valid</code> um.</p>
       <RowMean />
       <p className="absatz"><b>Formel lesen lernen:</b> So steht der Mittelwertindex als Formel.</p>
       <IndexFormula />
       <Frage>Warum bekommt Person B mit <code>min_valid = 3</code> den Wert 1,33 und nicht 1?</Frage>
-      <p>Sie hat drei gültige Antworten: 1 + 1 + 2 = 4, geteilt durch 3. Die fehlende Antwort zählt nicht als 0, sie fällt einfach weg. Als 0 gezählt wäre es (1 + 1 + 2 + 0) / 4 = 1, und Person B sähe noch viel mehr nach „Risiko“ aus, nur weil sie eine Frage übersprungen hat. Mit <code>min_valid = 4</code> bekommt sie gar keinen Wert: Sie hat nur drei von vier Fragen beantwortet.</p>
+      <p>Sie hat drei gültige Antworten: 1 + 1 + 2 = 4, geteilt durch 3. Der <Begriff id="fehlende-werte">fehlende Wert</Begriff> zählt nicht als 0, er fällt einfach weg. Als 0 gezählt wäre es (1 + 1 + 2 + 0) / 4 = 1, und Person B sähe noch viel mehr nach „Risiko“ aus, nur weil sie eine Frage übersprungen hat. Mit <code>min_valid = 4</code> bekommt sie gar keinen Wert: Sie hat nur drei von vier Fragen beantwortet.</p>
       <h6 className="zwischen">Die Vorlage in Schritt 2</h6>
       <Code k="a1" />
       <Frage>Was macht jede Zeile?</Frage>
       <ul className="v-liste">
-        <li><code>mutate(populismus = …)</code> stellt einen neuen Turm mit dem Namen <code>populismus</code> auf die Bauplatte (kennst du aus Sitzung 5).</li>
-        <li><code>row_means(…)</code> bildet je Reihe den Mittelwert. <code>pick(pa29, …, pa35)</code> wählt die sieben Türme aus, deren Antworten zusammengefasst werden.</li>
+        <li><code>mutate(populismus = …)</code> fügt dem Datensatz eine neue Variable mit dem Namen <code>populismus</code> hinzu (kennst du aus Sitzung 5).</li>
+        <li><code>row_means(…)</code> bildet je Zeile den Mittelwert. <code>pick(pa29, …, pa35)</code> wählt die sieben Variablen aus, deren Antworten zusammengefasst werden.</li>
         <li><code>min_valid = 7</code> ist die gelbe Stelle: Nur wer alle sieben Aussagen beantwortet hat, bekommt einen Wert.</li>
-        <li><code>describe(populismus)</code> fasst den neuen Turm zusammen wie jede Variable. <b>N</b> ist die Zahl der Befragten mit Wert, <b>Missing</b> die Zahl ohne Wert. Ohne Gewicht, weil du hier Personen zählst.</li>
+        <li><code>describe(populismus)</code> fasst die neue Variable zusammen wie jede andere. <b>N</b> ist die Zahl der Befragten mit Wert, <b>Missing</b> die Zahl ohne Wert. Ohne Gewicht, weil du hier Personen zählst.</li>
       </ul>
       <p>Wie die lange Zeile Stück für Stück aufgebaut ist, zeigt die Lesehilfe in <a href="#r2">„Neu heute“</a> im Vorweg.</p>
-      <InShort>Ein <b>Mittelwertindex</b> ist der Mittelwert der gültigen Antworten einer Person: ein neuer Turm mit einem Wert je Reihe. <b><code>min_valid</code></b> legt fest, wie viele gültige Antworten jemand mindestens braucht, um einen Wert zu bekommen. Ohne <code>min_valid</code> reicht eine einzige Antwort.</InShort>
+      <InShort>Ein <b><Begriff id="mittelwertindex">Mittelwertindex</Begriff></b> ist der <Begriff id="mittelwert">Mittelwert</Begriff> der gültigen Antworten einer Person: eine neue Variable mit einem Wert je Fall. <b><code>min_valid</code></b> legt fest, wie viele gültige Antworten jemand mindestens braucht, um einen Wert zu bekommen. Ohne <code>min_valid</code> reicht eine einzige Antwort.</InShort>
       <Mixup>Ein Index ist kein Mittelwert über alle Befragten. Er ist ein Wert <b>je Person</b>, also eine neue Variable. Den Mittelwert über alle Befragten rechnest du danach, wie bei jeder Variable, mit <code>describe()</code>.</Mixup>
     </Card>
 
@@ -89,21 +90,21 @@ export function Verstehen1() {
         <li>Eine verbreitete Faustregel: mindestens zwei Drittel der Items (bei vier Items 3, bei sieben 5); lockerer: mehr als die Hälfte (bei sieben 4). Wichtig ist, dass du die Regel nennst.</li>
       </ul>
       <Frage>Und warum steht bei Missing so eine große Zahl?</Frage>
-      <p>Die Populismus-Aussagen wurden nur in einem Teil der Fragebögen gestellt (Split). Wer die Fragen nicht bekam, hat keine einzige Antwort. Diese Befragten stehen in der Ausgabe von <code>describe()</code> bei Missing.</p>
+      <p>Die Populismus-Aussagen wurden nur in einem Teil der Fragebögen gestellt (<Begriff id="tnz">Split</Begriff>). Wer die Fragen nicht bekam, hat keine einzige Antwort. Diese Befragten stehen in der Ausgabe von <code>describe()</code> bei Missing.</p>
       <InShort><code>min_valid</code> ist eine Entscheidung. Zu streng, und viele bekommen keinen Wert; zu locker, und manche Werte beruhen auf einer einzigen Antwort. Regel und n gehören in den Bericht.</InShort>
       <MoreDetail summary="Warum der Mittelwert und nicht die Summe?">
-        <p>Die Summe hängt davon ab, wie viele Fragen jemand beantwortet hat: Wer nur eine Frage beantwortet, hat eine kleine Summe und sähe aus wie jemand mit viel „Risiko“. Ohne <code>min_valid</code> reicht die Summe der vier Fragen zu Geflüchteten im ALLBUS von 2 bis 20, obwohl mit allen vier Antworten nur 4 bis 20 möglich sind. Der Mittelwert bleibt auf der Antwortskala von 1 bis 5 und lässt sich wie eine Antwort lesen. Eine Summe (<code>row_sums()</code>) nimmst du, wenn du etwas zählen willst, wie in Aufgabe 4.</p>
+        <p>Die Summe hängt davon ab, wie viele Fragen jemand beantwortet hat: Wer nur eine Frage beantwortet, hat eine kleine Summe und sähe aus wie jemand mit viel „Risiko“. Ohne <code>min_valid</code> reicht die Summe der vier Fragen zu Geflüchteten im ALLBUS von 2 bis 20, obwohl mit allen vier Antworten nur 4 bis 20 möglich sind. Der Mittelwert bleibt auf der Antwortskala von 1 bis 5 und lässt sich wie eine Antwort lesen. Ein Index aus der Summe heißt <b><Begriff id="summenindex">Summenindex</Begriff></b>. Ihn bildest du mit <code>row_sums()</code>, wenn du etwas zählen willst, wie in Aufgabe 4.</p>
       </MoreDetail>
     </Card>
 
     <Card id="v1-gewicht" title="Mit oder ohne Gewicht?" badge={<><Bezug href="#a1-3">zu Schritt 4</Bezug><Badge>Gewichtet: kennst du aus Sitzung 6</Badge></>} tag={{ kind: 'interpret', label: 'Code lesen' }}>
-      <p className="lead">Wie seit Sitzung 6 rechnest du Aussagen über alle Menschen in Deutschland gewichtet: Mittelwerte und Anteile eines Index mit <code>weights = wghtpew</code>. Zwei Dinge rechnest du heute ohne Gewicht: wie stimmig die Fragen sind (Cronbachs α) und wie viele Befragte einen Indexwert bekommen. Beides beschreibt das Messinstrument und die Befragung selbst, nicht die Bevölkerung.</p>
+      <p className="lead">Wie seit Sitzung 6 rechnest du Aussagen über alle Menschen in Deutschland <Begriff id="gewichte">gewichtet</Begriff>: Mittelwerte und Anteile eines Index mit <code>weights = wghtpew</code>. Zwei Dinge rechnest du heute ohne Gewicht: wie zuverlässig die Fragen zusammen messen (Cronbachs α) und wie viele Befragte einen Indexwert bekommen. Beides beschreibt das Messinstrument und die Befragung selbst, nicht die Bevölkerung.</p>
       <Code k="a1w" />
       <p>Die Vorlage in Schritt 4 baut den Index wie in Schritt 2, aber gleich mit <code>min_valid = 5</code>, und gibt <code>describe()</code> das Gewicht mit. Damit ändert sich die Frage: nicht mehr „Wer bekommt einen Wert?“, sondern „Wie populistisch sind die Befragten im Mittel?“.</p>
       <Frage>Warum steht bei N jetzt eine andere Zahl?</Frage>
       <p><code>describe()</code> mit Gewicht zählt bei N die Gewichte zusammen. Beim Index zu Geflüchteten mit <code>min_valid = 3</code> steht dort zum Beispiel 3473, obwohl 3.482 Personen einen Wert haben. Wie viele Personen einen Wert bekommen, siehst du ohne Gewicht.</p>
       <Frage>Mean oder Median?</Frage>
-      <p>Gefragt ist der Mittelwert, in der Spalte <b>Mean</b>. Daneben steht der <b>Median</b>, die Mitte der Reihe. Beim Index zu Geflüchteten liegt der Mittelwert bei 2,457, der Median bei 2,5. R schreibt Kommazahlen mit Punkt: 2.457 heißt 2,457.</p>
+      <p>Gefragt ist der Mittelwert, in der Spalte <b>Mean</b>. Daneben steht der <b><Begriff id="median">Median</Begriff></b>, die Mitte der sortierten Werte. Beim Index zu Geflüchteten liegt der Mittelwert bei 2,457, der Median bei 2,5. R schreibt Kommazahlen mit Punkt: 2.457 heißt 2,457.</p>
       <InShort>Aussagen über alle Menschen in Deutschland rechnest du mit Gewicht. Personen zählen und α rechnest du ohne Gewicht. Gewichtet ändert sich α kaum.</InShort>
       <Mixup>Das gewichtete N als Zahl der Befragten lesen. Mit Gewicht ist N die Summe der Gewichte, keine Personenzahl.</Mixup>
     </Card>
@@ -115,7 +116,7 @@ export function Verstehen1() {
       <p>Alle mit einem Indexwert unter 3, also die blauen Säulen von 1 bis 2,75. Zusammen sind das knapp zwei Drittel (65,9 %). Nur gut jeder Fünfte (21,5 %) liegt über 3, also eher bei „Chance“. Wer die Säule bei genau 3 mitzählt, kommt auf 78,5 %; aber 3 heißt „weder noch“.</p>
       <Frage>Was heißt das für den Populismus-Index in Schritt 5?</Frage>
       <p>Einen Index liest du wie die Antwortskala seiner Items. Bei den Fragen zu Geflüchteten heißt 1 „Risiko überwiegt“, ein niedriger Wert also „eher Risiko“. Bei den Populismus-Aussagen schaust du genauso nach, wofür die 1 steht, und deutest den Mittelwert damit.</p>
-      <InShort>Den Index liest du wie die Antwortskala: Hier heißt ein niedriger Wert „eher Risiko“, ein hoher „eher Chance“. Wie bei jeder Variable gehören Verteilung, Mittelwert, Median und n in den Bericht, und dazu die Regel, wer einen Wert bekommt.</InShort>
+      <InShort>Den Index liest du wie die Antwortskala: Hier heißt ein niedriger Wert „eher Risiko“, ein hoher „eher Chance“. Wie bei jeder Variable gehören <Begriff id="verteilung">Verteilung</Begriff>, Mittelwert, Median und n in den Bericht, und dazu die Regel, wer einen Wert bekommt.</InShort>
       <MoreDetail summary="Was ein Indexwert von 2,5 heißt">
         <ul>
           <li>2,5 liegt zwischen „eher Risiko“ (2) und „weder noch“ (3). Es kann heißen: viermal ungefähr 2 oder 3, oder zweimal 1 und zweimal 4. Der Index zeigt die Gesamttendenz, nicht das Muster dahinter (mehr dazu in Aufgabe 4).</li>
@@ -141,7 +142,7 @@ export function Verstehen1() {
 /* ---------- Aufgabe 2 ---------- */
 export function Verstehen2() {
   return <Abschnitt id="g2" n={2} titel="Messen die sieben Aussagen dasselbe?" frage="Darf man die sieben Populismus-Aussagen zu einem Index zusammenfassen, und passt jede dazu?"
-    ziel="eine Zahl für die Stimmigkeit der sieben Aussagen (Cronbachs α), kennst die Aussage, die am schwächsten passt, und kannst begründen, ob sie im Index bleiben soll."
+    ziel="eine Zahl für die Reliabilität der sieben Items (Cronbachs α), kennst die Aussage, die am schwächsten passt, und kannst begründen, ob sie im Index bleiben soll."
     weg={[
       ['Schritt 1', '#a2-p', 'Erst festlegen: Welche Aussage passt am wenigsten?', 'v2a'],
       ['Schritt 2', '#a2-1', 'Cronbachs α: was die Zahl misst', 'v2b'],
@@ -152,25 +153,25 @@ export function Verstehen2() {
       ['Schritt 6', '#a2-5', 'das Bild nach dem Prüfen lesen', 'v2-gegenprobe'],
     ]}>
 
-    <Card id="v2a" title="Stimmig heißt: dieselben Menschen antworten ähnlich" badge={<><Bezug href="#a2-p">zu Schritt 1</Bezug><Badge>Korrelation r und Korrelationsmatrix: kennst du aus Sitzung 6 und 7</Badge></>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+    <Card id="v2a" title="Reliabilität: dieselben Menschen antworten ähnlich" badge={<><Bezug href="#a2-p">zu Schritt 1</Bezug><Badge>Korrelation r und Korrelationsmatrix: kennst du aus Sitzung 6 und 7</Badge></>} tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Die Festlegung in Schritt 1 fragt, welche Aussage am wenigsten zu den anderen passt. Was heißt „passen“ bei Fragen? Ein Beispiel mit vier Fragen: Wie verbunden fühlen sich die Menschen mit ihrer Gemeinde, ihrem Bundesland, Deutschland und der EU? Antworten von 1 „stark verbunden“ bis 4 „gar nicht verbunden“. Stark oder ziemlich verbunden fühlen sich mit der Gemeinde 65,7 %, mit dem Bundesland 63,3 %, mit Deutschland 70,9 % und mit der EU 49,5 % (gewichtet).</p>
-      <p className="absatz">Darf man daraus einen Index „Verbundenheit“ machen? Das hängt davon ab, ob dieselben Menschen bei allen vier ähnlich antworten. Wähl eine Ebene, um ihre Zeile in der Tabelle hervorzuheben.</p>
+      <p className="absatz">Darf man daraus einen Index „Verbundenheit“ machen? Das hängt davon ab, ob dieselben Menschen bei allen vier ähnlich antworten. Wähl eine Ebene, um ihre Zeile in der <Begriff id="korrelationsmatrix">Korrelationsmatrix</Begriff> hervorzuheben.</p>
       <CorrelationTable />
       <Frage>Welche Ebene passt am wenigsten zu den anderen drei?</Frage>
       <p>Die EU. Sie hängt mit den anderen im Mittel am schwächsten zusammen (0,330), besonders mit der Gemeinde (0,190). Wer sich mit seinem Ort verbunden fühlt, fühlt sich nicht unbedingt mit Europa verbunden. Die Gemeinde hängt mit der EU zwar auch kaum zusammen, mit dem Bundesland aber eng (0,568); im Mittel liegt sie mit 0,366 etwas höher als die EU.</p>
-      <InShort>Items passen zusammen, wenn dieselben Menschen bei ihnen ähnlich antworten, wenn sie also positiv miteinander <b>korrelieren</b>. Je höher die Korrelationen, desto stimmiger misst der Index einen gemeinsamen Begriff. Diese Stimmigkeit heißt <b>Reliabilität</b> (Zuverlässigkeit); genauer: <b>interne Konsistenz</b>.</InShort>
+      <InShort>Items passen zusammen, wenn dieselben Menschen bei ihnen ähnlich antworten, wenn also ihre <b><Begriff id="pearson">Korrelationen</Begriff></b> positiv sind. Je höher die Korrelationen, desto zuverlässiger misst der Index ein gemeinsames Konstrukt. Diese Zuverlässigkeit heißt <b><Begriff id="reliabilitaet">Reliabilität</Begriff></b>; bei mehreren Items genauer: <b>interne Konsistenz</b>.</InShort>
       <MoreDetail summary="Reliabilität und Validität">
         <ul>
           <li><b>Reliabilität</b> fragt: Misst das Instrument zuverlässig, also mit wenig Zufall? Bei einem Index heißt das: Zeigen die Items in dieselbe Richtung und hängen sie eng zusammen?</li>
-          <li><b>Validität</b> fragt: Misst das Instrument das, was es messen soll? Vier Fragen zur Lieblingsfarbe könnten sehr stimmig sein und trotzdem keine Verbundenheit messen.</li>
-          <li>Reliabilität ist eine Voraussetzung für Validität, aber kein Beweis dafür. Ob die Items den Begriff treffen, entscheidest du am Inhalt.</li>
+          <li><b><Begriff id="validitaet">Validität</Begriff></b> fragt: Misst das Instrument das, was es messen soll? Vier Fragen zur Lieblingsfarbe könnten sehr reliabel sein und trotzdem keine Verbundenheit messen.</li>
+          <li>Reliabilität ist eine Voraussetzung für Validität, aber kein Beweis dafür. Ob die Items das Konstrukt treffen, entscheidest du am Inhalt.</li>
         </ul>
       </MoreDetail>
-      <Mixup>Stimmig heißt nicht, dass alle gleich antworten. Die Antworten dürfen über die Befragten weit streuen. Stimmig heißt: Wer bei einem Item hoch liegt, liegt auch bei den anderen eher hoch.</Mixup>
+      <Mixup>Reliabel heißt nicht, dass alle gleich antworten. Die Antworten dürfen über die Befragten weit <Begriff id="streuung">streuen</Begriff>. Reliabel heißt: Wer bei einem Item hoch liegt, liegt auch bei den anderen eher hoch.</Mixup>
     </Card>
 
     <Card id="v2b" title="Formel lesen lernen: Cronbachs α" badge={<Bezug href="#a2-1">zu Schritt 2</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Cronbachs α fasst die Korrelationen aller Items in einer Zahl zusammen. In einer einfachen Form hängt α nur von zwei Dingen ab: wie viele Items es sind und wie eng sie im Mittel zusammenhängen.</p>
+      <p className="lead"><Begriff id="cronbachs-alpha">Cronbachs α</Begriff> fasst die Korrelationen aller Items in einer Zahl zusammen. In einer einfachen Form hängt α nur von zwei Dingen ab: wie viele Items es sind und wie eng sie im Mittel <Begriff id="zusammenhang">zusammenhängen</Begriff>.</p>
       <AlphaFormula />
       <h6 className="zwischen">α-Rechner</h6>
       <p className="unter-zwischen">Verändere k und r̄ und beobachte, wie sich α verändert.</p>
@@ -191,18 +192,18 @@ export function Verstehen2() {
     <Card id="v2c" title="Die Ausgabe von reliability() lesen" badge={<><Bezug href="#a2-1">zu Schritt 2</Bezug><Badge>summary(): kennst du aus Sitzung 7</Badge></>} tag={{ kind: 'picture', label: 'Code lesen' }}>
       <p className="lead">In Schritt 2 bekommst du mit dieser Vorlage die ausführliche Ausgabe für die sieben Populismus-Aussagen:</p>
       <Code k="a2" />
-      <p><code>reliability()</code> bekommt die Items, deren Stimmigkeit es prüfen soll. Ohne <code>summary()</code> gäbe es nur eine Zeile mit α; mit <code>summary()</code> kommt eine Zeile je Item dazu. Wie man die Ausgabe liest, zeigt hier dieselbe Ausgabe für die vier Fragen zur Verbundenheit. Wähl eine Zahl und schau, was sie sagt.</p>
+      <p><code>reliability()</code> bekommt die Items, deren Reliabilität es prüfen soll. Ohne <code>summary()</code> gäbe es nur eine Zeile mit α; mit <code>summary()</code> kommt eine Zeile je Item dazu. Wie man die Ausgabe liest, zeigt hier dieselbe Ausgabe für die vier Fragen zur Verbundenheit. Wähl eine Zahl und schau, was sie sagt.</p>
       <ReliabilityOutput />
       <AlphaRules />
       <Frage>Ohne welches Item würde α bei der Verbundenheit steigen?</Frage>
       <p>Ohne die EU (pn17): Dann läge α bei 0,733, mit ihr bei 0,726. Alle anderen Zahlen in „Alpha if Deleted“ sind kleiner als 0,726; ohne die Gemeinde fiele α zum Beispiel auf 0,700. Der Gewinn ohne die EU ist klein.</p>
-      <InShort><code>reliability()</code> zeigt oben <b>Cronbachs α</b> für alle Items, unten je Item die <b>Trennschärfe</b> (Corrected Item-Total) und <b>α ohne dieses Item</b> (Alpha if Deleted). Ein Item mit niedriger Trennschärfe passt schlecht zu den anderen. Steigt α ohne ein Item, prüfst du am Inhalt, ob es wirklich zum Begriff gehört.</InShort>
+      <InShort><code>reliability()</code> zeigt oben <b>Cronbachs α</b> für alle Items, unten je Item die <b><Begriff id="trennschaerfe">Trennschärfe</Begriff></b> (Corrected Item-Total) und <b>α ohne dieses Item</b> (Alpha if Deleted). Ein Item mit niedriger Trennschärfe passt schlecht zu den anderen. Steigt α ohne ein Item, prüfst du am Inhalt, ob es wirklich zum Konstrukt gehört.</InShort>
       <MoreDetail summary="Grenzen der Faustregeln">
         <ul>
           <li>Die Grenzen 0,7 oder 0,8 sind Gewohnheiten, keine Naturgesetze. 0,69 ist nicht schlecht und 0,71 nicht gut; nenn immer die Zahl.</li>
           <li>α steigt mit der Zahl der Items (<a href="#v2b">Formel lesen lernen</a>). Bei 20 Items reicht schon eine mittlere Korrelation von 0,2 für α = 0,833. Bei drei oder vier Items ist ein α um 0,7 dagegen schon ordentlich.</li>
-          <li>Ein sehr hohes α (über 0,95) kann heißen, dass die Items fast dasselbe fragen. Dann misst der Index einen engen Ausschnitt des Begriffs.</li>
-          <li>α prüft nicht, ob die Items <b>einen</b> gemeinsamen Begriff messen. Auch zwei Gruppen von Items, die je unter sich eng zusammenhängen, können ein hohes α ergeben. Ob es eine oder mehrere Dimensionen sind, zeigt ein eigenes Verfahren, die Faktorenanalyse; sie kommt im Lernpfad nicht vor. Hier hilft dir der Inhalt: Gehören die Items zu einem Begriff?</li>
+          <li>Ein sehr hohes α (über 0,95) kann heißen, dass die Items fast dasselbe fragen. Dann misst der Index einen engen Ausschnitt des Konstrukts.</li>
+          <li>α prüft nicht, ob die Items <b>ein</b> gemeinsames Konstrukt messen. Auch zwei Gruppen von Items, die je unter sich eng zusammenhängen, können ein hohes α ergeben. Ob es eine oder mehrere Dimensionen sind, zeigt ein eigenes Verfahren, die Faktorenanalyse; sie kommt im Lernpfad nicht vor. Hier hilft dir der Inhalt: Gehören die Items zu einem Konstrukt?</li>
           <li>α prüft nicht die Validität (<a href="#v2a">Reliabilität und Validität</a>).</li>
         </ul>
       </MoreDetail>
@@ -215,20 +216,20 @@ export function Verstehen2() {
       <Frage>Was genau löschst du?</Frage>
       <p>Die gelbe Stelle umfasst die Aussage samt Komma und Leerzeichen; du löschst beides. Danach stehen in <code>reliability()</code> nur noch sechs Aussagen. Ohne <code>summary()</code> bekommst du die kurze Fassung: eine Zeile mit Cronbach's Alpha, McDonalds Omega und N, wie in der Kontrollausgabe in <a href="#r2">„Neu heute“</a>.</p>
       <Frage>Warum ändert sich N?</Frage>
-      <p><code>reliability()</code> rechnet nur mit Befragten, die alle genannten Fragen beantwortet haben (N listwise). Fehlt eine Frage in der Liste, zählen auch die mit, die nur diese eine nicht beantwortet haben. Darum ist N ohne ein Item etwas größer. Vergleich α danach mit der Zahl in „Alpha if Deleted“ aus Schritt 2.</p>
+      <p><code>reliability()</code> rechnet nur mit Befragten, die alle genannten Fragen beantwortet haben (<Begriff id="ausschluss">fallweiser Ausschluss</Begriff>, in der Ausgabe N listwise). Fehlt eine Frage in der Liste, zählen auch die mit, die nur diese eine nicht beantwortet haben. Darum ist N ohne ein Item etwas größer. Vergleich α danach mit der Zahl in „Alpha if Deleted“ aus Schritt 2.</p>
       <Frage>Wie sieht „α ohne jedes Item“ als Bild aus?</Frage>
       <p>Hier für die vier Fragen zur Verbundenheit. Dasselbe Bild für die sieben Populismus-Aussagen zeigt dir Schritt 6, nachdem du deine Antworten geprüft hast.</p>
       <AlphaOhneBeispiel />
       <Leseart>Die gestrichelte Linie ist α mit allen vier Fragen. Nur der Balken der EU reicht darüber hinaus: Ohne sie wäre α etwas höher. Ohne das Bundesland fiele α am stärksten, auf 0,603.</Leseart>
     </Card>
 
-    <Card id="v2-behalten" title="Soll ein Item raus? Zahlen und Inhalt" badge={<Bezug href="#a2-3">zu Schritt 4</Bezug>} tag={{ kind: 'interpret', label: 'Deuten' }}>
+    <Card id="v2-behalten" title="Soll ein Item raus? Zwei Blickwinkel" badge={<Bezug href="#a2-3">zu Schritt 4</Bezug>} tag={{ kind: 'interpret', label: 'Deuten' }}>
       <p className="lead">In Schritt 4 überlegst du, ob eine Aussage aus dem Index soll. Zwei Dinge gehören in diese Entscheidung: die Zahlen und der Inhalt. Am Beispiel der Verbundenheit: Ohne die EU stiege α von 0,726 auf 0,733.</p>
       <Frage>Reicht es, dass α ohne das Item höher ist?</Frage>
-      <p>Ein Gewinn in der dritten Nachkommastelle ist sehr klein, und die Faustregeln sind Gewohnheiten, keine Naturgesetze. Wer ein Item streicht, misst den Begriff enger. Ein Item zu streichen, nur weil α dann etwas steigt, ist darum keine gute Regel. Streichen ist erlaubt, wenn du es inhaltlich begründest und berichtest.</p>
+      <p>Ein Gewinn in der dritten Nachkommastelle ist sehr klein, und die Faustregeln sind Gewohnheiten, keine Naturgesetze. Wer ein Item streicht, misst das Konstrukt enger. Ein Item zu streichen, nur weil α dann etwas steigt, ist darum keine gute Regel. Streichen ist erlaubt, wenn du es inhaltlich begründest und berichtest.</p>
       <Frage>Was heißt „am Inhalt entscheiden“?</Frage>
       <p>Du fragst, was der Index messen soll. Bei der Verbundenheit: Willst du Verbundenheit mit Deutschland und seinen Regionen messen oder räumliche Verbundenheit überhaupt? Im ersten Fall gehört die EU nicht hinein, im zweiten schon. Dazu kommt eine zweite Frage: Unterscheidet das Item überhaupt zwischen den Befragten? Ein Item, dem fast alle zustimmen, sagt wenig darüber, wer mehr und wer weniger von einem Begriff hat.</p>
-      <InShort>Die <b>Trennschärfe</b> zeigt, wie gut ein Item zu den anderen passt; „Alpha if Deleted“, wie hoch α ohne das Item wäre. Ob ein Item bleibt, entscheidet der Inhalt.</InShort>
+      <InShort>Die <b>Trennschärfe</b> zeigt, wie gut ein Item zu den anderen passt; „Alpha if Deleted“, wie hoch α ohne das Item wäre. Ob ein Item bleibt, wägst du ab: Wie viel gewinnt α, und was misst das Item inhaltlich?</InShort>
     </Card>
 
     <Card id="v2-ergebnis" title="Ergebnis festhalten: wo du was abliest" badge={<Bezug href="#a2-4">zu Schritt 5</Bezug>} tag={{ kind: 'interpret', label: 'Deuten' }}>
@@ -238,7 +239,7 @@ export function Verstehen2() {
         <li><b>Die schwächste Trennschärfe:</b> Ausgabe von Schritt 2, Spalte Corrected Item-Total, die kleinste Zahl.</li>
         <li><b>Was α sagt:</b> Überleg, was α zusammenfasst und was es nicht prüft (<a href="#v2b">Formel lesen lernen</a>; <a href="#v2a">Reliabilität und Validität</a>).</li>
         <li><b>α ohne die Aussage:</b> Ausgabe von Schritt 3, Zeile „Cronbach's Alpha =“. Nicht ω daneben, und nicht die Trennschärfe aus Schritt 2.</li>
-        <li><b>Behalten oder streichen:</b> <a href="#v2-behalten">Zahlen und Inhalt</a>.</li>
+        <li><b>Behalten oder streichen:</b> <a href="#v2-behalten">Zwei Blickwinkel</a>.</li>
       </ul>
       <p>Schritt 6 zeigt dir danach α ohne jede der sieben Aussagen als Bild. Es ist gebaut wie das Beispiel in der <a href="#v2-gegenprobe">Gegenprobe</a>. Ob ihr die schwächste Aussage behalten würdet, besprecht ihr im Plenum.</p>
     </Card>
@@ -266,19 +267,19 @@ export function Verstehen3() {
         <li>fr03b „Eine Frau sollte nicht arbeiten, solange ihr Kind klein ist.“ (36,2 %)</li>
         <li>fr04b „Die Frau sollte zu Hause bleiben und die Kinder versorgen.“ (20,1 %)</li>
       </ul>
-      <p>(gewichtet; Kurzfassungen nach den Variablenlabels.) Wer bei fr07 voll zustimmt, denkt eher gleichberechtigt. Wer bei fr03b voll zustimmt, denkt eher traditionell. Dieselbe 1 bedeutet also zweimal das Gegenteil. Welche Aussagen andersherum gestellt sind, erkennst du am Wortlaut.</p>
+      <p>(gewichtet; Kurzfassungen nach den <Begriff id="variablenlabel">Variablenlabels</Begriff>.) Wer bei fr07 voll zustimmt, denkt eher gleichberechtigt. Wer bei fr03b voll zustimmt, denkt eher traditionell. Dieselbe 1 bedeutet also zweimal das Gegenteil. Welche Aussagen andersherum gestellt sind, erkennst du am Wortlaut.</p>
       <Reverse />
       <Frage>Was wird beim Umpolen aus einer 2, auf einer Skala von 1 bis 7 wie in Aufgabe 3?</Frage>
       <p>Eine 6: kleinster plus größter Code, 1 + 7 = 8, und 8 − 2 = 6. Aus 1 wird 7, die 4 bleibt 4: Die Mitte bleibt in der Mitte. Wer nur 7 − 2 rechnet, kommt auf 5 und liegt eins daneben.</p>
       <InShort>Bevor du Items zu einem Index zusammenfasst, müssen alle in <b>dieselbe Richtung</b> zeigen: Eine hohe Zahl muss bei jedem Item dasselbe bedeuten. Andersherum gefragte Items (Fachbegriff: <b>invertierte Items</b>) polst du um: Die Skala wird gespiegelt, aus der kleinsten Zahl wird die größte.</InShort>
       <MoreDetail summary="Warum fragt man überhaupt andersherum?">
         <ul>
-          <li>Manche Menschen stimmen fast allem zu, egal was gefragt wird (<b>Zustimmungstendenz</b>, englisch Acquiescence). Sind einige Aussagen andersherum gestellt, fällt das auf und verzerrt den Index weniger.</li>
-          <li><code>rec(x, rules = "rev")</code> nimmt dafür den kleinsten und den größten Code der Skala, so wie die Wertelabels sie angeben, nicht die kleinste und größte Antwort, die tatsächlich vorkommt (kennst du aus Sitzung 5). Fehlende Werte bleiben leer. Das Wort zur Antwort wandert mit: Bei fr03b_um steht STIMME GAR NICHT ZU jetzt bei Code 1.</li>
+          <li>Manche Menschen stimmen fast allem zu, egal was gefragt wird (<b>Zustimmungstendenz</b>, englisch Acquiescence). Sind einige Aussagen andersherum gestellt, fällt das auf und <Begriff id="verzerrung">verzerrt</Begriff> den Index weniger.</li>
+          <li><code>rec(x, rules = "rev")</code> nimmt dafür den kleinsten und den größten <Begriff id="code">Code</Begriff> der Skala, so wie die <Begriff id="wertelabel">Wertelabels</Begriff> sie angeben, nicht die kleinste und größte Antwort, die tatsächlich vorkommt (kennst du aus Sitzung 5). Fehlende Werte bleiben leer. Das Wort zur Antwort wandert mit: Bei fr03b_um steht STIMME GAR NICHT ZU jetzt bei Code 1.</li>
           <li>Welche Items umgepolt werden, entscheidest du am Wortlaut, bevor du rechnest. Die Rechnung zeigt dir dann, ob du richtig lagst: Ein falsch gepoltes Item hat eine negative Trennschärfe.</li>
         </ul>
       </MoreDetail>
-      <Mixup>Umpolen und Umkodieren in Gruppen verwechseln. Beim Umpolen bleiben alle Stufen erhalten, nur ihre Reihenfolge dreht sich. Beim Zusammenfassen in Gruppen (Sitzung 5) werden aus mehreren Stufen wenige.</Mixup>
+      <Mixup>Umpolen und <Begriff id="rekodieren">Umkodieren</Begriff> in Gruppen verwechseln. Beim Umpolen bleiben alle Stufen erhalten, nur ihre Reihenfolge dreht sich. Beim Zusammenfassen in Gruppen (Sitzung 5) werden aus mehreren Stufen wenige.</Mixup>
     </Card>
 
     <Card id="v3b" title="Falsch gepolt: was die Ausgabe zeigt (Umpol-Labor)" badge={<Bezug href="#a3-1">zu Schritt 2 und 6</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
@@ -300,7 +301,7 @@ export function Verstehen3() {
     </Card>
 
     <Card id="v3-um" title="Umpolen in der Kette: bauen, dann tauschen" badge={<><Bezug href="#a3-2">zu Schritt 3</Bezug><Badge>rec(…, rules = "rev"): kennst du aus Sitzung 5</Badge></>} tag={{ kind: 'picture', label: 'Code lesen' }}>
-      <p className="lead">Die Vorlage in Schritt 3 hat zwei Teile in einer Kette: Erst baut <code>mutate()</code> die umgepolten Aussagen, dann rechnet <code>reliability()</code> die Stimmigkeit.</p>
+      <p className="lead">Die Vorlage in Schritt 3 hat zwei Teile in einer Kette: Erst baut <code>mutate()</code> die umgepolten Aussagen, dann schätzt <code>reliability()</code> die Reliabilität.</p>
       <Code k="a3um" />
       <Frage>Warum ändert sich α nicht, wenn du die Vorlage unverändert ausführst?</Frage>
       <p>Weil in <code>reliability()</code> noch die alten Namen stehen. <code>mutate()</code> hat die umgepolten Aussagen zwar gebaut, aber <code>reliability()</code> rechnet mit dem, was in seiner Klammer steht. Erst wenn du die beiden gelben Stellen gegen ihre umgepolte Fassung (Endung <code>_um</code>) tauschst, gehen die umgepolten Aussagen in die Rechnung ein.</p>
@@ -308,7 +309,7 @@ export function Verstehen3() {
       <p>Ja. Tauschst du nur eine, steht die andere noch in der alten Richtung und läuft weiter gegen die übrigen.</p>
       <Frage>Und wenn R meldet, dass es eine Variable mit <code>_um</code> nicht gibt?</Frage>
       <p>Die umgepolte Variable gibt es nur in der Kette, die sie mit <code>mutate()</code> baut. Lass den <code>mutate()</code>-Teil stehen und führ den ganzen Block aus, nicht nur die letzte Zeile. Wie du eine neue Variable dauerhaft im Datensatz behältst, steht in <a href="#r1">„Startblock und Umpolen“</a> im Vorweg.</p>
-      <InShort><code>rec(x, rules = "rev")</code> baut in <code>mutate()</code> einen umgedrehten Turm. Damit er zählt, muss sein neuer Name auch dort stehen, wo gerechnet wird.</InShort>
+      <InShort><code>rec(x, rules = "rev")</code> baut in <code>mutate()</code> eine umgepolte Variable. Damit sie zählt, muss ihr neuer Name auch dort stehen, wo gerechnet wird.</InShort>
     </Card>
 
     <Card id="v3-richtung" title="Wofür steht eine hohe Zahl?" badge={<Bezug href="#a3-3">zu Schritt 4</Bezug>} tag={{ kind: 'interpret', label: 'Deuten' }}>
@@ -342,15 +343,15 @@ export function Verstehen4() {
       ['Schritt 1', '#a4-p', 'Erst festlegen: durchgehend oder im Schnitt?', 'v4a'],
       ['Schritt 2', '#a4-1', 'Zustimmungen zählen mit rec() und row_sums()', 'v4-zaehlen'],
       ['Schritt 3', '#a4-2', 'den Mittelwertindex lesen: Cum. %', 'v4-kurz'],
-      ['Schritt 4', '#a4-3', 'Deuten: Ausgleich im Mittelwert', 'v4a'],
+      ['Schritt 4', '#a4-3', 'Deuten: Warum im Schnitt mehr?', 'v4a'],
       ['Hintergrund', '#a4-3', 'ein klassischer Kombinationsindex: Inglehart', 'v4b'],
       ['Schritt 5', '#a4-4', 'Ergebnis festhalten: wo du was abliest', 'v4-ergebnis'],
     ]}>
 
-    <Card id="v4a" title="Ausgleich im Mittelwert" badge={<Bezug href="#a4-p">zu Schritt 1 und 4</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+    <Card id="v4a" title="Im Schnitt oder bei allen: Person A und B" badge={<Bezug href="#a4-p">zu Schritt 1 und 4</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Zwei Befragte, zum Beispiel, antworten auf drei Aussagen einer Skala von 1 „stimme voll zu“ bis 5 „lehne ganz ab“. Person A: 1, 1, 4. Person B: 2, 2, 2. Beide haben den Mittelwert 2, also „im Schnitt Zustimmung“. Aber Person A lehnt eine Aussage ab, Person B stimmt allen zu.</p>
       <Balance />
-      <InShort>Ein Mittelwertindex ist <b>kompensatorisch</b>: Eine hohe Antwort kann eine niedrige ausgleichen. Ein <b>Kombinationsindex</b> verbindet die Antworten nach einer festen Regel, etwa „bei allen zugestimmt“ oder „diese Antwort zuerst, jene an zweiter Stelle“. Welche Regel passt, folgt aus dem Begriff, den du messen willst.</InShort>
+      <InShort>Die beiden Regeln fragen Verschiedenes: „im Schnitt zugestimmt“ fragt nach dem Mittelwert der Antworten, „allen zugestimmt“ nach jeder einzelnen Antwort. Welche Regel passt, folgt aus dem <Begriff id="konstrukt">Konstrukt</Begriff>, das du messen willst.</InShort>
       <Mixup>„Im Schnitt Zustimmung“ und „überall Zustimmung“ gleichsetzen. Der Mittelwert sagt nichts darüber, ob jemand bei jeder Aussage zustimmt.</Mixup>
     </Card>
 
@@ -362,11 +363,11 @@ export function Verstehen4() {
         <li><code>rec(pa31, rules = "1:2=1 [stimmt zu]; 3:5=0 [stimmt nicht zu]; else=NA")</code>: Aus 1 und 2 wird 1 („stimmt zu“), aus 3 bis 5 wird 0 („stimmt nicht zu“), alles andere wird NA. So entstehen <code>z31</code>, <code>z32</code> und <code>z33</code>.</li>
         <li><code>row_sums(pick(z31, z32, z33), min_valid = 3)</code> zählt die Einsen je Person: 0 bis 3 Zustimmungen. „Allen zugestimmt“ heißt dann: Summe 3.</li>
         <li><code>row_means(pick(pa31, pa32, pa33), min_valid = 3)</code> ist der Mittelwertindex derselben drei Aussagen, wie in Aufgabe 1. Er heißt <code>kurz</code> und wird hier schon gebaut, aber erst in Schritt 3 gezeigt.</li>
-        <li><code>frequency(zustimmungen, weights = wghtpew)</code> zeigt, wie viel Prozent 0, 1, 2 oder 3 Aussagen zustimmen, gewichtet wie seit Sitzung 6. <b>Valid %</b> ist der Anteil an allen mit Wert.</li>
+        <li><code>frequency(zustimmungen, weights = wghtpew)</code> zeigt, wie viel Prozent 0, 1, 2 oder 3 Aussagen zustimmen, gewichtet wie seit Sitzung 6. <b>Valid %</b> ist der <Begriff id="relative-haeufigkeit">Anteil</Begriff> an allen mit Wert.</li>
       </ul>
       <Frage>Warum steht auch bei <code>row_sums()</code> ein <code>min_valid</code>?</Frage>
       <p>Ohne <code>min_valid</code> zählt R nur die gültigen Antworten zusammen, und wer eine Frage übersprungen hat, sieht aus, als hätte er dort nicht zugestimmt. Mit <code>min_valid</code> gleich der Zahl der Items bekommt nur einen Wert, wer alle beantwortet hat.</p>
-      <InShort>Auch eine Summe ist ein Index (<b>Summenindex</b>). <code>row_sums()</code> nimmst du, wenn du etwas zählen willst. Ein Summenindex aus denselben Items enthält ohne fehlende Werte dieselbe Information wie ihr Mittelwert. <code>zustimmungen</code> ist etwas anderes: Es zählt 0/1-Variablen, also nur, ob jemand zustimmt, nicht wie stark.</InShort>
+      <InShort>Auch eine Summe ist ein Index (<b><Begriff id="summenindex">Summenindex</Begriff></b>). <code>row_sums()</code> nimmst du, wenn du etwas zählen willst. Ein Summenindex aus denselben Items enthält ohne fehlende Werte dieselbe Information wie ihr Mittelwert. <code>zustimmungen</code> ist etwas anderes: Es zählt 0/1-Variablen, also nur, ob jemand zustimmt, nicht wie stark.</InShort>
       <Mixup>Die 0 in <code>z31</code> heißt „stimmt nicht zu“, nicht „lehnt ab“: Nach der Regel in <code>rec()</code> wird auch „teils/teils“ (3) zu 0.</Mixup>
     </Card>
 
@@ -375,7 +376,7 @@ export function Verstehen4() {
       <Frage>Warum hat <code>kurz</code> so krumme Werte?</Frage>
       <p>Ein Mittelwert aus drei Antworten von 1 bis 5 kann auch Drittelwerte haben: 1, 1,33, 1,67, 2 und so weiter bis 5. Das sind 13 mögliche Werte. R schreibt 1,33 als 1.33333333333333.</p>
       <Frage>Was zeigt Cum. %?</Frage>
-      <p>Cum. % zählt die Prozente von oben bis zu dieser Zeile zusammen. In der Zeile 2 stecken also alle Werte bis einschließlich 2. Genau das heißt „im Schnitt Zustimmung“: Wert höchstens 2. Valid % in der Zeile 2 wären nur die mit genau 2.</p>
+      <p>Cum. % ist die <Begriff id="kumulierte-haeufigkeit">kumulierte Häufigkeit</Begriff>: Es zählt die Prozente von oben bis zu dieser Zeile zusammen. In der Zeile 2 stecken also alle Werte bis einschließlich 2. Genau das heißt „im Schnitt Zustimmung“: Wert höchstens 2. Valid % in der Zeile 2 wären nur die mit genau 2.</p>
       <InShort>Für „höchstens“ liest du <b>Cum. %</b>, für „genau“ <b>Valid %</b>.</InShort>
     </Card>
 
@@ -386,11 +387,11 @@ export function Verstehen4() {
       <Inglehart />
       <Frage>Welcher Typ ist eine Person, die „Ruhe und Ordnung“ auf Platz 1 und „freie Meinungsäußerung“ auf Platz 2 setzt?</Frage>
       <p>Ein materialistischer Mischtyp: Platz 1 ist materialistisch (M), Platz 2 postmaterialistisch (P). M vor P heißt materialistischer Mischtyp. Mit 35,68 % ist das der häufigste Typ.</p>
-      <InShort>Der Inglehart-Index ist ein <b>Kombinationsindex</b>: Er verbindet zwei Antworten nach einer Regel zu einem Typ. Ein Mittelwert wäre hier sinnlos.</InShort>
+      <InShort>Der Inglehart-Index ist ein <b><Begriff id="kombinationsindex">Kombinationsindex</Begriff></b>: Er verbindet zwei Antworten nach einer Regel zu einem Typ. Ein Mittelwert wäre hier sinnlos.</InShort>
       <MoreDetail summary="Warum hier kein Mittelwert?">
         <ul>
           <li>Jede Person vergibt die Plätze 1, 2, 3 und 4 genau einmal. Der Mittelwert ihrer vier Ränge ist deshalb bei allen 2,5. Ein Mittelwertindex würde alle Menschen gleich machen.</li>
-          <li>Der Typ ist eine neue Variable mit vier Stufen, nominal bis ordinal. Du beschreibst ihn wie jede kategoriale Variable mit Anteilen (<code>frequency()</code> mit Gewicht), nicht mit einem Mittelwert.</li>
+          <li>Der Typ ist eine neue Variable mit vier Stufen, <Begriff id="nominal">nominal</Begriff> bis <Begriff id="ordinal">ordinal</Begriff>. Du beschreibst ihn wie jede kategoriale Variable mit Anteilen (<code>frequency()</code> mit Gewicht), nicht mit einem Mittelwert.</li>
           <li>Die Zahlen sind gewichtet, weil sie Anteile in der Bevölkerung beschreiben.</li>
         </ul>
       </MoreDetail>
@@ -402,9 +403,9 @@ export function Verstehen4() {
       <ul className="v-liste">
         <li><b>Allen drei zugestimmt:</b> Ausgabe von Schritt 2, Zeile 3, Spalte Valid %. Die Zeile 0 sind die, die keiner Aussage zustimmen.</li>
         <li><b>Im Schnitt zugestimmt:</b> Ausgabe von Schritt 3, Zeile 2, Spalte Cum. % (<a href="#v4-kurz">Den Mittelwertindex lesen</a>).</li>
-        <li><b>Warum im Schnitt mehr zustimmen als durchgehend:</b> Überleg, welche Antworten jemand haben kann, der im Schnitt höchstens 2 hat, aber nicht allen drei Aussagen zustimmt. Person A und B helfen (<a href="#v4a">Ausgleich im Mittelwert</a>).</li>
+        <li><b>Warum im Schnitt mehr zustimmen als durchgehend:</b> Überleg, welche Antworten jemand haben kann, der im Schnitt höchstens 2 hat, aber nicht allen drei Aussagen zustimmt. Person A und B helfen (<a href="#v4a">Im Schnitt oder bei allen</a>).</li>
       </ul>
-      <p>Welche Regel besser zum Begriff Populismus passt, besprecht ihr im Plenum.</p>
+      <p>Welche Regel besser zum Konstrukt Populismus passt, besprecht ihr im Plenum.</p>
     </Card>
   </Abschnitt>;
 }
@@ -420,18 +421,18 @@ export function Ueberblick() {
     <HeadingLevel.Provider value={5}>
       <Card id="u1" title="Vom Item zum Index in fünf Schritten" badge={<Badge>Aufgabe 1 bis 3</Badge>} tag={{ kind: 'picture', label: 'Im Bild' }}>
         <Flow />
-        <p className="absatz">In den Aufgaben hast du die Schritte in anderer Reihenfolge geübt: erst den Index (Aufgabe 1), dann die Stimmigkeit (Aufgabe 2), dann die Richtung (Aufgabe 3). In einer eigenen Auswertung gehst du von 1 bis 5.</p>
+        <p className="absatz">In den Aufgaben hast du die Schritte in anderer Reihenfolge geübt: erst den Index (Aufgabe 1), dann die Reliabilität (Aufgabe 2), dann die Richtung (Aufgabe 3). In einer eigenen Auswertung gehst du von 1 bis 5.</p>
       </Card>
       <Card id="u2" title="Welcher Index?" badge={<Badge>Aufgabe 1 bis 4</Badge>} tag={{ kind: 'picture', label: 'Im Bild' }}>
         <WhichIndex />
-        <InShort>Zuerst entscheidet der Begriff (darf man ausgleichen?), dann prüfen Richtung und α, ob die Items zusammen einen Mittelwert tragen.</InShort>
+        <InShort>Zuerst entscheidet das Konstrukt (darf man ausgleichen?), dann prüfen Richtung und α, ob die Items zusammen einen Mittelwert tragen.</InShort>
       </Card>
       <Card id="u3" title="Voraussetzungen" badge={<Badge>Überblick</Badge>} tag={{ kind: 'interpret', label: 'Hintergrund' }}>
         <table className="daten voll">
           <caption className="sr-only">Voraussetzungen je Schritt</caption>
           <thead><tr><th scope="col">Schritt</th><th scope="col">braucht</th><th scope="col">Vorsicht</th></tr></thead>
           <tbody>
-            <tr><td>Mittelwertindex</td><td>Items mit gleicher Antwortskala, alle in derselben Richtung, ein gemeinsamer Begriff</td><td>Mittelwert lässt Ausgleich zu; Richtung des Index nennen („1 heißt …“).</td></tr>
+            <tr><td>Mittelwertindex</td><td>Items mit gleicher Antwortskala, alle in derselben Richtung, ein gemeinsames Konstrukt</td><td>Mittelwert ist <Begriff id="kompensatorisch">kompensatorisch</Begriff>, lässt also Ausgleich zu. Richtung nennen: wofür ein hoher <Begriff id="skalenwert">Skalenwert</Begriff> steht („1 heißt …“).</td></tr>
             <tr><td><code>min_valid</code></td><td>eine begründete Regel, wie viele Antworten nötig sind</td><td>Zu streng: viele ohne Wert; zu locker: Werte aus einer einzigen Antwort. Regel und n berichten.</td></tr>
             <tr><td>Cronbachs α</td><td>mindestens zwei Items, Befragte mit allen Antworten (listenweise)</td><td>Steigt mit der Zahl der Items; prüft weder eine Dimension noch die Validität; Faustregeln sind keine Grenzen.</td></tr>
             <tr><td>Trennschärfe, α ohne Item</td><td>dieselbe Ausgabe</td><td>Ein Item nicht nur wegen der dritten Nachkommastelle streichen; der Inhalt entscheidet.</td></tr>
@@ -451,15 +452,15 @@ export const BILDER = { RowMean, ReliabilityOutput, AlphaOhneBeispiel, ReverseLa
 /* ---------- Themen für den Reiter „Verstehen“ (Reihenfolge, Karten für die rechte Leiste) ---------- */
 export const THEMEN: Thema[] = [
   { id: 'vorweg', n: 'R', kurz: 'R lesen', titel: 'Vorweg: R lesen', minuten: 10, Inhalt: Vorweg,
-    karten: [['r1', 'Startblock und Umpolen'], ['r2', 'Neu heute: ein Wert je Person, Stimmigkeit']] },
+    karten: [['r1', 'Startblock und Umpolen'], ['r2', 'Neu heute: ein Wert je Person, Reliabilität']] },
   { id: 'g1', n: '1', kurz: 'Aufgabe 1', titel: 'Wie populistisch denken die Befragten?', minuten: 15, Inhalt: Verstehen1, aufgabe: 1,
-    karten: [['v1a', 'Warum mehrere Fragen?'], ['v1b', 'Eine Reihe, ein Wert'], ['v1-streng', 'Wie streng soll min_valid sein?'], ['v1-gewicht', 'Mit oder ohne Gewicht?'], ['v1c', 'Den Index deuten: hoch oder niedrig?'], ['v1-ergebnis', 'Ergebnis festhalten']] },
+    karten: [['v1a', 'Warum mehrere Fragen?'], ['v1b', 'Eine Zeile, ein Wert'], ['v1-streng', 'Wie streng soll min_valid sein?'], ['v1-gewicht', 'Mit oder ohne Gewicht?'], ['v1c', 'Den Index deuten: hoch oder niedrig?'], ['v1-ergebnis', 'Ergebnis festhalten']] },
   { id: 'g2', n: '2', kurz: 'Aufgabe 2', titel: 'Messen die sieben Aussagen dasselbe?', minuten: 15, Inhalt: Verstehen2, aufgabe: 2,
-    karten: [['v2a', 'Stimmig heißt …'], ['v2b', 'Formel lesen lernen: α'], ['v2c', 'Die Ausgabe von reliability()'], ['v2-gegenprobe', 'Gegenprobe ohne ein Item'], ['v2-behalten', 'Soll ein Item raus?'], ['v2-ergebnis', 'Ergebnis festhalten']] },
+    karten: [['v2a', 'Reliabilität'], ['v2b', 'Formel lesen lernen: α'], ['v2c', 'Die Ausgabe von reliability()'], ['v2-gegenprobe', 'Gegenprobe ohne ein Item'], ['v2-behalten', 'Soll ein Item raus?'], ['v2-ergebnis', 'Ergebnis festhalten']] },
   { id: 'g3', n: '3', kurz: 'Aufgabe 3', titel: 'Andersherum gefragt', minuten: 12, Inhalt: Verstehen3, aufgabe: 3,
     karten: [['v3a', 'Andersherum gefragt'], ['v3b', 'Falsch gepolt: Umpol-Labor'], ['v3-um', 'Umpolen in der Kette'], ['v3-richtung', 'Wofür steht eine hohe Zahl?'], ['v3-ergebnis', 'Ergebnis festhalten']] },
   { id: 'g4', n: '4', kurz: 'Aufgabe 4', titel: 'Im Schnitt oder durchgehend?', minuten: 10, Inhalt: Verstehen4, aufgabe: 4,
-    karten: [['v4a', 'Ausgleich im Mittelwert'], ['v4-zaehlen', 'Zählen mit row_sums()'], ['v4-kurz', 'Cum. % lesen'], ['v4b', 'Inglehart'], ['v4-ergebnis', 'Ergebnis festhalten']] },
+    karten: [['v4a', 'Person A und B'], ['v4-zaehlen', 'Zählen mit row_sums()'], ['v4-kurz', 'Cum. % lesen'], ['v4b', 'Inglehart'], ['v4-ergebnis', 'Ergebnis festhalten']] },
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Vom Item zum Index', minuten: 5, Inhalt: Ueberblick,
     karten: [['u1', 'Fünf Schritte'], ['u2', 'Welcher Index?'], ['u3', 'Voraussetzungen']] },
 ];

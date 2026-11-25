@@ -113,7 +113,7 @@ test('answers in R and German notation are read as planned, special cases get th
   assert.equal(judge(q('a2d'), '0,842'), 'right');
   assert.notEqual(judge(q('a2d'), '0,841'), 'right');
   assert.match(verdict(q('a2d'), '0,841').text, /McDonalds ω/);
-  assert.match(TEMPLATES.a3.code, /# Wie stimmig sind die sechs Aussagen zu Islam und Muslimen, /);
+  assert.match(TEMPLATES.a3.code, /# Wie zuverlässig messen die sechs Aussagen zu Islam und Muslimen zusammen, /);
   assert.match(verdict(q('a3c'), '0,540').text, /nur mm02/);
   assert.match(verdict(q('a3c'), '0,62').text, /nur mm05/);
   assert.match(verdict(q('a4a'), '15,44').text, /ohne Gewicht/);

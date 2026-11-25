@@ -173,6 +173,22 @@ Hinweise zur Engine (Stand nachts): Jeder Schritt kann `haken: true` oder `haken
 
 **Prüfen:** `node scripts/build-lernpfad.mjs kNN`, dann `LERNPFAD_URL=http://127.0.0.1:8781/lernpfad/ node scripts/lernpfad-pruefen.mjs kNN` (Server läuft auf 8781). Zusätzlich jedes Fenster im Kopf gegen die Fragen der Aufgabe lesen.
 
+## Fachbegriffe nennen und antippbar machen (seit 25.11.2026)
+
+**Zweck (Dozent):** Studierende sollen die Fachbegriffe lernen und selbst verwenden. Jeder Begriff wird dort, wo er zuerst gebraucht wird, **genannt und kontextualisiert**; danach steht der Fachbegriff, ein Alltagsbild („Kiste“, „Bogen“) höchstens als Vergleich daneben. Design: `docs/entwicklung/spezifikationen/2026-11-25-lernpfad-fachbegriffe-design.md`.
+
+**Verzeichnis:** `lernpfad/begriffe.json` (ein Eintrag je Begriff: `name` – bei Atlas-Begriffen wie in `src/domain/concepts.ts`; `alias`; `fach` ein genauer Satz; `kurz` höchstens zwei Alltagssätze; `bild` Alltagswörter des Kurses; `karte` Verstehen-Karte, `"kNN:id"` für eine Karte in einem anderen Kapitel; `kapitel` = erstes Kapitel, das den Begriff braucht). Keine ALLBUS-Ergebnisse, keine Antworten in den Definitionen. Die Begriffe eines Kapitels stehen in `meta.json` → `begriffe`.
+
+**Markieren:**
+- In Zeichenketten (`kapitel.js`, `src/chapter/sNN/content.ts`): `⟪Anzeigetext|id⟫` oder `⟪Name⟫` (Name oder Alias exakt). Nicht `⟦…⟧` – das ist die Lücken-Syntax der Code-Werkstatt.
+- In JSX: `<Begriff id="median">Median</Begriff>` (Import aus `@lernpfad/Begriff` bzw. `src/chapter/Begriff`).
+- Nur das erste Vorkommen je Schritt bzw. Verstehen-Abschnitt. Keine Marken in Code, Backticks, `<code>`, `SVG`, `ALT`, `TEMPLATES`, `SCRIPT`, `BILD`, Titeln oder internen Werten (`value`, `target`).
+- Im Atlas werden Marken zu bloßem Text, im Lernpfad zu Knöpfen mit Erklärfenster; ins Lernjournal und in den Export gelangen sie nie.
+
+**Lösungsschutz:** Ist ein Begriff die Antwort einer Frage (Begriff, Maß oder Einordnung wählen), steht er vorher weder im Text noch als Marke, erst in der Rückmeldung. Rückmeldungen erscheinen sofort je Frage: Sie dürfen keine spätere Frage desselben Blocks beantworten. Hilfe Stufe 1 nennt keine Lösung.
+
+**Prüfen:** `node scripts/begriffe-pruefen.mjs --streng [kNN]` (läuft im Build mit; Fehler und Warnungen brechen ab) und `node scripts/lernpfad-ueberlappung.mjs . 6 [kNN]` (nach dem Build; meldet Wortfolgen, die Antworttexte wiederholen).
+
 ## Bauen und prüfen (Pflicht, bis alles grün ist)
 
 ```bash

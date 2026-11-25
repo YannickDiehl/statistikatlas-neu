@@ -1,4 +1,4 @@
-// Bedienelemente: Gruppen zuschneiden (Grundlage 1), Basis-Schalter (Grundlage 2), Wer ist 100 %? (Überblick).
+// Bedienelemente: Kategorien zusammenfassen (Grundlage 1), Basis-Schalter (Grundlage 2), Wer ist 100 %? (Überblick).
 import { useRef, useState, type FormEvent } from 'react';
 import { useChapterState } from '../../ChapterContext';
 import { useAnnounce } from '../../blocks/announce';
@@ -10,7 +10,7 @@ import {
 import { de, whole } from './parts';
 import { BASIS_TITLE, countOf, frame, pctText } from './Tables';
 
-/* ---------- Grundlage 1: Gruppen zuschneiden ---------- */
+/* ---------- Grundlage 1: Kategorien zusammenfassen ---------- */
 
 const GROUPS: Group[] = ['1', '0', 'na'];
 
@@ -24,7 +24,7 @@ export function cutResult(groups: (Group | null)[]): CutResult {
   let feedback = '';
   if (!open) {
     const named = CUTS.find(c => c.groups.every((g, i) => g === groups[i]));
-    feedback = named ? named.text : share === null ? 'Noch kein Anteil: Gruppe 1 und Gruppe 0 brauchen je mindestens eine Zeile.' : CUT_OTHER(de(share));
+    feedback = named ? named.text : share === null ? 'Noch kein Anteil: Kategorie 1 und Kategorie 0 brauchen je mindestens eine Zeile.' : CUT_OTHER(de(share));
   }
   return { n1, n0, nL, open, share, feedback };
 }
@@ -44,7 +44,7 @@ export function GroupCutter() {
   return <div className="s5-zuschnitt">
     <table className="daten s5-zuschnitt-tabelle" role="table">
       <caption>Antworten auf die Frage nach der Erwerbstätigkeit</caption>
-      <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Antwort (Code)</th><th scope="col" role="columnheader">Befragte</th><th scope="col" role="columnheader">Gruppe</th></tr></thead>
+      <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Antwort (Code)</th><th scope="col" role="columnheader">Befragte</th><th scope="col" role="columnheader">neue Kategorie</th></tr></thead>
       <tbody role="rowgroup">{WORK.map((w, i) => <tr key={w.id} role="row">
         <th scope="row" role="rowheader">{w.label}</th>
         <td role="cell">{whole(w.n)}</td>
@@ -59,8 +59,8 @@ export function GroupCutter() {
     </table>
     <div className="s5-zuschnitt-ergebnis" aria-live="polite">
       <ul>
-        <li>{`Gruppe 1 (Teilzeit): ${whole(r.n1)}`}</li>
-        <li>{`Gruppe 0 (Vollzeit): ${whole(r.n0)}`}</li>
+        <li>{`Kategorie 1 (Teilzeit): ${whole(r.n1)}`}</li>
+        <li>{`Kategorie 0 (Vollzeit): ${whole(r.n0)}`}</li>
         <li>{`leer: ${whole(r.nL)}`}</li>
         <li>{`noch offen: ${whole(WORK.reduce((a, w, i) => a + (groups[i] === null ? w.n : 0), 0))}`}</li>
       </ul>

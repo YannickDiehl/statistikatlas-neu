@@ -108,7 +108,7 @@ test('answers in R and German notation are read', () => {
 test('feedback for the typical wrong numbers sits in specialInput (579, 2.003, 5.246, ep03 = 2, educ = 5)', () => {
   const q = (id: string) => ALL_TASK_QUESTIONS.find(x => x.id === id)!;
   const own = (id: string, input: string) => (q(id) as { specialInput?: Record<string, string> }).specialInput?.[input] ?? '';
-  assert.match(own('a1_reihen', '579'), /579 sind die Türme/);
+  assert.match(own('a1_reihen', '579'), /579 sind die Variablen/);
   assert.match(own('a1_papier', '2003'), /2\.003 sind die Interviews/);
   assert.match(own('a1_papier', '5246'), /noch der ganze ALLBUS/);
   assert.match(own('a2_ep03', '2'), /2 wäre GUT/);

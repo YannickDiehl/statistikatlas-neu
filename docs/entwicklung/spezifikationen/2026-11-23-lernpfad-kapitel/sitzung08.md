@@ -119,7 +119,7 @@ Text: „`reliability()` prüft, ob mehrere Fragen stimmig dasselbe messen. Kurz
 Vorlage `r_reliability`:
 
 ```r
-# Wie stimmig sind die vier Fragen zur Verbundenheit? Kurz
+# Wie zuverlässig messen die vier Fragen zur Verbundenheit zusammen? Kurz
 allbus %>%
   reliability(pn12, pn13, pn16, pn17)
 
@@ -498,7 +498,7 @@ Einleitung: „In Aufgabe 1 hast du aus den sieben Aussagen pa29 bis pa35 einen 
 1. „Führe die Vorlage aus. Oben steht Cronbachs α, unten unter „Item-Total Statistics“ je Aussage eine Zeile.“ Schild „reliability(): neu heute“, „summary(): kennst du aus Sitzung 7“.
 
 ```r
-# Wie stimmig sind die sieben Populismus-Aussagen? Ausführlich mit summary()
+# Wie zuverlässig messen die sieben Populismus-Aussagen zusammen? Ausführlich mit summary()
 allbus %>%
   reliability(pa29, pa30, pa31, pa32, pa33, pa34, pa35) %>%
   summary()
@@ -529,7 +529,7 @@ Hilfezeile unter der Werkstatt: „N ist jetzt 3441 statt 3427: Ohne pa29 zähle
 **Weiterdenken in der Probier-Werkstatt (für die Aufgabe nicht nötig),** zugeklappt: „Für die Aufgabe reichen die Vorlagen oben. Hier ist Platz für eigene Fragen. Eine Idee: Wie stimmig sind nur drei der sieben Aussagen? Die Probier-Werkstatt startet mit einem Vorschlag.“
 
 ```r
-# Eine Idee: Wie stimmig sind nur drei der sieben Aussagen?
+# Eine Idee: Wie zuverlässig messen nur drei der sieben Aussagen zusammen?
 allbus %>%
   reliability(pa31, pa32, pa33)
 ```
@@ -669,7 +669,7 @@ Einleitung: „Der ALLBUS 2023 misst in einem Teil der Fragebögen mit sechs Aus
 1. „Führe die Vorlage aus. Sie rechnet α mit den sechs Aussagen so, wie sie im Datensatz stehen. Schau auf α und auf die Spalte Corrected Item-Total.“ Schild „reliability(): Aufgabe 2“.
 
 ```r
-# Wie stimmig sind die sechs Aussagen zu Islam und Muslimen, so wie sie im Datensatz stehen?
+# Wie zuverlässig messen die sechs Aussagen zu Islam und Muslimen zusammen, so wie sie im Datensatz stehen?
 allbus %>%
   reliability(mm01, mm02, mm03, mm04, mm05, mm06) %>%
   summary()
@@ -681,7 +681,7 @@ Ausgabe zur Kontrolle: Cronbach's Alpha 0.177, Alpha (standardized) 0.207, McDon
 
 ```r
 # Zwei Items umpolen: aus 1 wird 7, aus 2 wird 6 und so weiter
-# Dann die Stimmigkeit mit den umgepolten Items statt der alten
+# Dann die Reliabilität mit den umgepolten Items statt der alten
 allbus %>%
   mutate(
     mm02_um = rec(mm02, rules = "rev"),
@@ -974,7 +974,7 @@ Skriptteile in dieser Reihenfolge (Titel als Kopfkommentar `# ---- Titel ----`, 
 | `start` | Startblock |
 | `r_rev` | Umpolen erinnert: fr03b |
 | `r_rowmeans` | Ein Wert je Person: Index zu Geflüchteten |
-| `r_reliability` | Stimmigkeit: Verbundenheit |
+| `r_reliability` | Reliabilität: Verbundenheit |
 | `a1` | Aufgabe 1: Populismus-Index, wer bekommt einen Wert |
 | `a1w` | Aufgabe 1: Populismus-Index gewichtet |
 | `a2` | Aufgabe 2: Reliabilität der sieben Aussagen |

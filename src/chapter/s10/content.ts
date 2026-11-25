@@ -253,7 +253,7 @@ allbus %>%
   linear_regression(demo ~ lage + dlage + ost + abitur, weights = wghtpew) %>%
   summary()` },
   // E13: ohne Markierung, weil die Antworten die Vorlage unverändert nutzen (im Plan steht ⟦ost⟧ nur als Einladung).
-  a3_ost: { title: 'Vorlage: die Ost-West-Lücke allein', code: `# Zum Vergleich: die Ost-West-Lücke ohne weitere Prädiktoren
+  a3_ost: { title: 'Vorlage: der Ost-West-Unterschied allein', code: `# Zum Vergleich: der Ost-West-Unterschied ohne weitere Prädiktoren
 # demo wie in Aufgabe 1, ost wie oben
 allbus %>%
   mutate(
@@ -262,7 +262,7 @@ allbus %>%
   ) %>%
   linear_regression(demo ~ ost, weights = wghtpew) %>%
   summary()` },
-  a4: { title: 'Vorlage: Ost-West-Lücke und Abitur', code: `# Ost-West-Lücke und Abitur
+  a4: { title: 'Vorlage: Ost-West-Unterschied und Abitur', code: `# Ost-West-Unterschied und Abitur
 # demo wie in Aufgabe 1, ost und abitur wie in Aufgabe 3
 allbus %>%
   mutate(
@@ -272,7 +272,7 @@ allbus %>%
   ) %>%
   linear_regression(demo ~ ost ⟦+⟧ abitur, weights = wghtpew) %>%
   summary()` },
-  a4_rechnen: { title: 'R als Taschenrechner: Abstand in der zweiten Gruppe', code: `# Abstand in der zweiten Gruppe: B des Prädiktors plus B der Interaktion
+  a4_rechnen: { title: 'R als Taschenrechner: Unterschied in der zweiten Gruppe', code: `# Unterschied in der zweiten Gruppe: B des Prädiktors plus B der Interaktion
 # (hier noch das Beispiel aus Grundlage 4b: Erwerbstätige ab 60)
 ⟦1.091⟧ + ⟦-1.035⟧` },
   frei_a1: { tryOut: true, title: 'Deine Probier-Werkstatt', code: `# Eine Idee: Kommt die erwartete Lage Deutschlands in einem Jahr noch dazu?
@@ -305,7 +305,7 @@ allbus %>%
   ) %>%
   linear_regression(demo ~ lage + ost + abitur, weights = wghtpew) %>%
   summary()` },
-  frei_a4: { tryOut: true, title: 'Deine Probier-Werkstatt', code: `# Eine Idee: Ist die Lücke bei Menschen, die sich links einstufen, anders?
+  frei_a4: { tryOut: true, title: 'Deine Probier-Werkstatt', code: `# Eine Idee: Ist der Ost-West-Unterschied bei Menschen, die sich links einstufen, anders?
 # links: pa01 1 bis 4 = links, 5 bis 10 = Mitte oder rechts
 allbus %>%
   mutate(
@@ -359,7 +359,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S10Question[]> = {
       ['zusammen', '„Wer die eigene Lage gut einschätzt, sieht meist auch die Lage Deutschlands besser. Ein Teil des ersten B gehörte zur Einschätzung der Lage Deutschlands.“'],
       ['r2', '„Weil R² größer geworden ist.“'],
       ['weniger', '„Weil im zweiten Modell weniger Befragte sind.“'],
-    ], 'zusammen', 'Genau. Die beiden Einschätzungen hängen zusammen. Hält man die Lage Deutschlands gleich, bleibt für die eigene Lage nur noch 0,198.', {
+    ], 'zusammen', 'Genau. Die beiden Einschätzungen hängen zusammen. Mit der Lage Deutschlands als ⟪Kontrollvariable⟫ vergleicht B nur noch Menschen, die das Land gleich einschätzen; für die eigene Lage bleibt 0,198.', {
       r2: 'R² steigt, weil `dlage` viel erklärt. Das ändert aber nicht von selbst B von `lage`; B ändert sich, weil die beiden Prädiktoren zusammenhängen.',
       weniger: 'N sinkt nur von 3.603 auf 3.589 (gewichtet). Das erklärt keinen Sprung von 0,461 auf 0,198.',
     }, { short: 'Warum B kleiner wird' }),
@@ -379,13 +379,13 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S10Question[]> = {
     number('a2c', 'Welchen Wert sagt das Modell für die Gruppe Ost→West voraus?', 4.077, 0.01,
       '4,077: Konstante 4,243 plus B −0,166.',
       'Vorhersage einer Gruppe: Konstante plus B ihres Dummys.',
-      [{ value: -0.166, text: 'Das ist nur der Abstand zur Referenz.' }],
+      [{ value: -0.166, text: 'Das ist nur der Unterschied zur Referenzgruppe.' }],
       { short: 'Vorhersage Ost→West', help: 'Ergebnis von Schritt 2.' }),
     choice('a2d', 'Welches Muster zeigen die Daten?', [
       ['praegung', '„Prägung: Ost→West ähnelt den Ost-Bleibenden“'],
       ['ort', '„Ort: West→Ost ähnelt den Ost-Bleibenden“'],
       ['weder', '„Weder noch: Beide Umzugsgruppen liegen nah bei den West-Bleibenden“'],
-    ], 'weder', 'Genau. Ost→West liegt 0,17, West→Ost 0,03 unter den West-Bleibenden; die Ost-Bleibenden 0,71. Der Abstand sitzt bei denen, die im Osten aufwuchsen und dort leben. Eine mögliche Erklärung: Wer umzieht, unterscheidet sich auch sonst von denen, die bleiben.', {
+    ], 'weder', 'Genau. Ost→West liegt 0,17, West→Ost 0,03 unter den West-Bleibenden; die Ost-Bleibenden 0,71. Der Unterschied sitzt bei denen, die im Osten aufwuchsen und dort leben. Eine mögliche Erklärung: Wer umzieht, unterscheidet sich auch sonst von denen, die bleiben.', {
       praegung: 'Dann müsste Ost→West etwa −0,7 haben wie die Ost-Bleibenden. Es sind −0,17.',
       ort: 'Dann müsste West→Ost etwa −0,7 haben. Es sind −0,03.',
     }, { short: 'Muster' }),
@@ -407,7 +407,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S10Question[]> = {
     choice('a3a', 'Welcher Prädiktor hat den größten Betrag von Beta?', [['lage', '`lage`'], ['dlage', '`dlage`'], ['ost', '`ost`'], ['abitur', '`abitur`']], 'dlage',
       'Die Lage Deutschlands, Beta 0,394. Danach kommt `ost` mit −0,154 (Betrag 0,154).', {
         lage: 'Vergleiche in der Spalte Beta die Zahlen ohne Vorzeichen.',
-        ost: 'B von `ost` ist mit −0,521 fast so groß wie das von `dlage`, aber Beta ist viel kleiner (−0,154): Bei `ost` ist ein Schritt der ganze Weg von West nach Ost, und nur 17 % leben im Osten.',
+        ost: 'B von `ost` ist mit −0,521 fast so groß wie das von `dlage`, aber Beta ist viel kleiner (−0,154): Bei `ost` ist ein Schritt der ganze Weg von West nach Ost, und der ⟪Anteil|relative-haeufigkeit⟫ im Osten liegt bei nur 17 %.',
         abitur: 'Vergleiche in der Spalte Beta die Zahlen ohne Vorzeichen.',
       }, { short: 'größtes Beta', help: 'Spalte Beta, ohne Vorzeichen vergleichen.' }),
     number('a3b', 'Wie groß ist Beta von `lage`?', 0.110, 0.002, '0,110.',
@@ -418,12 +418,12 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S10Question[]> = {
       ['abitur', '„Abitur hängt stärker mit der Demokratiezufriedenheit zusammen als die eigene Lage, weil sein B größer ist.“'],
       ['lage', '„Gemessen an Beta hängt die eigene Lage etwas stärker zusammen (0,110 gegen 0,085). B ist größer bei abitur, weil ein Schritt dort der ganze Schritt von „kein Abitur“ zu „Abitur“ ist.“'],
       ['gleich', '„Beide hängen gleich stark zusammen.“'],
-    ], 'lage', 'Genau. Die Reihenfolge der B und der Beta ist hier verschieden. Zum Vergleichen nimmst du Beta.', {
+    ], 'lage', 'Genau. Die Reihenfolge der B und der Beta ist hier verschieden. Zum Vergleichen nimmst du ⟪Beta⟫, den standardisierten Koeffizienten.', {
       abitur: 'B hängt an der Einheit. `lage` hat fünf Stufen, `abitur` nur zwei; vergleiche Beta: 0,110 gegen 0,085.',
       gleich: 'Beta unterscheidet sich, 0,110 gegen 0,085. Der Unterschied ist klein, aber da.',
     }, { short: 'B gegen Beta' }),
     number('a3d', 'Wie groß ist das korrigierte R² (Adjusted R Square)?', 0.258, 0.0004,
-      '0,258, fast gleich R² 0,259: Bei über 3.500 Befragten (gewichtet) und vier Prädiktoren zieht die Korrektur fast nichts ab.',
+      '0,258, fast gleich R² 0,259: Bei über 3.500 Befragten (gewichtet) und vier Prädiktoren zieht die Korrektur fast nichts ab; das ⟪korrigierte R²⟫ liegt fast bei R².',
       'Lies unter Model Summary die Zeile Adjusted R Square.',
       [{ value: 0.259, tolerance: 0.0004, text: 'Das ist R Square ohne Korrektur.' }],
       { short: 'korrigiertes R²' }),
@@ -431,40 +431,40 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S10Question[]> = {
       ['gut', '„Kein Problem: Die Prädiktoren hängen kaum untereinander zusammen.“'],
       ['schlecht', '„Problem: Die Werte liegen über 1, also gibt es Multikollinearität.“'],
       ['avz', '„Die Prädiktoren hängen kaum mit der Demokratiezufriedenheit zusammen.“'],
-    ], 'gut', 'Genau. Der größte VIF ist 1,208 (dlage), weit unter 10. Eigene Lage und Lage Deutschlands hängen etwas zusammen, das hast du in Aufgabe 1 gesehen, aber nicht so eng, dass das Modell sie nicht trennen kann.', {
+    ], 'gut', 'Genau. Der größte VIF ist 1,208 (dlage), weit unter 10. Eigene Lage und Lage Deutschlands hängen etwas zusammen, das hast du in Aufgabe 1 gesehen, aber nicht so eng, dass das Modell sie nicht trennen kann. Starke ⟪Multikollinearität⟫ liegt also nicht vor.', {
       schlecht: '1 ist der kleinste mögliche VIF. Ein Problem meldet mariposa ab 10.',
       avz: 'Der VIF sagt nichts über den Zusammenhang mit der abhängigen Variable, nur über die Prädiktoren untereinander.',
     }, { short: 'VIF', help: 'Collinearity Statistics, Spalte VIF.' }),
     number('a3f', 'Zweite Vorlage, `ost` allein: Wie groß ist B von `ost`?', -0.624, 0.005,
-      '−0,624 ohne Kontrollen, −0,521 mit Lage und Abitur. Gut vier Fünftel der Lücke bleiben (0,521 ÷ 0,624 ≈ 0,83). Mit Unterschieden in Lage und Abitur hängt nur ein kleiner Teil des Ost-West-Unterschieds zusammen.',
+      '−0,624 ist der ⟪Bruttoeffekt⟫ ohne Kontrollen, −0,521 der ⟪Nettoeffekt⟫ mit Lage und Abitur. Gut vier Fünftel bleiben (0,521 ÷ 0,624 ≈ 0,83). Nur ein kleiner Teil des Ost-West-Unterschieds hängt mit Lage und Abitur zusammen.',
       'Lies in der Ausgabe der zweiten Vorlage die Zeile `ost`, Spalte B.',
       [{ value: -0.521, text: 'Das ist das B aus der ersten Vorlage, mit Kontrollen.' }],
       { short: 'B von `ost` allein', help: 'Aus Schritt 3.' }),
   ],
   a4: [
     number('a4a', 'Modell mit `*`: Wie groß ist B von `ost:abitur`?', 0.060, 0.005,
-      '0,060: In diesen Daten ist die Lücke mit Abitur um 0,06 Punkte kleiner (weniger negativ). Ob das mehr als Zufall ist, klärt Frage a4c.',
+      '0,060: In diesen Daten ist der Ost-West-Unterschied mit Abitur um 0,06 Punkte kleiner (weniger negativ). Ob das mehr als Zufall ist, klärt Frage a4c.',
       'Hast du `+` gegen `*` getauscht? Dann gibt es eine Zeile `ost:abitur`, Spalte B.',
       [{ value: 0.012, tolerance: 0.002, text: 'Das ist Beta.' }],
       { short: 'B von `ost:abitur`', help: 'Aus Schritt 2.' }),
-    number('a4b', 'Wie groß ist die Ost-West-Lücke bei Befragten mit Abitur?', -0.571, 0.01,
+    number('a4b', 'Wie groß ist der Ost-West-Unterschied bei Befragten mit Abitur?', -0.571, 0.01,
       '−0,571: −0,631 plus 0,060. Ohne Abitur −0,631.',
-      'Die Lücke mit Abitur ist B von `ost` (ohne Abitur) plus B der Interaktion.',
-      [{ value: -0.604, tolerance: 0.005, text: 'Das ist B von `ost` aus Schritt 1, eine Lücke für alle.' }, { value: -0.631, text: 'Das ist die Lücke ohne Abitur.' }],
-      { short: 'Lücke mit Abitur', help: 'Ergebnis von Schritt 3.' }),
-    choice('a4c', 'Was sagt die Zeile `ost:abitur` über die Lücke mit und ohne Abitur?', [
+      'Der Unterschied mit Abitur ist B von `ost` (ohne Abitur) plus B der Interaktion.',
+      [{ value: -0.604, tolerance: 0.005, text: 'Das ist B von `ost` aus Schritt 1, ein Unterschied für alle.' }, { value: -0.631, text: 'Das ist der Unterschied ohne Abitur.' }],
+      { short: 'Unterschied mit Abitur', help: 'Ergebnis von Schritt 3.' }),
+    choice('a4c', 'Was sagt die Zeile `ost:abitur` über den Ost-West-Unterschied mit und ohne Abitur?', [
       ['nein', '„Die Daten zeigen keinen deutlichen Unterschied: 0,06 ist klein, nicht signifikant (Sig. ,590), und das Konfidenzintervall von −0,158 bis 0,277 schließt 0 ein.“'],
-      ['ja', '„Mit Abitur ist die Lücke kleiner, also hilft Bildung gegen Unzufriedenheit im Osten.“'],
-      ['gleich', '„Die Lücke ist mit und ohne Abitur nachweislich gleich groß, weil das Ergebnis nicht signifikant ist.“'],
-    ], 'nein', 'Genau. Mit Abitur liegt die Demokratiezufriedenheit im Westen 0,450 höher, im Osten 0,510 (0,450 + 0,060): fast derselbe Abstand. Einen Unterschied der Lücke zeigen die Daten nicht; darum reicht das einfachere Modell ohne Interaktion (Schritt 1). Ganz ausschließen lässt er sich nicht: Nach dem Intervall könnte die Lücke mit Abitur auch bis zu 0,28 Punkte kleiner oder bis zu 0,16 Punkte größer sein.', {
-      ja: '0,06 ist sehr wenig, und die Daten passen auch zu 0 oder zu einer etwas größeren Lücke (Intervall −0,158 bis 0,277). Und „hilft gegen“ behauptet eine Ursache.',
+      ['ja', '„Mit Abitur ist der Unterschied kleiner, also hilft Bildung gegen Unzufriedenheit im Osten.“'],
+      ['gleich', '„Der Unterschied ist mit und ohne Abitur nachweislich gleich groß, weil das Ergebnis nicht signifikant ist.“'],
+    ], 'nein', 'Genau. Mit Abitur liegt die Demokratiezufriedenheit im Westen 0,450 höher, im Osten 0,510 (0,450 + 0,060): fast derselbe Abstand. Dass sich der Ost-West-Unterschied mit Abitur ändert, zeigen die Daten nicht; darum reicht das einfachere Modell ohne ⟪Interaktion⟫ (Schritt 1). Ganz ausschließen lässt sich das nicht: Nach dem Intervall könnte der Unterschied mit Abitur auch bis zu 0,28 Punkte kleiner oder bis zu 0,16 Punkte größer sein.', {
+      ja: '0,06 ist sehr wenig, und die Daten passen auch zu 0 oder zu einem etwas größeren Unterschied (Intervall −0,158 bis 0,277). Und „hilft gegen“ behauptet eine Ursache.',
       gleich: '„Nicht signifikant“ heißt „kein Hinweis auf einen Unterschied“, nicht „gleich“ (kennst du aus Sitzung 7). Das Intervall reicht von −0,158 bis 0,277; auch ein mittlerer Unterschied passt noch zu den Daten.',
     }, { short: 'Zeile `ost:abitur`', help: 'Zeile `ost:abitur`: B, Sig., 95% CI.' }),
     choice('a4d', 'In Aufgabe 2 beruhte B von Ost→West auf 91 Befragten. Was folgt daraus?', [
       ['einfluss', '„Wenige ungewöhnliche Personen können dieses B merklich verschieben. Darum ist das Konfidenzintervall breit, und man prüft, ob das Ergebnis ohne auffällige Fälle hält.“'],
       ['egal', '„Nichts, die Gewichtung gleicht kleine Gruppen aus.“'],
       ['falsch', '„Das B ist falsch und sollte nicht berichtet werden.“'],
-    ], 'einfluss', 'Genau. Bei kleinen Gruppen haben einzelne Fälle mehr Einfluss (Grundlage 4a). Berichten darf man das B, aber mit Konfidenzintervall und dem Hinweis auf die kleine Gruppe.', {
+    ], 'einfluss', 'Genau. Bei kleinen Gruppen haben einzelne Fälle mehr ⟪Einfluss⟫ (Grundlage 4a): Ohne einen solchen Fall könnte B deutlich anders liegen. Berichten darf man das B, aber mit Konfidenzintervall und dem Hinweis auf die kleine Gruppe.', {
       egal: 'Die Gewichtung passt die Anteile an, sie macht aus 91 Befragten nicht mehr Information.',
       falsch: 'Das B ist richtig gerechnet, nur unsicher. Unsicherheit berichtet man, statt das Ergebnis wegzulassen.',
     }, { short: 'kleine Gruppen' }),
@@ -476,9 +476,9 @@ export const REQUIRED: Question[] = [...QUESTIONS.a1, ...QUESTIONS.a2, ...QUESTI
 
 /** Auflösung unter den Antworten, sobald jede Frage beantwortet ist. */
 export const RESOLUTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', string> = {
-  a1: 'B der eigenen Lage fällt von 0,461 auf 0,198, also auf weniger als die Hälfte.',
+  a1: 'B der eigenen Lage fällt von 0,461 auf 0,198, also auf weniger als die Hälfte. Im Beispiel mit Alter und Gesundheit war es umgekehrt: Dort wurde B größer, eine ⟪Suppression⟫.',
   a2: 'Weder noch: Ost→West liegt 0,17 und West→Ost 0,03 unter den West-Bleibenden, die Ost-Bleibenden 0,71.',
-  a3: 'Das meiste: von −0,624 bleiben −0,521, gut vier Fünftel.',
+  a3: 'Das meiste: Vom ⟪Bruttoeffekt⟫ −0,624 bleiben als ⟪Nettoeffekt⟫ −0,521, gut vier Fünftel.',
   a4: 'Kein deutlicher Unterschied: −0,631 ohne, −0,571 mit Abitur. Der Unterschied von 0,060 ist nicht signifikant; ganz ausschließen lässt sich ein Unterschied aber nicht (Konfidenzintervall −0,158 bis 0,277).',
 };
 
@@ -496,7 +496,7 @@ export const THINK: Record<string, S10Question> = {
   k1a: choice('k1a-b', 'Eine Regression mit Alter allein ergibt für das Alter B = 0,008 pro Jahr. Was passiert mit B, wenn die Gesundheit als zweiter Prädiktor ins Modell kommt?',
     [['kleiner', 'B wird kleiner'], ['gleich', 'B bleibt gleich'], ['groesser', 'B wird größer']], 'groesser',
     'Genau. Mit Gesundheit im Modell ist B für das Alter 0,024, dreimal so groß. Das Modell vergleicht jetzt Ältere und Jüngere mit gleicher Gesundheit, wie die drei farbigen Linien.', {
-      kleiner: 'Oft wird ein B kleiner, wenn ein zweiter Prädiktor dazukommt. Hier nicht: Die Gesundheit hat den Alterszusammenhang verdeckt, nicht erklärt. Mit Gesundheit im Modell ist B 0,024.',
+      kleiner: 'Oft wird ein B kleiner, wenn ein zweiter Prädiktor dazukommt. Hier nicht: Die Gesundheit hat den Alterszusammenhang verdeckt, nicht erklärt (⟪Suppression⟫). Mit Gesundheit im Modell ist B 0,024.',
       gleich: 'Gleich bliebe B nur, wenn Alter und Gesundheit nichts miteinander zu tun hätten. Ältere sind aber seltener gesund. B steigt auf 0,024.',
     }),
   k1b: number('k1b', 'Zwei Personen sind gleich alt. Eine schätzt ihre Gesundheit „sehr gut“ ein (gesund = 5), die andere „zufriedenstellend“ (gesund = 3). Um wie viel liegt die Vorhersage der ersten höher?', 1.722, 0.01,
@@ -513,16 +513,16 @@ export const THINK: Record<string, S10Question> = {
   k2a: number('k2a', 'Welche mittlere Lebenszufriedenheit sagt das Modell für die Verheirateten voraus?', 7.694, 0.01,
     '7,694: 7,042 plus 0,652. Das ist genau der Mittelwert der Verheirateten (gerundet 7,69).',
     'Für die Verheirateten ist die Dummyvariable 1. Rechne Konstante plus B mal 1.',
-    [{ value: 0.652, text: 'Das ist nur der Abstand. Die Vorhersage ist Konstante plus Abstand.' }],
+    [{ value: 0.652, text: 'Das ist nur der Unterschied. Die Vorhersage ist Konstante plus Unterschied.' }],
     { short: 'Vorhersage Verheiratete', help: 'Konstante plus B. Eine Kommazahl reicht.' }),
   k2b: number('k2b', 'Stell die Referenz auf „verheiratet“. Wie groß ist dann B für die Ledigen?', -0.653, 0.005,
-    '−0,653: Ledige liegen 0,653 Punkte unter den Verheirateten. Mit der Referenz „ledig“ stand dort +0,653 für die Verheirateten: derselbe Abstand, nur von der anderen Seite.',
-    'Mit der Referenz „verheiratet“ ist jedes B der Abstand zu den Verheirateten. Ledige sind weniger zufrieden, das B ist also negativ.',
+    '−0,653: Ledige liegen 0,653 Punkte unter den Verheirateten. Mit der Referenz „ledig“ stand dort +0,653 für die Verheirateten: derselbe Unterschied, nur von der anderen Seite.',
+    'Mit der Referenz „verheiratet“ ist jedes B der Unterschied zu den Verheirateten. Ledige sind weniger zufrieden, das B ist also negativ.',
     [{ value: 0.653, text: 'Das Vorzeichen fehlt: Ledige liegen unter den Verheirateten.' }],
     { short: 'B der Ledigen' }),
   k2c: choice('k2c', 'Warum wirft R den fünften Dummy hinaus?',
     [['wenige', 'Weil die Ledigen zu wenige sind'], ['neu', 'Weil der fünfte Dummy nichts Neues sagt: Wer bei den anderen vier überall 0 hat, ist ledig'], ['vier', 'Weil R höchstens vier Prädiktoren rechnen kann']], 'neu',
-    'Genau. Der fünfte Dummy steckt vollständig in den anderen vier. Ein Modell kann zwei Dinge, die immer zusammen auftreten, nicht auseinanderhalten. Das nennt man perfekte Multikollinearität, mehr dazu in Grundlage 3.', {
+    'Genau. Der fünfte Dummy steckt vollständig in den anderen vier. Ein Modell kann zwei Dinge, die immer zusammen auftreten, nicht auseinanderhalten. Das nennt man perfekte Multikollinearität; bei Dummies heißt sie ⟪Dummyfalle⟫. Mehr dazu in Grundlage 3.', {
       wenige: 'Ledige sind mit 1.459 (gewichtet) die zweitgrößte Gruppe. Der Grund ist ein anderer: Der fünfte Dummy sagt nichts Neues.',
       vier: 'R rechnet auch mit viel mehr Prädiktoren. Hier stört, dass der fünfte Dummy schon in den anderen vier steckt.',
     }),
@@ -545,15 +545,15 @@ export const THINK: Record<string, S10Question> = {
     }),
   k4a: choice('k4a', 'In welchem Fall verändert Person L die Steigung am stärksten?',
     [['mitte', 'L in der Mitte, sehr unzufrieden'], ['rand', 'L ganz rechts, sehr unzufrieden'], ['erwartet', 'L ganz rechts, so zufrieden wie erwartet']], 'rand',
-    'Genau. Großen Einfluss hat ein Fall, der beim Prädiktor weit draußen liegt und zugleich weit weg von der Geraden. Hier kippt die Steigung von +0,022 auf −0,042.', {
+    'Genau. Großen ⟪Einfluss⟫ hat ein Fall, der beim Prädiktor weit draußen liegt und zugleich weit weg von der Geraden. Hier dreht sich die Steigung von +0,022 auf −0,042.', {
       mitte: 'In der Mitte zieht L die Gerade nur nach unten, ihre Neigung bleibt 0,022. Weit draußen wirkt L wie an einem langen Hebel.',
       erwartet: 'Weit draußen allein reicht nicht. Liegt L auf der Geraden, bestätigt L sie nur: Steigung 0,020.',
     }),
-  k4b: number('k4b', 'Wie groß ist der Abstand zwischen Erwerbstätigen und Nicht-Erwerbstätigen ab 60 laut Modell? Rechne B von `erwerb` plus B von `erwerb:ab60`.', 0.056, 0.01,
+  k4b: number('k4b', 'Wie groß ist der Unterschied zwischen Erwerbstätigen und Nicht-Erwerbstätigen ab 60 laut Modell? Rechne B von `erwerb` plus B von `erwerb:ab60`.', 0.056, 0.01,
     '0,056: 1,091 minus 1,035. Ab 60 macht die Erwerbstätigkeit fast keinen Unterschied, unter 60 einen großen (1,091).',
-    'Der Abstand ab 60 ist der Abstand unter 60 (B von `erwerb`, 1,091) plus die Interaktion (−1,035).',
-    [{ value: 1.091, text: 'Das ist der Abstand unter 60. Ab 60 kommt die Interaktion dazu.' }],
-    { short: 'Abstand ab 60' }),
+    'Der Unterschied ab 60 ist der Unterschied unter 60 (B von `erwerb`, 1,091) plus die Interaktion (−1,035).',
+    [{ value: 1.091, text: 'Das ist der Unterschied unter 60. Ab 60 kommt die Interaktion dazu.' }],
+    { short: 'Unterschied ab 60' }),
 };
 
 /** Überblick: Zuordnen (Index in ASSIGN_OPTIONS). */
@@ -569,8 +569,8 @@ export const ASSIGN: { question: string; answer: number; right: string; wrong: s
 export const PREDICTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', { id: string; prompt: string; options: string[] }> = {
   a1: { id: 'a1', prompt: 'Was passiert mit dem B der eigenen Lage, wenn die Lage Deutschlands als zweiter Prädiktor dazukommt?', options: ['wird deutlich kleiner', 'bleibt etwa gleich', 'wird größer'] },
   a2: { id: 'a2', prompt: 'Welches Muster erwartest du?', options: ['Prägung: Ost→West ähnelt den Ost-Bleibenden', 'Ort: West→Ost ähnelt den Ost-Bleibenden', 'Weder noch: Beide Umzugsgruppen ähneln den West-Bleibenden'] },
-  a3: { id: 'a3', prompt: 'Wie viel bleibt von der Ost-West-Lücke, wenn Lage und Abitur konstant gehalten werden?', options: ['fast nichts', 'etwa die Hälfte', 'das meiste'] },
-  a4: { id: 'a4', prompt: 'Wie groß ist die Ost-West-Lücke bei Befragten mit Abitur, verglichen mit denen ohne?', options: ['deutlich kleiner', 'kaum anders', 'deutlich größer'] },
+  a3: { id: 'a3', prompt: 'Wie viel bleibt vom Ost-West-Unterschied, wenn Lage und Abitur konstant gehalten werden?', options: ['fast nichts', 'etwa die Hälfte', 'das meiste'] },
+  a4: { id: 'a4', prompt: 'Wie groß ist der Ost-West-Unterschied bei Befragten mit Abitur, verglichen mit denen ohne?', options: ['deutlich kleiner', 'kaum anders', 'deutlich größer'] },
 };
 
 /* ---------- Hilfe in drei Stufen ---------- */
@@ -582,19 +582,19 @@ export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> 
     'Schritt 1: B von `lage` 0,461, R² 0,084. Schritt 2 mit `demo ~ lage + dlage`: B von `lage` 0,198, B von `dlage` 0,668, R² 0,228. Richtig ist der Satz „Bei gleicher Einschätzung der Lage Deutschlands geht eine Stufe bessere eigene Lage mit 0,2 Punkten mehr Demokratiezufriedenheit einher.“ B wird kleiner, weil die beiden Einschätzungen zusammenhängen.',
   ],
   a2: [
-    'Die Konstante ist der Mittelwert der Gruppe, deren Dummy in der Formel fehlt. Jedes B ist der Abstand einer Gruppe zu ihr. Die Vorhersage einer Gruppe ist Konstante plus ihr B.',
+    'Die Konstante ist der Mittelwert der Gruppe, deren Dummy in der Formel fehlt. Jedes B ist der Unterschied einer Gruppe zu ihr. Die Vorhersage einer Gruppe ist Konstante plus ihr B.',
     'Konstante und B stehen unter Coefficients in der Spalte B: (Intercept) ist die Konstante, `dg03_1` die Ost-Bleibenden, `dg03_2` Ost→West, `dg03_3` West→Ost. Die Konfidenzintervalle stehen in den Spalten 95% CI Lower und Upper. Für Schritt 3 tauschst du nur `dg03_1` gegen `dg03_4`.',
     'Referenz West-Bleibende: Konstante 4,243; Ost-Bleibende −0,705; Ost→West −0,166 (KI −0,404 bis 0,072); West→Ost −0,034 (KI −0,385 bis 0,317). Vorhersage Ost→West: in der Taschenrechner-Vorlage `4.243 + -0.166`, ergibt 4.077. Referenz Ost-Bleibende: Konstante 3,537; West-Bleibende +0,705; Ost→West +0,540; West→Ost +0,671; Vorhersage Ost→West 3,537 + 0,540 = 4,077. Muster: weder Prägung noch Ort; beide Umzugsgruppen liegen nah bei den West-Bleibenden, sicher ist das bei so kleinen Gruppen aber nicht.',
   ],
   a3: [
-    'B sagt, wie viel sich die Vorhersage pro Schritt ändert, und ein Schritt ist bei jedem Prädiktor etwas anderes. Beta rechnet alle auf dieselbe Einheit um. Für die Lücke vergleichst du B von `ost` mit und ohne die anderen Prädiktoren.',
+    'B sagt, wie viel sich die Vorhersage pro Schritt ändert, und ein Schritt ist bei jedem Prädiktor etwas anderes. Beta rechnet alle auf dieselbe Einheit um. Für den Ost-West-Unterschied vergleichst du B von `ost` mit und ohne die anderen Prädiktoren.',
     'B und Beta stehen unter Coefficients, nebeneinander. Adjusted R Square steht unter Model Summary, die VIF ganz unten unter Collinearity Statistics. Das B von `ost` ohne Kontrollen steht in der Ausgabe der zweiten Vorlage.',
     'B: lage 0,176, dlage 0,635, ost −0,521, abitur 0,216. Beta: lage 0,110, dlage 0,394, ost −0,154, abitur 0,085. Am stärksten: die Lage Deutschlands. `abitur` hat das größere B als `lage`, aber das kleinere Beta. R² 0,259, korrigiert 0,258. VIF 1,005 bis 1,208: kein Problem. `ost` allein: −0,624; mit Kontrollen −0,521, gut vier Fünftel bleiben.',
   ],
   a4: [
-    'Mit `*` bekommt das Modell eine eigene Zeile für die Frage „Ist der Abstand in der zweiten Gruppe anders?“. B von `ost` gilt dann nur für die Gruppe mit `abitur` = 0.',
-    'Unter Coefficients die Zeilen `ost` und `ost:abitur`, Spalten B, Sig. und 95% CI. Für die Lücke mit Abitur zählst du die beiden B zusammen.',
-    'Schritt 1 (`+`): ost −0,604, abitur 0,460. Schritt 2 (`*`): Konstante 4,042, ost −0,631, abitur 0,450, ost:abitur 0,060 (Sig. ,590; KI −0,158 bis 0,277). Lücke mit Abitur: in der Taschenrechner-Vorlage `-0.631 + 0.060`, ergibt −0,571. Einen Unterschied der Lücke mit und ohne Abitur zeigen die Daten nicht (Sig. ,590, das Intervall schließt 0 ein); „sicher gleich“ ist das aber nicht. Kleine Gruppen wie die 91 Ost→West-Umgezogenen: einzelne Fälle haben mehr Einfluss, das B ist unsicher, also mit Konfidenzintervall berichten.',
+    'Mit `*` bekommt das Modell eine eigene Zeile für die Frage „Ist der Unterschied in der zweiten Gruppe anders?“. B von `ost` gilt dann nur für die Gruppe mit `abitur` = 0.',
+    'Unter Coefficients die Zeilen `ost` und `ost:abitur`, Spalten B, Sig. und 95% CI. Für den Unterschied mit Abitur zählst du die beiden B zusammen.',
+    'Schritt 1 (`+`): ost −0,604, abitur 0,460. Schritt 2 (`*`): Konstante 4,042, ost −0,631, abitur 0,450, ost:abitur 0,060 (Sig. ,590; KI −0,158 bis 0,277). Unterschied mit Abitur: in der Taschenrechner-Vorlage `-0.631 + 0.060`, ergibt −0,571. Dass sich der Ost-West-Unterschied mit Abitur ändert, zeigen die Daten nicht (Sig. ,590, das Intervall schließt 0 ein); „sicher gleich“ ist das aber nicht. Kleine Gruppen wie die 91 Ost→West-Umgezogenen: einzelne Fälle haben mehr Einfluss, das B ist unsicher, also mit Konfidenzintervall berichten.',
   ],
 };
 
@@ -604,7 +604,7 @@ export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> 
 export const ERROR_HELP: { says: string; plain?: boolean; what: string; todo: string }[] = [
   { says: 'Variables not found in data: `demo` and `lage`.', what: 'Die Variablen gibt es noch nicht: Der `mutate()`-Teil fehlt oder wurde gelöscht. Jede Werkstatt beginnt mit dem frischen `allbus`.', todo: 'Die ganze Vorlage ausführen, mit `mutate()`. Mit „Zurücksetzen“ holst du sie zurück.' },
   { says: 'Variable not found in data: `dg03_5`.', what: '`dg03` hat nur vier Gruppen, also gibt es nur `dg03_1` bis `dg03_4`.', todo: 'Nur Dummies mit vorhandenen Codes nehmen.' },
-  { says: 'Variables not found in data: `dg03_1` and `dg03_2`.', what: '`to_dummy(dg03)` fehlt in der Kette.', todo: 'Die Zeile `to_dummy(dg03) %>%` vor `linear_regression()` stehen lassen.' },
+  { says: 'Variables not found in data: `dg03_1` and `dg03_2`.', what: '`to_dummy(dg03)` fehlt in der Pipe.', todo: 'Die Zeile `to_dummy(dg03) %>%` vor `linear_regression()` stehen lassen.' },
   { says: 'konnte Funktion "dlage" nicht finden', what: 'In der Formel steht `%>%` statt `+` (`demo ~ lage %>% dlage`).', todo: 'Prädiktoren in der Formel mit `+` verbinden.' },
   { says: "Unerwartete(s) ','", what: 'In der Formel steht ein `+` ohne Prädiktor dahinter (`demo ~ lage + , weights = …`).', todo: 'Den Prädiktor hinter `+` ergänzen oder das `+` löschen.' },
   { says: 'kein Fehler, aber in „Formula“ fehlt ein Prädiktor', plain: true, what: 'Komma statt Plus (`demo ~ lage, dlage`). R rechnet still nur mit `lage`.', todo: 'Zeile „Formula“ prüfen; Prädiktoren mit `+` verbinden.' },

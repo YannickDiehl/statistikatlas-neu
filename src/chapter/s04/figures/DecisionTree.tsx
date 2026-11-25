@@ -4,7 +4,7 @@ import { useAnnounce } from '../../blocks/announce';
 import { FR, FR_OPTIONS } from '../content';
 import { SvgText } from './Bars';
 
-export const TREE_TEXT = 'Entscheidungsbaum. Eine Variable mit wenigen Stufen: Balken, geom_bar. Eine Variable mit vielen Werten: Histogramm, geom_histogram. Zwei Variablen mit wenigen Stufen: Balken auf 100 Prozent, geom_bar mit position gleich fill. Zwei Variablen, eine mit vielen Werten und eine mit Gruppen: Boxplots, geom_boxplot. Zwei Variablen mit vielen Werten: Punkte, geom_point.';
+export const TREE_TEXT = 'Entscheidungsbaum. Eine Variable mit wenigen Ausprägungen: Balken, geom_bar. Eine Variable mit vielen Werten: Histogramm, geom_histogram. Zwei Variablen mit wenigen Ausprägungen: Balken auf 100 Prozent, geom_bar mit position gleich fill. Zwei Variablen, eine mit vielen Werten und eine mit Gruppen: Boxplots, geom_boxplot. Zwei Variablen mit vielen Werten: Punkte, geom_point.';
 
 const STROKE = '#978B7B';
 
@@ -37,8 +37,8 @@ export function DecisionTree() {
         <Path x1={170} y1={126} x2={80} y2={194} /><Path x1={170} y1={126} x2={260} y2={194} />
         <Path x1={560} y1={126} x2={430} y2={194} /><Path x1={560} y1={126} x2={560} y2={194} /><Path x1={560} y1={126} x2={690} y2={194} />
         <Sign x={262} y={66} lines={['eine']} /><Sign x={482} y={66} lines={['zwei']} />
-        <Sign x={80} y={158} lines={['wenige Stufen']} /><Sign x={260} y={158} lines={['viele Werte']} />
-        <Sign x={430} y={158} lines={['beide wenige', 'Stufen']} /><Sign x={560} y={158} lines={['eine viele Werte,', 'eine Gruppen']} /><Sign x={690} y={158} lines={['beide viele', 'Werte']} />
+        <Sign x={80} y={158} lines={['wenige', 'Ausprägungen']} /><Sign x={260} y={158} lines={['viele Werte']} />
+        <Sign x={430} y={158} lines={['beide wenige', 'Ausprägungen']} /><Sign x={560} y={158} lines={['eine viele Werte,', 'eine Gruppen']} /><Sign x={690} y={158} lines={['beide viele', 'Werte']} />
         <Node x={380} y={28} w={230} title="Wie viele Variablen?" fill="#FFF0E8" stroke="#F0A27E" />
         <Node x={170} y={108} w={150} title="eine Variable" fill="#FFF6DA" stroke="#E0C46A" />
         <Node x={560} y={108} w={150} title="zwei Variablen" fill="#FFF6DA" stroke="#E0C46A" />

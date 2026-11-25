@@ -83,7 +83,7 @@ export const PERSONS: { name: string; layer: number; health: number }[] = [
   { name: 'D', layer: 3, health: 4 },
   { name: 'E', layer: 4, health: 3 },
 ];
-export type PairKind = 'gleichläufig' | 'gegenläufig' | 'Gleichstand Schicht' | 'Gleichstand Gesundheit';
+export type PairKind = 'konkordant' | 'diskordant' | 'Bindung Schicht' | 'Bindung Gesundheit';
 
 /** Schicht (id02) und Gesundheit (hs01), gewichtet; „umgedreht“ heißt höher = besser. */
 export const HS_ID = { gamma: 0.357, tau: 0.241, nTau: 5151 };
@@ -118,11 +118,11 @@ export const LAB_PEOPLE: { name: string; age: number; minutes: number }[] = [
 /** Stufen für die Minuten von Person B mit r und ρ (drei Stellen) und dem Satz dazu. */
 export const LAB_STEPS: { minutes: number; r: number; rho: number; text: string }[] = [
   { minutes: 50, r: 0.974, rho: 0.952, text: 'Fast alle Punkte liegen in den Plus-Feldern: starker positiver Zusammenhang.' },
-  { minutes: 76, r: 0.597, rho: 0.476, text: 'B braucht jetzt am längsten von allen, obwohl B zu den Jüngsten gehört. r fällt deutlich, ρ auch, denn bei den Minuten springt B vom drittkleinsten auf den größten Rangplatz.' },
+  { minutes: 76, r: 0.597, rho: 0.476, text: 'B braucht jetzt am längsten von allen, obwohl B zu den Jüngsten gehört. r fällt deutlich, ρ auch, denn bei den Minuten springt B vom drittkleinsten auf den größten Rang.' },
   { minutes: 100, r: 0.207, rho: 0.476, text: 'B liegt weit oben im Minus-Feld. r bricht ein; ρ bleibt, denn B ist ja schon die Langsamste.' },
   { minutes: 200, r: -0.205, rho: 0.476, text: 'Ein einziger Punkt dreht r ins Negative.' },
   { minutes: 500, r: -0.335, rho: 0.476, text: '' },
-  { minutes: 1500, r: -0.377, rho: 0.476, text: 'Ein Bogen, der einen Tag herumlag: r zeigt jetzt einen negativen Zusammenhang, den die anderen sieben Personen gar nicht haben. ρ bleibt bei 0,476.' },
+  { minutes: 1500, r: -0.377, rho: 0.476, text: 'Ein Fragebogen, der einen Tag herumlag: r zeigt jetzt einen negativen Zusammenhang, den die anderen sieben Personen gar nicht haben. ρ bleibt bei 0,476.' },
 ];
 /** z-Werte und Produkte im Ausgangszustand (zwei Stellen, wie im Plan). */
 export const LAB_Z = {
@@ -132,7 +132,7 @@ export const LAB_Z = {
   sum: 6.81,
 };
 
-/** Alter × Bearbeitungsdauer xt10: r gewichtet, ρ; alle Bögen und nur bis 180 Minuten. */
+/** Alter × Bearbeitungsdauer xt10: r gewichtet, ρ; alle Fälle und nur bis 180 Minuten. */
 export const AGE_XT10 = { rAll: 0.003, rhoAll: 0.238, r180: 0.245, rho180: 0.267, median: 65 };
 
 /** Grundlage 4c: Internet (xr19) und gute oder sehr gute Gesundheit (hs01 1 bis 2), gewichtet. */
@@ -255,7 +255,7 @@ allbus <- allbus %>%
 allbus %>%
   kendall_tau(zufriedenheit, ep03, weights = wghtpew)
 ` },
-  a4a: { title: 'Umpolen und Punktwolke', code: `# Zufriedenheit umpolen (kennst du aus Aufgabe 3), dann die Punktwolke
+  a4a: { title: 'Umpolen und Streudiagramm', code: `# Zufriedenheit umpolen (kennst du aus Aufgabe 3), dann die Punktwolke
 allbus <- allbus %>%
   mutate(
     zufriedenheit = rec(ps03, rules = "rev")
@@ -315,7 +315,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       'Stimmt: 70,73 % haben 1, 2 oder 3 angegeben.', 'Lies in der ersten Tabelle von Schritt 1 die Spalte Cum. % in der Zeile 3 ETWAS ZUFRIEDEN.',
       { tolerance: 0.1, short: 'ohne Gewicht', help: 'Spalte Cum. %, Zeile 3, Tabelle ohne „Weighted“.' }),
     number('a1-gewichtet', 'Und mit Gewicht?', 73.58,
-      'Stimmt: Mit Gewicht sind es 73,58 %, fast drei Prozentpunkte mehr.', 'Nimm die zweite Tabelle von Schritt 1, die mit „Weighted“ in der Überschrift.',
+      'Stimmt: Mit Gewicht sind es 73,58 %, fast drei ⟪Prozentpunkte⟫ mehr.', 'Nimm die zweite Tabelle von Schritt 1, die mit „Weighted“ in der Überschrift.',
       { tolerance: 0.1, short: 'mit Gewicht', help: 'Spalte Cum. %, Zeile 3, Tabelle mit „Weighted“.' }),
     number('a1-ost', 'Wie viel Prozent sind im Osten mindestens etwas zufrieden?', 58.5,
       'Stimmt: Im Osten sind es 58,5 % (ohne Gewicht 58,45, mit Gewicht 58,56). Das Gewicht ändert hier fast nichts.', 'Führe Schritt 2 mit `eastwest == 2` aus und lies Cum. % in Zeile 3.',
@@ -328,25 +328,25 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['b', 'Das Gewicht macht die Antworten jeder Person etwas zufriedener.'],
       ['c', 'Mit Gewicht zählen mehr Befragte, darum wird das Ergebnis höher.'],
     ], 'a',
-    'Genau. Ohne Gewicht stammt ein Drittel der Antworten aus dem Osten, mit Gewicht nur ein Sechstel. Weil der Osten weniger zufrieden ist (58,5 % gegen 76,6 %), steigt der Anteil für ganz Deutschland.',
+    'Genau. Der ALLBUS befragt den Osten absichtlich stärker, eine ⟪disproportionale Stichprobe⟫. Ohne ⟪Gewicht|gewichte⟫ stammt darum ein Drittel der Antworten aus dem Osten, mit Gewicht nur ein Sechstel. Weil der Osten weniger zufrieden ist (58,5 % gegen 76,6 %), steigt der Anteil für ganz Deutschland.',
     'Vergleiche Ost und West aus Schritt 2: Wer ist zufriedener? Und welcher Landesteil zählt mit Gewicht weniger? Das Gewicht ändert keine Antwort und keine Personenzahl.',
     { short: 'Warum' }),
   ],
   a2: [
     choice('a2-niveau', 'Welches Skalenniveau hat die Wahlabsicht `pv01`?', [['nominal', 'nominal'], ['ordinal', 'ordinal'], ['metrisch', 'metrisch']], 'nominal',
-      'Genau: Parteien haben keine Reihenfolge. Darum passt Cramér-V.', 'Lässt sich „SPD“ sinnvoll über oder unter „FDP“ einordnen? Kategorien ohne Reihenfolge heißen nominal.',
+      'Genau: Parteien haben keine Reihenfolge, die Wahlabsicht ist ⟪nominal⟫. Darum passt ⟪Cramér-V⟫.', 'Lässt sich „SPD“ sinnvoll über oder unter „FDP“ einordnen? Kategorien ohne Reihenfolge heißen nominal.',
       { short: 'Skalenniveau' }),
     number('a2-gruene', 'Wie viel Prozent derer, die die Grünen wählen würden, sind mindestens etwas zufrieden?', 92.9,
       'Stimmt: 92,9 %.', 'Lies in Schritt 2 die Zeile DIE GRUENEN, darunter „row %“, Spalte zufrieden.',
       { tolerance: 0.1, short: 'Grüne', help: 'Zeile DIE GRUENEN, Zeile „row %“, Spalte zufrieden.' }),
     number('a2-afd', 'Und unter denen, die die AfD wählen würden?', 22.8,
-      'Stimmt: 22,8 %. Zwischen den Gruppen liegen 70 Prozentpunkte.', 'Lies in Schritt 2 die Zeile AFD, darunter „row %“, Spalte zufrieden.',
+      'Stimmt: 22,8 %. Zwischen Grünen und AfD liegen 70 ⟪Prozentpunkte⟫.', 'Lies in Schritt 2 die Zeile AFD, darunter „row %“, Spalte zufrieden.',
       { tolerance: 0.1, short: 'AfD', help: 'Zeile AFD, Spalte zufrieden.' }),
     number('a2-v', 'Wie groß ist Cramér-V (gewichtet)?', 0.4783,
       'Stimmt: V = 0,478.', 'Führe Schritt 3 aus und lies die Zahl hinter `[1]`. Hast du `weights = wghtpew` drin? Ohne Gewicht kommt 0,484 heraus.',
       { tolerance: 0.005, short: 'Cramér-V', help: 'Drei Nachkommastellen, zum Beispiel 0,123.' }),
     choice('a2-staerke', 'Wie stark ist der Zusammenhang nach der Faustregel?', STRENGTH, 'mittel',
-      'Ja: 0,48 liegt zwischen 0,3 und 0,5, also mittel, knapp unter stark.', 'Schau aufs Lineal aus Grundlage 2c: ab 0,3 mittel, ab 0,5 stark.',
+      'Ja: 0,48 liegt zwischen 0,3 und 0,5, also mittel, knapp unter stark.', 'Leg V auf das Lineal der ⟪Faustregel nach Cohen⟫ aus Grundlage 2c: Mittel beginnt bei 0,3, stark bei 0,5.',
       { short: 'Stärke' }),
     choice('a2-richtung', 'Was sagt dir V über die Richtung des Zusammenhangs?', [
       ['a', 'Nichts. Wer zufriedener ist, liest du an den Zeilenprozenten ab.'],
@@ -369,24 +369,24 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['b', 'Wer die Wirtschaftslage schlechter einschätzt, ist eher zufriedener mit der Demokratie.'],
       ['c', 'Das Minus heißt: Es gibt keinen Zusammenhang.'],
     ], 'a',
-    'Genau: Ein höherer Code bei `ep01` (schlechter) geht mit einem niedrigeren Code bei `zufriedenheit` (unzufriedener) einher.',
+    'Genau: Ein höherer Code bei `ep01` (schlechter) geht mit einem niedrigeren Code bei `zufriedenheit` (unzufriedener) einher. Das Vorzeichen hängt also an der ⟪Polung⟫ beider Variablen.',
     'Schau aufs Bild in Schritt 2: Negativ heißt, der eine Pfeil geht hoch, der andere runter. Bei `ep01` heißt höher „schlechter“, bei `zufriedenheit` „zufriedener“.',
     { short: 'Richtung' }),
     choice('a3-staerke', 'Wie stark ist der Zusammenhang nach der Faustregel (mit Tau-b eingeordnet)?', STRENGTH, 'mittel',
       'Ja: Der Betrag von Tau-b ist 0,387, also mittel.', 'Für die Stärke zählt der Betrag, ohne Vorzeichen: 0,387 liegt zwischen 0,3 und 0,5.',
       { short: 'Stärke' }),
     choice('a3-warum', 'Warum ist Gamma dem Betrag nach größer als Tau-b?', [
-      ['a', 'Gamma lässt die vielen Paare mit Gleichstand weg, Tau-b zählt sie mit.'],
+      ['a', 'Gamma lässt die vielen gleichauf liegenden Paare weg, Tau-b zählt sie mit.'],
       ['b', 'Gamma rechnet mit Gewicht, Tau-b ohne.'],
       ['c', 'Gamma misst einen anderen Zusammenhang als Tau-b.'],
     ], 'a',
-    'Genau: Bei fünf und sechs Stufen liegen sehr viele Paare bei einem Merkmal gleichauf. Gamma übergeht sie, darum fällt es größer aus.',
+    'Genau: Bei fünf und sechs ⟪Ausprägungen|auspraegung⟫ liegen sehr viele Paare bei einem Merkmal gleichauf, eine ⟪Bindung⟫. Gamma übergeht diese Bindungen, darum fällt es größer aus.',
     'Schau in Grundlage 3b: Was steht bei Gamma im Nenner, was bei Tau-b? Beide hast du hier gewichtet gerechnet.',
     { short: 'Gamma größer' }),
   ],
   a4: [
     number('a4-r', 'Wie groß ist Pearson-r (gewichtet)?', 0.265,
-      'Stimmt: r = 0,265.', 'Lies in Schritt 2 die Zahl hinter `r =`. Bei 0,260 fehlt das Gewicht; bei 0,268 hast du ρ eingetragen.',
+      'Stimmt: r = 0,265.', 'Lies in Schritt 2 die Zahl hinter `r =`, nicht die hinter `rho =`. Bei 0,260 fehlt das Gewicht.',
       { tolerance: 0.0005, short: 'Pearson-r', help: 'Drei Nachkommastellen, wie in der Zeile `r = …`.' }),
     number('a4-rho', 'Wie groß ist Spearman-ρ?', 0.268,
       'Stimmt: ρ = 0,268, fast dasselbe wie r.', 'Lies in Schritt 2 die Zahl hinter `rho =`.',
@@ -405,7 +405,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['b', 'Ja: Im Osten verschwindet er.'],
       ['c', 'Ja: Er kehrt sich im Osten um.'],
     ], 'a',
-    'Genau: 0,267 im Westen, 0,239 im Osten, 0,265 insgesamt. Der Zusammenhang hält in beiden Landesteilen.',
+    'Genau: 0,267 im Westen, 0,239 im Osten, 0,265 insgesamt. Der Zusammenhang hält in beiden Landesteilen; die ⟪Drittvariable⟫ erklärt ihn nicht.',
     'Vergleiche die beiden Werte aus Schritt 3 mit dem Wert aus Schritt 2. Sind sie deutlich kleiner oder haben sie ein anderes Vorzeichen?',
     { short: 'Drittvariable' }),
     choice('a4-satz', 'Welcher Satz passt in einen Bericht?', [
@@ -413,7 +413,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['b', 'Wer mit dem eigenen Leben zufriedener ist, ist im Schnitt etwas zufriedener mit der Demokratie (r = 0,27, gewichtet). Ob das eine das andere bewirkt, zeigt r nicht.'],
       ['c', 'Ein Viertel der Zufriedenheit mit der Demokratie kommt von der Lebenszufriedenheit.'],
     ], 'b',
-    'Genau: Richtung, Stärke, Gewicht, und keine Ursache behauptet.',
+    'Genau: Richtung, Stärke, Gewicht, und keine ⟪Ursache|kausalitaet⟫ behauptet.',
     'r misst einen Zusammenhang, keine Ursache, und ist kein Prozentanteil.',
     { short: 'Bericht' }),
   ],
@@ -425,30 +425,30 @@ export const REQUIRED: Question[] = [...QUESTIONS.a1, ...QUESTIONS.a2, ...QUESTI
 /** „Kurz überlegen“ in den Grundlagen. */
 export const THINK: Record<'g1b' | 'g2a' | 'g2c' | 'g3b' | 'g3c' | 'g4a' | 'g4b' | 'g4c', Question> = {
   g1b: number('g1b', 'Angenommen, eine Umfrage hätte 50 von 100 Befragten im Osten, in der Bevölkerung wären es 17 von 100. Welches Gewicht bekäme dann eine Person aus dem Osten?', 0.34,
-    'Stimmt: 17 geteilt durch 50 ergibt 0,34. Je stärker eine Gruppe überrepräsentiert ist, desto kleiner ihr Gewicht.', 'Teile den Anteil in Deutschland (17) durch den Anteil in der Umfrage (50).',
+    'Stimmt: 17 geteilt durch 50 ergibt 0,34. Je stärker ein Teil der Bevölkerung in der Stichprobe überrepräsentiert ist, desto kleiner sein Gewicht.', 'Teile den Anteil in Deutschland (17) durch den Anteil in der Umfrage (50).',
     { tolerance: 0.01, short: 'Gewicht im Osten', help: 'Anteil in Deutschland geteilt durch Anteil in der Stichprobe. Eine Kommazahl reicht, zum Beispiel 0,75.' }),
   g2a: number('g2a', 'Wie viele Befragte aus dem Osten ohne Konfession würdest du erwarten, wenn Region und Konfession nichts miteinander zu tun hätten?', 8.8,
     'Stimmt: 20 × 44 / 100 = 8,8. Beobachtet sind 16, fast doppelt so viele.', 'Ohne Zusammenhang hätte der Osten denselben Anteil wie alle: 44 % von 20 Befragten.',
     { tolerance: 0.05, short: 'erwartet', help: 'Zeilensumme Ost mal Spaltensumme „keine“ geteilt durch alle 100.' }),
   g2c: choice('g2c', 'Phi für Konfession und Region ist 0,33. Wie stark ist der Zusammenhang nach der Faustregel?', STRENGTH, 'mittel',
-    'Ja: 0,33 liegt knapp über 0,3, also mittel.', 'Schau aufs Lineal: Ab 0,3 beginnt „mittel“, ab 0,5 „stark“.', { short: 'Stärke' }),
-  g3b: number('g3b', 'In einer Tabelle gibt es 30 gleichläufige und 10 gegenläufige Paare, dazu 20 Paare mit Gleichstand. Wie groß ist Gamma?', 0.5,
-    'Stimmt: (30 − 10) / (30 + 10) = 0,5. Die 20 Paare mit Gleichstand spielen für Gamma keine Rolle; Tau-b wäre kleiner.', 'Die Paare mit Gleichstand gehören bei Gamma nicht in den Nenner: (30 − 10) / (30 + 10).',
-    { tolerance: 0.01, short: 'Gamma', help: 'Gleichläufig minus gegenläufig, geteilt durch gleichläufig plus gegenläufig.' }),
+    'Ja: 0,33 liegt knapp über 0,3, also mittel.', 'Schau aufs Lineal der Faustregel nach Cohen: Ab 0,3 beginnt „mittel“, ab 0,5 „stark“.', { short: 'Stärke' }),
+  g3b: number('g3b', 'In einer Tabelle gibt es 30 konkordante und 10 diskordante Paare, dazu 20 Paare mit einer Bindung. Wie groß ist Gamma?', 0.5,
+    'Stimmt: (30 − 10) / (30 + 10) = 0,5. Die 20 Paare mit Bindung spielen für Gamma keine Rolle; Tau-b wäre kleiner.', 'Die Paare mit Bindung gehören bei Gamma nicht in den Nenner: (30 − 10) / (30 + 10).',
+    { tolerance: 0.01, short: 'Gamma', help: 'Konkordant minus diskordant, geteilt durch konkordant plus diskordant.' }),
   g3c: choice('g3c', 'Gamma für Schicht und Gesundheit ist −0,36, mit der Gesundheit wie im Datensatz (1 = sehr gut, 5 = schlecht). Was heißt das?', [
     ['a', 'Je höher die Schicht, desto besser die Gesundheit.'],
     ['b', 'Je höher die Schicht, desto schlechter die Gesundheit.'],
     ['c', 'Es gibt keinen Zusammenhang, weil das Vorzeichen negativ ist.'],
   ], 'a', 'Genau: Ein höherer Schichtcode geht mit kleineren Gesundheitscodes zusammen, und klein heißt hier gut.',
   'Lies die Codes: Bei der Gesundheit heißt ein kleinerer Code „besser“. Negativ heißt: höhere Schicht, kleinerer Code.', { short: 'Vorzeichen' }),
-  g4a: choice('g4a', 'Person B (29 Jahre) braucht statt 50 Minuten 1.500, weil der Bogen einen Tag herumlag. Was passiert mit r?', [
+  g4a: choice('g4a', 'Person B (29 Jahre) braucht statt 50 Minuten 1.500, weil der Fragebogen einen Tag herumlag. Was passiert mit r?', [
     ['steigt', 'r steigt.'], ['sinkt', 'r sinkt stark, kann sogar negativ werden.'], ['gleich', 'r bleibt fast gleich.'],
   ], 'sinkt', 'Genau: Ein einziger Punkt weit draußen im Minus-Feld bringt ein riesiges negatives Produkt mit. r fällt auf −0,38.',
   'Probier es mit dem Schalter aus: B liegt dann weit oben links, im Minus-Feld.', { short: 'Ausreißer' }),
-  g4b: choice('g4b', 'Mit allen Bögen: r = 0,003, ρ = 0,24. Welche Zahl beschreibt den Zusammenhang besser?', [
-    ['r', 'r, weil es die genauen Minuten nutzt.'], ['rho', 'ρ, weil einzelne Bögen mit Zehntausenden Minuten r verzerren.'], ['beide', 'Beide gleich gut.'],
-  ], 'rho', 'Ja: Rangplätze stört es nicht, wie weit ein Ausreißer draußen liegt. Ohne Ausreißer liegt auch r bei 0,25.',
-  'Denk an Person B im Punkte-Labor: Ein Punkt weit draußen bestimmt r. Was ändert sich bei Rangplätzen?', { short: 'r oder ρ' }),
+  g4b: choice('g4b', 'Mit allen Fällen: r = 0,003, ρ = 0,24. Welche Zahl beschreibt den Zusammenhang besser?', [
+    ['r', 'r, weil es die genauen Minuten nutzt.'], ['rho', 'ρ, weil einzelne Fälle mit Zehntausenden Minuten r verzerren.'], ['beide', 'Beide gleich gut.'],
+  ], 'rho', 'Ja: Ränge stört es nicht, wie weit ein Ausreißer draußen liegt. Ohne Ausreißer liegt auch r bei 0,25.',
+  'Denk an Person B im Punkte-Labor: Ein Punkt weit draußen bestimmt r. Was ändert sich bei Rängen?', { short: 'r oder ρ' }),
   g4c: choice('g4c', 'Was erwartest du: Wird der Unterschied zwischen Nutzern und Nicht-Nutzern innerhalb gleich alter Menschen größer oder kleiner?', [
     ['groesser', 'größer'], ['kleiner', 'kleiner'], ['gleich', 'gleich'],
   ], 'kleiner', 'Ja: Er schrumpft von 35 auf 15 bis 19 Prozentpunkte. Das Alter erklärt einen Teil.',
@@ -462,9 +462,9 @@ export const MEASURE_OPTIONS = ['Cramér-V', 'Phi', 'Tau-b', 'Pearson-r', 'Spear
 export const ASSIGN: { id: string; pair: string; answer: number; right: string; wrong: string }[] = [
   { id: 'u1', pair: 'Familienstand und Wahlabsicht', answer: 0, right: 'Beide nominal, mehr als zwei Kategorien.', wrong: 'Hat der Familienstand eine Reihenfolge?' },
   { id: 'u2', pair: 'Geschlecht (Mann, Frau) und Gewerkschaftsmitglied (ja, nein)', answer: 1, right: 'Zwei mal zwei Kategorien: Phi (dem Betrag nach gleich Cramér-V).', wrong: 'Zähl die Kategorien: je zwei.' },
-  { id: 'u3', pair: 'Politisches Interesse (sehr stark bis überhaupt nicht) und Schulabschluss (ohne bis Hochschulreife)', answer: 2, right: 'Beide geordnet, wenige Stufen. Gamma ginge auch, fällt aber größer aus.', wrong: 'Beide haben eine Reihenfolge, aber keine gleichen Abstände.' },
-  { id: 'u4', pair: 'Alter und Arbeitsstunden pro Woche', answer: 3, right: 'Beide metrisch. Vorher die Punktwolke ansehen.', wrong: 'Jahre und Stunden haben gleiche Abstände.' },
-  { id: 'u5', pair: 'Alter und Bearbeitungsdauer, wobei einzelne Bögen wochenlang herumlagen', answer: 4, right: 'Ausreißer verzerren r; Rangplätze nicht.', wrong: 'Denk an Grundlage 4b.' },
+  { id: 'u3', pair: 'Politisches Interesse (sehr stark bis überhaupt nicht) und Schulabschluss (ohne bis Hochschulreife)', answer: 2, right: 'Beide geordnet, wenige Ausprägungen. Gamma ginge auch, fällt aber größer aus.', wrong: 'Beide haben eine Reihenfolge, aber keine gleichen Abstände.' },
+  { id: 'u4', pair: 'Alter und Arbeitsstunden pro Woche', answer: 3, right: 'Beide metrisch. Vorher das Streudiagramm ansehen.', wrong: 'Jahre und Stunden haben gleiche Abstände.' },
+  { id: 'u5', pair: 'Alter und Bearbeitungsdauer, wobei einzelne Fragebögen wochenlang herumlagen', answer: 4, right: 'Ausreißer verzerren r, Ränge nicht.', wrong: 'Denk an Grundlage 4b.' },
 ];
 
 /* ---------- Erst festlegen ---------- */
@@ -488,17 +488,17 @@ export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> 
     'Ohne Gewicht sind 70,73 % mindestens etwas zufrieden, mit Gewicht 73,58 %. Im Osten sind es 58,45 % (mit Gewicht 58,56 %), im Westen 76,64 % (mit Gewicht 76,63 %). Ohne Gewicht stammt knapp ein Drittel der gültigen Antworten aus dem Osten (32,5 %), mit Gewicht etwa ein Sechstel (16,9 %). Darum rückt die Zahl für Deutschland näher an den Westen: 0,831 × 76,63 + 0,169 × 58,56 = 73,6 %. Für einen Bericht über Deutschland gilt: 73,6 % sind mindestens etwas zufrieden (ALLBUS 2023, gewichtet).',
   ],
   a2: [
-    'Parteien haben keine Reihenfolge, darum misst du mit Cramér-V. V sagt, wie stark sich die Prozente zwischen den Gruppen unterscheiden. Wo die Unterschiede liegen, steht in der Kreuztabelle.',
+    'Lies die Antworten der Wahlabsicht: Lassen sie sich in eine sinnvolle Reihenfolge bringen? Davon hängt ab, welches Maß passt. Wo die Unterschiede zwischen den Parteien liegen, steht in der Kreuztabelle.',
     'Die Prozente für die Grünen und die AfD stehen in Schritt 2, jeweils in der Zeile „row %“ unter dem Parteinamen, in der Spalte zufrieden. V steht in Schritt 3 hinter `[1]`.',
     'Die Wahlabsicht ist nominal, also Cramér-V. Mindestens etwas zufrieden sind (gewichtet): Grüne 92,9 %, SPD 87,2 %, FDP 80,7 %, CDU-CSU 79,5 %, Linke 61,6 %, andere Partei 51,6 %, würde nicht wählen 50,7 %, AfD 22,8 %; alle zusammen 74,8 % (mehr als die 73,6 % aus Aufgabe 1, weil hier nur Befragte mit gültiger Wahlabsicht zählen). Cramér-V = 0,478, nach der Faustregel ein mittlerer Zusammenhang, knapp unter stark. V hat keine Richtung; dass die Zufriedenheit bei Grünen- und SPD-Wählenden hoch und bei AfD-Wählenden niedrig ist, liest du an den Zeilenprozenten ab.',
   ],
   a3: [
     'Für die Richtung brauchst du die Codes beider Variablen: Was heißt bei `zufriedenheit` ein höherer Code, was bei `ep01`? Für die Stärke zählt nur der Betrag.',
     'Gamma steht in der Ausgabe von Schritt 2 hinter `[1]`, Tau-b in der Zeile `tau = …`. Die Codes stehen in der Einleitung und in der Kontrolle von Schritt 1.',
-    'Gamma = −0,544, Tau-b = −0,387 (gewichtet; ohne Gewicht −0,553 und −0,393). Negativ: Wer die Wirtschaftslage schlechter einschätzt, ist eher unzufriedener mit der Demokratie. Nach Tau-b ein mittlerer Zusammenhang. Gamma ist größer, weil es die vielen Paare mit Gleichstand weglässt. Zum Ansehen (gewichtet): Mindestens etwas zufrieden sind 95,7 % derer, die die Lage „sehr gut“ finden, 90,1 % bei „gut“, 76,9 % bei „teils/teils“, 45,6 % bei „schlecht“ und 14,0 % bei „sehr schlecht“.',
+    'Gamma = −0,544, Tau-b = −0,387 (gewichtet; ohne Gewicht −0,553 und −0,393). Negativ: Wer die Wirtschaftslage schlechter einschätzt, ist eher unzufriedener mit der Demokratie. Nach Tau-b ein mittlerer Zusammenhang. Gamma ist größer, weil es die vielen Paare mit ⟪Bindung⟫ (gleichauf bei einem Merkmal) weglässt. Zum Ansehen (gewichtet): Mindestens etwas zufrieden sind 95,7 % derer, die die Lage „sehr gut“ finden, 90,1 % bei „gut“, 76,9 % bei „teils/teils“, 45,6 % bei „schlecht“ und 14,0 % bei „sehr schlecht“.',
   ],
   a4: [
-    'r und ρ stehen hinter `r =` und `rho =`. Für die Drittvariable rechnest du dasselbe Maß in jeder Gruppe und vergleichst mit dem Gesamtwert.',
+    'r und ρ stehen hinter `r =` und `rho =`. Für die Drittvariable rechnest du dasselbe Maß in jeder ihrer Kategorien und vergleichst mit dem Gesamtwert.',
     'Gesamtwerte in Schritt 2; West und Ost in Schritt 3, einmal mit 1 und einmal mit 2 an der markierten Stelle.',
     'r = 0,265 (gewichtet), ρ = 0,268: ein schwacher positiver Zusammenhang. Im Westen r = 0,267, im Osten 0,239; der Landesteil erklärt den Zusammenhang nicht. Satz: Wer mit dem eigenen Leben zufriedener ist, ist im Schnitt etwas zufriedener mit der Demokratie; eine Ursache zeigt r nicht.',
   ],
@@ -524,11 +524,11 @@ export const ERROR_HELP: { says: Rich; why: Rich; helps: Rich }[] = [
 /* ---------- Prüf dich selbst ---------- */
 
 export const SELF_TEST: { question: string; options: string[]; answer: number; why: string }[] = [
-  { question: 'Ein Bericht über ganz Deutschland nennt den Anteil ohne Gewicht. Was ist das Problem?', options: ['Der Osten zählt fast doppelt so stark, wie er in Deutschland vertreten ist.', 'Ohne Gewicht fehlen Befragte.', 'Ohne Gewicht sind die Prozente falsch gerechnet.'], answer: 0, why: 'Der ALLBUS befragt den Osten absichtlich stärker. Gerechnet ist richtig, aber die Zahl beschreibt die Befragten, nicht Deutschland.' },
+  { question: 'Ein Bericht über ganz Deutschland nennt den Anteil ohne Gewicht. Was ist das Problem?', options: ['Der Osten zählt fast doppelt so stark, wie er in Deutschland vertreten ist.', 'Ohne Gewicht fehlen Befragte.', 'Ohne Gewicht sind die Prozente falsch gerechnet.'], answer: 0, why: 'Der ALLBUS befragt den Osten absichtlich stärker (disproportionale Stichprobe). Gerechnet ist richtig, aber die Zahl beschreibt die Befragten, nicht Deutschland.' },
   { question: 'Du vergleichst nur den Osten mit dem Westen. Ändert das Gewicht die Prozente in den Landesteilen?', options: ['Kaum, weil innerhalb eines Landesteils alle fast dasselbe Gewicht haben.', 'Ja, stark.', 'Nur im Westen.'], answer: 0, why: 'Im Osten 58,45 % ohne, 58,56 % mit Gewicht. Das Gewicht wirkt erst, wenn West und Ost zusammengezählt werden.' },
   { question: 'Konfession (evangelisch, katholisch, andere, keine) und Wahlabsicht: Welches Maß passt?', options: ['Gamma', 'Cramér-V', 'Pearson-r'], answer: 1, why: 'Beide nominal. Gamma bräuchte eine sinnvolle Reihenfolge; die Konfessionen haben keine.' },
   { question: 'Zwischen Bildung (höher = höherer Abschluss) und einer Einstellung kommt Tau-b = −0,32 heraus. Was stimmt?', options: ['Schwach, weil negativ.', 'Mittel; höhere Bildung geht mit niedrigeren Codes der Einstellung einher.', 'Kein Zusammenhang.'], answer: 1, why: 'Der Betrag 0,32 zeigt die Stärke (mittel), das Minus die Richtung. Was ein niedrigerer Code bei der Einstellung heißt, steht im Codebuch.' },
-  { question: 'Zwischen zwei metrischen Variablen kommt r = 0,02 heraus. Was schließt du?', options: ['Es gibt sicher keinen Zusammenhang.', 'Es gibt keinen geradlinigen Zusammenhang; Punktwolke und Spearman-ρ prüfen.', 'Die Variablen sind falsch kodiert.'], answer: 1, why: 'r sieht nur Geraden und reagiert stark auf Ausreißer. Beim Alter und der Bearbeitungsdauer war r = 0,003, ρ aber 0,24.' },
+  { question: 'Zwischen zwei metrischen Variablen kommt r = 0,02 heraus. Was schließt du?', options: ['Es gibt sicher keinen Zusammenhang.', 'Es gibt keinen linearen Zusammenhang; Streudiagramm und Spearman-ρ prüfen.', 'Die Variablen sind falsch kodiert.'], answer: 1, why: 'r sieht nur lineare Zusammenhänge und reagiert stark auf Ausreißer. Beim Alter und der Bearbeitungsdauer war r = 0,003, ρ aber 0,24.' },
 ];
 
 /* ---------- Skript zum Mitnehmen ---------- */
@@ -539,6 +539,7 @@ export const SCRIPT_PARTS = ['start', 'lesen_gewicht', 'lesen_mass', 'a1a', 'a1b
 export const SCRIPT_IDEAS = ['frei_a1', 'frei_a2', 'frei_a3', 'frei_a4'];
 const SCRIPT_NOTES: Record<string, string> = {
   a1b: '# Für den Westen: in beiden filter()-Zeilen 2 durch 1 ersetzen\n',
+  a2b: '# zufrieden hat jetzt zwei Kategorien: 1 zufrieden, 0 unzufrieden\n',
   a4c: '# Für den Osten: 1 durch 2 ersetzen\n',
 };
 const scriptCode = (k: string) => parseMarks(TEMPLATES[k].code).code.replace(/\n+$/, '');
@@ -551,12 +552,12 @@ export const SCRIPT = '# Sitzung 6: Gewichtung und Zusammenhang\n# Statistikatla
 /* ---------- Textfassungen der Bilder ---------- */
 
 export const ALT = {
-  stichprobe: 'Zwei Bauplatten aus je 100 Steinen. ALLBUS: 68 Steine West, 32 Ost (genau 67,99 % und 32,01 %, also 3.567 und 1.679 Befragte). Deutschland: 83 West, 17 Ost (83,16 % und 16,84 %, so verteilt das Gewicht die Befragten).',
-  mischpult: 'Je größer der Anteil der Befragten aus dem Osten, desto näher rückt der Gesamtanteil an die Ost-Quote von 77,5 %. Bei 32,0 % Ost-Anteil (ALLBUS ohne Gewicht) sind es 47,7 %, bei 16,8 % (mit Gewicht) 41,0 %. Ganz ohne Osten wären es 33,7 %, nur mit Osten 77,5 %.',
+  stichprobe: 'Zwei Felder aus je 100 Kästchen, ein Kästchen je Person. ALLBUS (Stichprobe): 68 West, 32 Ost (genau 67,99 % und 32,01 %, also 3.567 und 1.679 Befragte). Deutschland (Grundgesamtheit): 83 West, 17 Ost (83,16 % und 16,84 %, so verteilt das Gewicht die Befragten).',
+  mischpult: 'Je größer der Anteil der Befragten aus dem Osten, desto näher rückt der Gesamtanteil an den Anteil im Osten von 77,5 %. Bei 32,0 % Ost-Anteil (ALLBUS ohne Gewicht) sind es 47,7 %, bei 16,8 % (mit Gewicht) 41,0 %. Ganz ohne Osten wären es 33,7 %, nur mit Osten 77,5 %.',
   cumLesen: 'Beispieltabelle mit vier Codes. Valid %: 10, 30, 40, 20. Cum. %: 10, 40, 80, 100. Die 40 in Zeile 2 ist die Summe aus 10 und 30: alle, die Code 1 oder 2 angegeben haben.',
-  lineal: 'Faustregel für die Stärke: unter 0,1 kein oder sehr schwacher Zusammenhang, ab 0,1 schwach, ab 0,3 mittel, ab 0,5 stark. Konfession und Region: Phi 0,33, also mittel.',
+  lineal: 'Faustregel nach Cohen für die Stärke: unter 0,1 kein oder sehr schwacher Zusammenhang, ab 0,1 schwach, ab 0,3 mittel, ab 0,5 stark. Konfession und Region: Phi 0,33, also mittel.',
   vorzeichen: 'Zwei senkrechte Pfeile. Links zufriedenheit: unten 1 sehr unzufrieden, oben 6 sehr zufrieden. Rechts ep01: unten 1 sehr gut, oben 5 sehr schlecht. Positiv: beide Pfeile gehen zusammen nach oben, also: je schlechter die Lage eingeschätzt wird, desto zufriedener. Negativ: wenn der eine nach oben geht, geht der andere nach unten, also: je schlechter die Lage eingeschätzt wird, desto unzufriedener.',
-  ausreisser: 'Lineal von −1 bis +1. r, alle Bögen: 0,003. ρ, alle Bögen: 0,24. r, bis 180 Minuten: 0,25. ρ, bis 180 Minuten: 0,27. Mit Ausreißern zeigt r fast nichts, ρ einen schwachen Zusammenhang. Ohne die Ausreißer sind beide ähnlich.',
-  fuenf: 'Lineal von −1 bis +1 mit fünf Maßen für Zufriedenheit (umgepolt) und Wirtschaftslage, gewichtet: Cramér-V 0,28; Tau-b −0,39; Spearman-ρ −0,45; Pearson-r −0,46; Gamma −0,54. Für dieselben Daten liefern die Maße verschiedene Zahlen, weil sie Verschiedenes messen.',
-  punktwolke: 'Punktwolke, x-Achse Lebenszufriedenheit 0 bis 10, y-Achse Zufriedenheit mit der Demokratie 1 bis 6. Die meisten Punkte liegen rechts oben (Lebenszufriedenheit 7 bis 9, Demokratie 4 bis 5). Links stehen wenige Punkte, sie streuen über alle Stufen. Die Wolke steigt nach rechts nur leicht an.',
+  ausreisser: 'Zahlenstrahl von −1 bis +1. r, alle Fälle: 0,003. ρ, alle Fälle: 0,24. r, bis 180 Minuten: 0,25. ρ, bis 180 Minuten: 0,27. Mit Ausreißern zeigt r fast nichts, ρ einen schwachen Zusammenhang. Ohne die Ausreißer sind beide ähnlich.',
+  fuenf: 'Zahlenstrahl von −1 bis +1 mit fünf Maßen für Zufriedenheit (umgepolt) und Wirtschaftslage, gewichtet: Cramér-V 0,28; Tau-b −0,39; Spearman-ρ −0,45; Pearson-r −0,46; Gamma −0,54. Für dieselben Daten liefern die Maße verschiedene Zahlen, weil sie Verschiedenes messen.',
+  punktwolke: 'Streudiagramm, x-Achse Lebenszufriedenheit 0 bis 10, y-Achse Zufriedenheit mit der Demokratie 1 bis 6. Die meisten Punkte liegen rechts oben (Lebenszufriedenheit 7 bis 9, Demokratie 4 bis 5). Links stehen wenige Punkte, sie streuen über alle Werte. Die Wolke steigt nach rechts nur leicht an.',
 };

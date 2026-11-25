@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { MARRIED, MSTAT, MSTAT_PREDICTIONS, MSTAT_R2, REFERENCES } from '../content';
 import { ArrowDef, C, Picture, Switches, T, TextVersion, de, signed } from './common';
 
-export const B4_TEXT = 'Zwei Stapel: nicht verheiratet, Code 0, mittlere Lebenszufriedenheit 7,04; verheiratet, Code 1, 7,69. Die Konstante 7,042 ist der Mittelwert der Gruppe mit 0. B gleich 0,652 ist der Abstand der Verheirateten dazu.';
+export const B4_TEXT = 'Zwei Stapel: nicht verheiratet, Code 0, mittlere Lebenszufriedenheit 7,04; verheiratet, Code 1, 7,69. Die Konstante 7,042 ist der Mittelwert der Gruppe mit 0. B gleich 0,652 ist der Unterschied der Verheirateten dazu.';
 
 /** Bild B4 `s10-zwei-gruppen`. */
 export function TwoGroups() {
@@ -115,7 +115,7 @@ export function Reference() {
   </>;
 }
 
-export const B7_TEXT = 'Vier Gruppen in einem Raster. Oben im Osten aufgewachsen: links lebt heute im Osten, Gruppe 1, Ost-Bleibende; rechts lebt heute im Westen, Gruppe 2, Ost nach West. Unten im Westen aufgewachsen: links lebt heute im Osten, Gruppe 3, West nach Ost; rechts lebt heute im Westen, Gruppe 4, West-Bleibende, die Referenz in der Vorlage. Bei Prägung wären die Gruppen einer Zeile gleich, bei Ort die Gruppen einer Spalte.';
+export const B7_TEXT = 'Vier Gruppen in einer Kreuztabelle. Oben im Osten aufgewachsen: links lebt heute im Osten, Gruppe 1, Ost-Bleibende; rechts lebt heute im Westen, Gruppe 2, Ost nach West. Unten im Westen aufgewachsen: links lebt heute im Osten, Gruppe 3, West nach Ost; rechts lebt heute im Westen, Gruppe 4, West-Bleibende, die Referenz in der Vorlage. Bei Prägung wären die Gruppen einer Zeile gleich, bei Ort die Gruppen einer Spalte.';
 
 /** Bild B7 `s10-vier-gruppen`: 2 × 2 grid of the dg03 groups. */
 export function FourGroups() {

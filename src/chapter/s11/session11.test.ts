@@ -43,7 +43,7 @@ test('headings in the order of spec §5 (Variante B)', () => {
   const texts = headings(html).map(x => x.text);
   const order = [
     'Vorweg: R lesen', 'R lesen: ein logistisches Modell', 'Vier neue Werkzeuge',
-    'Thema 1: Ja oder nein: warum keine Gerade?', 'Ja oder nein: warum keine Gerade?', 'Schritt 1a Ein Turm aus Nullen und Einsen',
+    'Thema 1: Ja oder nein: warum keine Gerade?', 'Ja oder nein: warum keine Gerade?', 'Schritt 1a Dichotome Variable: ein Turm aus Nullen und Einsen',
     'Schritt 1b Warum eine Gerade scheitert', 'Schritt 1c Drei Sprachen: Wahrscheinlichkeit, Chance, Logit', 'Aufgabe 1: Wer will wählen gehen?',
     'Thema 2: Das Modell: B und Exp(B)', 'Das Modell: B und Exp(B)', 'Aufgabe 2: Was heißt Exp(B) für das Pflichtgefühl?',
     'Thema 3: Vorhergesagte Wahrscheinlichkeiten', 'Vorhergesagte Wahrscheinlichkeiten', 'Aufgabe 3: Was heißt das in Prozent?',

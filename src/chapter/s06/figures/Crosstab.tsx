@@ -54,7 +54,7 @@ function Table({ view, compact = false }: { view: View; compact?: boolean }) {
 export function Expected() {
   const [view, setView] = useState<View>('observed');
   return <div className="s6-erwartet">
-    <Toggle label="Was die Tafel zeigt" options={VIEWS} value={view} onChange={setView} />
+    <Toggle label="Was die Kreuztabelle zeigt" options={VIEWS} value={view} onChange={setView} />
     <Table view={view} />
     <p className="rueck text" aria-live="polite">{SENTENCE[view]}</p>
     {view === 'expected' ? <div className="formel" role="group" aria-label="Rechenregel: erwartet gleich Zeilensumme mal Spaltensumme geteilt durch alle. Beispiel Ost, keine: 20 mal 44 geteilt durch 100 gleich 8,8.">
@@ -64,7 +64,7 @@ export function Expected() {
       <span className="frac" aria-hidden="true"><span>20 × 44</span><span>100</span></span><span aria-hidden="true">=</span><span className="gross" aria-hidden="true">8,8</span>
     </div> : null}
     <details className="werte">
-      <summary>Alle drei Tafeln als Tabellen</summary>
+      <summary>Alle drei Ansichten als Tabellen</summary>
       {VIEWS.map(v => <Table key={v.value} view={v.value} compact />)}
     </details>
   </div>;

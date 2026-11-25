@@ -15,10 +15,11 @@
   "content": "s02",
   "ersetzungen": [
     ["In RStudio führst du ihn zu Beginn aus. In der Code-Werkstatt hier auf der Seite ist das schon erledigt.", "In RStudio führst du ihn zu Beginn aus. Hier ist das schon erledigt: Der Startblock steht ganz oben in deinem Lernjournal."],
-    ["Wie die Bauplatte aussieht, schaust du dir in <a href=\"#g1\">Grundlage 1</a> genauer an.", "Wie die Bauplatte aussieht, schaust du dir in <a href=\"#k1-matrix\">Verstehen zu Aufgabe 1</a> genauer an."],
+    ["Wie die Datenmatrix aussieht, schaust du dir in <a href=\"#g1\">Grundlage 1</a> genauer an.", "Wie die Datenmatrix aussieht, schaust du dir in <a href=\"#k1-matrix\">Verstehen zu Aufgabe 1</a> genauer an."],
     ["In der Code-Werkstatt erscheint derselbe Eintrag als Text.", "In deinem Lernjournal erscheint derselbe Eintrag als Text."],
     ["<th scope=\"col\">In der Werkstatt</th>", "<th scope=\"col\">Im Lernjournal</th>"],
     ["'Typ (Grundlage 4)'", "'Typ (Aufgabe 4)'"],
     ["Mehr dazu in Grundlage 3.", "Mehr dazu in Aufgabe 3."]
-  ]
+  ],
+  "begriffe": ["datenreihe","polung","kodieren","skalenniveau","nominal","ordinal","metrisch","missing-code","datentyp","faktor","pipe","mittelwert","erhebungsweg","datenmatrix","fall","variable","wert","auspraegung","objekt","funktion","variablenlabel","code","wertelabel","codebuch","fehlende-werte","tnz","gueltige-werte","argument","environment","skript"]
 }

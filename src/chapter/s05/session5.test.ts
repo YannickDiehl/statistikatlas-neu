@@ -44,9 +44,9 @@ test('headings in the order of spec §5 (Variante B)', () => {
   const texts = headings(html).map(x => x.text);
   const order = [
     'Vorweg: R lesen', 'Erinnerung: Startblock und <-', 'Neu heute: eine neue Variable mit mutate() und rec()', 'Neu heute: eine Kreuztabelle mit crosstab() lesen',
-    'Thema 1: Gruppen bilden: Umkodieren', 'Gruppen bilden: Umkodieren', 'Schritt 1a Gruppen zuschneiden', 'Aufgabe 1: Zwei Gruppen für die Wahlfrage',
+    'Thema 1: Kategorien bilden: Umkodieren', 'Kategorien bilden: Umkodieren', 'Schritt 1a Kategorien zusammenfassen', 'Aufgabe 1: Zwei neue Variablen für die Wahlfrage',
     'Thema 2: Eine Zelle, drei Prozentbasen', 'Eine Zelle, drei Prozentbasen', 'Schritt 2a Drei Fragen an eine Zelle', 'Aufgabe 2: Stimmt die 87 %?',
-    'Thema 3: Leserichtung: Gruppen vergleichen', 'Leserichtung: Gruppen vergleichen', 'Aufgabe 3: Gehen Misstrauende nicht mehr wählen?',
+    'Thema 3: Leserichtung: prozentuieren und vergleichen', 'Leserichtung: prozentuieren und vergleichen', 'Aufgabe 3: Gehen Misstrauende nicht mehr wählen?',
     'Thema 4: Umpolen', 'Umpolen: eine Skala umdrehen', 'Schritt 4a Wenn 1 sehr gut heißt', 'Schritt 4b Zwei Aussagen, zwei Richtungen', 'Aufgabe 4: Gegenprobe mit einer umgedrehten Aussage',
     'Überblick: Welche Prozentbasis für welche Frage?', 'Basis wählen, Grenzen kennen', 'Schritt Ü1 Wer ist 100 %?', 'Schritt Ü3 Zufall oder Zusammenhang?',
     'Zum Schluss: Mitnehmen', 'Das Wichtigste aus dieser Sitzung', 'Prüf dich selbst', 'Dein Skript zum Mitnehmen',

@@ -58,11 +58,11 @@ export function FrequencyTable() {
 export function PercentFormula() {
   const daily = LA01.rows[0];
   return <div className="formel s3-formel" role="img" aria-label={PERCENT_FORMULA_TEXT}>
-    <span className="frac"><span>Steine im Stapel</span><span>Steine in der Basis</span></span>
+    <span className="frac"><span>absolute Häufigkeit (N)</span><span>Prozentbasis</span></span>
     <span aria-hidden="true">× 100 =</span><span className="gross">Prozent</span>
     <ul className="s3-eingesetzt">
-      <li><b>Valid %:</b> {`${whole(daily.n)} Steine im Stapel TAEGLICH, geteilt durch ${whole(LA01.valid)} gültige Steine, mal 100 = 19,93`}</li>
-      <li><b>Raw %:</b> {`${whole(daily.n)} geteilt durch alle ${whole(LA01.total)} Steine, mal 100 = 19,84`}</li>
+      <li><b>Valid %:</b> {`${whole(daily.n)} Befragte mit TAEGLICH, geteilt durch ${whole(LA01.valid)} gültige Antworten, mal 100 = 19,93`}</li>
+      <li><b>Raw %:</b> {`${whole(daily.n)} geteilt durch alle ${whole(LA01.total)} Befragten, mal 100 = 19,84`}</li>
     </ul>
   </div>;
 }

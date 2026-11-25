@@ -122,22 +122,22 @@ export const WG = 12;
 /* ---------- Textfassungen der Bilder ---------- */
 
 export const TOWER_TEXT: [string, string, string] = [
-  'Schritt 1: Ein Turm la01 mit zwölf Steinen, zum Beispiel zwölf Befragte. Elf Steine tragen einen Code: dreimal 1 TÄGLICH, zweimal 2 MINDESTENS EINMAL PRO WOCHE, einmal 3 MINDESTENS EINMAL PRO MONAT, viermal 4 SELTENER, einmal 5 NIE. Ein Stein ist leer und trägt den Aufkleber −9 KEINE ANGABE.',
-  'Schritt 2: Gleiche Steine liegen jetzt auf einem Stapel nebeneinander, in der Reihenfolge der Codes: 3, 2, 1, 4 und 1 Steine. Der leere Stein liegt getrennt darunter.',
-  'Schritt 3: Neben jedem Stapel steht seine Höhe als Zahl in der Spalte N. Die fünf Stapel zusammen sind 11 gültige Antworten (Total valid), der leere Stein ist 1 fehlende (Total missing), alle zusammen 12 (Total).',
+  'Schritt 1: Die Datenreihe der Variable la01 als Turm mit zwölf Steinen, zum Beispiel zwölf Befragte. Jeder Stein ist ein Wert. Elf Werte tragen einen gültigen Code: dreimal 1 TÄGLICH, zweimal 2 MINDESTENS EINMAL PRO WOCHE, einmal 3 MINDESTENS EINMAL PRO MONAT, viermal 4 SELTENER, einmal 5 NIE. Ein Stein ist leer: ein fehlender Wert mit dem Missing-Code −9 KEINE ANGABE.',
+  'Schritt 2: Gleiche Werte liegen jetzt auf einem Stapel nebeneinander, in der Reihenfolge der Codes: 3, 2, 1, 4 und 1 Steine, die Häufigkeiten der fünf Codes. Der fehlende Wert liegt getrennt darunter.',
+  'Schritt 3: Neben jedem Stapel steht seine Höhe in der Spalte N: die absolute Häufigkeit. Die fünf Stapel zusammen sind 11 gültige Werte (Total valid), der leere Stein ist 1 fehlender Wert (Total missing), alle zusammen 12 (Total).',
 ];
 
-export const PERCENT_FORMULA_TEXT = 'Prozent gleich Steine im Stapel geteilt durch Steine in der Basis, mal 100. Für TAEGLICH mit der Basis 5.223 gültige Antworten: 1.041 geteilt durch 5.223 mal 100 ergibt 19,93, das ist Valid %. Mit der Basis 5.246 alle Befragten ergibt es 19,84, das ist Raw %.';
+export const PERCENT_FORMULA_TEXT = 'Prozent gleich absolute Häufigkeit geteilt durch Prozentbasis, mal 100. Für TAEGLICH mit der Basis 5.223 gültige Antworten: 1.041 geteilt durch 5.223 mal 100 ergibt 19,93, das ist Valid %. Mit der Basis 5.246 alle Befragten ergibt es 19,84, das ist Raw %.';
 
 export const STRIP_LA01_TEXT = 'Ein Streifen von 0 bis 100 Prozent, in fünf Abschnitte geteilt, so breit wie die Valid %: täglich 19,93, mindestens einmal pro Woche 18,63, mindestens einmal pro Monat 13,48, seltener 29,70, nie 18,27. Die Grenzen liegen bei 19,93, 38,56, 52,04 und 81,73 Prozent.';
 export const STRIP_LA01_SOLVED = 'Die Mitte bei 50 Prozent liegt im Abschnitt mindestens einmal pro Monat (zwischen 38,56 und 52,04): Das ist der Median. Der breiteste Abschnitt ist seltener: Das ist der Modus.';
 
-export const SHELVES_TEXT = 'Drei Regale: 1 Studiendesign, die Frage kam nie bei der Person an. 2 Befragte, die Person hat so geantwortet oder nicht geantwortet. 3 Erfassung, die Lücke entstand beim Ausfüllen oder Abtippen. Dazu sieben Missing-Codes zum Zuordnen, je mit einer Auswahlliste.';
+export const SHELVES_TEXT = 'Drei Regale: 1 Studiendesign, die Frage kam nie bei der Person an. 2 Befragte, die Person hat so geantwortet oder nicht geantwortet. 3 Erfassung, der Wert ging beim Ausfüllen oder Abtippen verloren. Dazu sieben Missing-Codes zum Zuordnen, je mit einer Auswahlliste.';
 export const SHELVES_SOLVED = 'Richtig ist: −11 und −10 ins Regal Studiendesign, −9, −8 und −7 ins Regal Befragte, −42 und −41 ins Regal Erfassung.';
 
 export const STONES_TEXT = {
-  all: 'Hundert Steine, jeder steht für ein Prozent aller 5.246 Befragten. 17 Steine man kann trauen, 23 muss vorsichtig sein, 28 kommt darauf an, 32 Steine sind leer: Hier fehlt die Antwort, meist weil die Frage nie gestellt wurde.',
-  valid: 'Hundert Steine, jeder steht für ein Prozent der 3.560 gültigen Antworten. 24 Steine man kann trauen, 35 muss vorsichtig sein, 41 kommt darauf an. Leere Steine gibt es nicht mehr.',
+  all: 'Hundert Kästchen, jedes steht für ein Prozent aller 5.246 Befragten. 17 Kästchen man kann trauen, 23 muss vorsichtig sein, 28 kommt darauf an, 32 Kästchen sind leer: Hier fehlt die Antwort, meist weil die Frage nie gestellt wurde.',
+  valid: 'Hundert Kästchen, jedes steht für ein Prozent der 3.560 gültigen Antworten. 24 Kästchen man kann trauen, 35 muss vorsichtig sein, 41 kommt darauf an. Leere Kästchen gibt es nicht mehr.',
 };
 
 export const BASES_TEXT = 'Dieselben 1.463 Antworten „kommt darauf an“, geteilt durch drei verschiedene Basen, jeweils mal 100. Durch alle 5.246 Befragten: 27,89 Prozent, das ist Raw %. Durch die 3.560 gültigen: 41,10 Prozent, das ist Valid %. Durch die gültigen plus die 5 „weiß nicht“, zusammen 3.565: 41,04 Prozent, eine eigene Basis.';
@@ -145,9 +145,9 @@ export const BASES_TEXT = 'Dieselben 1.463 Antworten „kommt darauf an“, gete
 export const CDU_BASES_TEXT = 'Dieselben 988 Antworten CDU-CSU, geteilt durch drei Basen: alle 5.246 Befragten, darunter 1.262 ohne gültige Antwort, das ergibt Raw %. Die 3.984 gültigen plus die 603 „weiß nicht“, das rechnet die Vorlage. Nur die 3.984 gültigen, das ergibt Valid %. Je kleiner die Basis, desto größer der Anteil.';
 
 export const ROW_TEXT: [string, string, string, string] = [
-  'Ein Turm mit neun Zahlen, zum Beispiel neun Befragte: 2, 1, 4, 2, 3, 2, 5, 1, 2 Personen im Haushalt.',
+  'Eine Datenreihe mit neun Werten, zum Beispiel neun Befragte: 2, 1, 4, 2, 3, 2, 5, 1, 2 Personen im Haushalt.',
   'Sortiert: 1, 1, 2, 2, 2, 2, 3, 4, 5. Der fünfte Wert steht in der Mitte, vier davor, vier danach: 2. Das ist der Median.',
-  'Alle Werte zusammen ergeben 22, geteilt durch 9 ergibt 2,44. Das ist der Mittelwert, der Schwerpunkt der Reihe.',
+  'Alle Werte zusammen ergeben 22, geteilt durch 9 ergibt 2,44. Das ist der Mittelwert, der Schwerpunkt der Werte.',
   'Mit einer zehnten Person aus einer WG mit 12 Personen: Sortiert 1, 1, 2, 2, 2, 2, 3, 4, 5, 12. Die Mitte liegt zwischen dem fünften und sechsten Wert, beide sind 2: Der Median bleibt 2. Der Mittelwert steigt auf 34 geteilt durch 10, also 3,4.',
 ];
 
@@ -163,7 +163,7 @@ export const TREE_TEXT = 'Entscheidungsbaum. Erste Frage: Haben die Codes eine R
 export type Column = 'n' | 'raw' | 'valid' | 'cum';
 export const COLUMNS: { key: Column; name: string; text: string }[] = [
   { key: 'n', name: 'N', text: ' ist die absolute Häufigkeit: wie viele Befragte diese Antwort gegeben haben. 1.551 Befragte lesen seltener als einmal im Monat Bücher. Unter der Linie stehen die fehlenden Antworten mit ihrem Grund: 4 Datenfehler, 19 ohne Angabe.' },
-  { key: 'raw', name: 'Raw %', text: ' teilt durch alle 5.246 Befragten, auch durch die 23 ohne gültige Antwort. Darum hat auch die Lücke eine Prozentzahl, und erst alle Zeilen zusammen ergeben 100. 19,84 % aller Befragten lesen täglich.' },
+  { key: 'raw', name: 'Raw %', text: ' teilt durch alle 5.246 Befragten, auch durch die 23 ohne gültige Antwort. Darum haben auch die fehlenden Werte eine Prozentzahl, und erst alle Zeilen zusammen ergeben 100. 19,84 % aller Befragten lesen täglich.' },
   { key: 'valid', name: 'Valid %', text: ' teilt nur durch die 5.223 gültigen Antworten (Total valid). Fehlende Werte zählen nicht mit. 19,93 % derer, die geantwortet haben, lesen täglich.' },
   { key: 'cum', name: 'Cum. %', text: ' zählt die Valid % von oben nach unten zusammen. In der Zeile MIND. 1X PRO WOCHE steht 38.56: 19,93 + 18,63. So viel Prozent lesen mindestens einmal pro Woche.' },
 ];
@@ -173,7 +173,7 @@ export const COLUMNS: { key: Column; name: string; text: string }[] = [
 export const SHELVES: { n: 1 | 2 | 3; title: string; sub: string }[] = [
   { n: 1, title: 'Studiendesign', sub: 'Die Frage kam nie bei der Person an.' },
   { n: 2, title: 'Befragte', sub: 'Die Person hat so geantwortet oder nicht geantwortet.' },
-  { n: 3, title: 'Erfassung', sub: 'Die Lücke entstand beim Ausfüllen oder Abtippen.' },
+  { n: 3, title: 'Erfassung', sub: 'Der Wert ging beim Ausfüllen oder Abtippen verloren.' },
 ];
 export const MISSING_CODES: { code: number; label: string; shelf: 1 | 2 | 3; right: string; wrong: string }[] = [
   { code: -11, label: 'TNZ: SPLIT', shelf: 1, right: 'Richtig. TNZ heißt „trifft nicht zu“. Der ALLBUS hat zwei Fragebogenversionen; wer die andere Version hatte, hat die Frage nie gesehen.', wrong: 'Bei einem Split bekommt nur ein Teil der Befragten die Frage. Die Person konnte gar nicht antworten.' },
@@ -181,7 +181,7 @@ export const MISSING_CODES: { code: number; label: string; shelf: 1 | 2 | 3; rig
   { code: -9, label: 'KEINE ANGABE', shelf: 2, right: 'Richtig. Die Frage wurde gestellt, aber nicht beantwortet.', wrong: 'Die Person hatte die Frage, hat aber nichts angegeben.' },
   { code: -8, label: 'WEISS NICHT', shelf: 2, right: 'Richtig. „Weiß nicht“ ist eine Antwort der Person, nur keine gültige im Sinne der Skala.', wrong: '„Weiß nicht“ hat die Person selbst gesagt oder angekreuzt.' },
   { code: -7, label: 'VERWEIGERT', shelf: 2, right: 'Richtig. Die Person wollte nicht antworten.', wrong: 'Verweigern ist eine Entscheidung der Person.' },
-  { code: -42, label: 'DATENFEHLER: MFN', shelf: 3, right: 'Richtig. MFN heißt Mehrfachnennung: zwei Kreuze, wo nur eins erlaubt ist, wie beim Bogen mit zwei Kreuzen in Sitzung 2.', wrong: 'Zwei Kreuze auf dem Papierbogen: Die Antwort lässt sich beim Erfassen nicht eindeutig ablesen.' },
+  { code: -42, label: 'DATENFEHLER: MFN', shelf: 3, right: 'Richtig. MFN heißt Mehrfachnennung: zwei Kreuze, wo nur eins erlaubt ist, wie beim Papierfragebogen mit zwei Kreuzen in Sitzung 2.', wrong: 'Zwei Kreuze auf dem Papierbogen: Die Antwort lässt sich beim Erfassen nicht eindeutig ablesen.' },
   { code: -41, label: 'DATENFEHLER', shelf: 3, right: 'Richtig. Ein Fehler in den Daten, der beim Erfassen oder Prüfen auffiel.', wrong: 'Ein Datenfehler entsteht nicht bei der Person, sondern in den Daten.' },
 ];
 
@@ -209,10 +209,10 @@ export const MIDDLE_ROWS: {
     missing: {}, general: 'Parteien sind nominal: nur der Modus.' },
   { id: 'k3b-gesundheit', label: 'Gesundheitszustand, sehr gut bis schlecht', target: ['modus', 'median'],
     right: 'Ordinal: Modus und Median. Ein Mittelwert setzt gleiche Abstände voraus, etwa zwischen „gut“ und „sehr gut“; die gibt es hier nicht sicher.',
-    extra: { mittelwert: 'Ein Mittelwert setzt gleiche Abstände zwischen den Stufen voraus. Ob „gut“ und „sehr gut“ so weit auseinanderliegen wie „schlecht“ und „weniger gut“, weiß niemand. Darum hier Modus und Median.' },
-    missing: { median: 'Die Stufen haben eine Reihenfolge; die Mitte lässt sich bestimmen.' }, general: 'Ordinal: Modus und Median.' },
+    extra: { mittelwert: 'Ein Mittelwert setzt gleiche Abstände zwischen den Kategorien voraus. Ob „gut“ und „sehr gut“ so weit auseinanderliegen wie „schlecht“ und „weniger gut“, weiß niemand. Darum hier Modus und Median.' },
+    missing: { median: 'Die Kategorien haben eine Reihenfolge; die Mitte lässt sich bestimmen.' }, general: 'Ordinal: Modus und Median.' },
   { id: 'k3b-alter', label: 'Alter in Jahren', target: ['modus', 'median', 'mittelwert'],
-    right: 'Metrisch: Alle drei sind sinnvoll. Bei schiefen Verteilungen gehören Mittelwert und Median zusammen in den Bericht.',
+    right: 'Metrisch: Alle drei sind sinnvoll. Liegen Mittelwert und Median weit auseinander, gehören beide in den Bericht.',
     extra: {},
     missing: { mittelwert: 'Ein Jahr ist überall gleich lang; hier darfst du rechnen.', median: 'Was bei ordinalen Variablen geht, geht bei metrischen erst recht: Median und Modus sind auch beim Alter erlaubt.', modus: 'Was bei ordinalen Variablen geht, geht bei metrischen erst recht: Median und Modus sind auch beim Alter erlaubt.' },
     general: 'Metrisch: Alle drei sind sinnvoll.' },
@@ -320,16 +320,16 @@ const EP04_OPTIONS: [string, string][] = [['wb', 'wesentlich besser'], ['eb', 'e
 export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', TaskQuestion[]> = {
   a1: [
     number('a1a', 'Wie viele Befragte haben eine gültige Antwort gegeben?', 5188,
-      '5.188 gültige Antworten (Total valid).', 'Lies die Zeile „Total valid“, Spalte N. Gemeint sind nur die Antworten 1 bis 5.',
+      '5.188 ⟪gültige Antworten|gueltige-werte⟫ (Total valid).', 'Lies die Zeile „Total valid“, Spalte N. Gemeint sind nur die Antworten 1 bis 5.',
       { short: 'gültige Antworten', help: 'Aus `frequency(ep04)`, Zeile „Total valid“.' }),
     number('a1b', 'Wie viele Antworten fehlen?', 58,
-      '58: 37 ohne Angabe, 16 „weiß nicht“, 5 Datenfehler.', 'Lies die Zeile „Total missing“, Spalte N.', { short: 'fehlende Antworten' }),
+      '58 ⟪fehlende Werte|fehlende-werte⟫: 37 ohne Angabe, 16 „weiß nicht“, 5 Datenfehler.', 'Lies die Zeile „Total missing“, Spalte N.', { short: 'fehlende Antworten' }),
     choice('a1c', 'Welche Erwartung ist am häufigsten (Modus)?', EP04_OPTIONS, 'es',
-      '„etwas schlechter“ mit 2.067 Antworten, 39,84 % der gültigen.', 'Der Modus ist die Zeile mit dem größten N, nicht die mittlere Zeile der Tabelle.', { short: 'Modus' }),
-    choice('a1d', 'In welcher Stufe liegt der Median?', EP04_OPTIONS, 'gl',
-      '„gleichbleibend“: Dort erreicht Cum. % zum ersten Mal die 50 (51,72). Die Person in der Mitte erwartet also keine Veränderung, obwohl „etwas schlechter“ häufiger genannt wird.',
+      '„etwas schlechter“ ist der ⟪Modus|modus⟫: 2.067 Antworten, 39,84 % der gültigen.', 'Der Modus ist die Zeile mit dem größten N, nicht die mittlere Zeile der Tabelle.', { short: 'Modus' }),
+    choice('a1d', 'In welcher Kategorie liegt der Median?', EP04_OPTIONS, 'gl',
+      '„gleichbleibend“ ist der ⟪Median|median⟫: Dort erreicht ⟪Cum. %|kumulierte-haeufigkeit⟫ zum ersten Mal die 50 (51,72). Die Person in der Mitte erwartet also keine Veränderung.',
       'Geh in der Spalte Cum. % von oben nach unten: Wo kommst du zum ersten Mal auf 50 oder mehr?',
-      { short: 'Median', wrongBy: { es: 'Das ist der Modus. Der Median ist die erste Stufe, bei der Cum. % die 50 erreicht.' } }),
+      { short: 'Median', wrongBy: { es: 'Das ist der Modus. Der Median ist die erste Kategorie, bei der Cum. % die 50 erreicht.' } }),
     number('a1e', 'Wie viel Prozent der gültigen Antworten erwarten eine schlechtere Lage (etwas oder wesentlich schlechter)?', 48.28,
       '48,28 %: 39,84 + 8,44. Oder: 100 minus 51,72.',
       'Tausch in der Vorlage aus Schritt 4 die markierten Zahlen gegen die Valid % von ETWAS SCHLECHTER und WESENTL. SCHLECHTER.',
@@ -353,7 +353,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', TaskQuestion[]> = {
     choice('a2a', 'Welcher Grund für eine fehlende Antwort kommt bei pv01 am häufigsten vor?', [
       ['m50', 'nicht wahlberechtigt (−50)'], ['m8', 'weiß nicht (−8)'], ['m7', 'verweigert (−7)'], ['m9', 'keine Angabe (−9)'],
     ], 'm8',
-      '„weiß nicht“ mit 603 Befragten, 11,49 % aller Befragten und fast die Hälfte der 1.262 fehlenden. Dann folgen verweigert (306), nicht wahlberechtigt (186), keine Angabe (149) und Datenfehler (18).',
+      '„weiß nicht“ mit 603 Befragten, 11,49 % aller Befragten und fast die Hälfte aller ⟪fehlenden Werte|fehlende-werte⟫. Dann folgen verweigert, nicht wahlberechtigt, keine Angabe und Datenfehler.',
       'Vergleiche im unteren Teil von `frequency(pv01)` die Zahlen in der Spalte N.', { short: 'häufigster Grund' }),
     number('a2b', 'Wie viele Befragte haben keine gültige Antwort (Total missing)?', 1262,
       '1.262, fast jede vierte befragte Person (24,06 %).', 'Lies die Zeile „Total missing“, Spalte N.', { short: 'Total missing' }),
@@ -376,7 +376,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', TaskQuestion[]> = {
       ['ungenau', 'Ungenau: 24,8 % gilt nur für die 3.984 mit gültiger Antwort, von allen Befragten sind es 18,8 %. Der Satz muss die Basis nennen.'],
       ['falsch', 'Falsch gerechnet, richtig wären 21,5 %.'],
     ], 'ungenau',
-      'Genau. Ehrlich wäre: „Knapp 25 % der Befragten mit einer gültigen Antwort würden die Union wählen; knapp ein Viertel aller Befragten gibt keine an.“',
+      'Genau. Ehrlich wäre: „Knapp 25 % der Befragten mit einer gültigen Antwort würden die Union wählen; knapp ein Viertel aller Befragten gibt keine an.“ So nennt der Satz seine ⟪Prozentbasis|prozentbasis⟫.',
       'Die Zahl stimmt, der Satz nicht: „der Befragten“ klingt nach allen 5.246.',
       { short: 'Zeitungssatz', wrongBy: {
         stimmt: 'Die Zahl stimmt, der Satz nicht: „der Befragten“ klingt nach allen 5.246.',
@@ -390,8 +390,8 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', TaskQuestion[]> = {
     number('a3b', 'Median der Dauer in Wochen:', 26,
       '26 Wochen, ein halbes Jahr. R schreibt 26.000; der Punkt ist dort ein Komma.', 'Lies in `describe(dw19)` die Spalte Median.',
       { short: 'Median', help: 'Wochen.', special: [{ at: 54.7, tolerance: 0.3, text: 'Das ist der Mittelwert.' }] }),
-    number('a3c', 'Wie viele Befragte gehen in diese Kennzahlen ein (N)?', 514,
-      '514 Befragte mit gültiger Angabe.', 'Lies in `describe(dw19)` die Spalte N.',
+    number('a3c', 'Wie viele Befragte gehen in diese Kennwerte ein (N)?', 514,
+      '514 Befragte mit gültiger Angabe: die ⟪Fallzahl|fallzahl⟫.', 'Lies in `describe(dw19)` die Spalte N.',
       { short: 'N', special: [
         { at: 4732, text: 'Das ist Missing, also alle ohne gültige Angabe.' },
         { at: 5246, text: 'Das sind alle Befragten, auch die ohne Angabe.' },
@@ -401,14 +401,14 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', TaskQuestion[]> = {
       ['filter', 'Die meisten wurden gar nicht gefragt (−10 TNZ: FILTER): Die Frage ging nur an Berufstätige, die in den letzten zehn Jahren arbeitslos waren.'],
       ['geloescht', 'R hat ungültige Werte gelöscht.'],
     ], 'filter',
-      '4.709 der 4.732 tragen −10 TNZ: FILTER. Dazu kommen 16 ohne Angabe und 7 Datenfehler. Beachte: Wer heute nicht erwerbstätig ist, also auch, wer gerade arbeitslos ist, wurde nicht gefragt. Die Zahlen beschreiben Berufstätige, die früher einmal arbeitslos waren.',
+      '4.709 der 4.732 tragen −10 ⟪TNZ: FILTER|tnz⟫. Eine Filterfrage hat sie an der Frage vorbeigeleitet. Dazu kommen 16 ohne Angabe und 7 Datenfehler. Beachte: Wer heute nicht erwerbstätig ist, also auch, wer gerade arbeitslos ist, wurde nicht gefragt. Die Zahlen beschreiben Berufstätige, die früher einmal arbeitslos waren.',
       'Schau ganz unten in `frequency(dw19)`: Welcher Code steht bei den meisten fehlenden? −10 heißt TNZ: FILTER (Grundlage 2).', { short: 'wer fehlt' }),
     choice('a3e', 'Welcher Satz beschreibt die typische Dauer am besten?', [
       ['mean', '„Wer arbeitslos war, war im Schnitt gut ein Jahr ohne Arbeit (55 Wochen).“'],
       ['median', '„Die Hälfte war höchstens ein halbes Jahr arbeitslos (Median 26 Wochen); wenige sehr lange Zeiten ziehen den Mittelwert auf 55 Wochen.“'],
       ['gleich', '„Mittelwert und Median sagen hier dasselbe.“'],
     ], 'median',
-      'Genau. Der Mittelwert ist gut doppelt so groß wie der Median. Wenige sehr lange Zeiten, bis zu zehn Jahre, ziehen ihn nach oben. Wer nur den Mittelwert nennt, macht die typische Arbeitslosigkeit doppelt so lang.',
+      'Genau. Der Mittelwert ist gut doppelt so groß wie der Median. Wenige sehr lange Zeiten, bis zu zehn Jahre, ziehen ihn nach oben. Solche Werte weit abseits der übrigen heißen ⟪Ausreißer|ausreisser⟫. Wer nur den Mittelwert nennt, macht die typische Arbeitslosigkeit doppelt so lang.',
       'Der Mittelwert stimmt, beschreibt aber nicht die typische Person: Die Hälfte war höchstens 26 Wochen arbeitslos.',
       { short: 'typische Dauer', wrongBy: {
         mean: 'Der Mittelwert stimmt, beschreibt aber nicht die typische Person: Die Hälfte war höchstens 26 Wochen arbeitslos.',
@@ -419,16 +419,16 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', TaskQuestion[]> = {
       ['median', '„Median „gleichbleibend“, dazu die Anteile: 48 % erwarten schlechter, 16 % besser.“'],
       ['nichts', '„Bei ep04 lässt sich keine Mitte angeben.“'],
     ], 'median',
-      'Genau. ep04 ist ordinal: Die Stufen haben eine Reihenfolge, aber niemand weiß, ob „etwas“ und „wesentlich“ gleich weit auseinanderliegen. Darum Median und Häufigkeiten.',
-      'Ein Mittelwert setzt gleiche Abstände zwischen den Stufen voraus (metrisch). Bei „wesentlich besser“ bis „wesentlich schlechter“ ist das nicht gesichert.',
+      'Genau. ep04 ist ⟪ordinal|ordinal⟫: Die Kategorien haben eine Reihenfolge, aber niemand weiß, ob „etwas“ und „wesentlich“ gleich weit auseinanderliegen. Darum Median und Häufigkeiten.',
+      'Ein Mittelwert setzt gleiche Abstände zwischen den Kategorien voraus (metrisch). Bei „wesentlich besser“ bis „wesentlich schlechter“ ist das nicht gesichert.',
       { short: 'Bericht zu ep04', wrongBy: {
-        mittel: 'Ein Mittelwert setzt gleiche Abstände zwischen den Stufen voraus (metrisch). Bei „wesentlich besser“ bis „wesentlich schlechter“ ist das nicht gesichert.',
-        nichts: 'Die Stufen haben eine Reihenfolge, also gibt es einen Median (Grundlage 3b).',
+        mittel: 'Ein Mittelwert setzt gleiche Abstände zwischen den Kategorien voraus (metrisch). Bei „wesentlich besser“ bis „wesentlich schlechter“ ist das nicht gesichert.',
+        nichts: 'Die Kategorien haben eine Reihenfolge, also gibt es einen Median (Grundlage 3b).',
       } }),
   ],
   a4: [
     number('a4a', 'Letzte Zeile unter dem Mittelwert: Welche Zahl steht dort in Cum. %?', 75.29,
-      '75,29 in der Zeile 54 Wochen: Drei Viertel waren höchstens 54 Wochen arbeitslos.',
+      '75,29 in der Zeile 54 Wochen.',
       'Unter 54,7 liegt als letzte Wochenzahl die 54, nicht die 52.',
       { tolerance: 0.05, short: 'Cum. % bei 54 Wochen', help: 'Aus `frequency(dw19)`, Spalte Cum. %.', special: [
         { at: 74.71, text: 'Das ist die Zeile 52; danach kommen noch 53 und 54.' },
@@ -442,11 +442,11 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', TaskQuestion[]> = {
         { at: 32.58, tolerance: 0.1, text: 'Das ist das Beispiel aus Grundlage 4; tausch die markierte Zahl.' },
       ] }),
     choice('a4c', 'Was zeigt das?', [
-      ['mitte', 'Der Mittelwert liegt in der Mitte der Reihe.'],
+      ['mitte', 'Der Mittelwert liegt in der Mitte der Rangfolge.'],
       ['viertel', 'Nur ein Viertel liegt über dem Mittelwert: Wenige sehr lange Zeiten ziehen ihn nach oben, die Mitte (Median 26) liegt viel tiefer.'],
       ['fehler', 'R hat sich verrechnet.'],
     ], 'viertel',
-      'Genau. Drei Viertel liegen unter dem Durchschnitt. Ein langer Auslauf zu großen Werten zieht den Mittelwert nach oben: Die Verteilung ist rechtsschief.',
+      'Genau. Drei Viertel liegen unter dem Mittelwert. Wenige sehr lange Zeiten ziehen ihn nach oben; die Verteilung läuft zu großen Werten lang aus. Sie ist ⟪rechtsschief|schiefe⟫.',
       'Über der Mitte läge die Hälfte. Hier ist es nur ein Viertel, also liegt der Mittelwert nicht in der Mitte. R rechnet richtig.', { short: 'Was das zeigt' }),
   ],
 };
@@ -465,11 +465,11 @@ export const K1B_Q = number('k1b-frage', 'Und von unten: Wie viel Prozent der g�
     { at: 47.76, tolerance: 0.1, text: 'Das sind Raw %, also von allen 5.246. Gefragt ist der Anteil der gültigen Antworten (Valid %).' },
   ] });
 
-export const K1C_Q = choice('k1c-frage', 'Die Person genau in der Mitte der Reihe: Wie oft liest sie Bücher?', [
+export const K1C_Q = choice('k1c-frage', 'Die Person genau in der Mitte der sortierten Antworten: Wie oft liest sie Bücher?', [
   ['t', 'täglich'], ['w', 'mindestens einmal pro Woche'], ['m', 'mindestens einmal pro Monat'], ['s', 'seltener'], ['n', 'nie'],
 ], 'm',
-  'Genau. Bis „pro Woche“ kommen erst 38,56 % zusammen, bis „pro Monat“ sind es 52,04 %. Die 50-%-Marke liegt also in der Stufe „mindestens einmal pro Monat“: Das ist der Median.',
-  'Geh in der Spalte Cum. % von oben nach unten. Die erste Zeile, in der du 50 erreichst oder überschreitest, ist die Stufe der mittleren Person.',
+  'Genau. Bis „pro Woche“ kommen erst 38,56 % zusammen, bis „pro Monat“ sind es 52,04 %. Die 50-%-Marke liegt also in der Kategorie „mindestens einmal pro Monat“: Das ist der Median.',
+  'Geh in der Spalte Cum. % von oben nach unten. Die erste Zeile, in der du 50 erreichst oder überschreitest, ist die Kategorie der mittleren Person.',
   { wrongBy: { s: '„Seltener“ ist die häufigste Antwort, der Modus. Gefragt ist die Person in der Mitte: Geh in Cum. % von oben, bis du über 50 kommst.' } });
 
 export const K2B_Q = choice('k2b-frage', 'Eine Zeitung will schreiben, wie viele bei st01 „kommt darauf an“ sagen. Welcher Satz ist am ehrlichsten?', [
@@ -488,16 +488,16 @@ export const K2B_AFTER = 'Am ehrlichsten: Valid % mit Basis nennen, also „41 %
 export const K3A_Q = choice('k3a-frage', 'Eine zehnte Person kommt dazu: Sie lebt in einer Wohngemeinschaft mit 12 Personen. Was passiert mit Mittelwert und Median?', [
   ['beide', 'beide steigen'], ['mittel', 'nur der Mittelwert steigt'], ['median', 'nur der Median steigt'], ['nichts', 'nichts ändert sich'],
 ], 'mittel',
-  'Genau. Der Mittelwert steigt von 2,44 auf 3,4, weil die 12 mit ihrem ganzen Gewicht in die Summe eingeht. Der Median bleibt 2, weil sich in der Mitte der Reihe nichts ändert.',
-  'Der Median schaut nur auf die Mitte der sortierten Reihe. Dort stehen weiter zwei Steine mit 2. Der Mittelwert steigt auf 3,4.',
+  'Genau. Der Mittelwert steigt von 2,44 auf 3,4, weil die 12 mit ihrem ganzen Gewicht in die Summe eingeht. Der Median bleibt 2, weil sich in der Mitte der sortierten Werte nichts ändert.',
+  'Der Median schaut nur auf die Mitte der sortierten Werte. Dort stehen weiter zwei Werte mit 2. Der Mittelwert steigt auf 3,4.',
   { wrongBy: {
-    beide: 'Der Median schaut nur auf die Mitte der sortierten Reihe. Dort stehen weiter zwei Steine mit 2. Der Mittelwert steigt auf 3,4.',
+    beide: 'Der Median schaut nur auf die Mitte der sortierten Werte. Dort stehen weiter zwei Werte mit 2. Der Mittelwert steigt auf 3,4.',
     median: 'Andersherum: Der Mittelwert zählt jede Zahl zusammen und steigt auf 3,4. Der Median bleibt bei 2.',
     nichts: 'Der Median bleibt tatsächlich bei 2. Der Mittelwert aber steigt: 34 geteilt durch 10 ist 3,4.',
   } });
 
 export const K3C_Q = choice('k3c-frage', 'Der Mittelwert liegt mit 2,34 über dem Median 2. Woran liegt das?', [
-  ['gross', 'An den größeren Haushalten: Nach oben reicht die Reihe viel weiter als nach unten'],
+  ['gross', 'An den größeren Haushalten: Nach oben reichen die Werte viel weiter als nach unten'],
   ['fehlend', 'An den 102 fehlenden Angaben'],
   ['rundet', 'R rundet den Median ab'],
 ], 'gross',
@@ -508,12 +508,12 @@ export const K3C_Q = choice('k3c-frage', 'Der Mittelwert liegt mit 2,34 über de
     rundet: 'R rundet nicht ab: 2.000 ist genau 2. Der Unterschied kommt von den großen Haushalten.',
   } });
 
-export const K4_Q = number('k4-frage', 'Wie viel Prozent der Befragten leben in einem Haushalt mit mehr Personen als im Durchschnitt (2,34)?', 32.58,
-  '32,58 %: Bis 2 Personen kommen 67,42 % zusammen, über dem Mittelwert liegen also 100 − 67,42 = 32,58 %. Nur ein Drittel liegt über dem Durchschnitt.',
+export const K4_Q = number('k4-frage', 'Wie viel Prozent der Befragten leben in einem Haushalt mit mehr Personen als im Mittel (2,34)?', 32.58,
+  '32,58 %: Bis 2 Personen kommen 67,42 % zusammen, über dem Mittelwert liegen also 100 − 67,42 = 32,58 %. Nur ein Drittel liegt über dem Mittelwert.',
   'Such in Cum. % die letzte Zeile unter dem Mittelwert 2,34, das ist 2 Personen (67,42), und zieh sie von 100 ab.',
-  { tolerance: 0.1, short: 'über dem Durchschnitt', help: 'Eine Kommazahl reicht.', special: [
+  { tolerance: 0.1, short: 'über dem Mittelwert', help: 'Eine Kommazahl reicht.', special: [
     { at: 67.42, tolerance: 0.1, text: 'Das sind alle bis einschließlich 2 Personen, also höchstens beim Mittelwert. Gefragt ist der Rest: 100 minus diese Zahl.' },
-    { at: 50, text: '50 % lägen darüber, wenn der Mittelwert genau in der Mitte der Reihe stünde. Such in Cum. % die Zeile 2 Personen und zieh ihre Zahl von 100 ab.' },
+    { at: 50, text: '50 % lägen darüber, wenn der Mittelwert genau in der Mitte der sortierten Werte stünde. Such in Cum. % die Zeile 2 Personen und zieh ihre Zahl von 100 ab.' },
   ] });
 
 /* ---------- Erst festlegen ---------- */
@@ -530,12 +530,12 @@ export const PREDICTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', { id: string; prompt
 /** Stufe 1 Denkanstoß, Stufe 2 Wo schaue ich?, Stufe 3 Lösung; Code in `Backticks`. */
 export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> = {
   a1: [
-    'Die Tabelle hat zwei Teile: oben die gültigen Antworten 1 bis 5, unten die fehlenden mit ihrem Grund. Der Modus ist der höchste Stapel, der Median die Stufe der Person in der Mitte. Für „schlechter“ zählst du zwei Stufen zusammen.',
+    'Die Tabelle hat zwei Teile: oben die gültigen Antworten 1 bis 5, unten die fehlenden mit ihrem Grund. Der Modus ist die Kategorie mit der größten absoluten Häufigkeit, der Median die Kategorie der Person in der Mitte. Für „schlechter“ zählst du zwei Kategorien zusammen.',
     'Alles steht in der Ausgabe von `allbus %>% frequency(ep04)`. Total valid und Total missing in der Spalte N. Den Modus findest du an der größten Zahl in N, den Median in Cum. %. Zum Zusammenzählen nimmst du Valid %, nicht Raw %.',
     '5.188 gültige Antworten, 58 fehlen (37 ohne Angabe, 16 „weiß nicht“, 5 Datenfehler). Modus: „etwas schlechter“ (2.067, 39,84 %). Median: „gleichbleibend“ (Cum. % 51,72). Schlechter: `39.84 + 8.44` ergibt 48.28, also 48,28 %; besser 16,33 %. Richtig ist der Satz „Knapp die Hälfte der Befragten mit gültiger Antwort (48 %) erwartet eine schlechtere Lage, nur 16 % eine bessere.“',
   ],
   a2: [
-    'Dieselben 988 Menschen ergeben verschiedene Prozentzahlen, je nachdem, durch wen du teilst. Raw % teilt durch alle, Valid % durch die gültigen, und eine eigene Basis rechnest du selbst.',
+    'Dieselben 988 Menschen ergeben verschiedene Prozentzahlen, je nachdem, wen du in die Basis zählst. Raw % teilt durch alle, Valid % durch die gültigen, und eine eigene Basis rechnest du selbst.',
     'Die fehlenden Werte und Total missing stehen unten in `allbus %>% frequency(pv01)`, die Prozente für CDU/CSU in der ersten Zeile. Für die eigene Basis führst du die Vorlage aus Schritt 3 aus, mit 603 statt 988 vorne.',
     'Häufigster Grund: „weiß nicht“ (603). Total missing: 1.262. CDU/CSU: Raw % 18,83, Valid % 24,80, mit „weiß nicht“ in der Basis 21,54. Unentschlossene: `603 / (3984 + 603) * 100` ergibt 13.14585, also 13,15 %. Der Zeitungssatz ist ungenau, weil er die Basis nicht nennt.',
   ],
@@ -547,7 +547,7 @@ export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> 
   a4: [
     'Cum. % sagt, wie viele höchstens bis zu einer Wochenzahl kommen. Wer darüber liegt, ist der Rest bis 100.',
     'In `allbus %>% frequency(dw19)` stehen die Wochenzahlen in der Spalte Value. Such die letzte Zeile unter 54,7. Das ist 54. Dann rechnest du mit der Vorlage aus Schritt 2.',
-    'In der Zeile 54 steht Cum. % 75,29. `100 - 75.29` ergibt 24.71: Nur 24,71 % (127 von 514) waren länger arbeitslos als der Durchschnitt. Wenige sehr lange Zeiten ziehen den Mittelwert nach oben; die Mitte liegt bei 26 Wochen.',
+    'In der Zeile 54 steht Cum. % 75,29. `100 - 75.29` ergibt 24.71: Nur 24,71 % (127 von 514) waren länger arbeitslos als im Mittel. Wenige sehr lange Zeiten ziehen den Mittelwert nach oben; die Mitte liegt bei 26 Wochen.',
   ],
 };
 
@@ -596,7 +596,7 @@ export const SELF_TEST: { question: string; options: string[]; answer: number; w
     answer: 1, why: 'Konfessionen sind nominal: Die Codes sind nur Namen. Es bleibt nur der Modus (Grundlage 3b).' },
   { question: 'Zu neun Befragten kommt eine Person mit einem sehr großen Wert dazu. Was verändert sich stärker?',
     options: ['der Mittelwert', 'der Median', 'beide gleich stark'],
-    answer: 0, why: 'Der Mittelwert zählt jeden Wert zusammen, der Median schaut nur auf die Mitte der sortierten Reihe (Grundlage 3a).' },
+    answer: 0, why: 'Der Mittelwert zählt jeden Wert zusammen, der Median schaut nur auf die Mitte der sortierten Werte (Grundlage 3a).' },
 ];
 
 /* ---------- Skript zum Mitnehmen ---------- */

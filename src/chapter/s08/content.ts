@@ -213,10 +213,10 @@ export const FIVE_ROWS: (number | null)[][] = [
 
 export const ALT = {
   messfehler: 'Eine Achse von 1, Risiko überwiegt, bis 5, Chance überwiegt. Eine Befragte, zum Beispiel, antwortet beim Sozialstaat 2, bei der Sicherheit 2, beim Zusammenleben 3 und bei der Wirtschaft 4. Ihr Mittelwert aus den vier Antworten liegt bei 2,75. Er beschreibt ihre Haltung zum Thema insgesamt besser als jede einzelne Antwort.',
-  reihe: 'Eine Bauplatte mit den vier Türmen mp16 bis mp19 und drei Befragten, zum Beispiel. Person A antwortet 2, 2, 3 und 4, ihr Mittelwert ist 11 geteilt durch 4, also 2,75. Person B antwortet 1, 1 und 2, eine Antwort fehlt; ihr Mittelwert aus drei gültigen Antworten ist 4 geteilt durch 3, also 1,33. Person C antwortet 4, 3, 5 und 4, ihr Mittelwert ist 4. Der neue Turm fluechtlinge enthält 2,75, 1,33 und 4. Mit min_valid gleich 4 bekommt Person B keinen Wert, ihr Stein bleibt leer, weil sie nur drei von vier Fragen beantwortet hat.',
+  reihe: 'Ein Datensatz mit den vier Variablen mp16 bis mp19 und drei Befragten, zum Beispiel. Person A antwortet 2, 2, 3 und 4, ihr Mittelwert ist 11 geteilt durch 4, also 2,75. Person B antwortet 1, 1 und 2, eine Antwort fehlt; ihr Mittelwert aus drei gültigen Antworten ist 4 geteilt durch 3, also 1,33. Person C antwortet 4, 3, 5 und 4, ihr Mittelwert ist 4. Die neue Variable fluechtlinge enthält 2,75, 1,33 und 4. Mit min_valid gleich 4 bekommt Person B keinen Wert, ihre Zelle bleibt leer, weil sie nur drei von vier Fragen beantwortet hat.',
   formelIndex: 'Indexwert gleich Summe der gültigen Antworten einer Person geteilt durch die Anzahl ihrer gültigen Antworten. Das gilt nur, wenn die Anzahl gültiger Antworten mindestens min_valid ist, sonst bleibt der Wert leer. Für Person B: 1 plus 1 plus 2 gleich 4, geteilt durch 3 ergibt 1,33.',
   indexFluechtlinge: 'Säulendiagramm des Index von 1 bis 5 in Viertelschritten, gewichtet, nur Befragte mit allen vier Antworten. Prozent je Wert: 1: 8,31; 1,25: 3,73; 1,5: 6,15; 1,75: 6,52; 2: 12,48; 2,25: 9,33; 2,5: 10,51; 2,75: 8,87; 3: 12,63; 3,25: 7,36; 3,5: 6,20; 3,75: 4,25; 4: 2,11; 4,25: 0,70; 4,5: 0,25; 4,75: 0,09; 5: 0,51. Unter 3 liegen zusammen 65,90 Prozent, genau 3 haben 12,63 Prozent, über 3 liegen 21,46 Prozent. Mittelwert 2,45, Median 2,5.',
-  minValid: 'Fünf Befragte, zum Beispiel. Reihe 1 hat sieben gültige Antworten: 1, 2, 3, 2, 2, 4, 3, Mittelwert 2,43. Reihe 2 hat sechs: 2, 2, 3, 2, 3, 2, Mittelwert 2,33. Reihe 3 hat fünf: 1, 2, 1, 2, 1, Mittelwert 1,40. Reihe 4 hat zwei gültige Antworten, Reihe 5 keine, weil die Fragen dort nicht gestellt wurden. Mit min_valid gleich 7 bekommt nur Reihe 1 einen Wert, mit min_valid gleich 5 die Reihen 1, 2 und 3.',
+  minValid: 'Fünf Befragte, zum Beispiel. Zeile 1 hat sieben gültige Antworten: 1, 2, 3, 2, 2, 4, 3, Mittelwert 2,43. Zeile 2 hat sechs: 2, 2, 3, 2, 3, 2, Mittelwert 2,33. Zeile 3 hat fünf: 1, 2, 1, 2, 1, Mittelwert 1,40. Zeile 4 hat zwei gültige Antworten, Zeile 5 keine, weil die Fragen dort nicht gestellt wurden. Mit min_valid gleich 7 bekommt nur Zeile 1 einen Wert, mit min_valid gleich 5 die Zeilen 1, 2 und 3.',
   korrelationen: 'Am engsten hängen Gemeinde und Bundesland zusammen (0,568), am schwächsten Gemeinde und EU (0,190). Mittlere Korrelation mit den anderen drei: Gemeinde 0,366, Bundesland 0,467, Deutschland 0,454, EU 0,330.',
   formelAlpha: 'Alpha gleich k mal r quer, geteilt durch 1 plus k minus 1 mal r quer. Dabei ist k die Zahl der Items und r quer die mittlere Korrelation zwischen ihnen. Für die Verbundenheit: k gleich 4, r quer gleich 0,404. Oben 4 mal 0,404 gleich 1,616, unten 1 plus 3 mal 0,404 gleich 2,212. 1,616 geteilt durch 2,212 ergibt 0,731.',
   alphaOhne: 'α ohne die jeweilige Aussage: pa29 0,842, pa30 0,811, pa31 0,800, pa32 0,794, pa33 0,801, pa34 0,817, pa35 0,805. Mit allen sieben ist α 0,833. Nur ohne pa29 wäre α höher.',
@@ -224,7 +224,7 @@ export const ALT = {
   vorherNachher: 'Trennschärfen vorher: mm01 0,289, mm02 minus 0,373, mm03 0,442, mm04 0,474, mm05 minus 0,411, mm06 0,428, Cronbachs Alpha 0,177. Nach dem Umpolen von mm02 und mm05: mm01 0,709, mm02_um 0,535, mm03 0,633, mm04 0,654, mm05_um 0,539, mm06 0,654, Cronbachs Alpha 0,840.',
   ausgleich: 'Person A antwortet 1, 1 und 4, Person B 2, 2 und 2, zum Beispiel. Beide haben den Mittelwert 2. Nach der Regel allen zugestimmt, also bei jeder Aussage 1 oder 2, gilt nur Person B, denn Person A lehnt die dritte Aussage mit 4 ab.',
   welcherIndex: 'Entscheidungsbaum. Erste Frage: Darf eine hohe Antwort bei einem Item eine niedrige bei einem anderen ausgleichen? Wenn nein, nimmst du einen Kombinationsindex mit einer festen Regel, etwa allen zugestimmt oder einen Typ aus Rängen wie beim Inglehart-Index; in R mit rec und row_sums. Wenn ja, zweite Frage: Zeigen alle Items in dieselbe Richtung? Wenn nein, erst umpolen, dann noch einmal fragen. Wenn ja, dritte Frage: Hängen die Items eng genug zusammen, also Cronbachs Alpha und Trennschärfen? Wenn nein, Items und Begriff überdenken. Wenn ja, bildest du einen Mittelwertindex mit row_means, pick und min_valid.',
-  zeileR2: 'fluechtlinge gleich, der neue Name. row_means, die Funktion: Mittelwert je Reihe. pick mit mp16, mp17, mp18, mp19: welche Türme. Komma, min_valid gleich 3: mindestens so viele gültige Antworten. Klammer zu.',
+  zeileR2: 'fluechtlinge gleich, der neue Name. row_means, die Funktion: Mittelwert je Zeile. pick mit mp16, mp17, mp18, mp19: welche Variablen. Komma, min_valid gleich 3: mindestens so viele gültige Antworten. Klammer zu.',
 };
 
 /* ---------- Codevorlagen ---------- */
@@ -249,7 +249,7 @@ allbus %>%
     fluechtlinge = row_means(pick(mp16, mp17, mp18, mp19), min_valid = 3)
   ) %>%
   describe(fluechtlinge, weights = wghtpew)` },
-  r_reliability: { title: 'Stimmigkeit: Verbundenheit', code: `# Wie stimmig sind die vier Fragen zur Verbundenheit? Kurz
+  r_reliability: { title: 'Reliabilität: Verbundenheit', code: `# Wie zuverlässig messen die vier Fragen zur Verbundenheit zusammen? Kurz
 allbus %>%
   reliability(pn12, pn13, pn16, pn17)
 
@@ -280,23 +280,23 @@ allbus %>%
   t_test(populismus, group = eastwest, weights = wghtpew) %>%
   summary()
 ` },
-  a2: { title: 'Aufgabe 2: Reliabilität der sieben Aussagen', code: `# Wie stimmig sind die sieben Populismus-Aussagen? Ausführlich mit summary()
+  a2: { title: 'Aufgabe 2: Reliabilität der sieben Aussagen', code: `# Wie zuverlässig messen die sieben Populismus-Aussagen zusammen? Ausführlich mit summary()
 allbus %>%
   reliability(pa29, pa30, pa31, pa32, pa33, pa34, pa35) %>%
   summary()` },
   a2ohne: { title: 'Aufgabe 2: Gegenprobe ohne ein Item', code: `# Gegenprobe: dieselbe Rechnung ohne ein Item
 allbus %>%
   reliability(⟦pa29, ⟧pa30, pa31, pa32, pa33, pa34, pa35)` },
-  frei_a2: { tryOut: true, title: 'Deine Probier-Werkstatt', code: `# Eine Idee: Wie stimmig sind nur drei der sieben Aussagen?
+  frei_a2: { tryOut: true, title: 'Deine Probier-Werkstatt', code: `# Eine Idee: Wie zuverlässig messen nur drei der sieben Aussagen zusammen?
 allbus %>%
   reliability(pa31, pa32, pa33)
 ` },
-  a3: { title: 'Aufgabe 3: sechs Aussagen zu Islam und Muslimen, wie gefragt', code: `# Wie stimmig sind die sechs Aussagen zu Islam und Muslimen, so wie sie im Datensatz stehen?
+  a3: { title: 'Aufgabe 3: sechs Aussagen zu Islam und Muslimen, wie gefragt', code: `# Wie zuverlässig messen die sechs Aussagen zu Islam und Muslimen zusammen, so wie sie im Datensatz stehen?
 allbus %>%
   reliability(mm01, mm02, mm03, mm04, mm05, mm06) %>%
   summary()` },
   a3um: { title: 'Aufgabe 3: umpolen und neu prüfen', code: `# Zwei Items umpolen: aus 1 wird 7, aus 2 wird 6 und so weiter
-# Dann die Stimmigkeit mit den umgepolten Items statt der alten
+# Dann die Reliabilität mit den umgepolten Items statt der alten
 allbus %>%
   mutate(
     mm02_um = rec(mm02, rules = "rev"),
@@ -408,7 +408,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
       ['eins', 'Befragte, die eine oder zwei der sieben Aussagen nicht beantwortet haben'],
       ['null', 'Befragte, die gar keine Aussage beantwortet haben'],
       ['split', 'Befragte aus dem anderen Teil der Fragebögen (Split)'],
-    ], 'eins', 'Genau. Sie haben fünf oder sechs gültige Antworten; ihr Wert ist der Mittelwert dieser Antworten.',
+    ], 'eins', 'Genau. Sie haben fünf oder sechs ⟪gültige Antworten⟫; ihr Wert ist der Mittelwert dieser Antworten.',
     'Wer keine Antwort hat, bekommt nie einen Wert.', {
       short: 'wer dazukommt',
       special: [
@@ -417,7 +417,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
       ],
     }),
     number('a1d', 'Wie hoch ist der gewichtete Mittelwert des Index (Schritt 3)?', 2.646,
-      '2,646: Im Mittel liegt der Index zwischen „stimme eher zu“ (2) und „teils/teils“ (3).', 'Lies in Schritt 3 die Spalte Mean.', {
+      '2,646, gewichtet. Was das in Worten heißt, fragt die nächste Frage.', 'Lies in Schritt 3 die Spalte Mean.', {
         tolerance: 0.005, short: 'gewichteter Mittelwert', help: 'Aus Schritt 3, Spalte Mean. R schreibt Kommazahlen mit Punkt.',
         special: [
           { match: 2.602, tolerance: 0.002, text: 'Das ist der Mittelwert ohne Gewicht aus Schritt 1. Für die Aussage über alle nimm Schritt 3.' },
@@ -456,18 +456,18 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
       }),
     choice('a2c', 'Was sagt α = 0,833?', [
       ['stimmig', 'Die sieben Antworten einer Person hängen so eng zusammen, dass ihr Mittelwert zuverlässig misst.'],
-      ['prozent', '83 % der Befragten antworten stimmig.'],
+      ['prozent', '83 % der Befragten antworten einheitlich.'],
       ['gueltig', 'Die sieben Aussagen messen nachweislich Populismus.'],
-    ], 'stimmig', 'Genau. α beschreibt, wie zuverlässig (reliabel) der Index misst.',
+    ], 'stimmig', 'Genau. α schätzt die ⟪Reliabilität⟫ des Index: wie zuverlässig er misst.',
     'α fasst zusammen, wie eng die Items zusammenhängen.', {
       short: 'was α sagt',
       special: [
         { match: 'prozent', text: 'α ist kein Anteil von Befragten. Es fasst zusammen, wie eng die Items zusammenhängen.' },
-        { match: 'gueltig', text: 'Ob die Aussagen Populismus treffen, ist eine Frage der Validität. Die prüft α nicht; dafür schaust du auf den Inhalt.' },
+        { match: 'gueltig', text: 'Ob die Aussagen Populismus treffen, ist eine Frage der ⟪Validität⟫. Die prüft α nicht; dafür schaust du auf den Inhalt.' },
       ],
     }),
     number('a2d', 'Wie hoch ist α ohne pa29 (Schritt 2)?', 0.842,
-      '0,842, genau wie „Alpha if Deleted“ bei pa29. α steigt also nur um 0,009.', 'Führe Schritt 2 ohne pa29 aus und lies „Cronbach\'s Alpha =“.', {
+      '0,842, genau wie „Alpha if Deleted“ bei pa29. α steigt um 0,009.', 'Führe Schritt 2 ohne pa29 aus und lies „Cronbach\'s Alpha =“.', {
         tolerance: 0.0005, short: 'α ohne pa29', help: 'Aus Schritt 2, drei Nachkommastellen.',
         special: [
           { match: 0.841, tolerance: 0.0005, text: 'Das ist McDonalds ω aus Schritt 1 (alle sieben). Gesucht ist Cronbach\'s Alpha aus Schritt 2, ohne pa29.' },
@@ -491,10 +491,10 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
   ],
   a3: [
     choice('a3a', 'Welche zwei Aussagen haben in Schritt 1 eine negative Trennschärfe?', MM_PAIRS, 'mm02-mm05',
-      'mm02 (−0,373) und mm05 (−0,411). Genau die beiden drücken bei Zustimmung eine offene Haltung aus, die anderen vier bei Zustimmung Vorbehalte.',
+      'mm02 (−0,373) und mm05 (−0,411). Genau die beiden sind andersherum gestellt als die übrigen vier.',
       'Such in der Spalte Corrected Item-Total die beiden Zahlen mit Minuszeichen.', { short: 'negative Trennschärfe', help: 'Schritt 1, Spalte Corrected Item-Total.' }),
     number('a3b', 'Wie hoch ist Cronbachs α vor dem Umpolen?', 0.177,
-      '0,177, nach der Faustregel schwach (Poor). Die Aussagen heben sich gegenseitig auf.', 'Lies in Schritt 1 die Zeile Cronbach\'s Alpha.', {
+      '0,177, nach der Faustregel schwach (Poor).', 'Lies in Schritt 1 die Zeile Cronbach\'s Alpha.', {
         tolerance: 0.0015, short: 'α vor dem Umpolen', help: 'Drei Nachkommastellen.',
         special: [
           { match: 0.207, tolerance: 0.0005, text: 'Das ist das standardisierte α. Gesucht ist „Cronbach\'s Alpha“ eine Zeile darüber.' },
@@ -503,7 +503,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
         ],
       }),
     number('a3c', 'Wie hoch ist Cronbachs α nach dem Umpolen (Schritt 2)?', 0.840,
-      '0,840, nach der Faustregel gut (Good). Vorher 0,177: Erst in einer Richtung passen die sechs zusammen.', 'Führe Schritt 2 mit mm02_um und mm05_um aus und lies Cronbach\'s Alpha.', {
+      '0,840, nach der Faustregel gut (Good). Vorher 0,177.', 'Führe Schritt 2 mit mm02_um und mm05_um aus und lies Cronbach\'s Alpha.', {
         tolerance: 0.0015, short: 'α nach dem Umpolen', help: 'Aus Schritt 2, drei Nachkommastellen.',
         special: [
           { match: 0.177, tolerance: 0.0005, text: 'Das ist noch α vor dem Umpolen. In reliability() stehen noch mm02 und mm05; tausch sie gegen mm02_um und mm05_um.' },
@@ -517,7 +517,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
       ['vorb', 'für mehr Vorbehalte gegenüber Islam und Muslimen'],
       ['offen', 'für mehr Offenheit gegenüber Islam und Muslimen'],
       ['versch', 'Das ist je nach Aussage verschieden.'],
-    ], 'vorb', 'Genau. Bei mm01, mm03, mm04 und mm06 steht 7 schon für Vorbehalte. mm02_um und mm05_um sind so gedreht, dass 7 jetzt „stimme gar nicht zu“ heißt, also ebenfalls für Vorbehalte. Ein Index daraus misst also Vorbehalte; nenn diese Richtung immer mit.',
+    ], 'vorb', 'Genau. Bei mm01, mm03, mm04 und mm06 steht 7 schon für Vorbehalte. mm02_um und mm05_um sind so gedreht, dass 7 jetzt „stimme gar nicht zu“ heißt, also ebenfalls für Vorbehalte. Ein hoher ⟪Skalenwert⟫, also der Indexwert einer Person, steht damit für mehr Vorbehalte. Nenn diese Richtung immer mit.',
     'Lies die Aussagen noch einmal: Wofür steht bei den vier nicht umgepolten eine 7?', {
       short: 'Richtung',
       special: [
@@ -529,7 +529,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
       ['richtung', 'Zwei Aussagen zeigen in die andere Richtung; ihre Antworten heben die der anderen teilweise auf.'],
       ['begriff', 'Die sechs Aussagen messen ganz Verschiedenes.'],
       ['wenige', 'Zu wenige Befragte haben geantwortet.'],
-    ], 'richtung', 'Genau. Nach dem Umpolen steigt α auf 0,840. Die Aussagen messen also einen gemeinsamen Begriff, sie waren nur verschieden gepolt.',
+    ], 'richtung', 'Genau. Nach dem ⟪Umpolen⟫ steigt α auf 0,840. Die Aussagen messen also ein gemeinsames ⟪Konstrukt⟫, sie waren nur verschieden ⟪gepolt|polung⟫.',
     'Vergleich α vor und nach dem Umpolen.', {
       short: 'warum so niedrig',
       special: [
@@ -548,7 +548,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
         ],
       }),
     number('a4b', 'Wie viel Prozent stimmen im Schnitt zu (Mittelwert höchstens 2)?', 21.71,
-      '21,71 %. Also stimmen 7,5 Prozentpunkte mehr im Schnitt zu als durchgehend.', 'Führe Schritt 2 mit kurz aus und lies Cum. % in der Zeile 2.', {
+      '21,71 %. Also stimmen 7,5 ⟪Prozentpunkte⟫ mehr im Schnitt zu als durchgehend.', 'Führe Schritt 2 mit kurz aus und lies Cum. % in der Zeile 2.', {
         tolerance: 0.1, short: 'im Schnitt zugestimmt', help: 'Cum. % in der Zeile 2.',
         special: [
           { match: 7.61, tolerance: 0.1, text: 'Das sind nur die mit genau 2. Höchstens 2 heißt: auch 1, 1,33 und 1,67. Lies Cum. % in der Zeile 2.' },
@@ -560,7 +560,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', S8Question[]> = {
       ['ausgleich', 'Im Mittelwert kann Zustimmung bei zwei Aussagen eine schwächere Antwort bei der dritten ausgleichen.'],
       ['gewicht', 'Weil der Mittelwertindex gewichtet ist und der andere nicht.'],
       ['fehlend', 'Weil beim Mittelwertindex mehr Befragte einen Wert haben.'],
-    ], 'ausgleich', 'Genau. Die 7,5 Prozentpunkte Unterschied sind fast alle Befragte, die zwei Aussagen zustimmen, mindestens einer davon voll, und bei der dritten „teils/teils“ sagen (7,3 Prozentpunkte). Dass eine echte Ablehnung ausgeglichen wird (etwa 1, 1, 4), kommt kaum vor (0,2 Prozentpunkte).',
+    ], 'ausgleich', 'Genau. Der Mittelwertindex ist ein ⟪kompensatorischer Index|kompensatorisch⟫: Zustimmung bei zwei Aussagen kann eine schwächere Antwort bei der dritten ausgleichen. Die Regel „allen zugestimmt“ ist dagegen ein ⟪Kombinationsindex⟫: Bei ihr lässt sich nichts ausgleichen. Die 7,5 Prozentpunkte Unterschied sind fast alle Befragte, die zwei Aussagen zustimmen, mindestens einer davon voll, und bei der dritten „teils/teils“ sagen (7,3 Prozentpunkte). Dass eine echte Ablehnung ausgeglichen wird (etwa 1, 1, 4), kommt kaum vor (0,2 Prozentpunkte).',
     'Denk an Person A und B aus Grundlage 4a.', {
       short: 'warum mehr',
       special: [
@@ -653,14 +653,14 @@ export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> 
     'Mit `min_valid = 7` bekommen 3.427 Befragte einen Wert, mit `min_valid = 5` sind es 3.595. Der gewichtete Mittelwert ist 2,646 (Median 2,714). Weil 1 „stimme voll zu“ heißt, bedeutet das: Im Mittel stimmen die Befragten eher zu, der Wert liegt zwischen „stimme eher zu“ und „teils/teils“.',
   ],
   a2: [
-    'Cronbachs α sagt, wie stimmig alle sieben Aussagen zusammen sind. Die Trennschärfe sagt, wie gut eine einzelne Aussage zu den übrigen passt. „Alpha if Deleted“ sagt, wie hoch α ohne diese Aussage wäre.',
+    'Cronbachs α sagt, wie eng alle sieben Aussagen zusammenhängen. Die Trennschärfe sagt, wie gut eine einzelne Aussage zu den übrigen passt. „Alpha if Deleted“ sagt, wie hoch α ohne diese Aussage wäre.',
     'In Schritt 1 steht α unter „Reliability Statistics“ in der Zeile „Cronbach\'s Alpha“. Unter „Item-Total Statistics“ suchst du in der Spalte „Corrected Item-Total“ die kleinste Zahl. In Schritt 2 steht α nach dem Löschen in der Zeile „Cronbach\'s Alpha =“.',
     'α = 0,833 (Good). Die schwächste Trennschärfe hat pa29 mit 0,348. Ohne pa29 läge α bei 0,842. Ob pa29 bleibt, ist eine inhaltliche Entscheidung: Sie trifft einen Kern des Begriffs, unterscheidet aber kaum, weil fast alle zustimmen. Beides ist vertretbar, wenn du es begründest.',
   ],
   a3: [
-    'Lies die sechs Aussagen: Bei vier steht Zustimmung für Vorbehalte, bei zwei für eine offene Haltung. Solange sie verschieden gepolt sind, laufen ihre Antworten gegeneinander, und α bleibt niedrig.',
+    'Lies die sechs Aussagen noch einmal: Wofür spricht bei jeder eine 7? Leg dann beide Ausgaben nebeneinander: Was ist bei α und den Trennschärfen anders, was gleich?',
     'α steht in beiden Ausgaben in der Zeile Cronbach\'s Alpha. Falsch gepolte Aussagen erkennst du in Schritt 1 an einem Minuszeichen in Corrected Item-Total. In Schritt 2 müssen in `reliability()` die Namen mit `_um` stehen, sonst rechnet R wieder mit den alten.',
-    'Negative Trennschärfen haben mm02 (−0,373) und mm05 (−0,411). α vorher 0,177. In Schritt 2 heißt die Zeile `reliability(mm01, mm02_um, mm03, mm04, mm05_um, mm06)`; dann ist α 0,840 und alle Trennschärfen sind positiv. Eine hohe Zahl steht jetzt bei allen sechs für mehr Vorbehalte gegenüber Islam und Muslimen.',
+    'Negative Trennschärfen haben mm02 (−0,373) und mm05 (−0,411). α vorher 0,177. In Schritt 2 heißt die Zeile `reliability(mm01, mm02_um, mm03, mm04, mm05_um, mm06)`; dann ist α 0,840 und alle Trennschärfen sind positiv. Eine hohe Zahl steht jetzt bei allen sechs für mehr Vorbehalte gegenüber Islam und Muslimen. α war vorher so niedrig, weil zwei Aussagen andersherum gepolt waren und gegen die anderen liefen.',
   ],
   a4: [
     '`zustimmungen` zählt, wie vielen Aussagen jemand mit 1 oder 2 zustimmt. `kurz` ist der Mittelwert der drei Antworten. Wer allen zustimmt, hat auch im Schnitt höchstens 2, aber nicht umgekehrt.',
@@ -696,7 +696,7 @@ export const ERROR_HELP: { says: Rich; helps: Rich }[] = [
 /* ---------- Prüf dich selbst ---------- */
 
 export const SELF_TEST: { question: string; options: string[]; answer: number; why: string }[] = [
-  { question: 'Eine Skala aus 20 Items hat α = 0,92. Was folgt daraus?', options: ['Die Skala misst sicher, was sie messen soll.', 'Die Items hängen zusammen; wie eng, sagt α allein nicht, weil α mit der Zahl der Items steigt.', '92 % der Befragten antworten stimmig.'], answer: 1, why: 'Bei 20 Items reicht schon eine mittlere Korrelation von 0,2 für ein hohes α. Und ob die Skala das Richtige misst, ist eine Frage der Validität (Grundlage 2b und 2c).' },
+  { question: 'Eine Skala aus 20 Items hat α = 0,92. Was folgt daraus?', options: ['Die Skala misst sicher, was sie messen soll.', 'Die Items hängen zusammen; wie eng, sagt α allein nicht, weil α mit der Zahl der Items steigt.', '92 % der Befragten antworten einheitlich.'], answer: 1, why: 'Bei 20 Items reicht schon eine mittlere Korrelation von 0,2 für ein hohes α. Und ob die Skala das Richtige misst, ist eine Frage der Validität (Grundlage 2b und 2c).' },
   { question: 'Ein Item hat in summary() eine Trennschärfe von −0,35. Was tust du zuerst?', options: ['Item sofort streichen', 'Wortlaut lesen: Ist das Item andersherum gefragt? Dann umpolen.', 'Nichts, negative Werte sind normal'], answer: 1, why: 'Eine negative Trennschärfe heißt fast immer: Das Item zeigt in die andere Richtung. Nach dem Umpolen passt es meist (Grundlage 3, Aufgabe 3).' },
   { question: 'Eine Person hat drei von vier Items beantwortet. Der Index wird mit min_valid = 4 gebildet. Welchen Wert bekommt sie?', options: ['den Mittelwert ihrer drei Antworten', 'keinen Wert (NA)', 'den Mittelwert, wobei die fehlende Antwort als 0 zählt'], answer: 1, why: 'min_valid = 4 verlangt vier gültige Antworten. Mit min_valid = 3 bekäme sie den Mittelwert ihrer drei Antworten; als 0 zählt eine fehlende Antwort nie (Grundlage 1b).' },
   { question: 'Ein Populismus-Index hat bei einer Person den Wert 1,4. Die Items reichen von 1 „stimme voll zu“ bis 5 „lehne ganz ab“. Was heißt das?', options: ['Die Person ist kaum populistisch.', 'Die Person stimmt den Aussagen im Mittel stark zu, ist also eher populistisch.', 'Die Person hat 1,4 Aussagen zugestimmt.'], answer: 1, why: 'Ein niedriger Wert heißt hier Zustimmung. Die Richtung eines Index ergibt sich aus den Items (Aufgabe 1).' },

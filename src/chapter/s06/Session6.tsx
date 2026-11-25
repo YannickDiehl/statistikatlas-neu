@@ -14,7 +14,7 @@ export const session6Status = (state: ChapterState) => chapterStatus(state, REQU
 
 const TOC: TocGroup[] = [
   { group: 'Vorweg', items: [{ href: '#r1', label: 'Gewicht als Argument' }, { href: '#r2', label: 'Ein Zusammenhangsmaß' }] },
-  { group: 'Themen', items: [{ href: '#thema1', label: '1 Gewichtung' }, { href: '#thema2', label: '2 Kategorien' }, { href: '#thema3', label: '3 Geordnete Stufen' }, { href: '#thema4', label: '4 Zahlen mit Abständen' }] },
+  { group: 'Themen', items: [{ href: '#thema1', label: '1 Gewichtung' }, { href: '#thema2', label: '2 Kategorien' }, { href: '#thema3', label: '3 Geordnete Kategorien' }, { href: '#thema4', label: '4 Zahlen mit Abständen' }] },
   { group: 'Zum Schluss', items: [{ href: '#ueberblick', label: 'Überblick' }, { href: '#mitnehmen', label: 'Das Wichtigste' }, { href: '#selbsttest', label: 'Prüf dich selbst' }, { href: '#skript', label: 'Skript' }] },
 ];
 
@@ -22,10 +22,10 @@ const TAKE_AWAY = [
   <>Der ALLBUS befragt den Osten absichtlich stärker (32 statt 17 von 100). Für Aussagen über ganz Deutschland rechnest du gewichtet mit <code>weights = wghtpew</code>; das Gewicht ist Anteil in Deutschland geteilt durch Anteil in der Stichprobe.</>,
   <>Gewichtung verschiebt Gesamtzahlen, wenn sich West und Ost unterscheiden (Zufriedene: 70,7 % ohne, 73,6 % mit Gewicht); innerhalb eines Landesteils ändert sie fast nichts.</>,
   <>Zusammenhang heißt: Die Verteilung des einen Merkmals ist in den Gruppen des anderen verschieden. <b>χ²</b> misst den Abstand von „kein Zusammenhang“, <b>Phi</b> und <b>Cramér-V</b> machen daraus eine Zahl von 0 bis 1 (zeigt <code>phi()</code> ein Minus, zählt für die Stärke der Betrag).</>,
-  <>Haben beide Merkmale eine Reihenfolge, vergleichen <b>Gamma</b> und <b>Tau-b</b> Paare: gleichläufig gegen gegenläufig. Gamma lässt Gleichstände weg und fällt größer aus.</>,
+  <>Haben beide Merkmale eine Reihenfolge, vergleichen <b>Gamma</b> und <b>Tau-b</b> Paare: konkordant (gleichläufig) gegen diskordant (gegenläufig). Gamma lässt Bindungen (Gleichstände) weg und fällt größer aus.</>,
   <>Der <b>Betrag</b> zeigt die Stärke (Faustregel: ab 0,1 schwach, ab 0,3 mittel, ab 0,5 stark), das <b>Vorzeichen</b> die Richtung; was „höher“ heißt, steht im Codebuch.</>,
-  <><b>Pearson-r</b> misst geradlinige Zusammenhänge metrischer Variablen und ist empfindlich für Ausreißer; <b>Spearman-ρ</b> nutzt Rangplätze.</>,
-  <>Ein Zusammenhang ist keine Ursache: Eine <b>Drittvariable</b> kann beide Merkmale beeinflussen. Prüfen kannst du das innerhalb ihrer Gruppen.</>,
+  <><b>Pearson-r</b> misst lineare Zusammenhänge metrischer Variablen und ist empfindlich für Ausreißer; <b>Spearman-ρ</b> nutzt Ränge.</>,
+  <>Ein Zusammenhang ist keine Ursache: Eine <b>Drittvariable</b> kann beide Merkmale beeinflussen. Prüfen kannst du das innerhalb ihrer Kategorien.</>,
   <>In R: Datensatz vorn, dann das Maß mit zwei Variablen: <code>allbus %&gt;% kendall_tau(x, y, weights = wghtpew)</code>.</>,
 ];
 
@@ -61,7 +61,7 @@ export function Session6() {
     <Foundation2 />
     <Task2 />
 
-    <TopicHeading id="thema3" n={3} title="Thema 3: Geordnete Stufen: Gamma und Tau-b" />
+    <TopicHeading id="thema3" n={3} title="Thema 3: Geordnete Kategorien: Gamma und Tau-b" />
     <Foundation3 />
     <Task3 />
 

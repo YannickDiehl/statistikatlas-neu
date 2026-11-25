@@ -474,7 +474,7 @@ zeile(txt, "dlage", "0.828", "1.208")
 zeile(txt, "ost", "0.995", "1.005")
 zeile(txt, "abitur", "0.948", "1.055")
 
-a3_ost <- vorlage("a3_ost", '# Zum Vergleich: die Ost-West-Lücke ohne weitere Prädiktoren
+a3_ost <- vorlage("a3_ost", '# Zum Vergleich: der Ost-West-Unterschied ohne weitere Prädiktoren
 # demo wie in Aufgabe 1, ost wie oben
 allbus %>%
   mutate(
@@ -538,7 +538,7 @@ ok("B14 ab 60, erwerbstätig", zellen$m[4], 7.63)
 # =============================================================================================
 abschnitt("Aufgabe 4 (Zusatz): demo ~ ost * abitur")
 # =============================================================================================
-a4 <- vorlage("a4", '# Ost-West-Lücke und Abitur
+a4 <- vorlage("a4", '# Ost-West-Unterschied und Abitur
 # demo wie in Aufgabe 1, ost und abitur wie in Aufgabe 3
 allbus %>%
   mutate(
@@ -559,7 +559,7 @@ zeile(txt, "ost", "-0.631", "0.074")
 zeile(txt, "abitur", "0.450", "0.045")
 zeile(txt, "ost:abitur", "0.060", "0.111", "0.012", "0.539", ".590", "-0.158", "0.277")
 zeile(txt, "R Square", "0.067")
-a4_rechnen <- vorlage("a4_rechnen", '# Abstand in der zweiten Gruppe: B des Prädiktors plus B der Interaktion
+a4_rechnen <- vorlage("a4_rechnen", '# Unterschied in der zweiten Gruppe: B des Prädiktors plus B der Interaktion
 # (hier noch das Beispiel aus Grundlage 4b: Erwerbstätige ab 60)
 ⟦1.091⟧ + ⟦-1.035⟧')
 txt <- laufen("a4_rechnen wie sie dasteht", plain(a4_rechnen))
@@ -567,7 +567,7 @@ zeile(txt, "[1] 0.056")
 txt <- laufen("a4_rechnen gelöst", loesen(a4_rechnen, list("1.091" = "-0.631", "-1.035" = "0.060")))
 zeile(txt, "[1] -0.571")
 
-frei_a4 <- vorlage("frei_a4", '# Eine Idee: Ist die Lücke bei Menschen, die sich links einstufen, anders?
+frei_a4 <- vorlage("frei_a4", '# Eine Idee: Ist der Ost-West-Unterschied bei Menschen, die sich links einstufen, anders?
 # links: pa01 1 bis 4 = links, 5 bis 10 = Mitte oder rechts
 allbus %>%
   mutate(

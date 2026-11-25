@@ -53,10 +53,10 @@ test('headings in the order of spec §5 (Variante B)', () => {
   const texts = headings(html).map(x => x.text);
   const order = [
     'Vorweg: R lesen', 'R Startblock und Objekt', 'R Neu heute: die Pipe mit einem Schritt', 'R Nachschlagen mit codebook()',
-    'Thema 1: Die Datenmatrix', 'Die Datenmatrix: Fall, Variable, Wert', 'Schritt 1a Vom Bogen zur Zeile', 'Schritt 1b Die ALLBUS-Bauplatte', 'Aufgabe 1: Wer hat auf Papier geantwortet?',
-    'Thema 2: Codes und Labels', 'Codes und Labels', 'Schritt 2a 1 oder 5?', 'Schritt 2b Drei Beschriftungen', 'Schritt 2c Codes sind Namen', 'Aufgabe 2: Ein Bogen wird zur Zeile',
+    'Thema 1: Die Datenmatrix', 'Die Datenmatrix: Fall, Variable, Wert', 'Schritt 1a Vom Fragebogen zur Zeile', 'Schritt 1b Der ALLBUS als Datenmatrix', 'Aufgabe 1: Wer hat auf Papier geantwortet?',
+    'Thema 2: Codes und Labels', 'Codes und Labels', 'Schritt 2a 1 oder 5?', 'Schritt 2b Drei Beschriftungen', 'Schritt 2c Codes sind Namen', 'Aufgabe 2: Ein Fragebogen wird zur Zeile',
     'Thema 3: Fehlende Werte haben Gründe', 'Fehlt ist nicht gleich fehlt', 'Schritt 3a Was trägst du ein?', 'Schritt 3b Die Gründe im Codebuch', 'Schritt 3c Fehler oder Konvention?', 'Aufgabe 3: Was nur auf Papier passiert',
-    'Thema 4: Datentypen', 'Datentypen', 'Schritt 4a Steine haben Farben', 'Schritt 4b Umwandeln: Aufkleber zum Wert machen oder abziehen', 'Aufgabe 4: Drei Typen auf einer Bauplatte',
+    'Thema 4: Datentypen', 'Datentypen', 'Schritt 4a Datentypen, im Bild als Farben', 'Schritt 4b Umwandeln: Wertelabel zum Wert machen oder entfernen', 'Aufgabe 4: Drei Datentypen in einem Datensatz',
     'Überblick: Was steht in einer Zeile?', 'Vom Kreuz zur Zelle', 'Schritt Ü1 Vom Kreuz zur Zelle', 'Schritt Ü2 Was steht in dieser Zelle?', 'Schritt Ü3 Bevor du rechnest',
     'Zum Schluss: Mitnehmen', 'Das Wichtigste aus dieser Sitzung', 'Prüf dich selbst', 'Dein Skript zum Mitnehmen',
   ].map(t => t.replace(/^R /, ''));
@@ -134,7 +134,7 @@ test('workshops: start block copy-only, every template live, marks as in the pla
   const textareas = [...html.matchAll(/<textarea[^>]*aria-label="R-Code: ([^"]*)"[^>]*>/g)].map(m => ({ title: unescape(m[1]), readOnly: /readOnly|readonly/.test(m[0]) }));
   const byTitle = (t: string) => textareas.filter(x => x.title === t);
   assert.equal(byTitle('Startblock')[0]?.readOnly, true);
-  for (const t of ['Vorlage: nachschlagen und auswählen', 'Vorlage 1: die Bauplatte anzeigen', 'Vorlage 2: nachschlagen', 'Vorlage 3: nur einen Erhebungsweg behalten', 'Vorlage: vier Variablen nachschlagen', 'Vorlage: Codebuch der Papierbögen', 'Vorlage: Papierbögen anzeigen']) {
+  for (const t of ['Vorlage: nachschlagen und auswählen', 'Vorlage 1: den Datensatz anzeigen', 'Vorlage 2: nachschlagen', 'Vorlage 3: nur einen Erhebungsweg behalten', 'Vorlage: vier Variablen nachschlagen', 'Vorlage: Codebuch der Papierbögen', 'Vorlage: Papierbögen anzeigen']) {
     assert.equal(byTitle(t).length, 1, t);
     assert.equal(byTitle(t)[0].readOnly, false, t);
   }
@@ -185,7 +185,7 @@ test('plenum boxes in tasks 2 and 3; prediction quoted after checking', () => {
   for (const id of ['a2', 'a3']) assert.match(elementById(html, id), /<h5>Fürs Plenum<\/h5>/);
   const checked = render({ predictions: { a1: 'etwa ein Drittel' }, answers: { a1_reihen: '5246' } });
   assert.match(elementById(checked, 'a1'), /Deine Festlegung vorher war: etwa ein Drittel\./);
-  assert.match(elementById(checked, 'a1'), /✓ Reihen von allbus: Stimmt: 5\.246 Reihen/);
+  assert.match(elementById(checked, 'a1'), /✓ Fälle von allbus: Stimmt: 5\.246 Fälle/);
 });
 
 test('take-away: seven points, five self-test questions, script download and the R workshop', () => {
@@ -210,7 +210,7 @@ test('review: A2 plenum is marked optional; own feedback for typical wrong numbe
   assert.match(textOf(elementById(html, 'a2').match(/<div class="box-gruen plenum">[\s\S]*?<\/div>/)?.[0] ?? ''), /^Fürs Plenum Optional:/);
   const q = (list: typeof QUESTIONS.a1, id: string) => list.find(x => x.id === id)!;
   const feedback = (list: typeof QUESTIONS.a1, id: string, input: string) => judgeWithFeedback(q(list, id), input).text;
-  assert.match(feedback(QUESTIONS.a1, 'a1_reihen', '579'), /^Noch nicht\. 579 sind die Türme\. Gefragt sind die Reihen/);
+  assert.match(feedback(QUESTIONS.a1, 'a1_reihen', '579'), /^Noch nicht\. 579 sind die Variablen \(Spalten\)\. Gefragt sind die Fälle/);
   for (const x of ['2003', '2.003', '2,003']) assert.match(feedback(QUESTIONS.a1, 'a1_papier', x), /2\.003 sind die Interviews/, x);
   for (const x of ['5246', '5.246', '5,246']) assert.match(feedback(QUESTIONS.a1, 'a1_papier', x), /noch der ganze ALLBUS\. Hast du Vorlage 3 ausgeführt\?/, x);
   assert.match(feedback(QUESTIONS.a2, 'a2_ep03', '2'), /2 wäre GUT/);
@@ -221,7 +221,7 @@ test('review: A2 plenum is marked optional; own feedback for typical wrong numbe
   assert.doesNotMatch(q(QUESTIONS.a2, 'a2_ep03').hint, /2 wäre GUT/);
   assert.doesNotMatch(q(QUESTIONS.a2, 'a2_educ').hint, /HOCHSCHULREIFE/);
   const shown = textOf(render({ predictions: {}, answers: { a1_reihen: '579' } }));
-  assert.match(shown, /✗ Reihen von allbus: Noch nicht\. 579 sind die Türme/);
+  assert.match(shown, /✗ Fälle von allbus: Noch nicht\. 579 sind die Variablen/);
 });
 
 test('review: Code-Werkstatt „kennst du aus Sitzung 1“ and the note after „Schon bekannt“ come from the shared slots', () => {

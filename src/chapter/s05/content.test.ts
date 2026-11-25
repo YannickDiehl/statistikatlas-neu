@@ -221,7 +221,7 @@ test('percent answers: ±0,1, whole numbers ±0,55; counts exact; German and R n
 test('feedback per typical wrong value', () => {
   const q = (id: string) => ALL.find(x => x.id === id)!;
   assert.match(wrongText(q('a1a'), '1144'), /^1\.144 sind nur/);
-  assert.match(wrongText(q('a1a'), '968'), /^968 ist die Gruppe/);
+  assert.match(wrongText(q('a1a'), '968'), /^968 ist die Kategorie/);
   assert.match(wrongText(q('a1a'), '12'), /^Lies in frequency\(misstrauen\)/);
   assert.match(wrongText(q('a3b'), '87,0'), /Spaltenprozente/);
   assert.match(wrongText(q('a3b'), '93.5'), /würden wählen/);
@@ -229,10 +229,10 @@ test('feedback per typical wrong value', () => {
   assert.match(wrongText(q('g2-frage'), '9'), /Gesamtprozent/);
   assert.match(wrongText(q('g2-frage'), '9,0'), /Gesamtprozent/);
   assert.match(wrongText(q('a4b'), '10,6'), /nur Code 1/);
-  assert.match(wrongText(q('a2a'), 'total'), /4\.6%/);
+  assert.match(wrongText(q('a2a'), 'total'), /alle 2\.785 in der Tabelle 100 %\. Gesucht ist die Einstellung, bei der die Nichtwählenden 100 % sind/);
   assert.match(wrongText(q('a4c'), '4,2'), /nur Code 1/);
   assert.match(wrongText(q('g3-frage1'), '2,9'), /Verhältnis/);
-  assert.match(wrongText(q('g1-frage'), '22,4'), /^22,4 % ergibt sich, wenn ‚ohne gültige Angabe‘ leer bleibt\. Mit else=0 kommt auch sie in Gruppe 0\.$/);
+  assert.match(wrongText(q('g1-frage'), '22,4'), /^22,4 % ergibt sich, wenn ‚ohne gültige Angabe‘ leer bleibt\. Mit else=0 kommt auch sie in Kategorie 0\.$/);
   assert.match(wrongText(q('g1-frage'), '22.4'), /ohne gültige Angabe/);
 });
 

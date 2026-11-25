@@ -1,4 +1,5 @@
 // Sitzung 7 „Mittelwerte vergleichen“: Vorweg R lesen (#r1 Erinnerung, #r2 Ein t-Test in R) aus sitzung07.md §3.
+import { Begriff } from '../Begriff';
 import { Card, InShort, Known, Mixup, MoreDetail } from '../blocks/Card';
 import { ReadTTest } from './figures/ROutput';
 import { Workshop } from './Workshop';
@@ -16,15 +17,15 @@ export function ReadR() {
       <ul>
         <li><code>t_test()</code> vergleicht die Mittelwerte von <b>zwei</b> Gruppen.</li>
         <li><code>oneway_anova()</code> vergleicht die Mittelwerte von <b>drei oder mehr</b> Gruppen, <code>tukey_test()</code> sagt danach, welche Paare sich unterscheiden.</li>
-        <li><code>pearson_cor()</code> kennst du mit zwei Variablen; mit mehr Variablen rechnet es alle Paare auf einmal (Korrelationsmatrix).</li>
+        <li><code>pearson_cor()</code> kennst du mit zwei Variablen; mit mehr Variablen rechnet es alle Paare auf einmal (<Begriff id="korrelationsmatrix">Korrelationsmatrix</Begriff>).</li>
       </ul>
-      <p className="absatz">Alle lassen fehlende Werte selbst weg; <code>drop_na()</code> brauchst du heute nicht.</p>
-      <InShort>In einem Test steht zuerst die Variable, deren Mittelwerte du vergleichst (<b>abhängige Variable</b>), dann nach <code>group =</code> die Variable, die die Gruppen bildet, dann das Gewicht. <code>summary()</code> am Ende der Kette holt die ganze Tabelle.</InShort>
+      <p className="absatz">Alle lassen <Begriff id="fehlende-werte">fehlende Werte</Begriff> selbst weg; <code>drop_na()</code> brauchst du heute nicht.</p>
+      <InShort>In einem Test steht zuerst die Variable, deren Mittelwerte du vergleichst (<b><Begriff id="abhaengige-variable">abhängige Variable</Begriff></b>), dann nach <code>group =</code> die Variable, die die Gruppen bildet (<b><Begriff id="unabhaengige-variable">unabhängige Variable</Begriff></b>), dann das Gewicht. <code>summary()</code> am Ende der Kette holt die ganze Tabelle.</InShort>
       <Mixup><code>group = abitur</code> und <code>abitur</code> allein. Ohne <code>group =</code> hält R die zweite Variable für eine weitere abhängige Variable. Bei <code>oneway_anova()</code> meldet es dann „Argument <code>group</code> is missing“. Bei <code>t_test()</code> kommt <b>keine</b> Meldung, sondern ein falsches Ergebnis: zwei Blöcke „t-Test: pt03“ und „t-Test: abitur“ mit riesigem t, weil R jede Variable für sich gegen 0 testet. Daran erkennst du es: Es fehlt die Zeile „Groups compared“.</Mixup>
     </Card>
 
     <Card id="r2" stone="R" title="Ein t-Test in R: Zeile für Zeile" tag={{ kind: 'picture', label: 'Code lesen' }}>
-      <p className="lead">So vergleicht R die Arbeitsstunden pro Woche (<code>dw15</code>) von Männern und Frauen. <code>t_test()</code> braucht genau zwei Gruppen. Im ALLBUS hat <code>sex</code> drei Ausprägungen: Mann, Frau und divers. 18 Befragte haben „divers“ angegeben; für einen eigenen Vergleich ist diese Gruppe zu klein. Darum bildet die Vorlage mit <code>rec()</code> zuerst eine Variable <code>geschlecht</code> mit zwei Gruppen. Lies die Kette von oben nach unten und führe sie aus.</p>
+      <p className="lead">So vergleicht R die Arbeitsstunden pro Woche (<code>dw15</code>) von Männern und Frauen. <code>t_test()</code> braucht genau zwei Gruppen. Im ALLBUS hat <code>sex</code> drei Ausprägungen: Mann, Frau und divers. 18 Befragte haben „divers“ angegeben; für einen eigenen Vergleich ist diese Gruppe zu klein. Darum <Begriff id="rekodieren">rekodiert</Begriff> die Vorlage <code>sex</code> mit <code>rec()</code> zuerst in eine <Begriff id="variable">Variable</Begriff> <code>geschlecht</code> mit zwei Gruppen. Lies die Kette von oben nach unten und führe sie aus.</p>
       <Workshop k="r_ttest" live />
       <p className="absatz"><b>So liest du die Kette</b>, Zeile für Zeile:</p>
       <ul>
@@ -41,7 +42,7 @@ export function ReadR() {
         <p>Mit Gewicht zählt R jede Person mit ihrem Gewicht. N ist dann die Summe der Gewichte, gerundet. Gezählt sind es 1.491 Männer und 1.442 Frauen, die ihre Arbeitsstunden angegeben haben; gewichtet stehen dort 1.530 und 1.427. Die Arbeitsstunden haben übrigens nur Erwerbstätige angegeben, alle anderen fehlen bei <code>dw15</code> und fallen aus dem Vergleich.</p>
       </MoreDetail>
       <InShort><code>t_test()</code> gibt eine Kurzfassung mit t, p, Hedges&apos; g und N. Mit <code>summary()</code> kommen die Gruppenmittelwerte, der Unterschied mit Konfidenzintervall und beide Testzeilen dazu.</InShort>
-      <Mixup>zwei Zeilen, zwei Ergebnisse? Beide Zeilen testen dasselbe; sie rechnen den Zufall nur verschieden ein. Lies „Equal variances not assumed“.</Mixup>
+      <Mixup>zwei Zeilen, zwei Ergebnisse? Beide Zeilen testen dasselbe; sie rechnen nur den Standardfehler verschieden aus. Lies „Equal variances not assumed“.</Mixup>
     </Card>
   </>;
 }

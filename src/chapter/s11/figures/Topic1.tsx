@@ -9,7 +9,7 @@ const ORANGE = '#F0A27E', ORANGE_D = '#c97b55', BROWN = '#8a4a2c', TEAL = '#2E8C
 
 /* ---------- B1 Turm lm30 ---------- */
 
-export const B1_TEXT = 'Ein Turm lm30 aus zehn Steinen, zum Beispiel. Sieben Steine tragen eine 1 (Smartphone genannt), drei eine 0 (nicht genannt). Zählt man die Steine zusammen, kommt 7 heraus; geteilt durch 10 ergibt sich der Mittelwert 0,7. Das ist der Anteil der Einsen: 70 Prozent.';
+export const B1_TEXT = 'Die Variable lm30 als Turm aus zehn Steinen, zum Beispiel. Sieben Werte sind eine 1 (Smartphone genannt), drei eine 0 (nicht genannt). Zählt man die Werte zusammen, kommt 7 heraus; geteilt durch 10 ergibt sich der Mittelwert 0,7. Das ist der Anteil der Einsen: 70 Prozent.';
 
 /** B1 `s11-null-eins`: a tower of ten stones (seven ones, three zeros) and the mean as share of ones. */
 export function ZeroOneTower() {
@@ -27,11 +27,11 @@ export function ZeroOneTower() {
       </g>)}
       <g>
         <rect x={250} y={88} width={150} height={44} rx={10} fill="#EDF8F1" stroke="#2f7a4f" />
-        <SvgText x={325} y={106} fontSize={12}>Summe der Steine</SvgText>
+        <SvgText x={325} y={106} fontSize={12}>Summe der Werte</SvgText>
         <SvgText x={325} y={124} fontSize={16} fontWeight={800} fill={INK}>{String(ones)}</SvgText>
         <line x1={250} x2={400} y1={146} y2={146} stroke={INK} strokeWidth={2.5} />
         <rect x={250} y={158} width={150} height={44} rx={10} fill="#fff" stroke="#857A6B" />
-        <SvgText x={325} y={176} fontSize={12}>Anzahl der Steine</SvgText>
+        <SvgText x={325} y={176} fontSize={12}>Anzahl der Werte</SvgText>
         <SvgText x={325} y={194} fontSize={16} fontWeight={800} fill={INK}>{String(TOWER.length)}</SvgText>
         <SvgText x={420} y={152} fontSize={22} fill={INK}>=</SvgText>
         <SvgText x={480} y={153} fontSize={24} fontWeight={800} fill={INK}>{de(ones / TOWER.length, 1)}</SvgText>

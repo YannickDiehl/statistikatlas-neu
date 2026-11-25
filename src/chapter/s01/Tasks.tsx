@@ -162,7 +162,7 @@ export function Task3() {
         <Workshop k="a3_codebuch" /></li>
       <li><b>Erster Blick auf rh08b.</b> <Badge>neu: erster Blick, ausführlich in Sitzung 3</Badge> <code>frequency()</code> zählt aus, wie oft jeder Code vorkommt. Erstes Argument: der Datensatz, zweites: die Variable, ohne Anführungszeichen. Lies in der Ausgabe: Value ist der Code, Label das Wertelabel, N die Anzahl. Unter ‚Total valid‘ stehen die gültigen Antworten, darunter die fehlenden Werte.
         <Workshop k="a3_rh08b" /></li>
-      <li><b>Die Vertrauensfrage pt03.</b> Tausch die markierte Variable gegen <code>pt03</code> und führ die Vorlage aus. Bei den Codes 2 bis 6 steht als Wertelabel nur ‚..‘: Das sind Zwischenstufen zwischen GAR KEIN VERTRAUEN (1) und GROSSES VERTRAUEN (7) ohne eigenes Wort.
+      <li><b>Die Vertrauensfrage pt03.</b> Tausch die markierte Variable gegen <code>pt03</code> und führ die Vorlage aus. Bei den Codes 2 bis 6 steht als Wertelabel nur ‚..‘: Diese Ausprägungen liegen zwischen GAR KEIN VERTRAUEN (1) und GROSSES VERTRAUEN (7) und haben kein eigenes Wort.
         <Workshop k="a3_pt03" /></li>
     </Steps>
     <TryOut idea={<>Vertrauen die Befragten den politischen Parteien (<code>pt15</code>) weniger als dem Bundestag? Vergleiche, wie viele GAR KEIN VERTRAUEN und wie viele GROSSES VERTRAUEN haben.</>} workshop={<Workshop k="frei_a3" />} />

@@ -29,16 +29,16 @@ D.ERROR_HELP = D.ERROR_HELP.map(r => ({ says: r.says.map(lernjournal), helps: r.
 /** Die Aussagen einer Aufgabe als Liste (Variable und Wortlaut). */
 const aussagen = (items, titel) => `<p style="margin:10px 0 0"><b>${esc(titel)}</b></p><ul style="margin:4px 0 0;padding-left:20px">${items.map(([id, text]) => `<li><code>${esc(id)}</code> „${esc(text)}“</li>`).join('')}</ul>`;
 
-const RSTUDIO = warum('Lieber in RStudio?', 'Dann führst du dort vorher den Startblock aus (Pakete laden, ALLBUS einlesen). Danach kopierst du die Vorlage mit <b>Kopieren</b> in dein Skript.<pre>' + esc(T.start.code) + '</pre>', 'r1');
+const RSTUDIO = warum('Lieber in RStudio?', 'Dann führst du dort vorher den Startblock aus (Pakete laden, ALLBUS einlesen). Danach kopierst du die Vorlage mit <b>Kopieren</b> in dein ⟪Skript⟫.<pre>' + esc(T.start.code) + '</pre>', 'r1');
 
 /* ---------- Aufgaben ---------- */
 const TASKS = [
   { id: 'a1', n: 1, titel: 'Wie populistisch denken die Befragten?', pflicht: true, grund: 'g1',
     frage: 'Wie misst man Populismus mit sieben Aussagen, und wer bekommt einen Wert?',
     ziel: 'du hast für jede befragte Person einen Populismus-Wert gebildet, weißt, wie viele Befragte einen Wert bekommen, und kannst den Mittelwert in Worten deuten.',
-    info: 'Populismus heißt grob: Man sieht „das Volk“ als Einheit gegen eine abgehobene Elite und will, dass das Volk selbst entscheidet. Der ALLBUS 2023 hat dazu sieben Aussagen gestellt (nur in einem Teil der Fragebögen). Antworten: 1 stimme voll zu, 2 stimme eher zu, 3 teils/teils, 4 lehne eher ab, 5 lehne ganz ab.'
+    info: 'Populismus heißt grob: Man sieht „das Volk“ als Einheit gegen eine abgehobene Elite und will, dass das Volk selbst entscheidet. Populismus ist ein ⟪Konstrukt⟫: eine Idee, die man nicht direkt beobachten kann. Der ALLBUS 2023 misst sie darum mit sieben Aussagen, den ⟪Items|item⟫ (nur in einem Teil der Fragebögen). Antworten: 1 stimme voll zu, 2 stimme eher zu, 3 teils/teils, 4 lehne eher ab, 5 lehne ganz ab.'
       + aussagen(D.PA_ITEMS, 'Die sieben Populismus-Aussagen'),
-    infoMehr: [warum('Mit oder ohne Gewicht?', 'Wie seit Sitzung 6 rechnest du Aussagen über alle Menschen in Deutschland gewichtet: Mittelwerte und Anteile eines Index mit <code>weights = wghtpew</code>. Zwei Dinge rechnest du heute ohne Gewicht: wie stimmig die Fragen sind (Cronbachs α) und wie viele Befragte einen Indexwert bekommen. Beides beschreibt das Messinstrument und die Befragung selbst, nicht die Bevölkerung. Gewichtet ändert sich α kaum.', 'v1-gewicht')],
+    infoMehr: [warum('Mit oder ohne Gewicht?', 'Wie seit Sitzung 6 rechnest du Aussagen über alle Menschen in Deutschland ⟪gewichtet|gewichte⟫: Mittelwerte und Anteile eines Index mit <code>weights = wghtpew</code>. Zwei Dinge rechnest du heute ohne Gewicht: wie zuverlässig die Fragen zusammen messen (Cronbachs α) und wie viele Befragte einen Indexwert bekommen. Beides beschreibt das Messinstrument und die Befragung selbst, nicht die Bevölkerung. Gewichtet ändert sich α kaum.', 'v1-gewicht')],
     schritte: [
       { id: 'a1-p', art: 'festlegen', titel: 'Erst festlegen',
         vorhersage: { ...D.PREDICTIONS.a1, aufloesung: 'Der gewichtete Mittelwert liegt bei 2,646, also unter 3: Im Mittel stimmen die Befragten den Aussagen eher zu.' },
@@ -51,18 +51,18 @@ const TASKS = [
           ],
           verwechslung: 'Ein Index ist kein Mittelwert über alle Befragten, sondern ein Wert <b>je Person</b>. Den Mittelwert über alle rechnest du danach, wie bei jeder Variable, mit <code>describe()</code>.' })] },
       { id: 'a1-1', art: 'code', titel: 'Index bilden: Wer bekommt einen Wert?', wk: ['a1'], neu: true, bekannt: 'describe() aus Sitzung 3',
-        text: 'Die Vorlage bildet für jede befragte Person den Mittelwert ihrer sieben Antworten. Sie verlangt alle sieben (<code>min_valid = 7</code>). Führ sie im Journal aus und lies in der Spalte <b>N</b>, wie viele Befragte einen Wert bekommen.',
+        text: 'Die Vorlage bildet für jede befragte Person den ⟪Mittelwert⟫ ihrer sieben Antworten. Sie verlangt alle sieben (<code>min_valid = 7</code>). Führ sie im Journal aus und lies in der Spalte <b>N</b>, wie viele Befragte einen Wert bekommen.',
         mehr: [
           denk('Was macht row_means()?', { grund: 'v1b',
-            kurz: 'Bisher hat jede Funktion einen Turm angeschaut. <code>row_means()</code> rechnet quer dazu: Es nimmt die Antworten einer Person auf die Fragen in <code>pick()</code> und bildet ihren Mittelwert. So entsteht ein <b>Mittelwertindex</b>, ein neuer Turm mit einem Wert je Person. <code>min_valid</code> sagt, wie viele gültige Antworten jemand mindestens braucht.',
+            kurz: 'Bisher hat jede Funktion eine ⟪Variable⟫ angeschaut, also eine Spalte. <code>row_means()</code> rechnet quer dazu, in der Zeile eines ⟪Falls|fall⟫: Es nimmt die Antworten einer Person auf die Fragen in <code>pick()</code> und bildet ihren Mittelwert. So entsteht ein <b>⟪Mittelwertindex⟫</b>, eine neue Variable mit einem Wert je Person. <code>min_valid</code> sagt, wie viele gültige Antworten jemand mindestens braucht.',
             denken: [
-              'Lies die Zeile in <code>mutate()</code>: Wie heißt der neue Turm, und welche sieben Türme stehen in <code>pick()</code>?',
+              'Lies die Zeile in <code>mutate()</code>: Wie heißt die neue Variable, und welche sieben Variablen stehen in <code>pick()</code>?',
               'Was verlangt <code>min_valid = 7</code>? Wer bekommt damit keinen Wert?',
               'Lies in der Ausgabe von <code>describe(populismus)</code> die Spalte N: die Zahl der Befragten mit Wert. Missing daneben zählt die ohne Wert.',
               'Frag dich, warum hier ohne Gewicht gerechnet wird: Zählst du Personen, oder beschreibst du die Bevölkerung?',
             ],
             bild: 'RowMean', bildtext: 'Drei Befragte mit den vier Fragen zu Geflüchteten, zum Beispiel. Geh die Schritte durch und schalte <code>min_valid</code> um.',
-            verwechslung: 'Eine fehlende Antwort zählt nicht als 0; sie fällt einfach weg. Ohne <code>min_valid</code> reicht eine einzige Antwort für einen Wert.' }),
+            verwechslung: 'Ein ⟪fehlender Wert⟫ zählt nicht als 0; er fällt einfach weg. Ohne <code>min_valid</code> reicht eine einzige Antwort für einen Wert.' }),
           RSTUDIO,
           warum('Warum hier ohne Gewicht?', 'Wie viele Befragte einen Wert bekommen, beschreibt die Befragung selbst, nicht die Bevölkerung. Personen zählst du darum ohne Gewicht. Mit Gewicht stünde bei N die Summe der Gewichte.', 'v1-gewicht')] },
       { id: 'a1-2', art: 'aendern', titel: 'Weniger streng: mindestens fünf Antworten', block: 'a1-1', baustein: 'MinValid',
@@ -77,12 +77,12 @@ const TASKS = [
           ],
           verwechslung: 'Eine lockere Regel ist nicht falsch, sondern eine Entscheidung: Zu streng, und viele bekommen keinen Wert; zu locker, und manche Werte beruhen auf einer einzigen Antwort. Regel und n gehören in den Bericht.' })] },
       { id: 'a1-3', art: 'code', titel: 'Mittelwert für alle: mit Gewicht', wk: ['a1w'], bekannt: 'weights = wghtpew aus Sitzung 6',
-        text: 'Jetzt die Aussage über die Bevölkerung: Wie populistisch sind die Befragten im Mittel? Dafür rechnest du mit Gewicht. Die Vorlage baut den Index wie in Schritt 2, gleich mit <code>min_valid = 5</code>. Lies die Spalte <b>Mean</b>.',
+        text: 'Jetzt die Aussage über die Bevölkerung: Wie populistisch sind die Befragten im Mittel? Dafür rechnest du mit ⟪Gewicht|gewichte⟫. Die Vorlage baut den Index wie in Schritt 2, gleich mit <code>min_valid = 5</code>. Lies die Spalte <b>Mean</b>.',
         mehr: [denk('Warum steht bei N eine andere Zahl?', { grund: 'v1-gewicht',
           kurz: 'Jetzt fragst du nicht mehr „Wer bekommt einen Wert?“, sondern „Wie populistisch sind die Befragten im Mittel?“. Das ist eine Aussage über alle Menschen in Deutschland; darum rechnest du mit Gewicht (<code>weights = wghtpew</code>). Mit Gewicht zählt <code>describe()</code> bei N die Gewichte zusammen.',
           denken: [
             'Lies die Vorlage: Der Index wird gebaut wie in Schritt 2, aber gleich mit <code>min_valid = 5</code>, und <code>describe()</code> bekommt das Gewicht.',
-            'Such in der Ausgabe die Spalte Mean. Daneben steht der Median; der ist hier nicht gefragt.',
+            'Such in der Ausgabe die Spalte Mean. Daneben steht der ⟪Median⟫; der ist hier nicht gefragt.',
             'Schau auf N: Ist das noch die Zahl der Personen mit Wert? Wo hast du die gesehen?',
           ],
           verwechslung: 'Das gewichtete N als Zahl der Befragten lesen. Mit Gewicht ist N die Summe der Gewichte, keine Personenzahl.',
@@ -94,7 +94,7 @@ const TASKS = [
           denken: [
             'Nimm deinen Mittelwert aus Schritt 4.',
             'Leg ihn auf die Antwortskala: 1 „stimme voll zu“, 2 „stimme eher zu“, 3 „teils/teils“, 4 „lehne eher ab“, 5 „lehne ganz ab“. Zwischen welchen zwei Antworten liegt er?',
-            'Frag dich: Was heißt Zustimmung zu diesen sieben Aussagen für den Begriff Populismus? Und was heißt dann ein niedriger Indexwert?',
+            'Frag dich: Was heißt Zustimmung zu diesen sieben Aussagen für das ⟪Konstrukt⟫ Populismus? Und was heißt dann ein niedriger Indexwert?',
           ],
           verwechslung: 'Eine kleine Zahl heißt nicht automatisch „wenig“. Bei den Fragen zu Geflüchteten heißt 1 zum Beispiel „Risiko überwiegt“; ein niedriger Wert heißt dort „eher Risiko“.' })] },
       { id: 'a1-5', art: 'fragen', titel: 'Ergebnis festhalten', fragen: Q('a1'),
@@ -112,7 +112,7 @@ const TASKS = [
 
   { id: 'a2', n: 2, titel: 'Messen die sieben Aussagen dasselbe?', pflicht: true, grund: 'g2',
     frage: 'Darf man die sieben Populismus-Aussagen zu einem Index zusammenfassen, und passt jede dazu?',
-    ziel: 'du kannst sagen, wie stimmig die sieben Aussagen sind (Cronbachs α), welche am schwächsten zu den anderen passt, und begründen, ob sie im Index bleiben soll.',
+    ziel: 'du kannst sagen, wie zuverlässig die sieben Items zusammen messen (Cronbachs α), welches am schwächsten zu den anderen passt, und begründen, ob es im Index bleiben soll.',
     info: 'In Aufgabe 1 hast du aus den sieben Aussagen pa29 bis pa35 einen Index gebildet. Ob das erlaubt ist, prüfst du jetzt.',
     infoMehr: [warum('Die sieben Aussagen', aussagen(D.PA_ITEMS, 'Die sieben Populismus-Aussagen') + '<p style="margin:8px 0 0">Antworten: 1 stimme voll zu, 2 stimme eher zu, 3 teils/teils, 4 lehne eher ab, 5 lehne ganz ab.</p>')],
     schritte: [
@@ -122,16 +122,16 @@ const TASKS = [
           kurz: 'Du sagst vorher, welche der sieben Aussagen am wenigsten zu den anderen passt. „Passen“ heißt: Dieselben Menschen antworten bei ihr ähnlich wie bei den anderen. Es zählt nicht, ob du richtig liegst; deine Festlegung ist dein Vergleichspunkt.',
           denken: [
             'Lies die sieben Aussagen noch einmal, in der Einleitung der Aufgabe.',
-            'Frag dich bei jeder: Trifft sie denselben Kern wie die anderen, oder einen anderen Ausschnitt des Begriffs Populismus?',
+            'Frag dich bei jeder: Trifft sie denselben Kern wie die anderen, oder einen anderen Ausschnitt des ⟪Konstrukts⟫ Populismus?',
             'Stell dir eine Person vor, die den meisten Aussagen zustimmt: Bei welcher Aussage würde sie am ehesten anders antworten?',
             'Wähl eine Aussage. Sind in Schritt 5 alle Fragen richtig, steht deine Festlegung neben dem Ergebnis.',
           ],
-          verwechslung: 'Stimmig heißt nicht, dass alle gleich antworten. Stimmig heißt: Wer bei einer Aussage hoch liegt, liegt auch bei den anderen eher hoch.' })] },
-      { id: 'a2-1', art: 'code', titel: 'Stimmigkeit berechnen', wk: ['a2'], neu: true, bekannt: 'summary() aus Sitzung 7',
-        text: 'Führ die Vorlage im Journal aus. Oben steht Cronbachs α, unten unter „Item-Total Statistics“ je Aussage eine Zeile. Such die Aussage mit der schwächsten Trennschärfe (Spalte Corrected Item-Total).',
+          verwechslung: '„Passen“ heißt nicht, dass alle gleich antworten. Es heißt: Wer bei einem Item hoch liegt, liegt auch bei den anderen eher hoch.' })] },
+      { id: 'a2-1', art: 'code', titel: 'Reliabilität berechnen', wk: ['a2'], neu: true, bekannt: 'summary() aus Sitzung 7',
+        text: 'Führ die Vorlage im Journal aus. Oben steht Cronbachs α, unten unter „Item-Total Statistics“ je Item eine Zeile. Such das Item mit der schwächsten ⟪Trennschärfe⟫ (Spalte Corrected Item-Total): Es hängt am wenigsten mit den übrigen zusammen.',
         mehr: [
           denk('Wo steht was in der Ausgabe?', { grund: 'v2c',
-            kurz: '<code>reliability()</code> prüft, wie stimmig die genannten Items zusammen messen (<b>Reliabilität</b>, also Zuverlässigkeit). Mit <code>summary()</code> zeigt R oben <b>Cronbachs α</b> für alle Items und ganz unten je Item die <b>Trennschärfe</b>: wie gut dieses Item zu den übrigen passt.',
+            kurz: '<code>reliability()</code> prüft, wie zuverlässig die genannten Items zusammen messen. Das heißt <b>⟪Reliabilität⟫</b>, bei mehreren Items auch interne Konsistenz. Mit <code>summary()</code> zeigt R oben <b>⟪Cronbachs α⟫</b> für alle Items und ganz unten je Item die <b>Trennschärfe</b>: wie gut dieses Item zu den übrigen passt.',
             denken: [
               'Oben unter „Reliability Statistics“: Such die Zeile „Cronbach\'s Alpha“. Darunter stehen das standardisierte α und McDonalds ω; die brauchst du heute nicht.',
               'Spring über „Item Statistics“ und die Korrelationstabelle hinweg nach ganz unten zu „Item-Total Statistics“.',
@@ -140,7 +140,7 @@ const TASKS = [
             ],
             bild: 'ReliabilityOutput', bildtext: 'Dieselbe Ausgabe für ein anderes Beispiel, die vier Fragen zur Verbundenheit mit Gemeinde, Bundesland, Deutschland und EU. Wähl eine Zahl und lies, was sie sagt.',
             verwechslung: 'Trennschärfe und „Alpha if Deleted“ verwechseln. Die Trennschärfe ist die Korrelation des Items mit der Summe der übrigen Items (hoch ist gut). „Alpha if Deleted“ ist α ohne das Item (höher als α heißt: das Item passt schlecht).' }),
-          warum('Was ist Cronbachs α?', 'α fasst zusammen, wie eng die Items zusammenhängen: wie stimmig sie gemeinsam messen (Reliabilität). Faustregel: ab 0,7 annehmbar, ab 0,8 gut. α steigt aber auch mit der Zahl der Items und sagt nichts über die Validität.', 'v2b')] },
+          warum('Was ist Cronbachs α?', 'α fasst zusammen, wie eng die Items zusammenhängen: wie zuverlässig sie gemeinsam messen (Reliabilität). Faustregel: ab 0,7 annehmbar, ab 0,8 gut. α steigt aber auch mit der Zahl der Items und sagt nichts über die Validität.', 'v2b')] },
       { id: 'a2-2', art: 'code', titel: 'Gegenprobe ohne eine Aussage', wk: ['a2ohne'],
         text: 'Prüf nach, was „Alpha if Deleted“ bedeutet: Lösch in der Vorlage im Journal die markierte Aussage samt Komma und führ sie erneut aus.',
         mehr: [denk('Was prüfst du mit der Gegenprobe?', { grund: 'v2-gegenprobe',
@@ -154,7 +154,7 @@ const TASKS = [
           bild: 'AlphaOhneBeispiel',
           verwechslung: 'Cronbach\'s Alpha und McDonalds ω stehen in derselben Zeile. Gefragt ist α.' })] },
       { id: 'a2-3', art: 'lesen', titel: 'Deuten: Soll die schwächste Aussage raus?',
-        text: 'Soll die Aussage mit der schwächsten Trennschärfe aus dem Index? Denk an den Inhalt der Aussage: Gehört sie zum Begriff Populismus? Und überleg, wie viel α ohne sie gewinnt.',
+        text: 'Soll die Aussage mit der schwächsten Trennschärfe aus dem Index? Denk an den Inhalt der Aussage: Gehört sie zum ⟪Konstrukt⟫ Populismus? Und überleg, wie viel α ohne sie gewinnt.',
         mehr: [denk('Was sagen die Faustregeln, was nicht?', { grund: 'v2-behalten',
           kurz: 'Hier wägst du ab, ob die Aussage mit der schwächsten Trennschärfe im Index bleiben soll. Dafür brauchst du zwei Blickwinkel, wie im Aufgabentext: was die Zahlen sagen und was die Aussage inhaltlich misst.',
           denken: [
@@ -180,7 +180,7 @@ const TASKS = [
           kurz: 'Das Bild zeigt für jede der sieben Aussagen, wie hoch α ohne sie wäre. Es erscheint erst nach dem Prüfen und ist gebaut wie das Beispiel zur Verbundenheit in Verstehen.',
           denken: [
             'Such die gestrichelte Linie: Sie ist α mit allen sieben Aussagen.',
-            'Geh die Balken durch: Reicht einer über die Linie hinaus? Dann wäre α ohne diese Aussage höher.',
+            'Geh die ⟪Balken|balkendiagramm⟫ durch: Reicht einer über die Linie hinaus? Dann wäre α ohne diese Aussage höher.',
             'Schau auf die Achse: Sie beginnt nicht bei 0, damit die kleinen Unterschiede sichtbar sind. Wie groß sind die Abstände in Zahlen?',
             'Vergleich das Bild mit deinen Antworten aus Schritt 5.',
           ],
@@ -192,7 +192,7 @@ const TASKS = [
   { id: 'a3', n: 3, titel: 'Andersherum gefragt: Einstellungen zu Islam und Muslimen', pflicht: true, grund: 'g3',
     frage: 'Wie fasst man sechs Aussagen, die in verschiedene Richtungen gestellt sind, richtig zu einem Index zusammen?',
     ziel: 'du hast die andersherum gestellten Aussagen erkannt und umgepolt und kannst sagen, wie sich Cronbachs α dadurch verändert und wofür ein hoher Wert jetzt steht.',
-    info: 'Der ALLBUS 2023 misst in einem Teil der Fragebögen mit sechs Aussagen, wie Menschen in Deutschland zum Islam und zu Muslimen eingestellt sind. Solche Fragen sind in der Einstellungsforschung üblich, um Vorbehalte und Offenheit in der Bevölkerung zu beschreiben. Die Befragten sagen zu jeder Aussage, wie sehr sie zustimmen: von 1 „stimme gar nicht zu“ bis 7 „stimme voll und ganz zu“; dazwischen stehen nur Zahlen. Die Aussagen sind Fragen aus dem Fragebogen, keine Feststellungen dieses Kurses. Ob sie zutreffen, ist hier nicht die Frage: Du prüfst nur, wie man sie richtig zu einem Index zusammenfasst. Sinngemäß nach den Variablenlabels:'
+    info: 'Der ALLBUS 2023 misst in einem Teil der Fragebögen mit sechs Aussagen, wie Menschen in Deutschland zum Islam und zu Muslimen eingestellt sind. Solche Fragen sind in der Einstellungsforschung üblich, um Vorbehalte und Offenheit in der Bevölkerung zu beschreiben. Die Befragten sagen zu jeder Aussage, wie sehr sie zustimmen: von 1 „stimme gar nicht zu“ bis 7 „stimme voll und ganz zu“; dazwischen stehen nur Zahlen. Die Aussagen sind Fragen aus dem Fragebogen, keine Feststellungen dieses Kurses. Ob sie zutreffen, ist hier nicht die Frage: Du prüfst nur, wie man sie richtig zu einem Index zusammenfasst. Sinngemäß nach den ⟪Variablenlabels⟫:'
       + aussagen(D.MM_ITEMS, 'Die sechs Aussagen zu Islam und Muslimen'),
     schritte: [
       { id: 'a3-p', art: 'festlegen', titel: 'Erst festlegen',
@@ -205,14 +205,14 @@ const TASKS = [
             'Sortier die Aussagen nach dieser Antwort in zwei Gruppen.',
             'Wähl das Paar. Sind in Schritt 5 alle Fragen richtig, steht deine Festlegung neben dem Ergebnis.',
           ],
-          verwechslung: 'Umpolen und Umkodieren in Gruppen verwechseln. Beim Umpolen bleiben alle Stufen erhalten, nur ihre Reihenfolge dreht sich.',
+          verwechslung: 'Umpolen und ⟪Umkodieren⟫ in Gruppen verwechseln. Beim Umpolen bleiben alle Stufen erhalten, nur ihre Reihenfolge dreht sich.',
           zusatz: 'Die Aussagen sind Fragen aus dem Fragebogen, keine Feststellungen dieses Kurses. Du prüfst nur, wie man sie richtig zu einem Index zusammenfasst.' })] },
-      { id: 'a3-1', art: 'code', titel: 'Stimmigkeit, so wie gefragt', wk: ['a3'], bekannt: 'reliability() aus Aufgabe 2',
+      { id: 'a3-1', art: 'code', titel: 'Reliabilität, so wie gefragt', wk: ['a3'], bekannt: 'reliability() aus Aufgabe 2',
         text: 'Die Vorlage rechnet α mit den sechs Aussagen so, wie sie im Datensatz stehen. Führ sie im Journal aus und schau auf α und auf die Spalte Corrected Item-Total.',
         mehr: [denk('Woran erkenne ich ein falsch gepoltes Item?', { grund: 'v3b',
-          kurz: 'Die Vorlage rechnet α mit den sechs Aussagen so, wie sie im Datensatz stehen, mit <code>summary()</code> wie in Aufgabe 2. Sind Items verschieden gepolt, laufen ihre Antworten gegeneinander, und das siehst du in der Ausgabe.',
+          kurz: 'Die Vorlage rechnet α mit den sechs Aussagen so, wie sie im Datensatz stehen, mit <code>summary()</code> wie in Aufgabe 2. Schau, was dir in der Ausgabe auffällt: bei α und bei den Trennschärfen (Corrected Item-Total).',
           denken: [
-            'Lies oben „Cronbach\'s Alpha“: Wie stimmig wirken die sechs Aussagen nach der Faustregel (ab 0,7 annehmbar, ab 0,8 gut)?',
+            'Lies oben „Cronbach\'s Alpha“: Wie zuverlässig messen die sechs Aussagen zusammen, nach der Faustregel (ab 0,7 annehmbar, ab 0,8 gut)?',
             'Geh unten die Spalte Corrected Item-Total durch: Steht vor einer Zahl ein Minus?',
             'Frag dich: Was heißt eine negative Trennschärfe? Läuft das Item mit den anderen oder gegen sie?',
             'Vergleich mit deiner Festlegung aus Schritt 1: Passen die auffälligen Zeilen zum Wortlaut?',
@@ -222,7 +222,7 @@ const TASKS = [
       { id: 'a3-2', art: 'code', titel: 'Umpolen und neu prüfen', wk: ['a3um'], bekannt: 'rec(…, rules = "rev") aus Sitzung 5',
         text: 'Die Vorlage baut mit <code>rec(…, rules = "rev")</code> zwei umgepolte Aussagen (Endung <code>_um</code>). Führst du sie so aus, ändert sich α noch nicht: In <code>reliability()</code> stehen noch die alten Aussagen. Tausch im Journal die beiden markierten Stellen gegen ihre umgepolte Fassung und führ die Vorlage erneut aus.',
         mehr: [denk('Was macht rules = "rev"?', { grund: 'v3-um',
-          kurz: 'Die Vorlage hat zwei Teile: <code>mutate()</code> baut mit <code>rec(…, rules = "rev")</code> zwei umgepolte Aussagen (Endung <code>_um</code>), dann rechnet <code>reliability()</code> die Stimmigkeit. <code>rules = "rev"</code> spiegelt die Skala: Auf 1 bis 7 wird aus 1 eine 7 und aus 2 eine 6; die Wörter wandern mit, fehlende Werte bleiben leer.',
+          kurz: 'Die Vorlage hat zwei Teile: <code>mutate()</code> baut mit <code>rec(…, rules = "rev")</code> zwei umgepolte Aussagen (Endung <code>_um</code>), dann schätzt <code>reliability()</code> die Reliabilität. <code>rules = "rev"</code> spiegelt die Skala: Auf 1 bis 7 wird aus 1 eine 7 und aus 2 eine 6; die Wörter wandern mit, fehlende Werte bleiben leer.',
           denken: [
             'Führ die Vorlage zuerst unverändert aus: Ändert sich α? Schau, welche Namen in <code>reliability()</code> stehen.',
             'Tausch im Journal beide gelben Stellen gegen ihre umgepolte Fassung mit <code>_um</code> und führ den ganzen Block erneut aus.',
@@ -255,9 +255,9 @@ const TASKS = [
       { id: 'a3-5', art: 'nachher', titel: 'Im Bild: Trennschärfen vorher und nachher', baustein: 'VorherNachher',
         text: 'Erst nach dem Prüfen: Das Bild zeigt die Trennschärfen der sechs Aussagen vor und nach dem Umpolen, mit α. Vergleich es mit deinen Antworten.',
         mehr: [denk('Wie lese ich das Bild?', { grund: 'v3b',
-          kurz: 'Das Bild zeigt die Trennschärfen der sechs Aussagen vor und nach dem Umpolen, unter jedem Teil Cronbachs α. Es erscheint erst nach dem Prüfen und ist gebaut wie die Balken im Umpol-Labor in Verstehen.',
+          kurz: 'Das Bild zeigt die ⟪Trennschärfen⟫ der sechs Items vor und nach dem ⟪Umpolen⟫, unter jedem Teil Cronbachs α. Es erscheint erst nach dem Prüfen und ist gebaut wie die Balken im Umpol-Labor in Verstehen.',
           denken: [
-            'Jeder Balken ist die Trennschärfe einer Aussage. Ein Balken nach links (negativ) heißt: Diese Aussage läuft gegen die anderen.',
+            'Jeder Balken ist die Trennschärfe einer Aussage. Ein Balken nach links (negativ) heißt: Diese Aussage ist anders ⟪gepolt|polung⟫ und läuft gegen die anderen.',
             'Vergleich die beiden Teile: Welche Balken wechseln die Seite?',
             'Lies unter jedem Teil α und vergleich es mit deinen Antworten aus Schritt 5.',
           ],
@@ -268,10 +268,10 @@ const TASKS = [
   { id: 'a4', n: 4, titel: 'Im Schnitt oder durchgehend?', pflicht: false, grund: 'g4',
     frage: 'Wie viele Befragte sind „durchgehend“ populistisch, und wie viele nur im Schnitt?',
     ziel: 'du kannst sagen, wie viel Prozent drei Populismus-Aussagen allen zustimmen und wie viel Prozent ihnen im Schnitt zustimmen, und erklären, warum sich die beiden Zahlen unterscheiden.',
-    info: 'In der Forschung wird diskutiert, ob Populismus wie ein Mittelwert gemessen werden darf: Kann Zustimmung bei einer Seite des Begriffs eine Ablehnung bei einer anderen ausgleichen? Du nimmst drei Aussagen, je eine für eine Seite des Populismus: pa31 (einfache Bürger statt Berufspolitiker: gegen die Elite), pa32 (Kompromiss ist Verrat: ein einiger Volkswille), pa33 (das Volk soll entscheiden). Zustimmung heißt hier 1 oder 2.',
+    info: 'In der Forschung wird diskutiert, ob man Populismus wie einen Mittelwert messen darf oder ob jemand allen Seiten des ⟪Konstrukts⟫ zustimmen muss. Du nimmst drei Aussagen, je eine für eine Seite des Populismus: pa31 (einfache Bürger statt Berufspolitiker: gegen die Elite), pa32 (Kompromiss ist Verrat: ein einiger Volkswille), pa33 (das Volk soll entscheiden). Zustimmung heißt hier 1 oder 2.',
     schritte: [
       { id: 'a4-p', art: 'festlegen', titel: 'Erst festlegen',
-        vorhersage: { ...D.PREDICTIONS.a4, aufloesung: 'Allen drei Aussagen stimmen 14,2 % zu, im Schnitt stimmen 21,71 % zu: durchgehend sind es also 7,5 Prozentpunkte weniger.' },
+        vorhersage: { ...D.PREDICTIONS.a4, aufloesung: 'Allen drei Aussagen stimmen 14,2 % zu, im Schnitt stimmen 21,71 % zu: durchgehend sind es also 7,5 ⟪Prozentpunkte⟫ weniger.' },
         mehr: [denk('Wie lege ich mich fest?', { grund: 'v4a',
           kurz: 'Du vergleichst zwei Regeln, bevor du rechnest. „Allen drei zugestimmt“ heißt: bei jeder Aussage 1 oder 2. „Im Schnitt zugestimmt“ heißt: Mittelwert der drei Antworten höchstens 2. Es zählt nicht, ob du richtig liegst; deine Festlegung ist dein Vergleichspunkt.',
           denken: [
@@ -284,17 +284,17 @@ const TASKS = [
         text: 'Die Vorlage baut zwei Indizes in einer Kette: <code>zustimmungen</code> zählt, wie vielen der drei Aussagen jemand zustimmt (0 bis 3), <code>kurz</code> ist der Mittelwert der drei Antworten. Führ sie im Journal aus: Sie zeigt die Zahl der Zustimmungen.',
         mehr: [
           denk('Was macht row_sums()?', { grund: 'v4-zaehlen',
-            kurz: 'Die Vorlage hat drei Teile. Zuerst macht <code>rec()</code> aus jeder Aussage eine 0/1-Variable: 1 heißt zugestimmt (1 oder 2), 0 nicht. Dann zählt <code>row_sums(pick(…))</code> die Einsen je Person (<code>zustimmungen</code>, 0 bis 3), und <code>row_means()</code> bildet daneben <code>kurz</code>. Zum Schluss zeigt <code>frequency()</code> die Zustimmungen, gewichtet.',
+            kurz: 'Die Vorlage hat drei Teile. Zuerst macht <code>rec()</code> aus jeder Aussage eine 0/1-Variable, du ⟪rekodierst|rekodieren⟫ sie also: 1 heißt zugestimmt (1 oder 2), 0 nicht. Dann zählt <code>row_sums(pick(…))</code> die Einsen je Person (<code>zustimmungen</code>, 0 bis 3). Eine solche Summe heißt ⟪Summenindex⟫. Daneben bildet <code>row_means()</code> den Mittelwert <code>kurz</code>. Zum Schluss zeigt <code>frequency()</code> die Zustimmungen, gewichtet.',
             denken: [
               'Lies die Regel in <code>rec()</code>: Welche Antworten werden zu 1, welche zu 0, was wird <code>NA</code>?',
               'Was heißt bei <code>zustimmungen</code> „allen drei zugestimmt“? In welcher Zeile der Tabelle steht das?',
               'Warum steht auch bei <code>row_sums()</code> ein <code>min_valid = 3</code>? Was wäre sonst mit jemandem, der eine Aussage übersprungen hat?',
-              'Lies in der Ausgabe von <code>frequency()</code> die Spalte Valid %: den Anteil an allen mit Wert.',
+              'Lies in der Ausgabe von <code>frequency()</code> die Spalte Valid %: den ⟪Anteil|relative-haeufigkeit⟫ an allen mit Wert.',
             ],
             verwechslung: 'Die 0 in <code>z31</code> heißt „stimmt nicht zu“, nicht „lehnt ab“: Nach der Regel in <code>rec()</code> wird auch „teils/teils“ (3) zu 0.' }),
           RSTUDIO] },
       { id: 'a4-2', art: 'aendern', titel: 'Tauschen: der Mittelwertindex', block: 'a4-1',
-        text: 'Ändere im Journal im Block aus Schritt 2 die gelb markierte Stelle <code>zustimmungen</code> in <code>kurz</code> und führ den Block erneut aus. Jetzt siehst du den Mittelwertindex. Er hat 13 mögliche Werte; R schreibt 1,33 als 1.33333333333333. „Im Schnitt Zustimmung“ heißt: Wert höchstens 2. Lies die Spalte Cum. % in der Zeile 2.',
+        text: 'Ändere im Journal im Block aus Schritt 2 die gelb markierte Stelle <code>zustimmungen</code> in <code>kurz</code> und führ den Block erneut aus. Jetzt siehst du den Mittelwertindex. Er hat 13 mögliche Werte; R schreibt 1,33 als 1.33333333333333. „Im Schnitt Zustimmung“ heißt: Wert höchstens 2. Lies die Spalte ⟪Cum. %⟫ in der Zeile 2.',
         mehr: [denk('Was heißt Cum. %?', { grund: 'v4-kurz',
           kurz: 'Du tauschst im Journal nur die gelbe Stelle: <code>kurz</code> statt <code>zustimmungen</code>. Jetzt zeigt <code>frequency()</code> den Mittelwertindex. Ein Mittelwert aus drei Antworten von 1 bis 5 kann auch Drittelwerte haben; das sind 13 mögliche Werte.',
           denken: [
@@ -333,11 +333,11 @@ const TASKS = [
 const FREI = {
   a1: [
     { stufe: 'Abwandeln', text: 'Wie viele Befragte bekommen einen Wert, wenn du nur vier von sieben Antworten verlangst?', tipp: 'Setz in deinem Block aus Schritt 2 <code>min_valid = 4</code>. Nach der Zwei-Drittel-Regel ist 4 zu locker, nach „mehr als die Hälfte“ gerade noch erlaubt.' },
-    { stufe: 'Eigene Frage', text: 'Unterscheiden sich Westen und Osten im Populismus-Index?', tipp: 'Bau den Index wie in Schritt 4 und häng statt <code>describe()</code> den t-Test aus Sitzung 7 an: <code>t_test(populismus, group = eastwest, weights = wghtpew) %&gt;% summary()</code>.' },
+    { stufe: 'Eigene Frage', text: 'Unterscheiden sich Westen und Osten im Populismus-Index?', tipp: 'Bau den Index wie in Schritt 4 und häng statt <code>describe()</code> den ⟪t-Test⟫ aus Sitzung 7 an: <code>t_test(populismus, group = eastwest, weights = wghtpew) %&gt;% summary()</code>.' },
   ],
   a2: [
-    { stufe: 'Abwandeln', text: 'Wie stimmig sind nur drei der sieben Aussagen?', tipp: '<code>reliability(pa31, pa32, pa33)</code>. Vergleich α mit dem Wert für alle sieben: Was macht die Zahl der Items mit α?' },
-    { stufe: 'Eigene Frage', text: 'Wie stimmig sind die vier Fragen zu Geflüchteten (mp16 bis mp19)?', tipp: '<code>reliability(mp16, mp17, mp18, mp19) %&gt;% summary()</code>. Zeigen alle vier in dieselbe Richtung? Bei allen heißt 1 „Risiko überwiegt“.' },
+    { stufe: 'Abwandeln', text: 'Wie hoch ist α für nur drei der sieben Aussagen?', tipp: '<code>reliability(pa31, pa32, pa33)</code>. Vergleich α mit dem Wert für alle sieben: Was macht die Zahl der Items mit α?' },
+    { stufe: 'Eigene Frage', text: 'Wie zuverlässig messen die vier Fragen zu Geflüchteten (mp16 bis mp19) zusammen?', tipp: '<code>reliability(mp16, mp17, mp18, mp19) %&gt;% summary()</code>. Zeigen alle vier in dieselbe Richtung? Bei allen heißt 1 „Risiko überwiegt“.' },
   ],
   a3: [
     { stufe: 'Abwandeln', text: 'Was passiert mit α, wenn du nur eine der beiden Aussagen umpolst?', tipp: 'Tausch in deinem Block aus Schritt 3 nur <code>mm02</code> gegen <code>mm02_um</code>. Wie sehen die Trennschärfen jetzt aus?' },

@@ -252,15 +252,15 @@ export const MACHINE: Record<MachineVar, { name: string; unit: string; decimals:
   dw15: {
     name: 'Arbeitsstunden', unit: 'Stunden', decimals: 1,
     early: 'Jede Stichprobe zeigt einen anderen Unterschied. Aber bisher liegt jeder deutlich über 0.',
-    all: '1.000 Stichproben bilden eine Glocke um den wahren Unterschied von 7,99 Stunden. Die Unterschiede reichen von 1,5 bis 13,8 Stunden, keiner liegt bei 0 oder darunter. Die typische Abweichung vom wahren Wert ist 1,83 Stunden.',
+    all: 'Die Unterschiede der 1.000 Stichproben bilden annähernd eine Normalverteilung, eine Glocke um den wahren Unterschied von 7,99 Stunden. Sie reichen von 1,5 bis 13,8 Stunden, keiner liegt bei 0 oder darunter. Die typische Abweichung vom wahren Wert, der Standardfehler, ist 1,83 Stunden.',
   },
   ls01: {
     name: 'Lebenszufriedenheit', unit: 'Punkte', decimals: 2,
     early: 'Mal liegen die Männer vorn, mal die Frauen. Die Unterschiede pendeln um 0.',
-    all: 'Auch hier eine Glocke, aber um 0: Im Mittel liegt der Unterschied bei −0,01. Einzelne Stichproben zeigen trotzdem gut einen Punkt Unterschied (bis 1,14), mal für die Männer, mal für die Frauen. Die typische Abweichung ist 0,38 Punkte.',
+    all: 'Auch hier annähernd eine Normalverteilung, eine Glocke, aber um 0: Im Mittel liegt der Unterschied bei −0,01. Einzelne Stichproben zeigen trotzdem gut einen Punkt Unterschied (bis 1,14), mal für die Männer, mal für die Frauen. Der Standardfehler ist 0,38 Punkte.',
   },
 };
-export const MACHINE_SHAPE = 'Der Stapel der Arbeitsstunden hat die Form einer Glocke mit dem Gipfel bei 8 bis 9 Stunden; der Stapel der Lebenszufriedenheit eine Glocke mit dem Gipfel bei 0.';
+export const MACHINE_SHAPE = 'Die Stichprobenverteilung der Arbeitsstunden hat die Form einer Glocke (Normalverteilung) mit dem Gipfel bei 8 bis 9 Stunden; die der Lebenszufriedenheit eine Glocke mit dem Gipfel bei 0.';
 /** Kennzahlen der 1.000 Stichproben (für Texte und Prüfung). */
 export const MACHINE_FACTS = {
   dw15: { sd: 1.83, min: 1.5, max: 13.8, significant: 993, ciHitsTruth: 963 },
@@ -327,7 +327,7 @@ export const F_LAB: FLabRow[] = [
   lab(2, 1, 12, 120, 6, 8, 0.75, 0.489, 0.09), lab(2, 2, 48, 120, 24, 8, 3, 0.080, 0.29),
 ];
 export const F_LAB_FEEDBACK = {
-  none: 'Alle Gruppen liegen gleich: kein Signal, F = 0.',
+  none: 'Alle Gruppen liegen gleich: kein Unterschied zwischen den Gruppenmittelwerten, F = 0.',
   large: 'Die Gruppen liegen weit auseinander im Vergleich zur Streuung in ihnen: F ist groß, p klein.',
   small: 'Die Streuung in den Gruppen überdeckt den Abstand: F ist klein, nicht signifikant.',
   ratio: 'Doppelter Abstand und doppelte Streuung ergeben dasselbe F. Es zählt das Verhältnis.',
@@ -448,7 +448,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['sicher', 'Mit 99,9 % Wahrscheinlichkeit gibt es einen Unterschied.'],
       ['gross', 'Der Unterschied ist sehr groß.'],
     ], 'selten',
-      'Genau: t teilt den Unterschied durch sein Rauschen (Karte 1b), p sagt, wie selten ein so großer Unterschied ohne echten Unterschied wäre (Karte 1c). Signifikant, also kaum durch Zufall zu erklären.',
+      'Genau: t teilt den Unterschied durch seinen ⟪Standardfehler⟫ (Karte 1b). Der ⟪p-Wert⟫ sagt, wie selten ein so großer Unterschied unter der ⟪Nullhypothese⟫ wäre, also ohne echten Unterschied (Karte 1c). Signifikant, also kaum durch Zufall zu erklären.',
       'p sagt nichts über die Größe (dafür gibt es g) und ist keine Wahrscheinlichkeit dafür, dass es einen Unterschied gibt. Lies Karte 1c, „Häufige Verwechslung“. Das Minus vor t zeigt nur, dass die zweite Gruppe (mit Abitur) höher liegt.',
       { short: 't und p', help: 'Die Zahlen stehen in der Zeile „Equal variances not assumed“ und in der Kurzfassung aus Schritt 1.' }),
     choice('a1e', 'Was sagt das 95-%-Konfidenzintervall von −0,764 bis −0,556?', [
@@ -456,14 +456,14 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['personen', '95 % der Befragten liegen zwischen −0,764 und −0,556.'],
       ['genau', 'Der Unterschied ist zu 95 % genau −0,660.'],
     ], 'bereich',
-      'Richtig. Die 0 liegt nicht im Intervall, darum ist der Unterschied signifikant.',
+      'Richtig. Das ⟪Konfidenzintervall⟫ gibt an, wo der Unterschied in der Grundgesamtheit plausibel liegt. Die 0 liegt nicht darin, darum ist der Unterschied signifikant.',
       'Das Intervall beschreibt den Unterschied der Mittelwerte, nicht einzelne Personen. Es ist ein Bereich plausibler Werte, keine Wahrscheinlichkeit für einen einzelnen Wert.',
       { short: 'Konfidenzintervall' }),
     choice('a1f', 'Wie groß ist der Unterschied nach Hedges\' g?', [
       ['vernachl', 'vernachlässigbar (unter 0,2)'], ['klein', 'klein (0,2 bis unter 0,5)'], ['mittel', 'mittel (0,5 bis unter 0,8)'], ['gross', 'groß (ab 0,8)'],
     ], 'klein',
-      'g = −0,42: ein kleiner Effekt, mariposa schreibt „small“. Etwa zwei Fünftel einer Standardabweichung.',
-      'Lies die Spalte Hedges\' g unter „Effect Sizes“ (−0,419) und lass das Minus weg; es zeigt nur die Richtung. Vergleiche mit dem Lineal in Karte 1d.',
+      '⟪Hedges\' g|hedges-g⟫ = −0,42: nach der ⟪Faustregel nach Cohen⟫ ein kleiner Effekt, mariposa schreibt „small“. Der Unterschied beträgt etwa zwei Fünftel einer Standardabweichung.',
+      'Lies die Spalte Hedges\' g unter „Effect Sizes“ (−0,419) und lass das Minus weg; es zeigt nur die Richtung. Vergleiche den Betrag mit den Grenzen in Karte 1d.',
       { short: 'Hedges\' g', help: 'Unter „Effect Sizes“, Spalte Hedges\' g.' }),
   ],
   a2: [
@@ -472,7 +472,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       'Lies unter „Effect Sizes“ die Spalte Hedges\' g aus Schritt 1 und übernimm das Minus.',
       { tolerance: 0.005, short: 'Hedges\' g bei allen', help: WITH_SIGN }),
     choice('a2b', 'Alle Befragten: Was trifft zu?', [['beides', 'signifikant und groß'], ['sig_klein', 'signifikant, aber sehr klein'], ['nichts', 'nicht signifikant']], 'sig_klein',
-      'Genau: p < 0,001, aber nur 0,34 Punkte auf einer Skala von 0 bis 10 und g = −0,18. Mit über 5.000 Befragten wird auch ein kleiner Unterschied signifikant.',
+      'Genau: p < 0,001, also ⟪signifikant⟫. Aber der Unterschied ist nur 0,34 Punkte auf einer Skala von 0 bis 10, und die ⟪Effektstärke⟫ g = −0,18 ist vernachlässigbar. Mit über 5.000 Befragten wird auch ein kleiner Unterschied signifikant.',
       'p ist kleiner als 0,001, also signifikant. Die Größe zeigt aber g: unter 0,2 heißt vernachlässigbar.', { short: 'signifikant oder groß' }),
     number('a2c', 'Unter 30: Wie groß ist der Unterschied der Mittelwerte (Mean Diff.)?', -0.986,
       '−0,986: Bei den Jüngeren liegen die ohne Abitur fast einen Punkt niedriger.',
@@ -482,7 +482,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['fehler', 'R hat sich in einer der Zeilen verrechnet.'],
       ['gewicht', 'Welch rechnet ohne Gewicht.'],
     ], 'streuung',
-      'Genau wie in Karte 2c: ungleich große Gruppen, und die kleine streut stärker. Student unterschätzt dann die Unsicherheit. Beide Zeilen sind hier signifikant, aber Welch ist die ehrlichere.',
+      'Genau wie in Karte 2c: ungleich große Gruppen, und die kleine streut stärker. Student nimmt gleiche Streuungen an (⟪Varianzhomogenität⟫) und unterschätzt dann die Unsicherheit. Beide Zeilen sind hier signifikant, aber der ⟪Welch-Test⟫ ist der ehrlichere.',
       'Beide Zeilen rechnen richtig und beide gewichtet. Schau auf N und Std. Deviation in der Gruppentabelle und lies Karte 2c.', { short: 'breiteres Intervall' }),
   ],
   a3: [
@@ -501,7 +501,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['anteil6', 'Etwa 6 % der Unterschiede in der Links-rechts-Einstufung gehen mit dem Wohnort einher.'],
       ['personen', '2 % der Befragten wohnen in der Großstadt.'],
     ], 'anteil',
-      'Genau: η² = 0,021, mariposa schreibt „small“. Der Unterschied ist signifikant, aber klein: Innerhalb jedes Wohnorts gibt es fast die ganze Bandbreite von links bis rechts.',
+      'Genau: ⟪η²⟫ = 0,021, mariposa schreibt „small“. Der Unterschied ist signifikant, aber die ⟪Effektstärke⟫ ist klein: Innerhalb jedes Wohnorts gibt es fast die ganze Bandbreite von links bis rechts.',
       'η² ist ein Anteil an der gesamten Streuung, keine Zahl von Personen. R schreibt `0.021`, das sind 2,1 %. Steht bei dir 0.058, hast du noch `age` und `mode` in der Vorlage (das sind die 6 % aus Grundlage 3). Lies Karte 3b, „Häufige Verwechslung“.',
       { short: 'Eta-Quadrat', help: 'Unter „Effect Sizes“, Spalte Eta Squared.' }),
     number('a3e', 'Wie viele der zehn Paare unterscheiden sich laut Tukey signifikant?', 4,
@@ -513,7 +513,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['gleich', 'Auf Einzelgehöften steht man genauso links wie in der Großstadt.'],
       ['fehler', 'Tukey hat sich verrechnet.'],
     ], 'wenige',
-      'Genau: Mit wenigen Befragten ist der Mittelwert unsicher (Standardfehler 0,229 statt 0,071). Nicht signifikant heißt hier „nicht entschieden“, nicht „gleich“.',
+      'Genau: Mit wenigen Befragten ist der Mittelwert unsicher (⟪Standardfehler⟫ 0,229 statt 0,071). Nicht signifikant heißt hier „nicht entschieden“, nicht „gleich“.',
       'Schau auf N in der Gruppentabelle (62) und auf Std. Error in der Tukey-Zeile. Nicht signifikant heißt nicht „kein Unterschied“ (Karte 1c).', { short: 'Einzelgehöft' }),
   ],
   a4: [
@@ -537,7 +537,7 @@ export const QUESTIONS: Record<'a1' | 'a2' | 'a3' | 'a4', Question[]> = {
       ['gewicht', 'Das Gewicht ändert sich von Paar zu Paar.'],
       ['fehler', 'Einige Werte wurden doppelt gezählt.'],
     ], 'paarweise',
-      'Richtig: paarweiser Ausschluss. Das Alter haben fast alle angegeben (5.224), die Vertrauensfragen wurden nur etwa zwei Dritteln der Befragten gestellt.',
+      'Richtig: ⟪paarweiser Ausschluss⟫. Das Alter haben fast alle angegeben (5.224), die Vertrauensfragen wurden nur etwa zwei Dritteln der Befragten gestellt.',
       'Schau auf die Zeile `age`: Mit sich selbst hat das Alter 5.224, mit den Vertrauensfragen nur gut 3.500. Lies Marke ④ in Grundlage 4.', { short: 'Fallzahlen je Paar' }),
   ],
 };
@@ -723,8 +723,8 @@ export const SELF_TEST: { question: string; options: string[]; answer: number; w
   },
   {
     question: 'Du vergleichst vier Gruppen mit sechs einzelnen t-Tests. Was ist das Problem?',
-    options: ['Gibt es in Wahrheit keine Unterschiede, steigt mit sechs Tests die Chance auf mindestens einen Fehlalarm auf etwa 26 %.', 't-Tests rechnen bei vier Gruppen falsch.', 'Es gibt kein Problem.'], answer: 0,
-    why: 'Jeder Test hat 5 % Fehlalarm; bei sechs Paaren sind es zusammen etwa 26,5 %. Darum ANOVA und danach Tukey (Grundlage 3a).',
+    options: ['Gibt es in Wahrheit keine Unterschiede, steigt mit sechs Tests die Chance, dass mindestens einer fälschlich anschlägt, auf etwa 26 %.', 't-Tests rechnen bei vier Gruppen falsch.', 'Es gibt kein Problem.'], answer: 0,
+    why: 'Jeder Test hat ein Risiko von 5 % für einen Fehler 1. Art (Fehlalarm); bei sechs Paaren sind es zusammen etwa 26,5 % (Alpha-Fehler-Kumulierung). Darum ANOVA und danach Tukey (Grundlage 3a).',
   },
   {
     question: 'Das 95-%-Konfidenzintervall eines Unterschieds reicht von −0,2 bis 0,9. Was gilt?',
@@ -767,9 +767,9 @@ export const SCRIPT = '# Sitzung 7: Mittelwerte vergleichen. ALLBUS 2023, gewich
 /* ---------- Textfassungen der Bilder ---------- */
 
 export const ALT = {
-  stack1c: 'Stapel der 1.000 Unterschiede in der Lebenszufriedenheit, Männer minus Frauen, in Kisten zu 0,2 Punkten von −1,2 bis 1,2. Von 1.000 Stichproben ohne echten Unterschied liegen 127 mindestens 0,6 Punkte von 0 entfernt (in eine der beiden Richtungen: 63 mit den Frauen vorn, 64 mit den Männern vorn), das sind etwa 13 %. Zum Vergleich: 199 liegen mindestens 0,5 Punkte entfernt (etwa 20 %), nur 42 mindestens 0,8 Punkte (etwa 4 %).',
+  stack1c: 'Stichprobenverteilung der 1.000 Unterschiede in der Lebenszufriedenheit, Männer minus Frauen, in Klassen zu 0,2 Punkten von −1,2 bis 1,2. Von 1.000 Stichproben ohne echten Unterschied liegen 127 mindestens 0,6 Punkte von 0 entfernt (in eine der beiden Richtungen: 63 mit den Frauen vorn, 64 mit den Männern vorn), das sind etwa 13 %. Zum Vergleich: 199 liegen mindestens 0,5 Punkte entfernt (etwa 20 %), nur 42 mindestens 0,8 Punkte (etwa 4 %).',
   intervals: 'Alle 20 Intervalle enthalten den wahren Unterschied von 7,99 Stunden, keines enthält die 0. In allen 1.000 Stichproben enthalten 963 Intervalle den wahren Wert, also etwa 96 von 100.',
-  ruler: 'Lineal von 0 bis 1 Standardabweichung. Unter 0,2 vernachlässigbar, ab 0,2 klein, ab 0,5 mittel, ab 0,8 groß. Lebenszufriedenheit Männer gegen Frauen: 0,005. Arbeitsstunden Männer gegen Frauen: 0,85.',
+  ruler: 'Achse von 0 bis 1 Standardabweichung. Unter 0,2 vernachlässigbar, ab 0,2 klein, ab 0,5 mittel, ab 0,8 groß. Lebenszufriedenheit Männer gegen Frauen: 0,005. Arbeitsstunden Männer gegen Frauen: 0,85.',
   meansCi: 'Mittelwerte des Alters mit 95-%-Intervall nach Erhebungsweg, Achse von 40 bis 65 Jahren. CAPI: 51,8 Jahre (51,0 bis 52,6), N = 2.002. CAWI: 46,7 Jahre (45,9 bis 47,6), N = 1.623. MAIL: 58,0 Jahre (57,1 bis 58,8), N = 1.599.',
   tukeyAge: 'CAPI minus CAWI: 5,0 Jahre, p < 0,001, Intervall 3,6 bis 6,4. CAPI minus MAIL: −6,2 Jahre, p < 0,001, Intervall −7,6 bis −4,8. CAWI minus MAIL: −11,2 Jahre, p < 0,001, Intervall −12,7 bis −9,7. Alle drei Paare unterscheiden sich: Online-Befragte sind am jüngsten, Papier-Befragte am ältesten.',
 };

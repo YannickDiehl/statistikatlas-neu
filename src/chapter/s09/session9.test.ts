@@ -190,7 +190,7 @@ test('every role="img" has a text version of at least 40 characters (also after 
 
 test('task 3 has the group_by picture with its text version; task 4 shows its picture only after a check or on request', () => {
   const a3 = elementById(html, 'a3');
-  assert.match(a3, /role="img" aria-label="group_by\(pt03\) legt alle Reihen mit demselben Wert/);
+  assert.match(a3, /role="img" aria-label="group_by\(pt03\) legt alle Fälle mit demselben Wert/);
   assert.match(textOf(a3), /Neu heute: group_by\(pt03\) teilt die Befragten/);
   assert.match(textOf(a3), /Genauer erklärt: Warum ändern Konstante und Steigung die SD nicht\?/);
   const a4 = elementById(html, 'a4');
@@ -218,7 +218,7 @@ test('read R: the line picture with the tilde, the control output and the output
   assert.match(r2, /role="img" aria-label="Nimm allbus, und dann sag die Lebenszufriedenheit aus der wirtschaftlichen Lage vorher, gewichtet\./);
   assert.match(textOf(r2), /R2 = 0\.203, adj\.R2 = 0\.203, F\(1, 5131\) = 1304\.29, p < 0\.001 \*\*\*, N = 5133/);
   const r3 = elementById(html, 'r3');
-  assert.deepEqual([...r3.matchAll(/<button[^>]*aria-pressed="false"[^>]*>([^<]*)<\/button>/g)].map(m => m[1]), ['Konstante', 'Steigung', 'Beta', 'R²', 'Typischer Fehler', 'N']);
+  assert.deepEqual([...r3.matchAll(/<button[^>]*aria-pressed="false"[^>]*>([^<]*)<\/button>/g)].map(m => m[1]), ['Konstante', 'Steigung', 'Beta', 'R²', 'Standardfehler der Schätzung', 'N']);
   assert.match(r3, /<p class="erkl" aria-live="polite">Wähl eine Zahl\.<\/p>/);
   assert.match(textOf(r3), /Ausgabe von summary\(\) für ls01 ~ lage/);
   assert.match(textOf(r3), /… weitere Abschnitte/);

@@ -84,7 +84,7 @@ export function Task1() {
 export function Task2() {
   return <TaskBlock id="a2" n={2} title="Messen die sieben Aussagen dasselbe?" required
     question="Darf man die sieben Populismus-Aussagen zu einem Index zusammenfassen, und passt jede dazu?"
-    goal="Am Ende kannst du sagen, wie stimmig die sieben Aussagen sind (Cronbachs α), welche am schwächsten zu den anderen passt, und begründen, ob sie im Index bleiben soll."
+    goal="Am Ende kannst du sagen, wie zuverlässig die sieben Aussagen zusammen messen (Cronbachs α), welche am schwächsten zu den anderen passt, und begründen, ob sie im Index bleiben soll."
     foundationHref="#g2"
     basis={<a href="#g2">Grundlage 2, Passen die Fragen zusammen?</a>}>
     <p>In <a href="#a1">Aufgabe 1</a> hast du aus den sieben Aussagen pa29 bis pa35 einen Index gebildet. Ob das erlaubt ist, prüfst du jetzt. Die Aussagen findest du in Aufgabe 1.</p>
@@ -99,7 +99,7 @@ export function Task2() {
         <AlphaWithout /></li>
       <li><b>Deuten:</b> Soll pa29 aus dem Index? Denk an den Inhalt der Aussage und an <a href="#v2c">Grundlage 2c</a>. (Frage a2e unten)</li>
     </Steps>
-    <TryOut idea="Wie stimmig sind nur drei der sieben Aussagen?" workshop={<Workshop k="frei_a2" live />} />
+    <TryOut idea="Wie hoch ist α für nur drei der sieben Aussagen?" workshop={<Workshop k="frei_a2" live />} />
     <TaskQuestions id="a2-fragen" questions={QUESTIONS.a2} predictionId={PREDICTIONS.a2.id} />
     <Plenum><p style={{ margin: '4px 0 0' }}>Würdet ihr pa29 im Index behalten? Bringt ein Argument für Behalten und eins für Streichen mit.</p></Plenum>
     <Hints steps={hints('a2')} />

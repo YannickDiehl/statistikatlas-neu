@@ -138,11 +138,11 @@ export function Task3() {
 /* ---------- Aufgabe 4 ---------- */
 
 export function Task4() {
-  return <TaskBlock id="a4" n={4} title="Wie viele liegen über dem Durchschnitt?" required={false}
-    question="Wie viele waren länger arbeitslos als der Durchschnitt?"
+  return <TaskBlock id="a4" n={4} title="Wie viele liegen über dem Mittelwert?" required={false}
+    question="Wie viele waren länger arbeitslos als im Mittel?"
     goal="Am Ende kannst du mit Cum. % und dem Taschenrechner ausrechnen, wie viel Prozent über dem Mittelwert liegen, und sagen, was das über die Verteilung verrät."
     foundationHref="#g4"
-    basis={<a href="#g4">Grundlage 4, Liegt der Durchschnitt in der Mitte?</a>}>
+    basis={<a href="#g4">Grundlage 4, Liegt der Mittelwert in der Mitte?</a>}>
     <p>In <a href="#a3">Aufgabe 3</a> lag der Mittelwert der Arbeitslosigkeitsdauer bei 54,7 Wochen. Liegt die Hälfte darüber?</p>
     {predict('a4')}
     <WorkHere />
@@ -152,7 +152,7 @@ export function Task4() {
       <li>Rechne 100 minus diese Zahl. Die Vorlage rechnet das Beispiel aus <a href="#g4">Grundlage 4</a> (Personen im Haushalt). Tausch die markierte Zahl gegen deinen Wert aus Schritt 1. <Calculator />
         <Workshop k="a4r" live /></li>
     </Steps>
-    <TryOut idea="Der ALLBUS hat die Wochen auch in sechs Stufen zusammengefasst (dw19c). In welcher Stufe liegt dort der Median, und passt das zu 26 Wochen?" workshop={<Workshop k="frei_a4" live />} />
+    <TryOut idea="Der ALLBUS hat die Wochen auch in sechs Kategorien zusammengefasst (dw19c). In welcher Kategorie liegt dort der Median, und passt das zu 26 Wochen?" workshop={<Workshop k="frei_a4" live />} />
     <SmartQuestions id="a4-fragen" questions={QUESTIONS.a4} predictionId={PREDICTIONS.a4.id} />
     <Hints steps={hints('a4')} />
     <NoGraphic>Diese Aufgabe hat keine Grafik. Alle Zahlen stehen in <code>allbus %&gt;% frequency(dw19)</code>.</NoGraphic>

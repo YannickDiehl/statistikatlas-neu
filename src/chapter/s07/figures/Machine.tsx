@@ -61,7 +61,7 @@ export function StackSvg({ v, cols, perStone, truth, countsOver, bracket, gray }
       <text x={x(TRUE_DIFF[v]) - 5} y={pt - 14} textAnchor="end" fontFamily="Nunito,sans-serif" fontSize={12} fontWeight={700} fill={RED}>ganzer ALLBUS</text>
     </> : null}
     {bracket ? bracket.split(': ').map((part, i, all) => <text key={i} x={W / 2} y={16 + i * 17} textAnchor="middle" fontFamily="Nunito,sans-serif" fontSize={12.5} fontWeight={700} fill={DARK}>{i < all.length - 1 ? `${part}:` : part}</text>) : null}
-    <text x={W - pr} y={bracket ? 52 : 16} textAnchor="end" fontFamily="Nunito,sans-serif" fontSize={11.5} fill={INK}>{perStone === 1 ? '1 Stein = 1 Stichprobe' : `1 Stein = ${perStone} Stichproben`}</text>
+    <text x={W - pr} y={bracket ? 52 : 16} textAnchor="end" fontFamily="Nunito,sans-serif" fontSize={11.5} fill={INK}>{perStone === 1 ? '1 Kästchen = 1 Stichprobe' : `1 Kästchen = ${perStone} Stichproben`}</text>
   </svg>;
 }
 
@@ -77,9 +77,9 @@ export function machineText(v: MachineVar, count: number): string {
   if (count <= 20) {
     const stacks = firstStacks(v, count);
     const parts = stacks.map((c, k) => (c ? `${c} bei ${de(binFrom(v, k), v === 'dw15' ? 0 : 1)} bis ${de(binFrom(v, k) + binWidth(v), v === 'dw15' ? 0 : 1)}` : '')).filter(Boolean);
-    return `Stapel der Unterschiede Männer minus Frauen, ${name}, nach ${count} ${count === 1 ? 'Stichprobe' : 'Stichproben'}. Steine je Kiste: ${parts.join('; ')}.`;
+    return `Stapel der Unterschiede Männer minus Frauen, ${name}, nach ${count} ${count === 1 ? 'Stichprobe' : 'Stichproben'}. Kästchen je Klasse: ${parts.join('; ')}.`;
   }
-  return `Stapel aller 1.000 Unterschiede Männer minus Frauen, ${name}, ein Stein für 10 Stichproben, rote Linie beim wahren Unterschied von ${de(TRUE_DIFF[v], 2)}. ${MACHINE_SHAPE}`;
+  return `Stapel aller 1.000 Unterschiede Männer minus Frauen, ${name}, ein Kästchen für 10 Stichproben, rote Linie beim wahren Unterschied von ${de(TRUE_DIFF[v], 2)}. ${MACHINE_SHAPE}`;
 }
 
 function SampleTable({ v }: { v: MachineVar }) {
@@ -136,7 +136,7 @@ export function SamplingMachine() {
 
   const line = count === 0 ? 'Noch keine Stichprobe gezogen.'
     : count <= 20 ? sampleLine(v, count, SAMPLES[v][count - 1])
-      : 'Alle 1.000 Stichproben gezogen. 1 Stein = 10 Stichproben.';
+      : 'Alle 1.000 Stichproben gezogen. 1 Kästchen = 10 Stichproben.';
   const feedback = count === 0 ? '' : count <= 20 ? MACHINE[v].early : MACHINE[v].all;
 
   return <div className="s07-maschine">

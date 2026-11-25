@@ -54,8 +54,8 @@ export function BetaRuler() {
 
 export function diceText(k: number): string {
   const d = DICE[k];
-  const dice = k === 0 ? 'keinem Würfel' : k === 1 ? 'einem Würfel' : `${['', '', 'zwei', 'drei', 'vier'][k]} Würfeln`;
-  return `Mit Gesundheit und ${dice}: R² ${de(d.r2, 2)}, korrigiertes R² ${de(d.adj, 2)}.`;
+  const wie = ['keinem', 'einem', 'zwei', 'drei', 'vier'][k];
+  return `Mit Gesundheit und ${wie} ${k < 2 ? 'Würfel' : 'Würfeln'}: R² ${de(d.r2, 2)}, korrigiertes R² ${de(d.adj, 2)}.`;
 }
 
 /** Bild B10 `s10-wuerfel`: add up to four dice as predictors; R² rises, the adjusted R² falls. */

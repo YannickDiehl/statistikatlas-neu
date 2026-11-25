@@ -22,7 +22,7 @@ export const BuecherStreifen = () => <Aufgeloest antworten={{ [K1C_Q.id]: String
 /** Personen im Haushalt (dh04) als Streifen, mit Mittelwert, Median und den Klammern „höchstens 2“ und „über dem Mittelwert“. */
 export const HaushaltsStreifen = () => <Aufgeloest antworten={{ [K4_Q.id]: String(K4_Q.target) }}><HouseholdStrip /></Aufgeloest>;
 
-/* ---------- Die Mitte einer Reihe: neun Haushalte, dann mit der WG (alle vier Schritte von Anfang an) ---------- */
+/* ---------- Die Mitte der sortierten Werte: neun Haushalte, dann mit der WG (alle vier Schritte von Anfang an) ---------- */
 const xr = (v: number) => 170 + v * 45;
 const BASE = 250, SH = 22, SW = 34;
 
@@ -58,9 +58,9 @@ function Lineal({ schritt }: { schritt: number }) {
     </g>)}
     {n % 2 ? <>
       <path d={`M150,70 V76 H${150 + 3 * 40 + SW} V70`} fill="none" stroke={C.mute} strokeWidth={1.5} />
-      <SvgText x={150 + 1.5 * 40 + SW / 2} y={92} fontSize={11.5}>4 Steine</SvgText>
+      <SvgText x={150 + 1.5 * 40 + SW / 2} y={92} fontSize={11.5}>4 Werte</SvgText>
       <path d={`M${150 + 5 * 40},70 V76 H${150 + 8 * 40 + SW} V70`} fill="none" stroke={C.mute} strokeWidth={1.5} />
-      <SvgText x={150 + 6.5 * 40 + SW / 2} y={92} fontSize={11.5}>4 Steine</SvgText>
+      <SvgText x={150 + 6.5 * 40 + SW / 2} y={92} fontSize={11.5}>4 Werte</SvgText>
     </> : null}
     {werte.map((v, i) => {
       const k = hoehe[v] = (hoehe[v] ?? 0) + 1;
@@ -74,7 +74,7 @@ function Lineal({ schritt }: { schritt: number }) {
     </g>)}
     <line x1={xr(st.median)} x2={xr(st.median)} y1={BASE - 4 * SH - 16} y2={BASE + 2} stroke={C.orangeDark} strokeWidth={2.2} strokeDasharray="5 4" />
     <SvgText x={xr(st.median) + 6} y={BASE - 4 * SH - 6} textAnchor="start" fontSize={12} fill={C.orangeDark} fontWeight={800}>
-      {mitWg ? 'Median 2 (zwischen dem 5. und 6. Stein)' : `Median ${st.median}`}</SvgText>
+      {mitWg ? 'Median 2 (zwischen dem 5. und 6. Wert)' : `Median ${st.median}`}</SvgText>
     {schritt >= 2 ? <>
       {mitWg ? <path d={`M${xr(ROW_STATS.nine.mean)},${BASE + 28} l-8,14 h16 Z`} fill={C.orange} opacity={0.3} /> : null}
       <path d={`M${xr(st.mean)},${BASE + 28} l-9,16 h18 Z`} fill={C.orange} stroke={C.orangeDark} />
@@ -83,13 +83,13 @@ function Lineal({ schritt }: { schritt: number }) {
   </g>;
 }
 
-/** Bild „Die Mitte einer Reihe“: Turm, sortierte Reihe, Mittelwert und, als vierter Schritt, die zehnte Person aus der WG. */
+/** Bild „Die Mitte der sortierten Werte“: Datenreihe, sortiert, Mittelwert und, als vierter Schritt, die zehnte Person aus der WG. */
 export function HaushaltsReihe() {
   const [schritt, setSchritt] = useState(0);
   const st = schritt === 3 ? ROW_STATS.ten : ROW_STATS.nine;
   const sortiert = [...HOUSEHOLDS9].sort((a, b) => a - b);
   return <div>
-    <StepNav steps={['Turm', 'Reihe', 'Mittelwert', 'mit der WG']} current={schritt} onSelect={setSchritt} label="Schritte: die Mitte einer Reihe" />
+    <StepNav steps={['Datenreihe', 'sortiert', 'Mittelwert', 'mit der WG']} current={schritt} onSelect={setSchritt} label="Schritte: die Mitte der sortierten Werte" />
     <div className="grafik" role="img" aria-label={`Schritt ${schritt + 1}: ${ROW_TEXT[schritt]}`}>
       <svg viewBox="0 0 760 300" width="100%" aria-hidden="true" focusable="false">
         {schritt === 0 ? <Turm /> : <Lineal schritt={schritt} />}
@@ -97,9 +97,9 @@ export function HaushaltsReihe() {
     </div>
     {schritt >= 2 ? <div className="s3-rechnung" aria-hidden="true">
       {schritt === 3
-        ? <><span>{`${ROW_STATS.nine.sum} + ${WG} = ${ROW_STATS.ten.sum}`}</span><span>{`${ROW_STATS.ten.sum} geteilt durch 10 Steine = ${de(ROW_STATS.ten.mean, 1)}`}</span></>
-        : <><span>{`${sortiert.join(' + ')} = ${st.sum}`}</span><span>{`${st.sum} geteilt durch 9 Steine = ${de(st.mean)}`}</span></>}
-      <small>Das Dreieck ist der Schwerpunkt: Auf diesem Punkt würde das Lineal im Gleichgewicht liegen.</small>
+        ? <><span>{`${ROW_STATS.nine.sum} + ${WG} = ${ROW_STATS.ten.sum}`}</span><span>{`${ROW_STATS.ten.sum} geteilt durch 10 Werte = ${de(ROW_STATS.ten.mean, 1)}`}</span></>
+        : <><span>{`${sortiert.join(' + ')} = ${st.sum}`}</span><span>{`${st.sum} geteilt durch 9 Werte = ${de(st.mean)}`}</span></>}
+      <small>Das Dreieck ist der Mittelwert, der Schwerpunkt: Auf diesem Punkt würde das Lineal im Gleichgewicht liegen.</small>
     </div> : null}
     <p className="sr-only" aria-live="polite">{`Schritt ${schritt + 1}: ${ROW_TEXT[schritt]}`}</p>
     <TextVersion><p>{ROW_TEXT.map((t, i) => `Schritt ${i + 1}: ${t}`).join(' ')}</p></TextVersion>

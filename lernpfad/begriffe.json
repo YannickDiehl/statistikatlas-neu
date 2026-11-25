@@ -1,0 +1,2241 @@
+{
+  "datenmatrix": {
+    "name": "Datenmatrix",
+    "alias": [
+      "Datenmatrizen",
+      "Datensatz",
+      "Datensätze",
+      "Datensatzes",
+      "Datensätzen"
+    ],
+    "fach": "Eine Datenmatrix ordnet die Daten als Tabelle: Jede Zeile ist ein Fall, jede Spalte eine Variable, jede Zelle ein Wert.",
+    "kurz": "Der Datensatz ist eine große Tabelle. Eine Zeile gehört zu einer Person, eine Spalte zu einer Frage.",
+    "bild": [
+      "Bauplatte",
+      "Bauplatten"
+    ],
+    "karte": "k1-dim",
+    "kapitel": 1
+  },
+  "fall": {
+    "name": "Fall",
+    "alias": [
+      "Fälle",
+      "Falls",
+      "Fällen",
+      "Beobachtung",
+      "Beobachtungen"
+    ],
+    "fach": "Ein Fall ist eine Untersuchungseinheit, über die der Datensatz Angaben enthält, im ALLBUS eine befragte Person; er bildet eine Zeile der Datenmatrix.",
+    "kurz": "Ein Fall ist eine Person in deiner Datei, also eine Zeile. Ihre Antworten stehen nebeneinander.",
+    "bild": [
+      "Bogen",
+      "Bögen"
+    ],
+    "karte": "k1-dim",
+    "kapitel": 1
+  },
+  "variable": {
+    "name": "Variable",
+    "alias": [
+      "Variablen"
+    ],
+    "fach": "Eine Variable ist ein Merkmal, das bei allen Fällen erhoben wird und verschiedene Ausprägungen annehmen kann; sie bildet eine Spalte der Datenmatrix.",
+    "kurz": "Eine Variable ist eine Frage oder Angabe, zu der jede Person einen Wert haben kann. In der Tabelle ist sie eine Spalte.",
+    "bild": [
+      "Turm",
+      "Türme"
+    ],
+    "karte": "k1-dim",
+    "kapitel": 1
+  },
+  "wert": {
+    "name": "Wert",
+    "alias": [
+      "Werte",
+      "Werts",
+      "Wertes",
+      "Werten"
+    ],
+    "fach": "Ein Wert ist die Ausprägung, die ein bestimmter Fall bei einer bestimmten Variable hat; er steht in einer Zelle der Datenmatrix.",
+    "kurz": "Ein Wert ist die Antwort einer Person auf eine Frage. Er steht dort, wo sich ihre Zeile und die Spalte der Frage kreuzen.",
+    "bild": [
+      "Stein",
+      "Steine"
+    ],
+    "karte": "k1-rechnen",
+    "kapitel": 1
+  },
+  "auspraegung": {
+    "name": "Ausprägung",
+    "alias": [
+      "Ausprägungen",
+      "Kategorie",
+      "Kategorien"
+    ],
+    "fach": "Eine Ausprägung ist einer der möglichen Werte einer Variable; bei Variablen mit Antwortvorgaben heißen die Ausprägungen auch Kategorien.",
+    "kurz": "Ausprägungen sind die Antworten, die bei einer Frage möglich sind. Bei einer Ja-Nein-Frage sind es zwei: ja und nein.",
+    "karte": "k3-codes",
+    "kapitel": 1
+  },
+  "objekt": {
+    "name": "Objekt",
+    "alias": [
+      "Objekte",
+      "Objekts",
+      "Objekten"
+    ],
+    "fach": "Ein Objekt ist ein Name, unter dem R einen Inhalt speichert, etwa einen Datensatz oder ein Ergebnis; angelegt wird es mit dem Zuweisungspfeil.",
+    "kurz": "Ein Objekt ist ein Name, unter dem R sich etwas merkt. Mit dem Pfeil legst du etwas unter diesem Namen ab.",
+    "karte": "r1",
+    "kapitel": 1
+  },
+  "funktion": {
+    "name": "Funktion",
+    "alias": [
+      "Funktionen"
+    ],
+    "fach": "Eine Funktion ist ein benanntes Werkzeug in R, das Eingaben über Argumente erhält, eine Aufgabe ausführt und ein Ergebnis zurückgibt.",
+    "kurz": "Eine Funktion sagt R, was passieren soll, zum Beispiel einlesen oder zählen. Du erkennst sie an den runden Klammern hinter dem Namen.",
+    "karte": "r1",
+    "kapitel": 1
+  },
+  "argument": {
+    "name": "Argument",
+    "alias": [
+      "Argumente",
+      "Arguments",
+      "Argumenten"
+    ],
+    "fach": "Ein Argument ist eine Angabe in den Klammern einer Funktion, die festlegt, womit und wie sie arbeitet; mehrere Argumente trennt ein Komma.",
+    "kurz": "Argumente sind die Angaben in den Klammern. Sie sagen der Funktion, womit und wie sie arbeiten soll.",
+    "karte": "r1",
+    "kapitel": 1
+  },
+  "paket": {
+    "name": "Paket",
+    "alias": [
+      "Pakete",
+      "Paketen",
+      "Pakets"
+    ],
+    "fach": "Ein Paket ist eine Sammlung zusätzlicher Funktionen für R, die man einmal installiert und in jeder Sitzung mit library() lädt.",
+    "kurz": "Ein Paket ist ein Werkzeugkasten für R. Du installierst ihn einmal und lädst ihn in jeder Sitzung neu.",
+    "karte": "k1-pakete",
+    "kapitel": 1
+  },
+  "variablenlabel": {
+    "name": "Variablenlabel",
+    "alias": [
+      "Variablenlabels"
+    ],
+    "fach": "Das Variablenlabel ist die ausgeschriebene Beschreibung einer Variable, meist der Fragetext; der Variablenname ist dagegen das kurze Kürzel, mit dem R die Spalte anspricht.",
+    "kurz": "Das Variablenlabel sagt dir, was gefragt wurde. Der kurze Name, etwa pi08, ist nur das Kürzel für R.",
+    "karte": "k2-label",
+    "kapitel": 1
+  },
+  "code": {
+    "name": "Code",
+    "alias": [
+      "Codes"
+    ],
+    "fach": "Ein Code ist die Zahl, mit der eine Antwort im Datensatz gespeichert wird; was sie bedeutet, legt das Wertelabel fest.",
+    "kurz": "Im Datensatz steht für jede Antwort eine Zahl, der Code. Was die Zahl bedeutet, steht im Codebuch.",
+    "karte": "k3-codes",
+    "kapitel": 1
+  },
+  "wertelabel": {
+    "name": "Wertelabel",
+    "alias": [
+      "Wertelabels",
+      "Label",
+      "Labels"
+    ],
+    "fach": "Ein Wertelabel ist die Beschriftung, die einem Code seine Bedeutung gibt; die gespeicherte Zahl ändert sich dadurch nicht.",
+    "kurz": "Das Wertelabel ist das Wort, das zu einem Code gehört. Es sagt dir, welche Antwort hinter der Zahl steckt.",
+    "bild": [
+      "Aufkleber"
+    ],
+    "karte": "k3-codes",
+    "kapitel": 1
+  },
+  "codebuch": {
+    "name": "Codebuch",
+    "alias": [
+      "Codebuchs",
+      "Codebücher"
+    ],
+    "fach": "Ein Codebuch dokumentiert für jede Variable Namen, Variablenlabel, Codes mit ihren Wertelabels und die Codes für fehlende Werte.",
+    "kurz": "Das Codebuch ist der Beipackzettel deiner Daten. Es sagt zu jeder Spalte, was gefragt wurde und was die Zahlen bedeuten.",
+    "karte": "k3-codebuch",
+    "kapitel": 1
+  },
+  "fehlende-werte": {
+    "name": "Fehlende Werte",
+    "alias": [
+      "fehlender Wert",
+      "fehlenden Wert",
+      "fehlende Wert",
+      "fehlenden Werte",
+      "fehlenden Werten",
+      "NA",
+      "Missing",
+      "Missings"
+    ],
+    "fach": "Ein fehlender Wert heißt, dass ein Fall bei einer Variable keine gültige Antwort hat; R markiert ihn als NA und lässt ihn beim Rechnen weg.",
+    "kurz": "Ein fehlender Wert ist keine Null, sondern eine leere Stelle. Er zählt bei Rechnungen nicht mit.",
+    "bild": [
+      "leerer Stein"
+    ],
+    "karte": "k3-fehlend",
+    "kapitel": 1
+  },
+  "tnz": {
+    "name": "TNZ",
+    "alias": [
+      "trifft nicht zu",
+      "TNZ: SPLIT",
+      "TNZ: FILTER",
+      "TNZ: MODE",
+      "SPLIT",
+      "Split",
+      "Fragebogensplit",
+      "Fragebogenversion",
+      "Filterfrage",
+      "Filterfragen"
+    ],
+    "fach": "TNZ (trifft nicht zu) markiert Personen, denen eine Frage nicht gestellt wurde, etwa wegen einer anderen Fragebogenversion (SPLIT) oder einer Filterfrage davor (FILTER).",
+    "kurz": "TNZ heißt: Diese Person wurde gar nicht gefragt. Das ist etwas anderes, als eine Antwort zu verweigern.",
+    "karte": "k3-fehlend",
+    "kapitel": 1
+  },
+  "gueltige-werte": {
+    "name": "Gültige Werte",
+    "alias": [
+      "gültige Antworten",
+      "gültigen Antworten",
+      "gültige Antwort",
+      "gültiger Wert",
+      "gültigen Werte",
+      "gültig"
+    ],
+    "fach": "Gültige Werte sind alle Werte einer Variable, die eine inhaltliche Antwort enthalten; ihre Zahl ist die Zahl aller Fälle minus die fehlenden Werte.",
+    "kurz": "Gültig sind die Antworten, mit denen du rechnen kannst. Wer nicht geantwortet hat oder nicht gefragt wurde, zählt nicht dazu.",
+    "karte": "k3-fehlend",
+    "kapitel": 1
+  },
+  "validitaet": {
+    "name": "Validität",
+    "alias": [
+      "valide",
+      "validen",
+      "Gültigkeit"
+    ],
+    "fach": "Validität ist der Grad, in dem Theorie und Befunde eine bestimmte Deutung von Messwerten für einen bestimmten Zweck stützen.",
+    "kurz": "Validität heißt: Eine Messung misst das, was sie messen soll. Belegt wird das mit Gründen und Befunden, nicht mit einer einzigen Zahl.",
+    "karte": "k2-passt",
+    "kapitel": 1
+  },
+  "operationalisierung": {
+    "name": "Operationalisierung",
+    "alias": [
+      "operationalisieren",
+      "operationalisiert",
+      "Operationalisierungen"
+    ],
+    "fach": "Operationalisierung heißt, einen inhaltlichen Begriff in konkrete Fragen und Auswertungsregeln zu übersetzen, die festlegen, was eine Zahl im Datensatz bedeutet.",
+    "kurz": "Operationalisieren heißt, eine Idee wie Vertrauen in eine genaue Frage mit Antwortvorgaben zu übersetzen. Erst dann lässt sie sich messen.",
+    "karte": "k2-passt",
+    "kapitel": 1
+  },
+  "erhebungsweg": {
+    "name": "Erhebungsweg",
+    "alias": [
+      "Erhebungswege",
+      "Erhebungsmodus",
+      "Erhebungsmodi"
+    ],
+    "fach": "Der Erhebungsweg (Erhebungsmodus) gibt an, auf welchem Weg die Antworten erhoben wurden, im ALLBUS persönliches Interview (CAPI), online (CAWI) oder Papierfragebogen (MAIL).",
+    "kurz": "Der Erhebungsweg sagt, wie eine Person geantwortet hat: im Gespräch, online oder auf Papier.",
+    "karte": "k02:k1-wege",
+    "kapitel": 1
+  },
+  "stichprobe": {
+    "name": "Stichprobe",
+    "alias": [
+      "Stichproben"
+    ],
+    "fach": "Eine Stichprobe ist die Teilmenge der Grundgesamtheit, die tatsächlich untersucht wird und über die Grundgesamtheit Auskunft geben soll.",
+    "kurz": "Eine Stichprobe ist der Teil der Menschen, die du tatsächlich befragst. Sie soll über alle Auskunft geben, über die du etwas wissen willst.",
+    "karte": "k05:k5-chi",
+    "kapitel": 1
+  },
+  "konsole": {
+    "name": "Konsole",
+    "alias": [
+      "Console"
+    ],
+    "fach": "Die Konsole ist das Fenster, in dem R Befehle sofort ausführt und Ergebnisse oder Fehlermeldungen ausgibt, in RStudio ebenso wie unter dem Lernjournal dieses Kurses.",
+    "kurz": "Die Konsole ist das Fenster, in dem R antwortet: in RStudio und hier im Kurs unter dem Lernjournal. Dort stehen Ergebnisse und Fehlermeldungen; was du in RStudio direkt eintippst, wird nicht gespeichert.",
+    "karte": "k1-fenster",
+    "kapitel": 1
+  },
+  "skript": {
+    "name": "Skript",
+    "alias": [
+      "Skripte",
+      "Skripts",
+      "R-Skript",
+      "R-Skripte"
+    ],
+    "fach": "Ein Skript ist eine Textdatei mit R-Code (Endung .R), die gespeichert, zeilenweise ausgeführt und später wieder geöffnet werden kann.",
+    "kurz": "Im Skript schreibst du deinen Code auf, damit du ihn später wieder hast. Du speicherst es als Datei mit der Endung .R.",
+    "karte": "k1-fenster",
+    "kapitel": 1
+  },
+  "environment": {
+    "name": "Environment",
+    "alias": [
+      "Umgebung",
+      "Arbeitsumgebung"
+    ],
+    "fach": "Das Environment ist die Arbeitsumgebung einer R-Sitzung; das gleichnamige Fenster in RStudio listet alle Objekte, die R gerade kennt.",
+    "kurz": "Im Environment siehst du alles, was R sich gerade gemerkt hat. Jedes Objekt, das du mit dem Pfeil ablegst, taucht dort auf.",
+    "karte": "k1-fenster",
+    "kapitel": 1
+  },
+  "datenreihe": {
+    "name": "Datenreihe",
+    "alias": [
+      "Datenreihen"
+    ],
+    "fach": "Eine Datenreihe enthält genau einen Wert je Fall für eine Variable, in der Reihenfolge der Fälle im Datensatz.",
+    "kurz": "Eine Datenreihe ist eine Spalte mit genau einem Wert für jede Person. Ihre Reihenfolge sagt, wer welchen Wert hat, nicht wer am meisten hat.",
+    "karte": "k1-matrix",
+    "kapitel": 2
+  },
+  "polung": {
+    "name": "Polung",
+    "alias": [
+      "gepolt",
+      "gepolte",
+      "gepolten",
+      "Skalenrichtung",
+      "Richtung einer Skala"
+    ],
+    "fach": "Die Polung einer Antwortskala legt fest, ob ein höherer Code mehr oder weniger von dem gemessenen Merkmal bedeutet.",
+    "kurz": "Die Polung sagt dir, wofür eine hohe Zahl steht: für mehr oder für weniger. Das legt der Fragebogen fest, nicht die Zahl.",
+    "karte": "k2-richtung",
+    "kapitel": 2
+  },
+  "kodieren": {
+    "name": "Kodieren",
+    "alias": [
+      "Kodierung",
+      "kodiert",
+      "Codieren",
+      "Codierung",
+      "codiert",
+      "Erfassen",
+      "erfassen"
+    ],
+    "fach": "Kodieren heißt, jede Antwort nach den Regeln des Codebuchs in einen Code zu übersetzen und in die Datenmatrix einzutragen.",
+    "kurz": "Beim Kodieren wird aus einem Kreuz auf dem Fragebogen eine Zahl im Datensatz. Welche Zahl, sagt das Codebuch.",
+    "karte": "k2-zuordnen",
+    "kapitel": 2
+  },
+  "skalenniveau": {
+    "name": "Skalenniveau",
+    "alias": [
+      "Skalenniveaus"
+    ],
+    "fach": "Das Skalenniveau gibt an, welche Beziehungen zwischen den Werten einer Variable inhaltlich sinnvoll sind (nominal, ordinal, metrisch), und damit, welche Kennwerte zulässig sind.",
+    "kurz": "Das Skalenniveau sagt dir, was die Zahlen einer Variable können: nur unterscheiden, auch ordnen oder auch Abstände messen. Davon hängt ab, was du rechnen darfst.",
+    "karte": "k2-namen",
+    "kapitel": 2
+  },
+  "nominal": {
+    "name": "Nominale Kategorien",
+    "alias": [
+      "nominal",
+      "nominale",
+      "nominalen",
+      "nominales",
+      "Nominalskala"
+    ],
+    "fach": "Nominale Merkmale unterscheiden Kategorien ohne Rangfolge; sinnvoll sind nur Vergleiche auf gleich oder verschieden, etwa Häufigkeiten, Anteile und der Modus.",
+    "kurz": "Nominale Kategorien unterscheiden sich, haben aber keine Rangfolge. Ihre Codes sind nur Namen, deshalb zählst du sie, statt mit ihnen zu rechnen.",
+    "karte": "k2-namen",
+    "kapitel": 2
+  },
+  "ordinal": {
+    "name": "Geordnete Kategorien",
+    "alias": [
+      "ordinal",
+      "ordinale",
+      "ordinalen",
+      "ordinales",
+      "Ordinalskala"
+    ],
+    "fach": "Bei ordinalen Merkmalen ist die Reihenfolge der Kategorien sinnvoll, die Abstände zwischen benachbarten Kategorien sind aber nicht festgelegt.",
+    "kurz": "Geordnete Kategorien haben eine Reihenfolge, aber keine festen Abstände. Du darfst sagen, wer weiter oben liegt, aber nicht, um wie viel.",
+    "karte": "k2-namen",
+    "kapitel": 2
+  },
+  "metrisch": {
+    "name": "Metrisches Skalenniveau",
+    "alias": [
+      "metrisch",
+      "metrische",
+      "metrischen",
+      "metrisches"
+    ],
+    "fach": "Bei metrischen Merkmalen sind gleiche Zahlenabstände überall gleich viel wert, sodass Abstände und damit auch Mittelwerte inhaltlich interpretierbar sind.",
+    "kurz": "Metrisch heißt: Gleiche Zahlenabstände bedeuten überall gleich viel, wie bei Stunden, Euro oder Jahren. Nur dann darfst du mit Abständen rechnen.",
+    "karte": "k2-namen",
+    "kapitel": 2
+  },
+  "missing-code": {
+    "name": "Missing-Code",
+    "alias": [
+      "Missing-Codes",
+      "Missingcode",
+      "Missingcodes"
+    ],
+    "fach": "Ein Missing-Code ist ein Sondercode, im ALLBUS negativ, der festhält, warum ein Wert fehlt, etwa −9 für keine Angabe oder −11 für TNZ: SPLIT.",
+    "kurz": "Ein Missing-Code ist eine Zahl, die keine Antwort ist, sondern den Grund fürs Fehlen nennt. Mit ihr rechnen darfst du nicht.",
+    "karte": "k3-gruende",
+    "kapitel": 2
+  },
+  "datentyp": {
+    "name": "Datentyp",
+    "alias": [
+      "Datentypen",
+      "Typ",
+      "Typen"
+    ],
+    "fach": "Der Datentyp legt fest, in welcher Form R die Werte einer Variable speichert, etwa als Zahl (dbl), Text (chr) oder Zahl mit Wertelabels (dbl+lbl).",
+    "kurz": "Der Datentyp sagt, was in einer Spalte steckt: Zahlen, Text oder Zahlen mit Wörtern daneben. Ob du damit rechnen darfst, sagt er nicht.",
+    "karte": "k4-typen",
+    "kapitel": 2
+  },
+  "faktor": {
+    "name": "Faktor",
+    "alias": [
+      "Faktoren",
+      "fct"
+    ],
+    "fach": "Ein Faktor ist ein Datentyp in R, der eine Variable als feste Liste benannter Kategorien speichert statt als Zahlen mit Wertelabels.",
+    "kurz": "Ein Faktor speichert Wörter statt Codes, etwa JA und NEIN. Rechnen kannst du mit ihm nicht mehr, nur zählen.",
+    "karte": "k4-umwandeln",
+    "kapitel": 2
+  },
+  "pipe": {
+    "name": "Pipe",
+    "alias": [
+      "Pipes"
+    ],
+    "fach": "Die Pipe %>% gibt das Ergebnis des Schritts links von ihr als erstes Argument an die Funktion rechts von ihr weiter.",
+    "kurz": "Die Pipe liest du als „und dann“. Sie reicht die Daten von einem Schritt zum nächsten.",
+    "bild": [
+      "Kette",
+      "Ketten"
+    ],
+    "karte": "r2",
+    "kapitel": 2
+  },
+  "mittelwert": {
+    "name": "Arithmetisches Mittel",
+    "alias": [
+      "Mittelwert",
+      "Mittelwerte",
+      "Mittelwerts",
+      "Mittelwertes",
+      "Mittelwerten",
+      "Mittel",
+      "Mean"
+    ],
+    "fach": "Das arithmetische Mittel x̄ ist die Summe aller Werte geteilt durch die Zahl der Fälle n.",
+    "kurz": "Der Mittelwert verteilt die Summe aller Antworten gleichmäßig auf alle Personen. Er ist der Schwerpunkt, an dem die Werte im Gleichgewicht sind.",
+    "bild": [
+      "Schwerpunkt"
+    ],
+    "karte": "k03:k3-reihe",
+    "kapitel": 2
+  },
+  "absolute-haeufigkeit": {
+    "name": "Absolute Häufigkeit",
+    "alias": [
+      "absolute Häufigkeiten",
+      "absoluten Häufigkeit",
+      "absoluten Häufigkeiten",
+      "Häufigkeit",
+      "Häufigkeiten"
+    ],
+    "fach": "Die absolute Häufigkeit gibt an, wie viele Fälle eine bestimmte Ausprägung haben; in frequency() steht sie in der Spalte N.",
+    "kurz": "Die absolute Häufigkeit zählt, wie viele Personen eine Antwort gegeben haben. Sie ist eine Anzahl, kein Anteil.",
+    "bild": [
+      "Höhe des Stapels"
+    ],
+    "karte": "k1-turm",
+    "kapitel": 3
+  },
+  "relative-haeufigkeit": {
+    "name": "Relative Häufigkeit",
+    "alias": [
+      "relative Häufigkeiten",
+      "relativen Häufigkeit",
+      "relativen Häufigkeiten",
+      "Anteil",
+      "Anteile"
+    ],
+    "fach": "Die relative Häufigkeit ist die absolute Häufigkeit einer Ausprägung geteilt durch die Zahl der Fälle, auf die sie sich bezieht; mal 100 ergibt sie Prozent.",
+    "kurz": "Die relative Häufigkeit sagt, welcher Teil aller Personen eine Antwort gegeben hat. In Prozent heißt das: wie viele von 100.",
+    "karte": "k1-spalten",
+    "kapitel": 3
+  },
+  "kumulierte-haeufigkeit": {
+    "name": "Kumulierte Häufigkeit",
+    "alias": [
+      "kumulierte Häufigkeiten",
+      "kumulierte Prozent",
+      "kumulierten Prozent",
+      "Cum. %",
+      "kumuliert",
+      "kumulierte"
+    ],
+    "fach": "Die kumulierte relative Häufigkeit ist der Anteil der Fälle mit einem Wert kleiner oder gleich einer bestimmten Ausprägung; frequency() zeigt sie als Cum. %.",
+    "kurz": "Kumuliert heißt aufsummiert: Du zählst die Prozente von der ersten Antwort bis zur aktuellen zusammen. So siehst du, wie viele höchstens bis hierhin geantwortet haben.",
+    "karte": "k1-spalten",
+    "kapitel": 3
+  },
+  "prozentbasis": {
+    "name": "Prozentbasis",
+    "alias": [
+      "Basis",
+      "Basen",
+      "Prozentbasen",
+      "Nenner"
+    ],
+    "fach": "Die Prozentbasis ist die Fallzahl im Nenner einer Prozentangabe; in frequency() bezieht sich Raw % auf alle Fälle, Valid % nur auf gültige Werte.",
+    "kurz": "Die Prozentbasis beantwortet die Frage: Prozent wovon? Dieselbe Anzahl ergibt andere Prozent, je nachdem, durch wen du teilst.",
+    "karte": "k2-basis",
+    "kapitel": 3
+  },
+  "modus": {
+    "name": "Modus",
+    "alias": [
+      "Modi",
+      "Modalwert"
+    ],
+    "fach": "Der Modus ist die Ausprägung mit der größten absoluten Häufigkeit.",
+    "kurz": "Der Modus ist die Antwort, die am häufigsten vorkommt. Dafür brauchst du weder eine Rangfolge noch eine Rechnung.",
+    "bild": [
+      "höchster Stapel"
+    ],
+    "karte": "k1-mitte",
+    "kapitel": 3
+  },
+  "median": {
+    "name": "Median",
+    "alias": [
+      "Medians"
+    ],
+    "fach": "Der Median teilt die der Größe nach geordneten Werte in zwei Hälften: Höchstens die Hälfte liegt darunter, höchstens die Hälfte darüber.",
+    "kurz": "Stell alle Antworten der Größe nach in eine Reihe. Der mittlere Wert der Reihe nach ist der Median.",
+    "karte": "k1-mitte",
+    "kapitel": 3
+  },
+  "standardabweichung": {
+    "name": "Standardabweichung",
+    "alias": [
+      "Standardabweichungen",
+      "SD"
+    ],
+    "fach": "Die Standardabweichung s ist die Quadratwurzel der Varianz, also der Summe der quadrierten Abweichungen vom Mittelwert geteilt durch n − 1.",
+    "kurz": "Die Standardabweichung sagt dir grob, wie weit die Antworten typischerweise vom Mittelwert entfernt sind. Kleine Zahl: alle nah beieinander; große Zahl: weit verstreut.",
+    "karte": "k3-describe",
+    "kapitel": 3
+  },
+  "fallzahl": {
+    "name": "Fallzahl",
+    "alias": [
+      "Fallzahlen"
+    ],
+    "fach": "Die Fallzahl n gibt an, wie viele Fälle in eine Rechnung eingehen; Fälle mit fehlenden Werten bei den verwendeten Variablen zählen nicht mit.",
+    "kurz": "n zählt die Personen, die in eine Rechnung wirklich eingehen. Wer keine gültige Antwort hat, fällt heraus.",
+    "karte": "k3-describe",
+    "kapitel": 3
+  },
+  "schiefe": {
+    "name": "Schiefe",
+    "alias": [
+      "schief",
+      "rechtsschief",
+      "linksschief",
+      "rechtsschiefe",
+      "linksschiefe",
+      "rechtsschiefen",
+      "linksschiefen",
+      "Skewness"
+    ],
+    "fach": "Die Schiefe beschreibt die Asymmetrie einer Verteilung: Rechtsschief heißt ein langer Ausläufer zu großen Werten, linksschief einer zu kleinen Werten.",
+    "kurz": "Eine schiefe Verteilung läuft auf einer Seite lang aus. Benannt wird sie nach der Seite, auf der sie ausläuft.",
+    "bild": [
+      "Auslauf",
+      "Ausläufer"
+    ],
+    "karte": "k3-schief",
+    "kapitel": 3
+  },
+  "verteilung": {
+    "name": "Empirische Verteilung",
+    "alias": [
+      "Verteilung",
+      "Verteilungen",
+      "empirische Verteilung",
+      "empirischen Verteilung"
+    ],
+    "fach": "Die empirische Verteilung beschreibt, welche Werte einer Variable in den Daten vorkommen und mit welcher Häufigkeit.",
+    "kurz": "Die Verteilung zeigt dir, welche Antworten wie oft vorkommen. In einer Grafik siehst du ihre Form: wo sich die Antworten häufen und wie weit sie reichen.",
+    "karte": "k04:k1-verteilung",
+    "kapitel": 3
+  },
+  "ausreisser": {
+    "name": "Ausreißer",
+    "alias": [
+      "Ausreißern",
+      "Ausreißers"
+    ],
+    "fach": "Ein Ausreißer ist ein Wert, der weit abseits der übrigen liegt; der Boxplot markiert so Werte, die mehr als 1,5 Interquartilsabstände außerhalb der Box liegen.",
+    "kurz": "Ein Ausreißer ist eine Antwort, die weit weg von allen anderen liegt. Ob er ein Fehler ist oder echt, musst du erst prüfen.",
+    "karte": "k04:k4-lineal",
+    "kapitel": 3
+  },
+  "prozentpunkte": {
+    "name": "Prozentpunkte",
+    "alias": [
+      "Prozentpunkt",
+      "Prozentpunkten"
+    ],
+    "fach": "Ein Prozentpunkt ist die Einheit für die Differenz zweier Prozentangaben.",
+    "kurz": "Prozentpunkte messen den Abstand zwischen zwei Prozentzahlen. Von 40 % auf 50 % sind es 10 Prozentpunkte, aber 25 Prozent mehr.",
+    "karte": "k05:k3-deuten",
+    "kapitel": 3
+  },
+  "diskret-stetig": {
+    "name": "Diskret & stetig",
+    "alias": [
+      "diskret",
+      "diskrete",
+      "diskreten",
+      "diskretes",
+      "stetig",
+      "stetige",
+      "stetigen",
+      "stetiges"
+    ],
+    "fach": "Eine diskrete Variable hat einzelne, abzählbare Werte, eine stetige kann jeden Wert in einem Bereich annehmen.",
+    "kurz": "Diskret heißt: einzelne Stufen wie 1, 2, 3. Stetig heißt: Auch jeder Wert dazwischen ist möglich, wie bei Minuten oder Euro.",
+    "karte": "k3-histogramm",
+    "kapitel": 4
+  },
+  "balkendiagramm": {
+    "name": "Balkendiagramm",
+    "alias": [
+      "Balkendiagramme",
+      "Balkendiagramms",
+      "Balkengrafik",
+      "Balken"
+    ],
+    "fach": "Ein Balkendiagramm zeigt für jede Ausprägung einer kategorialen Variable einen Balken, dessen Länge der Häufigkeit oder dem Anteil entspricht.",
+    "kurz": "Im Balkendiagramm bekommt jede Antwort einen eigenen Balken. Je länger der Balken, desto mehr Personen.",
+    "karte": "k1-stapel",
+    "kapitel": 4
+  },
+  "histogramm": {
+    "name": "Histogramm",
+    "alias": [
+      "Histogramme",
+      "Histogramms"
+    ],
+    "fach": "Ein Histogramm fasst die Werte einer metrischen Variable in Klassen zusammen und zeigt die Häufigkeit jeder Klasse als Säule ohne Abstand zur nächsten.",
+    "kurz": "Ein Histogramm sortiert viele verschiedene Zahlen in Bereiche und zählt, wie viele in jedem landen. Die Säulen stehen dicht an dicht nebeneinander.",
+    "karte": "k3-histogramm",
+    "kapitel": 4
+  },
+  "klasse": {
+    "name": "Klasse",
+    "alias": [
+      "Klassen",
+      "Klassenbreite",
+      "Klassenbreiten",
+      "binwidth"
+    ],
+    "fach": "Eine Klasse fasst benachbarte Werte einer Variable zu einem Bereich zusammen, dessen Fälle gemeinsam gezählt werden; die Klassenbreite legt fest, wie groß jeder Bereich ist.",
+    "kurz": "Stell dir Kisten vor, in die du ähnliche Werte wirfst. Gezählt wird nur, wie viele in jeder Kiste landen.",
+    "bild": [
+      "Kiste",
+      "Kisten",
+      "Kistenbreite"
+    ],
+    "karte": "k3-histogramm",
+    "kapitel": 4
+  },
+  "boxplot": {
+    "name": "Boxplot",
+    "alias": [
+      "Boxplots",
+      "Box",
+      "Whisker"
+    ],
+    "fach": "Ein Boxplot zeigt den Median als Linie in einer Box vom ersten bis zum dritten Quartil, dazu Whisker und Ausreißer als einzelne Punkte.",
+    "kurz": "Der Boxplot fasst eine Verteilung in wenigen Marken zusammen. Die Box enthält die mittlere Hälfte der Personen, die Linie darin ist der Median.",
+    "bild": [
+      "Antennen"
+    ],
+    "karte": "k4-lineal",
+    "kapitel": 4
+  },
+  "quartil": {
+    "name": "Quartil",
+    "alias": [
+      "Quartile",
+      "Quartils",
+      "erstes Quartil",
+      "drittes Quartil",
+      "Q1",
+      "Q3",
+      "Quantil",
+      "Quantile"
+    ],
+    "fach": "Die Quartile teilen die geordneten Werte in vier gleich große Teile; unter dem ersten Quartil liegt ein Viertel der Fälle, unter dem dritten drei Viertel.",
+    "kurz": "Ordne alle Werte der Größe nach und teile die Reihe in vier gleich große Stücke. Die Grenzen dazwischen heißen Quartile.",
+    "karte": "k4-lineal",
+    "kapitel": 4
+  },
+  "interquartilsabstand": {
+    "name": "Interquartilsabstand",
+    "alias": [
+      "IQR",
+      "Interquartilsabstands"
+    ],
+    "fach": "Der Interquartilsabstand ist die Differenz zwischen drittem und erstem Quartil und umfasst damit die mittleren 50 Prozent der Fälle.",
+    "kurz": "Der Interquartilsabstand sagt, wie breit die mittlere Hälfte der Antworten ist. Im Boxplot ist das die Länge der Box.",
+    "bild": [
+      "Kasten",
+      "mittlere Hälfte"
+    ],
+    "karte": "k4-lineal",
+    "kapitel": 4
+  },
+  "spannweite": {
+    "name": "Spannweite",
+    "alias": [
+      "Range"
+    ],
+    "fach": "Die Spannweite ist die Differenz zwischen dem größten und dem kleinsten beobachteten Wert.",
+    "kurz": "Die Spannweite ist der Abstand zwischen der kleinsten und der größten Antwort. Sie hängt nur an diesen zwei Personen.",
+    "karte": "k3-kennzahlen",
+    "kapitel": 4
+  },
+  "streuung": {
+    "name": "Streuung",
+    "alias": [
+      "streuen",
+      "streut",
+      "Streuungsmaß",
+      "Streuungsmaße"
+    ],
+    "fach": "Streuung bezeichnet, wie stark die Werte einer Variable voneinander abweichen; Streuungsmaße sind etwa Spannweite, Interquartilsabstand, Varianz und Standardabweichung.",
+    "kurz": "Streuung sagt dir, wie weit die Antworten auseinanderliegen. Liegen alle nah beieinander, ist die Streuung klein.",
+    "karte": "k4-lineal",
+    "kapitel": 4
+  },
+  "mehrgipflig": {
+    "name": "Mehrgipflige Verteilung",
+    "alias": [
+      "mehrgipflig",
+      "mehrgipflige",
+      "mehrgipfligen",
+      "zweigipflig",
+      "bimodal"
+    ],
+    "fach": "Eine mehrgipflige Verteilung hat mehrere deutlich getrennte Häufungen von Werten, also mehrere Gipfel.",
+    "kurz": "Eine mehrgipflige Verteilung hat mehr als einen Berg. Oft stecken dahinter Gruppen, die verschieden antworten.",
+    "karte": "k2-formen",
+    "kapitel": 4
+  },
+  "layer": {
+    "name": "Layer",
+    "alias": [
+      "Layers",
+      "Schicht",
+      "Schichten"
+    ],
+    "fach": "Ein Layer ist eine Schicht einer ggplot-Grafik, die mit + angehängt wird, etwa geom_bar() für Balken oder labs() für Beschriftungen.",
+    "kurz": "Eine Grafik in R entsteht Schicht für Schicht. Jedes Plus legt eine neue Schicht darauf, etwa Balken oder eine Überschrift.",
+    "bild": [
+      "Leinwand"
+    ],
+    "karte": "r2",
+    "kapitel": 4
+  },
+  "achsenausschnitt": {
+    "name": "Achsenausschnitt",
+    "alias": [
+      "Achsenausschnitts",
+      "Zoom",
+      "Hineinzoomen",
+      "hineinzoomen"
+    ],
+    "fach": "Ein Achsenausschnitt verkleinert nur den sichtbaren Bereich einer Achse, etwa mit coord_cartesian(); alle Fälle bleiben in der Berechnung.",
+    "kurz": "Beim Hineinzoomen siehst du nur einen Teil der Achse, wie durch eine Lupe. Die Daten selbst bleiben vollständig.",
+    "bild": [
+      "Lupe"
+    ],
+    "karte": "k4-zoom",
+    "kapitel": 4
+  },
+  "verzerrung": {
+    "name": "Verzerrung",
+    "alias": [
+      "Verzerrungen",
+      "verzerrt",
+      "verzerrte",
+      "verzerrten",
+      "Bias"
+    ],
+    "fach": "Eine Verzerrung liegt vor, wenn ein Ergebnis systematisch in eine Richtung von dem abweicht, was es beschreiben soll.",
+    "kurz": "Verzerrung heißt: Ein Ergebnis liegt nicht zufällig, sondern systematisch daneben. Mehr Befragte helfen dagegen nicht.",
+    "karte": "k4-zoom",
+    "kapitel": 4
+  },
+  "gewichte": {
+    "name": "Gewichte",
+    "alias": [
+      "Gewicht",
+      "Gewichtung",
+      "gewichtet",
+      "gewichtete",
+      "gewichteten",
+      "gewichten",
+      "ungewichtet",
+      "Designgewicht",
+      "Designgewichte"
+    ],
+    "fach": "Ein Gewicht gibt an, mit welchem Faktor ein Fall in eine Rechnung eingeht; Designgewichte gleichen ungleiche Auswahlwahrscheinlichkeiten aus.",
+    "kurz": "Ein Gewicht sagt, wie stark eine Person in einer Rechnung zählt. Wer in der Stichprobe zu oft vertreten ist, zählt etwas weniger.",
+    "bild": [
+      "Mischpult"
+    ],
+    "karte": "k06:k1-gewicht",
+    "kapitel": 4
+  },
+  "rundungsspitzen": {
+    "name": "Rundungsspitzen (Heaping)",
+    "alias": [
+      "Rundungsspitzen",
+      "Rundungsspitze",
+      "Heaping"
+    ],
+    "fach": "Rundungsspitzen (Heaping) sind Häufungen einer Verteilung auf runden Werten, etwa Vielfachen von 5 oder 10, die entstehen, wenn Befragte Zahlenangaben schätzen und runden.",
+    "kurz": "Wer eine Zahl schätzt, nennt gern eine runde, etwa 20 statt 23. Im Histogramm stehen dann bei runden Werten auffällig hohe Säulen.",
+    "karte": "k3-breite",
+    "kapitel": 4
+  },
+  "kreuztabelle": {
+    "name": "Kreuztabelle",
+    "alias": [
+      "Kreuztabellen"
+    ],
+    "fach": "Eine Kreuztabelle zählt, wie viele Fälle jede Kombination der Ausprägungen zweier Variablen haben; am Rand stehen die Summen jeder Zeile und Spalte.",
+    "kurz": "Eine Kreuztabelle zählt, wie viele Personen jede Kombination aus zwei Antworten haben. Mit Prozenten kannst du dann Gruppen vergleichen.",
+    "bild": [
+      "Tafel",
+      "Raster"
+    ],
+    "karte": "k1-aussage",
+    "kapitel": 5
+  },
+  "zeilenprozente": {
+    "name": "Zeilenprozente",
+    "alias": [
+      "Zeilenprozent",
+      "Zeilenprozenten"
+    ],
+    "fach": "Zeilenprozente teilen jede Zelle einer Kreuztabelle durch die Summe ihrer Zeile; jede Zeile ergibt dann 100 Prozent.",
+    "kurz": "Bei Zeilenprozenten ist jede Zeile für sich 100 %. Du liest ab, wie sich die Antworten innerhalb einer Zeile aufteilen.",
+    "karte": "k2-drei",
+    "kapitel": 5
+  },
+  "spaltenprozente": {
+    "name": "Spaltenprozente",
+    "alias": [
+      "Spaltenprozent",
+      "Spaltenprozenten"
+    ],
+    "fach": "Spaltenprozente teilen jede Zelle einer Kreuztabelle durch die Summe ihrer Spalte; jede Spalte ergibt dann 100 Prozent.",
+    "kurz": "Bei Spaltenprozenten ist jede Spalte für sich 100 %. Du liest ab, wie sich die Antworten innerhalb einer Spalte aufteilen.",
+    "karte": "k2-drei",
+    "kapitel": 5
+  },
+  "gesamtprozente": {
+    "name": "Gesamtprozente",
+    "alias": [
+      "Gesamtprozent",
+      "Zellenprozente",
+      "Zellenprozent"
+    ],
+    "fach": "Gesamtprozente teilen jede Zelle einer Kreuztabelle durch die Zahl aller Fälle der Tabelle; alle Zellen zusammen ergeben 100 Prozent.",
+    "kurz": "Bei Gesamtprozenten ist die ganze Tabelle 100 %. Jede Zelle sagt, welcher Teil aller Personen genau diese Kombination hat.",
+    "karte": "k2-drei",
+    "kapitel": 5
+  },
+  "rekodieren": {
+    "name": "Rekodieren",
+    "alias": [
+      "rekodieren",
+      "rekodiert",
+      "Rekodierung",
+      "umkodieren",
+      "Umkodieren",
+      "umkodiert",
+      "Umkodierung"
+    ],
+    "fach": "Rekodieren ordnet den Codes einer Variable nach festen Regeln neue Codes zu, etwa um mehrere Antworten zu einer Gruppe zusammenzufassen.",
+    "kurz": "Rekodieren gibt Antworten neue Zahlen, zum Beispiel um mehrere Antworten zu einer Gruppe zusammenzufassen. Was die Befragten geantwortet haben, bleibt dasselbe.",
+    "bild": [
+      "Einteilung",
+      "Einteilungen",
+      "Gruppen zuschneiden"
+    ],
+    "karte": "k1-zuschnitt",
+    "kapitel": 5
+  },
+  "umpolen": {
+    "name": "Umpolen",
+    "alias": [
+      "umpolen",
+      "umgepolt",
+      "umgepolte",
+      "umgepolten",
+      "Umpolung"
+    ],
+    "fach": "Umpolen kehrt die Reihenfolge der Codes einer geordneten Skala um, sodass der höchste Code zum niedrigsten wird und umgekehrt.",
+    "kurz": "Umpolen dreht eine Skala um. Danach steht eine hohe Zahl für das Gegenteil von vorher.",
+    "bild": [
+      "Skala umdrehen"
+    ],
+    "karte": "k4-umpolen",
+    "kapitel": 5
+  },
+  "dummy": {
+    "name": "Dummyvariablen",
+    "alias": [
+      "Dummyvariable",
+      "Dummy",
+      "Dummys",
+      "Dummies"
+    ],
+    "fach": "Eine Dummyvariable hat den Wert 1, wenn ein Fall zu einer bestimmten Kategorie gehört, und sonst den Wert 0.",
+    "kurz": "Eine Dummyvariable beantwortet eine Ja-Nein-Frage mit 1 oder 0, etwa: Wohnt diese Person im Osten? So kannst du Gruppen in Rechnungen aufnehmen.",
+    "karte": "k1-regel",
+    "kapitel": 5
+  },
+  "abhaengige-variable": {
+    "name": "Abhängige Variable",
+    "alias": [
+      "abhängige Variable",
+      "abhängigen Variable",
+      "abhängigen Variablen",
+      "AV"
+    ],
+    "fach": "Die abhängige Variable ist das Merkmal, dessen Unterschiede eine Untersuchung beschreiben oder erklären will.",
+    "kurz": "Die abhängige Variable (AV) ist das, was du erklären oder vorhersagen willst. In der Regression heißt sie auch Zielgröße.",
+    "karte": "k3-vergleich",
+    "kapitel": 5
+  },
+  "unabhaengige-variable": {
+    "name": "Unabhängige Variable",
+    "alias": [
+      "unabhängige Variable",
+      "unabhängigen Variable",
+      "unabhängigen Variablen",
+      "UV"
+    ],
+    "fach": "Die unabhängige Variable ist das Merkmal, mit dem Unterschiede in der abhängigen Variable beschrieben oder erklärt werden sollen.",
+    "kurz": "Die unabhängige Variable (UV) ist das Merkmal, mit dem du etwas erklären willst. Ob es wirklich eine Ursache ist, sagt der Name nicht.",
+    "karte": "k3-vergleich",
+    "kapitel": 5
+  },
+  "zusammenhang": {
+    "name": "Zusammenhang",
+    "alias": [
+      "Zusammenhänge",
+      "Zusammenhangs",
+      "zusammenhängen",
+      "hängen zusammen",
+      "statistischer Zusammenhang"
+    ],
+    "fach": "Zwei Variablen hängen statistisch zusammen, wenn sich die Verteilung der einen zwischen den Ausprägungen der anderen unterscheidet.",
+    "kurz": "Ein Zusammenhang heißt: Wer bei der einen Frage anders antwortet, antwortet im Schnitt auch bei der anderen anders.",
+    "karte": "k3-deuten",
+    "kapitel": 5
+  },
+  "kausalitaet": {
+    "name": "Kausalität",
+    "alias": [
+      "kausal",
+      "kausale",
+      "kausalen",
+      "Ursache",
+      "Ursachen"
+    ],
+    "fach": "Kausalität fragt, was sich an einem Ergebnis ändern würde, wenn man eine Bedingung gezielt verändert; ein beobachteter Zusammenhang allein beantwortet das nicht.",
+    "kurz": "Kausal heißt: Das eine bewirkt das andere. Ein Zusammenhang in Befragungsdaten zeigt das allein noch nicht.",
+    "karte": "k3-deuten",
+    "kapitel": 5
+  },
+  "grundgesamtheit": {
+    "name": "Grundgesamtheit",
+    "alias": [
+      "Grundgesamtheiten",
+      "Population"
+    ],
+    "fach": "Die Grundgesamtheit umfasst alle Personen oder Einheiten, über die eine Untersuchung Aussagen machen will.",
+    "kurz": "Die Grundgesamtheit sind alle, über die du etwas wissen willst, etwa alle Erwachsenen in Deutschland. Befragt wird meist nur eine Stichprobe daraus.",
+    "karte": "k5-chi",
+    "kapitel": 5
+  },
+  "chi-quadrat": {
+    "name": "Chi-Quadrat (Unabhängigkeit)",
+    "alias": [
+      "Chi-Quadrat",
+      "Chi-Quadrat-Test",
+      "Chi-Quadrat-Tests",
+      "χ²",
+      "χ²-Test"
+    ],
+    "fach": "Der Chi-Quadrat-Test vergleicht die beobachteten Häufigkeiten einer Kreuztabelle mit den Häufigkeiten, die bei Unabhängigkeit der beiden Variablen zu erwarten wären.",
+    "kurz": "Der Test prüft, ob die Zahlen einer Kreuztabelle zu der Annahme passen, dass die beiden Fragen nichts miteinander zu tun haben. Große Abweichungen sprechen gegen diese Annahme.",
+    "karte": "k5-chi",
+    "kapitel": 5
+  },
+  "p-wert": {
+    "name": "p-Wert",
+    "alias": [
+      "p-Werte",
+      "p-Werts",
+      "Sig."
+    ],
+    "fach": "Der p-Wert ist die Wahrscheinlichkeit, unter der Nullhypothese und den Annahmen des Tests ein mindestens so extremes Ergebnis wie das beobachtete zu erhalten.",
+    "kurz": "Gäbe es keinen Unterschied, wie oft käme ein so großer oder größerer Unterschied trotzdem vor? Das sagt der p-Wert, nicht die Wahrscheinlichkeit, dass die Nullhypothese stimmt.",
+    "karte": "k07:k1c",
+    "kapitel": 5
+  },
+  "signifikanzniveau": {
+    "name": "Signifikanzniveau α",
+    "alias": [
+      "Signifikanzniveau",
+      "signifikant",
+      "signifikante",
+      "signifikanten",
+      "Signifikanz",
+      "nicht signifikant"
+    ],
+    "fach": "Das Signifikanzniveau α ist die vorab festgelegte Schwelle für den p-Wert; liegt p darunter, verwirft man die Nullhypothese und nennt das Ergebnis signifikant.",
+    "kurz": "α ist die Schwelle, die du vor der Auswertung festlegst, meist 5 %. Liegt p darunter, nennst du das Ergebnis signifikant.",
+    "karte": "k07:k1c",
+    "kapitel": 5
+  },
+  "randhaeufigkeit": {
+    "name": "Randhäufigkeit",
+    "alias": [
+      "Randhäufigkeiten",
+      "Randsumme",
+      "Randsummen",
+      "Randverteilung"
+    ],
+    "fach": "Randhäufigkeiten sind die Zeilen- und Spaltensummen einer Kreuztabelle; sie geben die Häufigkeitsverteilung jeder der beiden Variablen für sich an.",
+    "kurz": "Am Rand einer Kreuztabelle steht, wie viele Personen eine Zeile oder Spalte insgesamt hat. In der Ausgabe von R heißt diese Zeile oder Spalte Total.",
+    "karte": "k2-drei",
+    "kapitel": 5
+  },
+  "disproportionale-stichprobe": {
+    "name": "Disproportionale Stichprobe",
+    "alias": [
+      "disproportional",
+      "disproportionale",
+      "disproportionalen",
+      "Überrepräsentation",
+      "überrepräsentiert"
+    ],
+    "fach": "Eine disproportionale Stichprobe zieht bestimmte Gruppen absichtlich mit einem größeren Anteil, als sie in der Grundgesamtheit haben.",
+    "kurz": "Manche Gruppen werden absichtlich öfter befragt, damit genug von ihnen in den Daten sind. Für Aussagen über alle muss man das später ausgleichen.",
+    "bild": [
+      "Überquote"
+    ],
+    "karte": "k1-ost",
+    "kapitel": 6
+  },
+  "phi": {
+    "name": "Phi",
+    "alias": [
+      "φ",
+      "Phi-Koeffizient"
+    ],
+    "fach": "Phi beschreibt die Stärke des Zusammenhangs zweier Variablen mit je zwei Ausprägungen in einer Vierfeldertafel und liegt zwischen −1 und +1.",
+    "kurz": "Phi sagt dir, wie stark zwei Ja-Nein-Fragen zusammenhängen. Je weiter der Wert von 0 entfernt ist, desto stärker.",
+    "karte": "k2-chi",
+    "kapitel": 6
+  },
+  "cramers-v": {
+    "name": "Cramér-V",
+    "alias": [
+      "Cramérs V",
+      "Cramers V"
+    ],
+    "fach": "Cramér-V beschreibt die Stärke des Zusammenhangs zweier kategorialer Variablen in einer Kreuztabelle beliebiger Größe; es beruht auf χ² und ist auf Fallzahl und Tabellengröße normiert.",
+    "kurz": "Cramér-V sagt dir, wie stark zwei Fragen mit Kategorien zusammenhängen. Ein Wert nahe 0 heißt: kaum Zusammenhang.",
+    "karte": "k2-chi",
+    "kapitel": 6
+  },
+  "faustregel-cohen": {
+    "name": "Faustregel nach Cohen",
+    "alias": [
+      "Faustregel von Cohen",
+      "Cohens Faustregel"
+    ],
+    "fach": "Die Faustregel nach Cohen ordnet Effektgrößen grob als klein, mittel oder groß ein; die Grenzen hängen vom Maß ab und sind keine festen Schwellen.",
+    "kurz": "Die Faustregel hilft dir, eine Zahl als schwach, mittel oder stark einzuordnen. Sie ist ein grober Maßstab, kein Gesetz.",
+    "bild": [
+      "Lineal"
+    ],
+    "karte": "k2-staerke",
+    "kapitel": 6
+  },
+  "konkordanz": {
+    "name": "Konkordante & diskordante Paare",
+    "alias": [
+      "konkordant",
+      "konkordante",
+      "konkordanten",
+      "diskordant",
+      "diskordante",
+      "diskordanten"
+    ],
+    "fach": "Ein Personenpaar ist konkordant, wenn die Reihenfolge der beiden Personen bei beiden Variablen übereinstimmt, und diskordant, wenn sie sich widerspricht.",
+    "kurz": "Vergleiche zwei Personen: Liegt dieselbe bei beiden Fragen vorn, ist das Paar konkordant. Liegt sie einmal vorn und einmal hinten, ist es diskordant.",
+    "bild": [
+      "gleichläufig",
+      "gegenläufig"
+    ],
+    "karte": "k3-paare",
+    "kapitel": 6
+  },
+  "bindung": {
+    "name": "Bindung",
+    "alias": [
+      "Bindungen",
+      "gebunden",
+      "gebundene",
+      "Ties"
+    ],
+    "fach": "Eine Bindung liegt vor, wenn zwei Fälle bei einer Variable denselben Wert haben; ihr Paar ist dann weder konkordant noch diskordant.",
+    "kurz": "Eine Bindung ist ein Gleichstand: Zwei Personen haben bei einer Frage dieselbe Antwort. Dann lässt sich nicht sagen, wer vorn liegt.",
+    "bild": [
+      "Gleichstand"
+    ],
+    "karte": "k3-paare",
+    "kapitel": 6
+  },
+  "gamma": {
+    "name": "Goodman–Kruskal-Gamma",
+    "alias": [
+      "Gamma",
+      "γ"
+    ],
+    "fach": "Gamma vergleicht Personenpaare und misst, wie weit konkordante Paare gegenüber diskordanten überwiegen; es liegt zwischen −1 und +1.",
+    "kurz": "Gamma sagt dir, ob bei zwei Fragen gleichläufige oder gegenläufige Paare überwiegen. Das Vorzeichen zeigt die Richtung, der Betrag die Stärke.",
+    "karte": "k3-formel",
+    "kapitel": 6
+  },
+  "tau-b": {
+    "name": "Kendall Tau-b",
+    "alias": [
+      "Tau-b",
+      "Kendalls Tau-b",
+      "τb"
+    ],
+    "fach": "Kendall Tau-b vergleicht wie Gamma konkordante und diskordante Personenpaare, verwendet aber einen anderen Nenner; es liegt zwischen −1 und +1.",
+    "kurz": "Tau-b ist ein Verwandter von Gamma und beruht auf denselben Paarvergleichen. Es teilt nur durch eine andere Zahl.",
+    "karte": "k3-formel",
+    "kapitel": 6
+  },
+  "streudiagramm": {
+    "name": "Streudiagramm",
+    "alias": [
+      "Streudiagramme",
+      "Streudiagramms",
+      "Scatterplot"
+    ],
+    "fach": "Ein Streudiagramm stellt jeden Fall als Punkt dar, dessen Lage durch seine Werte bei zwei metrischen Variablen bestimmt ist.",
+    "kurz": "Im Streudiagramm ist jede Person ein Punkt: Links-rechts steht ihr Wert bei der einen Frage, unten-oben bei der anderen. Zusammen ergeben die Punkte eine Wolke.",
+    "bild": [
+      "Punktwolke"
+    ],
+    "karte": "k4-punktwolke",
+    "kapitel": 6
+  },
+  "pearson": {
+    "name": "Pearson-Korrelation",
+    "alias": [
+      "Pearson-r",
+      "Pearsons r",
+      "Pearson",
+      "Korrelation",
+      "Korrelationen",
+      "Korrelationskoeffizient"
+    ],
+    "fach": "Die Pearson-Korrelation r beschreibt Richtung und Stärke des linearen Zusammenhangs zweier Variablen und liegt zwischen −1 und +1.",
+    "kurz": "Pearson-r sagt dir, wie eng die Punkte an einer Geraden liegen und ob diese steigt oder fällt. Bei 0 ist keine steigende oder fallende Gerade erkennbar.",
+    "karte": "k4-pearson",
+    "kapitel": 6
+  },
+  "spearman": {
+    "name": "Spearman-Korrelation",
+    "alias": [
+      "Spearman",
+      "Spearman-ρ",
+      "Spearmans ρ",
+      "Spearman-Rho"
+    ],
+    "fach": "Die Spearman-Korrelation ist die Pearson-Korrelation der Ränge beider Variablen und beschreibt, wie gut sich zwei Reihenfolgen entsprechen.",
+    "kurz": "Spearman ersetzt jede Antwort durch ihren Platz in der Reihenfolge und rechnet dann wie Pearson. So zählt nur, wer vor wem liegt, nicht wie weit.",
+    "karte": "k4-ausreisser",
+    "kapitel": 6
+  },
+  "linear": {
+    "name": "Linearer Zusammenhang",
+    "alias": [
+      "linear",
+      "lineare",
+      "linearen",
+      "Linearität"
+    ],
+    "fach": "Ein Zusammenhang ist linear, wenn sich die mittlere Veränderung von y mit x durch eine Gerade beschreiben lässt.",
+    "kurz": "Linear heißt: Je Schritt nach rechts geht es im Schnitt um gleich viel nach oben oder unten. Die Punkte folgen grob einer Geraden.",
+    "bild": [
+      "geradlinig"
+    ],
+    "karte": "k4-ausreisser",
+    "kapitel": 6
+  },
+  "nichtlinear": {
+    "name": "Nichtlinearer Zusammenhang",
+    "alias": [
+      "nichtlinear",
+      "nichtlineare",
+      "nichtlinearen",
+      "Nichtlinearität",
+      "kurvilinear",
+      "u-förmig"
+    ],
+    "fach": "Ein Zusammenhang ist nichtlinear, wenn sich die mittlere Veränderung von y je nach Bereich von x unterscheidet, etwa erst steigt und dann fällt.",
+    "kurz": "Nichtlinear heißt: Die Punkte folgen einer Kurve statt einer Geraden, etwa einem Bogen.",
+    "karte": "k4-ausreisser",
+    "kapitel": 6
+  },
+  "drittvariable": {
+    "name": "Drittvariable",
+    "alias": [
+      "Drittvariablen",
+      "dritte Variable"
+    ],
+    "fach": "Eine Drittvariable ist ein weiteres Merkmal, das mit beiden betrachteten Variablen zusammenhängt und deshalb einen Teil ihres Zusammenhangs erklären kann.",
+    "kurz": "Eine Drittvariable ist ein drittes Merkmal, das hinter einem Zusammenhang stecken kann. Du prüfst sie, indem du den Zusammenhang in ihren Gruppen getrennt ansiehst.",
+    "karte": "k4-dritt",
+    "kapitel": 6
+  },
+  "confounding": {
+    "name": "Confounding (gemeinsame Ursachen)",
+    "alias": [
+      "Confounding",
+      "Confounder",
+      "gemeinsame Ursache",
+      "gemeinsamen Ursache",
+      "Störvariable"
+    ],
+    "fach": "Confounding liegt vor, wenn eine gemeinsame Ursache zwei Merkmale beeinflusst und dadurch einen Zusammenhang zwischen ihnen erzeugt oder verändert.",
+    "kurz": "Confounding heißt: Eine gemeinsame Ursache steckt hinter zwei Merkmalen und lässt sie zusammenhängen. Ein Zusammenhang allein beweist deshalb noch keine Ursache.",
+    "karte": "k4-dritt",
+    "kapitel": 6
+  },
+  "erwartete-haeufigkeit": {
+    "name": "Erwartete Häufigkeit",
+    "alias": [
+      "Erwartete Häufigkeiten",
+      "erwarteten Häufigkeit",
+      "erwarteten Häufigkeiten",
+      "erwartete Zellhäufigkeit",
+      "erwartete Zellhäufigkeiten"
+    ],
+    "fach": "Die erwartete Häufigkeit einer Zelle ist die Anzahl, die bei statistischer Unabhängigkeit der beiden Variablen zu erwarten wäre: Zeilensumme mal Spaltensumme geteilt durch die Fallzahl.",
+    "kurz": "So viele Personen stünden in einer Zelle, wenn die beiden Fragen nichts miteinander zu tun hätten. Der Chi-Quadrat-Test vergleicht sie mit den tatsächlich gezählten.",
+    "karte": "k2-erwartet",
+    "kapitel": 6
+  },
+  "stichprobenverteilung": {
+    "name": "Stichprobenverteilung",
+    "alias": [
+      "Stichprobenverteilungen"
+    ],
+    "fach": "Die Stichprobenverteilung beschreibt, welche Werte ein Kennwert, etwa ein Mittelwertunterschied, über viele gedachte Wiederholungen der Stichprobe annehmen würde.",
+    "kurz": "Zögest du immer neue Stichproben, käme jedes Mal ein etwas anderes Ergebnis heraus. Die Stichprobenverteilung zeigt, wie diese Ergebnisse streuen.",
+    "bild": [
+      "Stichproben-Maschine"
+    ],
+    "karte": "k1a",
+    "kapitel": 7
+  },
+  "standardfehler": {
+    "name": "Standardfehler",
+    "alias": [
+      "Standardfehlers",
+      "SE",
+      "Std. Error"
+    ],
+    "fach": "Der Standardfehler ist die geschätzte Standardabweichung der Stichprobenverteilung eines Kennwerts und misst, wie stark dieser von Stichprobe zu Stichprobe schwankt.",
+    "kurz": "Der Standardfehler sagt dir, wie stark ein Ergebnis von Stichprobe zu Stichprobe wackeln würde. Je kleiner er ist, desto genauer ist die Schätzung.",
+    "bild": [
+      "Rauschen"
+    ],
+    "karte": "k1a",
+    "kapitel": 7
+  },
+  "normalverteilung": {
+    "name": "Normalverteilung",
+    "alias": [
+      "Normalverteilungen",
+      "normalverteilt",
+      "normalverteilte"
+    ],
+    "fach": "Die Normalverteilung ist eine symmetrische, glockenförmige Verteilung, die durch ihren Mittelwert μ und ihre Standardabweichung σ festgelegt ist.",
+    "kurz": "Die Normalverteilung ist eine Glockenkurve: Die meisten Werte liegen nahe der Mitte, nach außen werden sie seltener. Mitte und Breite legen sie fest.",
+    "bild": [
+      "Glocke"
+    ],
+    "karte": "k1a",
+    "kapitel": 7
+  },
+  "t-test": {
+    "name": "t-Test",
+    "alias": [
+      "t-Tests",
+      "t-Wert",
+      "t-Werts",
+      "t-Werte"
+    ],
+    "fach": "Der t-Test teilt den Unterschied zweier Gruppenmittelwerte durch seinen Standardfehler und prüft mit dem Ergebnis t, ob der Unterschied zur Nullhypothese gleicher Mittelwerte passt.",
+    "kurz": "Der t-Test vergleicht den Unterschied zweier Mittelwerte mit dem Wackeln, das der Zufall allein erzeugen würde. Je weiter t von 0 entfernt ist, desto schlechter passt der Unterschied zum Zufall allein.",
+    "bild": [
+      "Signal durch Rauschen"
+    ],
+    "karte": "k1b",
+    "kapitel": 7
+  },
+  "nullhypothese": {
+    "name": "Null- & Alternativhypothese",
+    "alias": [
+      "Nullhypothese",
+      "Nullhypothesen",
+      "Alternativhypothese",
+      "H₀",
+      "H0",
+      "H₁"
+    ],
+    "fach": "Die Nullhypothese legt fest, was ohne Unterschied oder Zusammenhang in der Grundgesamtheit gälte; die Alternativhypothese beschreibt die Abweichung davon, die man nachweisen möchte.",
+    "kurz": "Die Nullhypothese ist die Annahme, dass es in der Grundgesamtheit keinen Unterschied gibt. Der Test prüft, wie gut deine Daten zu dieser Annahme passen.",
+    "karte": "k1c",
+    "kapitel": 7
+  },
+  "konfidenzintervall": {
+    "name": "Konfidenzintervall",
+    "alias": [
+      "Konfidenzintervalle",
+      "Konfidenzintervalls",
+      "KI"
+    ],
+    "fach": "Ein 95-%-Konfidenzintervall ist ein Bereich, den ein Schätzverfahren so bildet, dass bei wiederholten Zufallsstichproben etwa 95 % solcher Intervalle den wahren Wert enthielten.",
+    "kurz": "Das Konfidenzintervall ist ein Bereich plausibler Werte für die unbekannte Zahl in der Grundgesamtheit. Je schmaler es ist, desto genauer kennst du sie.",
+    "karte": "k1c",
+    "kapitel": 7
+  },
+  "fehlerarten": {
+    "name": "Fehler erster & zweiter Art",
+    "alias": [
+      "Fehler 1. Art",
+      "Fehler erster Art",
+      "Fehler 2. Art",
+      "Fehler zweiter Art",
+      "Alpha-Fehler",
+      "Beta-Fehler"
+    ],
+    "fach": "Ein Fehler erster Art verwirft eine wahre Nullhypothese, ein Fehler zweiter Art behält eine falsche Nullhypothese bei.",
+    "kurz": "Ein Fehler erster Art ist ein Fehlalarm: Du meldest einen Unterschied, den es nicht gibt. Ein Fehler zweiter Art ist ein Übersehen: Den Unterschied gibt es, der Test findet ihn nicht.",
+    "bild": [
+      "Fehlalarm",
+      "Fehlalarme"
+    ],
+    "karte": "k1c",
+    "kapitel": 7
+  },
+  "mehrfachvergleiche": {
+    "name": "Mehrere Vergleiche",
+    "alias": [
+      "Alpha-Fehler-Kumulierung",
+      "Mehrfachvergleiche",
+      "Mehrfachtests"
+    ],
+    "fach": "Werden viele Tests gerechnet, steigt die Wahrscheinlichkeit, dass mindestens einer allein durch Zufall signifikant wird; das heißt Alpha-Fehler-Kumulierung.",
+    "kurz": "Wer viele Paare testet, findet auch ohne echte Unterschiede leicht einen Zufallstreffer. Deshalb braucht es bei vielen Vergleichen eine strengere Hürde.",
+    "bild": [
+      "viele Fehlalarme",
+      "Fehlalarm-Risiko"
+    ],
+    "karte": "k3a",
+    "kapitel": 7
+  },
+  "effektgroesse": {
+    "name": "Effektstärke",
+    "alias": [
+      "Effektstärken",
+      "Effektgröße",
+      "Effektgrößen"
+    ],
+    "fach": "Eine Effektstärke beschreibt, wie groß ein Unterschied oder Zusammenhang ist, unabhängig von der Signifikanz; Beispiele sind Hedges' g für zwei Mittelwerte und η².",
+    "kurz": "Die Effektstärke sagt dir, wie groß ein Unterschied ist, nicht nur, ob es ihn gibt. Anders als p hängt sie kaum von der Zahl der Befragten ab.",
+    "karte": "k1d",
+    "kapitel": 7
+  },
+  "welch-test": {
+    "name": "Welch-Test",
+    "alias": [
+      "Welch",
+      "Welch-t-Test",
+      "Welch-Korrektur"
+    ],
+    "fach": "Der Welch-Test ist eine Form des t-Tests, die keine gleichen Varianzen in beiden Gruppen voraussetzt und Standardfehler und Freiheitsgrade entsprechend anpasst.",
+    "kurz": "Der Welch-Test ist der t-Test für Gruppen, die verschieden stark streuen dürfen. In mariposa ist er voreingestellt.",
+    "karte": "k2c",
+    "kapitel": 7
+  },
+  "varianzhomogenitaet": {
+    "name": "Varianzhomogenität",
+    "alias": [
+      "homogene Varianzen",
+      "gleiche Varianzen",
+      "Varianzgleichheit"
+    ],
+    "fach": "Varianzhomogenität heißt, dass die Werte in allen verglichenen Gruppen der Grundgesamtheit gleich stark streuen.",
+    "kurz": "Varianzhomogenität heißt: Alle Gruppen streuen ungefähr gleich stark. Der klassische t-Test nach Student setzt das voraus.",
+    "karte": "k2b",
+    "kapitel": 7
+  },
+  "varianz": {
+    "name": "Korrigierte Stichprobenvarianz",
+    "alias": [
+      "Varianz",
+      "Varianzen",
+      "s²"
+    ],
+    "fach": "Die Varianz s² ist die Summe der quadrierten Abweichungen vom Mittelwert geteilt durch n − 1.",
+    "kurz": "Die Varianz misst, wie stark die Werte um den Mittelwert streuen, in quadrierten Einheiten. Ziehst du die Wurzel, erhältst du die Standardabweichung.",
+    "karte": "k3b",
+    "kapitel": 7
+  },
+  "anova": {
+    "name": "Einfaktorielle ANOVA",
+    "alias": [
+      "ANOVA",
+      "Varianzanalyse",
+      "Varianzanalysen",
+      "einfaktoriell",
+      "F-Wert"
+    ],
+    "fach": "Die einfaktorielle ANOVA vergleicht die Mittelwerte mehrerer unabhängiger Gruppen, indem sie die Streuung zwischen den Gruppen zur Streuung innerhalb der Gruppen ins Verhältnis setzt.",
+    "kurz": "Die ANOVA prüft, ob sich mehrere Gruppen im Mittel unterscheiden. Sie vergleicht, wie weit die Gruppenmittel auseinanderliegen, mit der Streuung innerhalb der Gruppen.",
+    "bild": [
+      "zwischen gegen innerhalb"
+    ],
+    "karte": "k3b",
+    "kapitel": 7
+  },
+  "tukey": {
+    "name": "Tukey-Paarvergleiche",
+    "alias": [
+      "Tukey-Test",
+      "Tukey",
+      "Post-hoc-Test",
+      "Post-hoc-Tests"
+    ],
+    "fach": "Tukey-Paarvergleiche testen nach einer ANOVA jedes Gruppenpaar und halten dabei die Fehlerquote für alle Paare zusammen beim Signifikanzniveau α.",
+    "kurz": "Nach der ANOVA weißt du nur, dass sich irgendwo Gruppen unterscheiden. Der Tukey-Test sagt, welche Paare, mit einer Hürde für alle Vergleiche zusammen.",
+    "karte": "k3c",
+    "kapitel": 7
+  },
+  "korrelationsmatrix": {
+    "name": "Korrelationsmatrix",
+    "alias": [
+      "Korrelationsmatrizen"
+    ],
+    "fach": "Eine Korrelationsmatrix zeigt die paarweisen Korrelationen mehrerer Variablen in einer Tabelle, deren Zeilen und Spalten dieselben Variablen in derselben Reihenfolge enthalten.",
+    "kurz": "Eine Korrelationsmatrix ist eine Tabelle mit Pearson-r für jedes Paar von Variablen. Sie ist spiegelgleich, und auf der Diagonale steht immer 1.",
+    "karte": "k4a",
+    "kapitel": 7
+  },
+  "ausschluss": {
+    "name": "Fallweiser & paarweiser Ausschluss",
+    "alias": [
+      "fallweiser Ausschluss",
+      "fallweisen Ausschluss",
+      "paarweiser Ausschluss",
+      "paarweisen Ausschluss",
+      "listwise",
+      "pairwise",
+      "N listwise"
+    ],
+    "fach": "Fallweise zählen nur Fälle, die bei allen Variablen gültig sind; paarweise zählen für jedes Variablenpaar alle Fälle, die bei diesen beiden gültig sind.",
+    "kurz": "Fallweise heißt: Wer bei einer Frage keine gültige Antwort hat, fällt ganz heraus. Paarweise heißt: Jede Rechnung nimmt alle, die bei den gerade gebrauchten Fragen geantwortet haben.",
+    "karte": "k4a",
+    "kapitel": 7
+  },
+  "freiheitsgrade": {
+    "name": "Freiheitsgrade",
+    "alias": [
+      "Freiheitsgrad",
+      "Freiheitsgraden",
+      "df",
+      "Freiheitsgrade der Streuung"
+    ],
+    "fach": "Die Freiheitsgrade (df) geben an, wie viele Werte bei der Schätzung einer Prüfgröße frei variieren können; sie legen fest, mit welcher t- oder F-Verteilung ein Test die Prüfgröße vergleicht.",
+    "kurz": "Die Freiheitsgrade stehen in der Ausgabe in Klammern hinter t oder F. Sie hängen vor allem an der Zahl der Befragten und legen den Maßstab für den Test fest.",
+    "karte": "k1b",
+    "kapitel": 7
+  },
+  "hedges-g": {
+    "name": "Hedges' g",
+    "alias": [
+      "Hedges g",
+      "Hedges’ g",
+      "Cohens d",
+      "Cohen's d",
+      "Cohen’s d"
+    ],
+    "fach": "Hedges' g ist ein standardisierter Mittelwertunterschied: die Differenz zweier Gruppenmittelwerte geteilt durch die gepoolte Standardabweichung, mit einer Korrektur für kleine Stichproben; ohne diese Korrektur heißt das Maß Cohens d.",
+    "kurz": "Hedges' g misst den Unterschied zweier Mittelwerte in Standardabweichungen. Cohens d rechnet genauso, nur ohne eine kleine Korrektur; bei vielen Befragten sind beide fast gleich.",
+    "karte": "k1d",
+    "kapitel": 7
+  },
+  "eta-quadrat": {
+    "name": "Eta-Quadrat (η²)",
+    "alias": [
+      "Eta-Quadrat",
+      "η²",
+      "Eta²",
+      "Eta Squared"
+    ],
+    "fach": "Eta-Quadrat (η²) ist der Anteil der Quadratsumme zwischen den Gruppen an der gesamten Quadratsumme der AV und dient als Effektgröße der Varianzanalyse.",
+    "kurz": "η² sagt dir, welcher Teil der Unterschiede in der AV mit der Gruppe einhergeht. Bei 0 hat die Gruppe nichts damit zu tun, bei 1 liegen alle Unterschiede zwischen den Gruppen.",
+    "karte": "k3b",
+    "kapitel": 7
+  },
+  "item": {
+    "name": "Item",
+    "alias": [
+      "Items",
+      "Itembatterie",
+      "Itembatterien"
+    ],
+    "fach": "Ein Item ist eine einzelne Frage oder Aussage eines Fragebogens, die zusammen mit anderen Items dasselbe Konstrukt messen soll.",
+    "kurz": "Ein Item ist eine einzelne Aussage, der Befragte mehr oder weniger zustimmen. Mehrere Items zum selben Thema bilden eine Itembatterie.",
+    "karte": "v1a",
+    "kapitel": 8
+  },
+  "konstrukt": {
+    "name": "Konstrukt",
+    "alias": [
+      "Konstrukte",
+      "Konstrukts",
+      "latente Variable"
+    ],
+    "fach": "Ein Konstrukt ist ein theoretischer Begriff, etwa Populismus, der sich nicht direkt beobachten lässt und deshalb über mehrere Items gemessen wird.",
+    "kurz": "Ein Konstrukt ist eine Idee wie Populismus, die man nicht direkt sehen kann. Man misst sie über mehrere Fragen, die zusammen auf sie zeigen.",
+    "karte": "v1a",
+    "kapitel": 8
+  },
+  "messfehler": {
+    "name": "Messfehler",
+    "alias": [
+      "Messfehlers",
+      "Messfehlern"
+    ],
+    "fach": "Ein Messfehler ist die Abweichung eines beobachteten Messwerts vom wahren Wert; er kann zufällig schwanken oder systematisch in eine Richtung gehen.",
+    "kurz": "Keine Frage misst perfekt: Mal antwortet jemand etwas höher, mal etwas niedriger, als es seiner Haltung entspricht. Diese Abweichung heißt Messfehler.",
+    "karte": "v1a",
+    "kapitel": 8
+  },
+  "mittelwertindex": {
+    "name": "Mittelwertindex",
+    "alias": [
+      "Mittelwertindizes"
+    ],
+    "fach": "Ein Mittelwertindex ist der Mittelwert mehrerer gleich gepolter Items je Person, gebildet aus den gültigen Antworten.",
+    "kurz": "Ein Mittelwertindex rechnet für jede Person den Durchschnitt ihrer Antworten auf mehrere Fragen aus. So entsteht eine neue Zahl je Person.",
+    "karte": "v1b",
+    "kapitel": 8
+  },
+  "skalenwert": {
+    "name": "Skalenwert pro Person",
+    "alias": [
+      "Skalenwert",
+      "Skalenwerte",
+      "Indexwert",
+      "Indexwerte",
+      "Indexwerts"
+    ],
+    "fach": "Ein Skalenwert ist der Wert, den eine Person auf einem aus mehreren Items gebildeten Index erhält.",
+    "kurz": "Der Skalenwert ist der Indexwert einer Person. Er fasst ihre Antworten auf mehrere zusammengehörige Fragen in einer Zahl zusammen.",
+    "karte": "v1c",
+    "kapitel": 8
+  },
+  "kombinationsindex": {
+    "name": "Kombinationsindex",
+    "alias": [
+      "Kombinationsindizes",
+      "Typologie"
+    ],
+    "fach": "Ein Kombinationsindex ordnet Personen nach einer festen Regel über die Kombination ihrer Antworten einem Typ oder einer Stufe zu.",
+    "kurz": "Ein Kombinationsindex fragt: Welche Antworten hat jemand zusammen gegeben? Daraus entsteht ein Typ, etwa beim Inglehart-Index.",
+    "karte": "v4b",
+    "kapitel": 8
+  },
+  "kompensatorisch": {
+    "name": "Kompensatorischer Index",
+    "alias": [
+      "Kompensatorisch",
+      "kompensatorische",
+      "kompensatorischen",
+      "kompensatorischer",
+      "kompensatorische Indizes",
+      "Kompensation"
+    ],
+    "fach": "Ein Index ist kompensatorisch, wenn eine niedrige Antwort bei einem Item durch eine hohe Antwort bei einem anderen ausgeglichen werden kann.",
+    "kurz": "Bei einem kompensatorischen Index gleichen sich die Antworten aus: Eine schwache Antwort kann durch eine starke wettgemacht werden.",
+    "karte": "v4a",
+    "kapitel": 8
+  },
+  "reliabilitaet": {
+    "name": "Reliabilität",
+    "alias": [
+      "reliabel",
+      "reliable",
+      "reliablen",
+      "interne Konsistenz",
+      "Zuverlässigkeit"
+    ],
+    "fach": "Reliabilität ist die Zuverlässigkeit einer Messung; bei einer Skala aus mehreren Items wird sie meist als interne Konsistenz geschätzt.",
+    "kurz": "Reliabel heißt: Die Messung liefert verlässlich ähnliche Ergebnisse. Bei mehreren Fragen heißt das: Dieselben Personen antworten bei allen Fragen ähnlich.",
+    "bild": [
+      "stimmig",
+      "Stimmigkeit"
+    ],
+    "karte": "v2a",
+    "kapitel": 8
+  },
+  "cronbachs-alpha": {
+    "name": "Cronbachs α",
+    "alias": [
+      "Cronbachs Alpha",
+      "Cronbach-Alpha"
+    ],
+    "fach": "Cronbachs α misst die interne Konsistenz einer Skala aus den Varianzen der Items und der Varianz ihrer Summe; Werte nahe 1 bedeuten hohe Übereinstimmung.",
+    "kurz": "Cronbachs α sagt dir, wie gut mehrere Fragen zusammenpassen. Je näher an 1, desto einheitlicher antworten die Personen über alle Fragen.",
+    "karte": "v2b",
+    "kapitel": 8
+  },
+  "trennschaerfe": {
+    "name": "Trennschärfe",
+    "alias": [
+      "Trennschärfen",
+      "Item-Total-Korrelation"
+    ],
+    "fach": "Die Trennschärfe eines Items ist seine Korrelation mit dem Index aus den übrigen Items.",
+    "kurz": "Die Trennschärfe sagt, wie gut ein Item zu den anderen Fragen der Skala passt. Hohe Werte: Es misst mit; niedrige Werte: Es fällt aus der Reihe.",
+    "karte": "v2c",
+    "kapitel": 8
+  },
+  "summenindex": {
+    "name": "Summenindex",
+    "alias": [
+      "Summenindizes",
+      "Summenscore"
+    ],
+    "fach": "Ein Summenindex addiert je Person die Werte mehrerer gleich gepolter Items; anders als der Mittelwertindex hängt er davon ab, wie viele Items beantwortet wurden.",
+    "kurz": "Ein Summenindex zählt die Antworten einer Person auf mehrere Fragen zusammen. Wer weniger Fragen beantwortet, bekommt dabei leicht eine kleinere Zahl.",
+    "karte": "v1-streng",
+    "kapitel": 8
+  },
+  "lineare-regression": {
+    "name": "Lineare Regression",
+    "alias": [
+      "Regression",
+      "Regressionen",
+      "Regressionsgerade",
+      "Regressionsgeraden",
+      "multiple Regression",
+      "Regressionsmodell"
+    ],
+    "fach": "Die lineare Regression beschreibt eine metrische abhängige Variable durch eine Gerade in einem oder mehreren Prädiktoren und schätzt sie nach der Methode der kleinsten Quadrate.",
+    "kurz": "Die lineare Regression legt eine Gerade durch die Punktwolke, die im Mittel am nächsten an den Punkten liegt. Mit ihr kannst du Werte vorhersagen und Zusammenhänge beschreiben.",
+    "karte": "k1-gerade",
+    "kapitel": 9
+  },
+  "praediktor": {
+    "name": "Prädiktor",
+    "alias": [
+      "Prädiktoren",
+      "Prädiktors"
+    ],
+    "fach": "Ein Prädiktor ist eine Variable, mit deren Werten ein Regressionsmodell die abhängige Variable vorhersagt; gemeint ist dasselbe wie die unabhängige Variable.",
+    "kurz": "Ein Prädiktor ist eine Variable, mit der du etwas vorhersagst. In der Regression ist das die UV.",
+    "karte": "k1-gerade",
+    "kapitel": 9
+  },
+  "konstante": {
+    "name": "Konstante",
+    "alias": [
+      "Achsenabschnitt",
+      "Intercept",
+      "(Intercept)",
+      "b₀"
+    ],
+    "fach": "Die Konstante (Achsenabschnitt) ist der vorhergesagte Wert der abhängigen Variable, wenn alle Prädiktoren den Wert 0 haben.",
+    "kurz": "Die Konstante ist die Höhe der Geraden, wenn die UV 0 ist. Bei ihr beginnt jede Vorhersage.",
+    "bild": [
+      "Rechenanker",
+      "Startwert"
+    ],
+    "karte": "k1-ablesen",
+    "kapitel": 9
+  },
+  "regressionskoeffizient": {
+    "name": "Regressionskoeffizient",
+    "alias": [
+      "Regressionskoeffizienten",
+      "Steigung",
+      "Steigungen",
+      "B",
+      "b₁"
+    ],
+    "fach": "Der Regressionskoeffizient B gibt an, um wie viel sich die Vorhersage ändert, wenn ein Prädiktor um eine Einheit steigt und alle anderen gleich bleiben.",
+    "kurz": "Die Steigung B sagt, um wie viel die Vorhersage steigt oder fällt, wenn die UV um eins steigt. Das Vorzeichen zeigt die Richtung.",
+    "karte": "k1-ablesen",
+    "kapitel": 9
+  },
+  "vorhersage": {
+    "name": "Linearer Prädiktor",
+    "alias": [
+      "Vorhersage",
+      "Vorhersagen",
+      "vorhergesagter Wert",
+      "vorhergesagte Wert",
+      "vorhergesagten Wert",
+      "ŷ"
+    ],
+    "fach": "Der lineare Prädiktor ist die Konstante plus die Summe der Prädiktorwerte, jeweils mal ihrem Koeffizienten; in der linearen Regression ist er der vorhergesagte Wert.",
+    "kurz": "Die Vorhersage rechnest du so: Konstante plus Steigung mal Wert. Sie ist der Wert, den die Gerade für eine Person erwartet.",
+    "karte": "k1-formel",
+    "kapitel": 9
+  },
+  "beta": {
+    "name": "Beta",
+    "alias": [
+      "standardisierter Koeffizient",
+      "standardisierte Koeffizient",
+      "standardisierten Koeffizienten",
+      "Beta-Koeffizient",
+      "β"
+    ],
+    "fach": "Beta ist der standardisierte Regressionskoeffizient: die Veränderung der Vorhersage in Standardabweichungen der abhängigen Variable, wenn der Prädiktor um eine Standardabweichung steigt.",
+    "kurz": "Beta ist B in einer gemeinsamen Einheit, der Standardabweichung. So kannst du Prädiktoren mit verschiedenen Skalen vergleichen.",
+    "karte": "k1-ablesen",
+    "kapitel": 9
+  },
+  "residuum": {
+    "name": "Residuum",
+    "alias": [
+      "Residuen",
+      "Residuums"
+    ],
+    "fach": "Ein Residuum ist die Differenz zwischen dem beobachteten und dem vom Modell vorhergesagten Wert eines Falls.",
+    "kurz": "Das Residuum sagt, wie weit die Vorhersage bei einer Person danebenliegt. Liegt der Punkt über der Geraden, ist es positiv, darunter negativ.",
+    "bild": [
+      "wie weit daneben"
+    ],
+    "karte": "k2-residuen",
+    "kapitel": 9
+  },
+  "kleinste-quadrate": {
+    "name": "Methode der kleinsten Quadrate",
+    "alias": [
+      "kleinste Quadrate",
+      "kleinsten Quadrate",
+      "OLS",
+      "Quadratsumme der Residuen",
+      "SSE"
+    ],
+    "fach": "Die Methode der kleinsten Quadrate wählt Konstante und Koeffizienten so, dass die Summe der quadrierten Residuen möglichst klein wird.",
+    "kurz": "Die Gerade wird so gelegt, dass die quadrierten Abstände zu allen Punkten zusammen so klein wie möglich sind. Keine andere Gerade liegt in diesem Sinn näher an den Punkten.",
+    "bild": [
+      "Fehlerquadrate"
+    ],
+    "karte": "k2-quadrate",
+    "kapitel": 9
+  },
+  "r-quadrat": {
+    "name": "Erklärter Varianzanteil (R²)",
+    "alias": [
+      "R²",
+      "R-Quadrat",
+      "R Square",
+      "erklärter Varianzanteil"
+    ],
+    "fach": "R² ist der Anteil der Streuung der abhängigen Variable um ihren Mittelwert, den das Modell rechnerisch erfasst; es liegt zwischen 0 und 1.",
+    "kurz": "R² sagt dir, um wie viel die Gerade besser vorhersagt als der bloße Mittelwert. 0 heißt gar nicht besser, 1 heißt: Alle Punkte liegen auf der Geraden.",
+    "karte": "k2-r2",
+    "kapitel": 9
+  },
+  "standardfehler-schaetzung": {
+    "name": "Standardfehler der Schätzung",
+    "alias": [
+      "Std. Error of the Estimate"
+    ],
+    "fach": "Der Standardfehler der Schätzung ist die geschätzte Standardabweichung der Residuen und gibt an, wie weit die beobachteten Werte typischerweise von der Geraden entfernt liegen.",
+    "kurz": "Er sagt grob, wie weit eine Vorhersage bei einer typischen Person danebenliegt, in der Einheit der AV. Verwechsle ihn nicht mit dem Standardfehler von B.",
+    "bild": [
+      "typischer Fehler"
+    ],
+    "karte": "k2-residuen",
+    "kapitel": 9
+  },
+  "gleiche-fehlervarianz": {
+    "name": "Gleiche Fehlervarianz",
+    "alias": [
+      "gleiche Fehlervarianz",
+      "gleichen Fehlervarianz",
+      "Homoskedastizität",
+      "Heteroskedastizität"
+    ],
+    "fach": "Gleiche Fehlervarianz (Homoskedastizität) heißt, dass die Residuen für alle Werte der Prädiktoren gleich stark streuen; das Gegenteil heißt Heteroskedastizität.",
+    "kurz": "Gleiche Fehlervarianz heißt: Die Vorhersage liegt bei allen Personen ungefähr gleich weit daneben. Ist das nicht so, liegt sie für manche deutlich weiter daneben als für andere.",
+    "bild": [
+      "Fächer"
+    ],
+    "karte": "k3-fehlervarianz",
+    "kapitel": 9
+  },
+  "levene-test": {
+    "name": "Levene-Test",
+    "alias": [
+      "Levene",
+      "Levene-Tests"
+    ],
+    "fach": "Der Levene-Test prüft die Nullhypothese, dass mehrere Gruppen in der Grundgesamtheit gleich stark streuen, anhand der Abstände der Werte zum jeweiligen Gruppenzentrum.",
+    "kurz": "Der Levene-Test prüft, ob Gruppen unterschiedlich stark streuen. Ein kleines p spricht gegen gleich starke Streuung.",
+    "karte": "k3-levene",
+    "kapitel": 9
+  },
+  "korrigiertes-r2": {
+    "name": "Korrigiertes R²",
+    "alias": [
+      "korrigiertes R²",
+      "korrigierte R²",
+      "korrigierten R²",
+      "Adjusted R²",
+      "Adjusted R Square"
+    ],
+    "fach": "Das korrigierte R² zieht vom R² einen Betrag ab, der mit der Zahl der Prädiktoren wächst; nutzlose Prädiktoren lassen das Modell so nicht besser aussehen.",
+    "kurz": "R² steigt mit jedem weiteren Prädiktor, selbst mit einem nutzlosen. Das korrigierte R² zieht dafür etwas ab.",
+    "bild": [
+      "Würfel"
+    ],
+    "karte": "k10:k3-r2",
+    "kapitel": 9
+  },
+  "kontrollvariable": {
+    "name": "Kontrollvariable",
+    "alias": [
+      "Kontrollvariablen",
+      "kontrollieren",
+      "kontrolliert",
+      "kontrollierte",
+      "Kontrolle",
+      "konstant halten"
+    ],
+    "fach": "Eine Kontrollvariable wird zusätzlich ins Modell aufgenommen, damit die übrigen Koeffizienten Zusammenhänge bei gleichen Werten dieser Variable beschreiben.",
+    "kurz": "Kontrollieren heißt: Du vergleichst Personen, die sich in der Kontrollvariable gleichen. So siehst du, was vom Zusammenhang übrig bleibt.",
+    "karte": "k1-kontrolle",
+    "kapitel": 10
+  },
+  "suppression": {
+    "name": "Suppression",
+    "alias": [
+      "Suppressoreffekt",
+      "Suppressor",
+      "Suppressorvariable"
+    ],
+    "fach": "Suppression liegt vor, wenn ein Zusammenhang erst nach Kontrolle einer weiteren Variable sichtbar oder stärker wird, weil diese ihn zuvor überdeckt hat.",
+    "kurz": "Manchmal versteckt eine dritte Variable einen Zusammenhang. Nimmst du sie ins Modell, wird er erst sichtbar oder größer.",
+    "bild": [
+      "verdeckt",
+      "Verdeckung"
+    ],
+    "karte": "k1-alter",
+    "kapitel": 10
+  },
+  "mediator": {
+    "name": "Mediator",
+    "alias": [
+      "Mediatoren",
+      "Mediatorvariable"
+    ],
+    "fach": "Ein Mediator ist eine Variable, die auf dem Weg zwischen Prädiktor und abhängiger Variable liegt und einen Teil ihres Zusammenhangs vermittelt.",
+    "kurz": "Ein Mediator ist ein Zwischenschritt: Das eine verändert ihn, und er verändert das andere. Kontrollierst du ihn, rechnest du einen Teil des Zusammenhangs weg, den du eigentlich sehen willst.",
+    "bild": [
+      "Zwischenschritt"
+    ],
+    "karte": "k1-kontrolle",
+    "kapitel": 10
+  },
+  "referenzgruppe": {
+    "name": "Referenzgruppe",
+    "alias": [
+      "Referenzgruppen",
+      "Referenzkategorie",
+      "Referenz"
+    ],
+    "fach": "Die Referenzgruppe ist die Kategorie, für die im Modell kein eigener Dummy steht; die Koeffizienten der Dummys geben Unterschiede zu ihr an.",
+    "kurz": "Die Referenzgruppe ist der Vergleichspunkt. Jedes B einer Dummyvariable sagt, wie weit eine Gruppe im Mittel von ihr entfernt liegt.",
+    "karte": "k2-dummies",
+    "kapitel": 10
+  },
+  "dummyfalle": {
+    "name": "Dummyfalle",
+    "alias": [
+      "Dummy-Falle",
+      "perfekte Multikollinearität",
+      "perfekte Kollinearität"
+    ],
+    "fach": "Die Dummyfalle entsteht, wenn für jede Kategorie einer Variable ein Dummy ins Modell kommt; die Dummys sind dann zusammen mit der Konstante perfekt kollinear.",
+    "kurz": "Bekommt jede Gruppe ihren eigenen Dummy, ist einer überflüssig: Er ergibt sich aus den anderen. Deshalb bleibt eine Gruppe draußen.",
+    "karte": "k2-falle",
+    "kapitel": 10
+  },
+  "multikollinearitaet": {
+    "name": "Multikollinearität",
+    "alias": [
+      "multikollinear",
+      "Kollinearität",
+      "VIF",
+      "Varianzinflationsfaktor",
+      "Toleranz"
+    ],
+    "fach": "Multikollinearität liegt vor, wenn Prädiktoren so eng miteinander zusammenhängen, dass sich ihre einzelnen Beiträge kaum trennen lassen; der VIF misst das für jeden Prädiktor.",
+    "kurz": "Multikollinearität heißt: Zwei Prädiktoren sagen fast dasselbe. Dann werden ihre B unsicher, auch wenn das Modell gut vorhersagt.",
+    "karte": "k3-vif",
+    "kapitel": 10
+  },
+  "interaktion": {
+    "name": "Interaktion",
+    "alias": [
+      "Interaktionen",
+      "Interaktionseffekt",
+      "Interaktionseffekte",
+      "Interaktionsterm"
+    ],
+    "fach": "Eine Interaktion liegt vor, wenn der Zusammenhang eines Prädiktors mit der abhängigen Variable von den Werten eines anderen Prädiktors abhängt.",
+    "kurz": "Eine Interaktion heißt: Ein Unterschied ist nicht für alle gleich groß, sondern hängt von einer zweiten Variable ab. In einer Grafik sind das zwei Geraden mit verschiedener Steigung.",
+    "karte": "k4-interaktion",
+    "kapitel": 10
+  },
+  "einfluss": {
+    "name": "Einflussreicher Fall",
+    "alias": [
+      "einflussreiche Fälle",
+      "einflussreichen Fall",
+      "einflussreichen Fälle",
+      "Einfluss",
+      "Hebelwirkung",
+      "Leverage"
+    ],
+    "fach": "Ein Fall ist einflussreich, wenn sich die Koeffizienten deutlich ändern, sobald man ihn weglässt; das droht vor allem bei extremen Prädiktorwerten (Hebelwirkung).",
+    "kurz": "Ein einflussreicher Fall ist eine Person, ohne die die Gerade deutlich anders läge. Gemeint ist kein Einfluss auf die Welt, sondern auf die Rechnung.",
+    "bild": [
+      "die Gerade kippen"
+    ],
+    "karte": "k4-einfluss",
+    "kapitel": 10
+  },
+  "bruttoeffekt": {
+    "name": "Bruttoeffekt (unkontrolliert)",
+    "alias": [
+      "Bruttoeffekt",
+      "Bruttoeffekte",
+      "unkontrollierter Effekt",
+      "unkontrollierte Effekt",
+      "unkontrollierten Effekt"
+    ],
+    "fach": "Der Bruttoeffekt ist der Regressionskoeffizient eines Prädiktors in einem Modell ohne Kontrollvariablen; er enthält auch die Anteile, die über andere, mit dem Prädiktor zusammenhängende Merkmale laufen.",
+    "kurz": "Der Bruttoeffekt ist der Unterschied, den du siehst, wenn du nichts anderes berücksichtigst. Darin steckt alles, was mit dem Prädiktor zusammenhängt.",
+    "karte": "k1-kontrolle",
+    "kapitel": 10
+  },
+  "nettoeffekt": {
+    "name": "Nettoeffekt (kontrolliert)",
+    "alias": [
+      "Nettoeffekt",
+      "Nettoeffekte",
+      "kontrollierter Effekt",
+      "kontrollierte Effekt",
+      "kontrollierten Effekt"
+    ],
+    "fach": "Der Nettoeffekt ist der Regressionskoeffizient eines Prädiktors in einem Modell mit Kontrollvariablen; er beschreibt den Zusammenhang bei konstant gehaltenen Werten der Kontrollvariablen.",
+    "kurz": "Der Nettoeffekt ist der Unterschied, der bleibt, wenn du Personen mit gleichen Werten in den Kontrollvariablen vergleichst. Er kann vom Bruttoeffekt deutlich abweichen.",
+    "karte": "k1-kontrolle",
+    "kapitel": 10
+  },
+  "dichotom": {
+    "name": "Dichotome Variable",
+    "alias": [
+      "dichotom",
+      "dichotome",
+      "dichotomen",
+      "binär",
+      "binäre",
+      "binären",
+      "0/1-Variable"
+    ],
+    "fach": "Eine dichotome (binäre) Variable hat genau zwei Ausprägungen, die oft mit 0 und 1 kodiert werden.",
+    "kurz": "Eine dichotome Variable kennt nur zwei Antworten, etwa ja oder nein. Kodiert als 0 und 1, ist ihr Mittelwert der Anteil der Einsen.",
+    "bild": [
+      "Turm aus Nullen und Einsen"
+    ],
+    "karte": "k1-null-eins",
+    "kapitel": 11
+  },
+  "odds": {
+    "name": "Odds",
+    "alias": [
+      "Chance",
+      "Chancen"
+    ],
+    "fach": "Die Odds eines Ereignisses sind seine Wahrscheinlichkeit geteilt durch die Gegenwahrscheinlichkeit, also p / (1 − p).",
+    "kurz": "Die Odds (Chance) vergleichen Ja mit Nein: Wie viele Ja kommen auf ein Nein?",
+    "karte": "k1-sprachen",
+    "kapitel": 11
+  },
+  "logit": {
+    "name": "Logit",
+    "alias": [
+      "Logits",
+      "Log-Odds",
+      "Logit-Skala"
+    ],
+    "fach": "Der Logit ist der Logarithmus der Odds zur Basis e und übersetzt eine Wahrscheinlichkeit zwischen 0 und 1 in eine Zahl ohne Grenzen.",
+    "kurz": "Der Logit übersetzt eine Wahrscheinlichkeit in eine Zahl ohne Grenzen. Über 50 % wird er positiv, darunter negativ.",
+    "karte": "k1-sprachen",
+    "kapitel": 11
+  },
+  "logistische-regression": {
+    "name": "Logistische Regression",
+    "alias": [
+      "logistische Regression",
+      "logistischen Regression",
+      "Logitmodell",
+      "logistisches Modell",
+      "logistische Funktion",
+      "S-Kurve"
+    ],
+    "fach": "Die logistische Regression modelliert die Wahrscheinlichkeit, dass eine dichotome abhängige Variable den Wert 1 annimmt, über eine Gerade auf der Logit-Skala.",
+    "kurz": "Die logistische Regression sagt für Ja-Nein-Fragen eine Wahrscheinlichkeit vorher. Sie legt eine Gerade auf die Logit-Skala, in Prozent wird daraus eine S-Kurve zwischen 0 und 1.",
+    "karte": "k1-gerade",
+    "kapitel": 11
+  },
+  "odds-ratio": {
+    "name": "Odds Ratio",
+    "alias": [
+      "Odds Ratios",
+      "Exp(B)",
+      "Chancenverhältnis",
+      "Chancenverhältnisse"
+    ],
+    "fach": "Die Odds Ratio Exp(B) ist das Verhältnis der Odds bei einem um eine Einheit höheren Prädiktorwert zu den Odds beim Ausgangswert.",
+    "kurz": "Die Odds Ratio sagt, mit welcher Zahl du die Chance malnehmen musst, wenn der Prädiktor um eins steigt. Über 1 heißt: Die Chance wächst.",
+    "bild": [
+      "Faktor für die Chance"
+    ],
+    "karte": "k2-faktor",
+    "kapitel": 11
+  },
+  "likelihood": {
+    "name": "Likelihood",
+    "alias": [
+      "Maximum Likelihood",
+      "Maximum-Likelihood",
+      "Likelihoods"
+    ],
+    "fach": "Die Likelihood misst, wie wahrscheinlich die beobachteten Daten unter bestimmten Koeffizienten sind; Maximum Likelihood wählt die Koeffizienten, bei denen sie am größten ist.",
+    "kurz": "Die Likelihood sagt dir, wie gut eine Annahme zu den beobachteten Daten passt. Die logistische Regression wählt die Koeffizienten, unter denen die Daten am wahrscheinlichsten sind.",
+    "karte": "k2-logit",
+    "kapitel": 11
+  },
+  "minus-2ll": {
+    "name": "−2LL",
+    "alias": [
+      "-2LL",
+      "−2 Log-Likelihood",
+      "Devianz",
+      "Omnibus-Test",
+      "Omnibus-Tests"
+    ],
+    "fach": "−2LL ist die mit −2 malgenommene logarithmierte Likelihood eines Modells; je kleiner sie ist, desto besser passt das Modell zu den Daten.",
+    "kurz": "−2LL misst, wie schlecht ein Modell zu den Daten passt: kleiner ist besser. Der Omnibus-Test prüft, ob das Modell besser passt als eines ohne Prädiktoren.",
+    "karte": "k4-2ll",
+    "kapitel": 11
+  },
+  "nullmodell": {
+    "name": "Nullmodell",
+    "alias": [
+      "Nullmodells"
+    ],
+    "fach": "Das Nullmodell enthält nur die Konstante und keine Prädiktoren; es dient als Vergleichsmaßstab für die Güte eines Modells.",
+    "kurz": "Das Nullmodell sagt für alle dasselbe vorher, ohne etwas über die Personen zu wissen. Ein gutes Modell muss besser sein als dieses.",
+    "karte": "k4-2ll",
+    "kapitel": 11
+  },
+  "vorhergesagte-wahrscheinlichkeit": {
+    "name": "Vorhergesagte Wahrscheinlichkeit",
+    "alias": [
+      "vorhergesagte Wahrscheinlichkeiten",
+      "vorhergesagten Wahrscheinlichkeit",
+      "vorhergesagten Wahrscheinlichkeiten"
+    ],
+    "fach": "Die vorhergesagte Wahrscheinlichkeit ist der Wert, den ein logistisches Modell für bestimmte Prädiktorwerte berechnet, wenn man den Logit in eine Wahrscheinlichkeit zurückübersetzt.",
+    "kurz": "Für eine Beispielperson rechnest du erst den Logit aus und übersetzt ihn dann zurück in Prozent. Heraus kommt, wie wahrscheinlich das Modell ein Ja für sie hält.",
+    "karte": "k3-rueckweg",
+    "kapitel": 11
+  },
+  "marginale-effekte": {
+    "name": "Marginale Effekte",
+    "alias": [
+      "marginaler Effekt",
+      "marginalen Effekt",
+      "marginale Effekt",
+      "AME",
+      "durchschnittlicher marginaler Effekt",
+      "mittlerer marginaler Effekt"
+    ],
+    "fach": "Ein marginaler Effekt gibt an, um wie viele Prozentpunkte sich die vorhergesagte Wahrscheinlichkeit ändert, wenn ein Prädiktor steigt; der AME mittelt das über alle Personen.",
+    "kurz": "Der AME übersetzt das Ergebnis der logistischen Regression in Prozentpunkte. Er sagt, um wie viel sich die Wahrscheinlichkeit im Mittel über alle Personen ändert.",
+    "karte": "k3-ame",
+    "kapitel": 11
+  },
+  "deckeneffekt": {
+    "name": "Deckeneffekt",
+    "alias": [
+      "Deckeneffekte",
+      "Sättigung"
+    ],
+    "fach": "Ein Deckeneffekt liegt vor, wenn Werte nahe der oberen Grenze einer Skala liegen und deshalb kaum noch steigen können.",
+    "kurz": "Wer schon fast bei 100 % ist, hat kaum noch Platz nach oben.",
+    "bild": [
+      "Platz nach oben"
+    ],
+    "karte": "k3-zwei-schritte",
+    "kapitel": 11
+  },
+  "trefferquote": {
+    "name": "Trefferquote",
+    "alias": [
+      "Trefferquoten",
+      "Accuracy",
+      "Overall Percentage"
+    ],
+    "fach": "Die Trefferquote ist der Anteil der Fälle, deren beobachteter Wert mit der Vorhersage übereinstimmt, wenn das Modell ab 50 % Wahrscheinlichkeit ein Ja vorhersagt.",
+    "kurz": "Die Trefferquote zählt, bei wie vielen Personen das Modell richtig liegt. Du findest sie in der Klassifikationstabelle unter Overall Percentage.",
+    "karte": "k4-treffer",
+    "kapitel": 11
+  },
+  "basisrate": {
+    "name": "Basisrate",
+    "alias": [
+      "Basisraten"
+    ],
+    "fach": "Die Basisrate ist der Anteil der häufigeren Ausprägung der abhängigen Variable unter genau den Fällen, die das Modell klassifiziert.",
+    "kurz": "Die Basisrate ist der Anteil der häufigeren Antwort unter genau den Befragten, die das Modell einordnet. Wer bei ihnen immer diese Antwort tippt, liegt schon so oft richtig.",
+    "bild": [
+      "einfachste Regel",
+      "Regel „alle Ja“"
+    ],
+    "karte": "k4-treffer",
+    "kapitel": 11
+  },
+  "pseudo-r2": {
+    "name": "Pseudo-R²",
+    "alias": [
+      "Pseudo-R-Quadrat",
+      "Nagelkerke",
+      "Cox & Snell",
+      "McFadden"
+    ],
+    "fach": "Pseudo-R² bezeichnet Gütemaße für die logistische Regression, die die Likelihood des Modells mit der des Nullmodells vergleichen, etwa Nagelkerke oder McFadden.",
+    "kurz": "Pseudo-R² sagt grob, um wie viel das Modell besser passt als das Nullmodell. Es gibt mehrere Varianten, die verschieden große Zahlen liefern.",
+    "karte": "k4-pseudo",
+    "kapitel": 11
+  },
+  "klassifikationstabelle": {
+    "name": "Klassifikationstabelle",
+    "alias": [
+      "Klassifikationstabellen",
+      "Classification Table"
+    ],
+    "fach": "Die Klassifikationstabelle kreuzt die beobachteten Ausprägungen der AV mit den vom Modell vorhergesagten; ein Fall gilt als 1 vorhergesagt, wenn seine vorhergesagte Wahrscheinlichkeit über 50 % liegt.",
+    "kurz": "Die Klassifikationstabelle stellt gegenüber, was die Personen tatsächlich geantwortet haben und was das Modell für sie vorhersagt. Wo beides übereinstimmt, liegt ein Treffer.",
+    "karte": "k4-tabellen",
+    "kapitel": 11
+  },
+  "sensitivitaet": {
+    "name": "Sensitivität",
+    "alias": [
+      "Sensitivity",
+      "Richtig-positiv-Rate"
+    ],
+    "fach": "Die Sensitivität ist der Anteil der Fälle mit beobachteter Ausprägung 1, die das Modell auch als 1 vorhersagt (Richtig-positiv-Rate).",
+    "kurz": "Die Sensitivität sagt, wie viele der Personen mit einem Ja das Modell auch als Ja erkennt. Du findest sie in der Klassifikationstabelle in der Zeile der Jas.",
+    "karte": "k4-treffer",
+    "kapitel": 11
+  },
+  "spezifitaet": {
+    "name": "Spezifität",
+    "alias": [
+      "Specificity",
+      "Richtig-negativ-Rate"
+    ],
+    "fach": "Die Spezifität ist der Anteil der Fälle mit beobachteter Ausprägung 0, die das Modell auch als 0 vorhersagt (Richtig-negativ-Rate).",
+    "kurz": "Die Spezifität sagt, wie viele der Personen mit einem Nein das Modell auch als Nein erkennt. Zusammen mit der Sensitivität zeigt sie, ob das Modell beide Gruppen erkennt.",
+    "karte": "k4-treffer",
+    "kapitel": 11
+  }
+}

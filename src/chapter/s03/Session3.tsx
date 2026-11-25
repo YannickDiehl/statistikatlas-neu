@@ -14,7 +14,7 @@ export const session3Status = (state: ChapterState) => chapterStatus(state, REQU
 
 const TOC: TocGroup[] = [
   { group: 'Vorweg', items: [{ href: '#r1', label: 'R lesen' }, { href: '#r2', label: 'Drei Werkzeuge' }] },
-  { group: 'Themen', items: [{ href: '#thema1', label: '1 Häufigkeitstabelle' }, { href: '#thema2', label: '2 Fehlende Werte' }, { href: '#thema3', label: '3 Die Mitte' }, { href: '#thema4', label: '4 Über dem Durchschnitt' }] },
+  { group: 'Themen', items: [{ href: '#thema1', label: '1 Häufigkeitstabelle' }, { href: '#thema2', label: '2 Fehlende Werte' }, { href: '#thema3', label: '3 Die Mitte' }, { href: '#thema4', label: '4 Über dem Mittelwert' }] },
   { group: 'Zum Schluss', items: [{ href: '#ueberblick', label: 'Überblick' }, { href: '#mitnehmen', label: 'Das Wichtigste' }, { href: '#selbsttest', label: 'Prüf dich selbst' }, { href: '#skript', label: 'Skript' }] },
 ];
 
@@ -39,14 +39,14 @@ export function Session3() {
       { href: '#ueberblick', title: 'Zum Schluss', note: 'Überblick, Wichtigstes, Selbsttest, Skript' },
     ]}
     goals={[
-      'eine Häufigkeitstabelle lesen: wie oft jede Antwort vorkommt (absolute Häufigkeit, Spalte N), welcher Anteil das ist (relative Häufigkeit, Raw % und Valid %) und wie viel bis zu einer Stufe zusammenkommt (kumulierte Prozent, Cum. %)',
+      'eine Häufigkeitstabelle lesen: wie oft jede Antwort vorkommt (absolute Häufigkeit, Spalte N), welcher Anteil das ist (relative Häufigkeit, Raw % und Valid %) und wie viel bis zu einer Ausprägung zusammenkommt (kumulierte Prozent, Cum. %)',
       <>den häufigsten Wert (Modus) und die Mitte einer geordneten Antwortreihe (Median) aus der Tabelle ablesen, den Mittelwert mit <code>describe()</code></>,
       'eine Prozentzahl so in einen Satz schreiben, dass klar ist, von wem sie handelt: von allen Befragten oder nur von denen, die geantwortet haben',
       'Mittelwert und Median vergleichen und sagen, welche Zahl eine schiefe Verteilung ehrlicher beschreibt',
       'fehlende Werte nach ihrem Grund unterscheiden (nie gefragt, nicht beantwortet, beim Erfassen verloren) und wissen, welche Mitte zu welchem Skalenniveau passt',
       <><code>allbus %&gt;% frequency(…)</code> und <code>allbus %&gt;% describe(…)</code> ausführen, die Ausgabe lesen und R als Taschenrechner für eine eigene Prozentbasis nutzen</>,
     ]}
-    known={<>der Startblock, R als Taschenrechner und der erste Blick mit <code>frequency(allbus, …)</code> auf Codes, Wertelabels und die Spalte N (Sitzung 1); die Pipe mit einem Schritt wie <code>frauen &lt;- allbus %&gt;% filter(sex == 2)</code>, das Nachschlagen mit <code>codebook(allbus, …)</code>, die Bauplatte mit ihren Türmen, Steinen und Aufklebern, die Gründe für fehlende Werte (−9, −10, −11, −42 …) und dass Codes für Parteien nur Namen sind (Sitzung 2). Mittelwert und Median kennst du aus Methoden Ia.</>}
+    known={<>der Startblock, R als Taschenrechner und der erste Blick mit <code>frequency(allbus, …)</code> auf Codes, Wertelabels und die Spalte N (Sitzung 1); die Pipe mit einem Schritt wie <code>frauen &lt;- allbus %&gt;% filter(sex == 2)</code>, das Nachschlagen mit <code>codebook(allbus, …)</code>, die Datenmatrix mit Fällen, Variablen, Werten und Wertelabels (im Bild: Bauplatte, Türme, Steine, Aufkleber), die Gründe für fehlende Werte (−9, −10, −11, −42 …) und dass Codes für Parteien nur Namen sind (Sitzung 2). Mittelwert und Median kennst du aus Methoden Ia.</>}
     knownNote={<>Solche Stellen tragen ein graues Schild „kennst du aus Sitzung …“ oder „kennst du aus Methoden Ia“.</>}
     jumps={[1, 2, 3, 4].map(n => ({ href: `#a${n}`, label: `Aufgabe ${n}` }))}
     toc={TOC}>
@@ -68,7 +68,7 @@ export function Session3() {
     <Foundation3 />
     <Task3 />
 
-    <TopicHeading id="thema4" n={4} title="Thema 4: Liegt der Durchschnitt in der Mitte?" />
+    <TopicHeading id="thema4" n={4} title="Thema 4: Liegt der Mittelwert in der Mitte?" />
     <Foundation4 />
     <Task4 />
 

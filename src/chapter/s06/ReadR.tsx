@@ -4,6 +4,7 @@ import { withCode } from '../blocks/rich';
 import { EASTWEST, HS_ID } from './content';
 import { Picture, de, whole } from './figures/util';
 import { Workshop } from './Workshop';
+import { Begriff } from '../Begriff';
 
 const LINE: { code: string; say: string; bg: string }[] = [
   { code: 'allbus', say: 'Objekt: der ganze Datensatz', bg: '#E5E9EE' },
@@ -33,7 +34,7 @@ export function ReadR() {
       badge={<><Known session={1} what="Startblock" /> <Known session={3} what="frequency()" /></>} tag={{ kind: 'picture', label: 'Code lesen' }}>
       <p className="lead">Den Startblock kennst du: Er lädt die Werkzeuge und legt den ALLBUS unter dem Namen <code>allbus</code> ab. In der Code-Werkstatt hier ist das schon erledigt, in RStudio führst du ihn zu Beginn aus.</p>
       <Workshop k="start" />
-      <p style={{ margin: '16px 0 0' }}>Neu ist heute ein Argument, das du an fast jede Funktion hängen kannst: <code>weights = wghtpew</code>. <b>So liest du die Zeile:</b></p>
+      <p style={{ margin: '16px 0 0' }}>Neu ist heute ein <Begriff id="argument">Argument</Begriff>, das du an fast jede <Begriff id="funktion">Funktion</Begriff> hängen kannst: <code>weights = wghtpew</code>. <b>So liest du die Zeile:</b></p>
       <div className="lesehilfe" role="img" aria-label={`Die Zeile Baustein für Baustein: ${LINE_TEXT}`}>
         {LINE.map(p => <span key={p.code}><b style={{ background: p.bg }}>{p.code}</b><small>{p.say || ' '}</small></span>)}
       </div>

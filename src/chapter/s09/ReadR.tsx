@@ -1,5 +1,6 @@
 // Sitzung 9 „Lineare Regression“: Vorweg R lesen (#r1 Startblock, #r2 Formel mit Tilde, #r3 Ausgabe von summary()) aus sitzung09.md.
 import { Badge, Card, InShort, Known, Mixup, MoreDetail } from '../blocks/Card';
+import { Begriff } from '../Begriff';
 import { Workshop } from './blocks';
 import { SHORT_OUTPUT } from './content';
 import { OutputPicker } from './figures/OutputPicker';
@@ -12,13 +13,13 @@ export function ReadR() {
   return <>
     <Card id="r1" stone="R" title="Startblock und was du schon kennst" tag={{ kind: 'picture', label: 'Code lesen' }}
       badge={<><Known session={1} what="Startblock" /><Known session={5} what="mutate() und rec()" /><Known session={6} what="weights" /></>}>
-      <p className="lead">Den Startblock kennst du aus Sitzung 1. In RStudio führst du ihn zu Beginn aus. In der Code-Werkstatt hier auf der Seite ist das schon erledigt.</p>
+      <p className="lead">Den Startblock kennst du aus Sitzung 1. In RStudio führst du ihn zu Beginn aus. Er lädt die Pakete und legt den ALLBUS als <Begriff id="objekt">Objekt</Begriff> <code>allbus</code> an. In der Code-Werkstatt hier auf der Seite ist das schon erledigt.</p>
       <Workshop k="start" />
       <p className="hilfe-zeile">Rote Zeilen beim Laden, etwa „Attaching core tidyverse packages“, sind normal und kein Fehler. Findet R die Datei nicht, nimm wie in Sitzung 1 <code>allbus &lt;- read_spss(file.choose())</code>.</p>
       <p style={{ margin: '16px 0 0' }}>Heute kommen drei Dinge aus früheren Sitzungen in fast jeder Vorlage vor:</p>
       <ul>
         <li><code>mutate(lage = rec(ep03, rules = "rev"))</code> polt eine Variable um (Sitzung 5). Danach heißt eine hohe Zahl „gut“. Das brauchst du, damit „mehr“ auf beiden Achsen in dieselbe Richtung zeigt.</li>
-        <li><code>weights = wghtpew</code> gewichtet die Befragten so, dass die Zahlen für ganz Deutschland gelten (Sitzung 6). Der Osten ist im ALLBUS absichtlich stärker vertreten.</li>
+        <li>Das <Begriff id="argument">Argument</Begriff> <code>weights = wghtpew</code> gewichtet die Befragten so, dass die Zahlen für ganz Deutschland gelten (Sitzung 6). Der Osten ist im ALLBUS absichtlich stärker vertreten.</li>
         <li><code>%&gt;% summary()</code> zeigt die ausführliche Ausgabe (Sitzung 7).</li>
       </ul>
       <div className="box-gruen s9-wichtig">
@@ -29,7 +30,7 @@ export function ReadR() {
 
     <Card id="r2" stone="R" title="Eine Formel mit Tilde: y ~ x" tag={{ kind: 'picture', label: 'Code lesen' }}
       badge={<><Badge>neu heute</Badge><Known session={5} what="AV und UV" /></>}>
-      <p className="lead">Neu heute ist die Funktion <code>linear_regression()</code>. In ihre Klammer schreibst du eine Formel mit der Tilde <code>~</code>. Links steht, was vorhergesagt wird, rechts, woraus. So liest du die Zeile:</p>
+      <p className="lead">Neu heute ist die <Begriff id="funktion">Funktion</Begriff> <code>linear_regression()</code>. In ihre Klammer schreibst du eine Formel mit der Tilde <code>~</code>. Links steht, was vorhergesagt wird, rechts, woraus. So liest du die Zeile:</p>
       <div className="lesehilfe s9-zeile" role="img" aria-label={TILDE_TEXT}>
         <span><b style={{ background: '#E5E9EE' }}>allbus</b><small>Objekt</small></span>
         <span><b style={{ background: 'var(--gelbh)' }}>%&gt;%</b><small>und dann</small></span>
@@ -44,7 +45,7 @@ export function ReadR() {
       <Workshop k="r_kurz" live />
       <p style={{ margin: '12px 0 0' }}>Ausgabe zur Kontrolle:</p>
       <pre className="code solo s9-kontrolle" tabIndex={0} aria-label="Ausgabe zur Kontrolle">{SHORT_OUTPUT}</pre>
-      <InShort><code>linear_regression(y ~ x)</code> sagt y aus x vorher. Die <b>abhängige Variable</b> (AV, das y) steht links von der Tilde, die <b>unabhängige Variable</b> (UV, das x) rechts. In der Regression heißt die UV auch <b>Prädiktor</b>, kurz gesagt: das, woraus vorhergesagt wird. Ohne <code>summary()</code> zeigt R eine Zeile mit R², Test und N.</InShort>
+      <InShort><code>linear_regression(y ~ x)</code> sagt y aus x vorher. Die <b><Begriff id="abhaengige-variable">abhängige Variable</Begriff></b> (AV, das y) steht links von der Tilde, die <b><Begriff id="unabhaengige-variable">unabhängige Variable</Begriff></b> (UV, das x) rechts. In der Regression heißt die UV auch <b><Begriff id="praediktor">Prädiktor</Begriff></b>, kurz gesagt: das, woraus vorhergesagt wird. Ohne <code>summary()</code> zeigt R eine Zeile mit R², Test und N.</InShort>
       <Mixup>Ein Komma statt der Tilde: <code>linear_regression(ls01, lage)</code>. R meldet dann „<code>formula</code> must be a formula object“. Zwischen AV und UV steht immer <code>~</code>.</Mixup>
     </Card>
 
@@ -57,8 +58,8 @@ export function ReadR() {
         <ul>
           <li><b>Method: ENTER</b> heißt: Alle UV kommen auf einmal ins Modell. Heute ist es nur eine.</li>
           <li>Die <b>Note</b> sagt nur: R rechnet mit den Codes 1 bis 5 von lage, wie SPSS. Das ist hier gewollt. Die zweite Zeile nennt einen anderen Weg (jede Stufe als eigene Gruppe); den lernst du in Sitzung 10 kennen.</li>
-          <li><b>Std. Error</b> und <b>95% CI</b> zeigen, wie genau B geschätzt ist; <b>t</b> und <b>Sig.</b> testen, ob B von 0 verschieden ist (p-Wert, kennst du aus Sitzung 7). Bei Tausenden Befragten ist fast jede Steigung signifikant. Ob sie groß genug ist, um wichtig zu sein, sagen B und R².</li>
-          <li><b>Adjusted R Square</b> ist R² mit einem kleinen Abzug für jede UV. Mit einer UV und Tausenden Befragten ist er gleich. Er wird in Sitzung 10 wichtig.</li>
+          <li><b><Begriff id="standardfehler">Std. Error</Begriff></b> (der Standardfehler von B) und <b>95% CI</b> zeigen, wie genau B geschätzt ist; <b>t</b> und <b>Sig.</b> testen, ob B von 0 verschieden ist (<Begriff id="p-wert">p-Wert</Begriff>, kennst du aus Sitzung 7). Bei Tausenden Befragten ist fast jede Steigung signifikant. Ob sie groß genug ist, um wichtig zu sein, sagen B und R².</li>
+          <li><b><Begriff id="korrigiertes-r2">Adjusted R Square</Begriff></b>, das korrigierte R², ist R² mit einem kleinen Abzug für jede UV. Mit einer UV und Tausenden Befragten ist er gleich. Er wird in Sitzung 10 wichtig.</li>
           <li>Die Abschnitte <b>ANOVA</b> und <b>Collinearity Statistics</b> brauchst du heute nicht; ANOVA zeigt die Quadratsummen aus Grundlage 2c, Collinearity wird in Sitzung 10 wichtig.</li>
           <li>R schreibt Kommazahlen mit Punkt: 3.570 heißt 3,570.</li>
         </ul>

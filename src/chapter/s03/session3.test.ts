@@ -53,7 +53,7 @@ test('headings in the order of spec §5 (Variante B)', () => {
     'Thema 1: Die Häufigkeitstabelle', 'Die Häufigkeitstabelle', 'Aufgabe 1: Wie geht es der Wirtschaft in einem Jahr?',
     'Thema 2: Fehlende Werte: Wer zählt mit?', 'Fehlende Werte: Wer zählt mit?', 'Aufgabe 2: Wahlabsicht: drei Prozentzahlen für dieselbe Partei',
     'Thema 3: Die Mitte: Modus, Median, Mittelwert', 'Die Mitte: Modus, Median, Mittelwert', 'Aufgabe 3: Wie lange dauert Arbeitslosigkeit?',
-    'Thema 4: Liegt der Durchschnitt in der Mitte?', 'Liegt der Durchschnitt in der Mitte?', 'Aufgabe 4: Wie viele liegen über dem Durchschnitt?',
+    'Thema 4: Liegt der Mittelwert in der Mitte?', 'Liegt der Mittelwert in der Mitte?', 'Aufgabe 4: Wie viele liegen über dem Mittelwert?',
     'Überblick: Eine Tabelle lesen, eine Mitte wählen', 'Eine Tabelle lesen, eine Mitte wählen',
     'Zum Schluss: Mitnehmen', 'Das Wichtigste aus dieser Sitzung', 'Prüf dich selbst', 'Dein Skript zum Mitnehmen',
   ];

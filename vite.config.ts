@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { markenEntfernen } from './src/lib/begriffe';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [markenEntfernen(), react()],
   base: './',
   build: { sourcemap: true },
 });

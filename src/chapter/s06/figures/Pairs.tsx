@@ -1,4 +1,4 @@
-// Thema 3 „Geordnete Stufen“: Paar-Zähler (s6-paare), Gamma und Tau-b in Bausteinen (s6-gamma-bausteine),
+// Thema 3 „Geordnete Kategorien“: Paar-Zähler (s6-paare), Gamma und Tau-b in Bausteinen (s6-gamma-bausteine),
 // Gesundheit je Schicht (s6-schicht-stapel), Richtung und Kodierung (s6-richtung), Vorzeichen lesen (s6-vorzeichen-lesen).
 import { useState } from 'react';
 import { CAT, CAT_DARK, ROLE, ordered } from '../../../tasks/kit/palette';
@@ -12,27 +12,27 @@ export type Pair = { id: string; a: Person; b: Person; kind: PairKind };
 /** Die zehn Paare in der Reihenfolge AB, AC, …, DE mit ihrer Einordnung. */
 export const PAIRS: Pair[] = PERSONS.flatMap((a, i) => PERSONS.slice(i + 1).map(b => {
   const dx = Math.sign(b.layer - a.layer), dy = Math.sign(b.health - a.health);
-  const kind: PairKind = dx === 0 ? 'Gleichstand Schicht' : dy === 0 ? 'Gleichstand Gesundheit' : dx === dy ? 'gleichläufig' : 'gegenläufig';
+  const kind: PairKind = dx === 0 ? 'Bindung Schicht' : dy === 0 ? 'Bindung Gesundheit' : dx === dy ? 'konkordant' : 'diskordant';
   return { id: a.name + b.name, a, b, kind };
 }));
 
 /** Rückmeldesatz zu einem Paar (richtig eingeordnet). */
 export function pairSentence(p: Pair): string {
   const hi = p.a.layer > p.b.layer ? p.a : p.b;
-  if (p.kind === 'gleichläufig') return `${hi.name} hat die höhere Schicht und die bessere Gesundheit: gleichläufig.`;
-  if (p.kind === 'gegenläufig') return `${hi.name} hat die höhere Schicht, aber die schlechtere Gesundheit: gegenläufig.`;
-  if (p.kind === 'Gleichstand Schicht') return `${p.a.name} und ${p.b.name} haben dieselbe Schicht: Gleichstand, keine Richtung erkennbar.`;
-  return `${p.a.name} und ${p.b.name} haben dieselbe Gesundheit: Gleichstand.`;
+  if (p.kind === 'konkordant') return `${hi.name} hat die höhere Schicht und die bessere Gesundheit: konkordant (gleichläufig).`;
+  if (p.kind === 'diskordant') return `${hi.name} hat die höhere Schicht, aber die schlechtere Gesundheit: diskordant (gegenläufig).`;
+  if (p.kind === 'Bindung Schicht') return `${p.a.name} und ${p.b.name} haben dieselbe Schicht: eine Bindung (Gleichstand), keine Richtung erkennbar.`;
+  return `${p.a.name} und ${p.b.name} haben dieselbe Gesundheit: eine Bindung (Gleichstand).`;
 }
 const WRONG = 'Vergleiche zuerst die Schicht: Wer liegt höher? Hat diese Person auch die bessere Gesundheit?';
-type Choice = 'gleichläufig' | 'gegenläufig' | 'Gleichstand';
-const matches = (p: Pair, c: Choice) => c === 'Gleichstand' ? p.kind.startsWith('Gleichstand') : p.kind === c;
+type Choice = 'konkordant' | 'diskordant' | 'Bindung';
+const matches = (p: Pair, c: Choice) => c === 'Bindung' ? p.kind.startsWith('Bindung') : p.kind === c;
 
 export function pairCounts(done: Record<string, true>) {
   const of = (k: PairKind) => PAIRS.filter(p => done[p.id] && p.kind === k).length;
-  return { con: of('gleichläufig'), dis: of('gegenläufig'), tieLayer: of('Gleichstand Schicht'), tieHealth: of('Gleichstand Gesundheit') };
+  return { con: of('konkordant'), dis: of('diskordant'), tieLayer: of('Bindung Schicht'), tieHealth: of('Bindung Gesundheit') };
 }
-export const END_TEXT = 'Endstand: 6 gleichläufig, 2 gegenläufig, 1 Gleichstand bei der Schicht, 1 bei der Gesundheit.';
+export const END_TEXT = 'Endstand: 6 konkordant, 2 diskordant, 1 Bindung bei der Schicht, 1 bei der Gesundheit.';
 
 function Raster({ pair }: { pair: Pair | null }) {
   const w = 300, h = 260, l = 46, b = 40, step = 52;
@@ -86,13 +86,13 @@ export function PairCounter() {
     <div className="s6-paare-grid">
       <div className="grafik"><Raster pair={pair} /></div>
       <div>
-        <p className="s6-zaehler" aria-live="off">{`gleichläufig ${c.con}, gegenläufig ${c.dis}, Gleichstand bei Schicht ${c.tieLayer}, Gleichstand bei Gesundheit ${c.tieHealth}`}</p>
+        <p className="s6-zaehler" aria-live="off">{`konkordant ${c.con}, diskordant ${c.dis}, Bindung bei Schicht ${c.tieLayer}, Bindung bei Gesundheit ${c.tieHealth}`}</p>
         <div className="s6-umschalter" role="group" aria-label="Paar wählen">
           {PAIRS.map(p => <button key={p.id} type="button" className="knopf hell" aria-pressed={p.id === selected}
             onClick={() => setSelected(p.id)}>{p.id}{done[p.id] ? <span aria-label=", eingeordnet"> ✓</span> : null}</button>)}
         </div>
         <div className="s6-umschalter" role="group" aria-label={pair ? `Paar ${pair.id} einordnen` : 'Paar einordnen'}>
-          {(['gleichläufig', 'gegenläufig', 'Gleichstand'] as Choice[]).map(k => <button key={k} type="button" className="knopf" onClick={() => classify(k)}>{k}</button>)}
+          {(['konkordant', 'diskordant', 'Bindung'] as Choice[]).map(k => <button key={k} type="button" className="knopf" onClick={() => classify(k)}>{k}</button>)}
         </div>
         <div className="reihe-knoepfe"><button type="button" className="knopf hell" onClick={showAll}>Alle zeigen</button></div>
       </div>
@@ -114,22 +114,22 @@ export function GammaBricks() {
     <div aria-hidden="true">
       <div className="formel">
         <b>Gamma</b><span>=</span>
-        <span className="frac"><span>gleichläufig − gegenläufig</span><span>gleichläufig + gegenläufig</span></span><span>=</span>
+        <span className="frac"><span>konkordant − diskordant</span><span>konkordant + diskordant</span></span><span>=</span>
         <span className="frac"><span>6 − 2</span><span>6 + 2</span></span><span>=</span><span>4 / 8</span><span>=</span><span className="gross">0,5</span>
         <span className="s6-merke">Paare mit Gleichstand fallen weg.</span>
       </div>
       <div className="formel">
         <b>Tau-b</b><span>=</span>
-        <span className="frac"><span>gleichläufig − gegenläufig</span><span>√( [gleichläufig + gegenläufig + Gleichstand nur bei der Schicht] × [gleichläufig + gegenläufig + Gleichstand nur bei der Gesundheit] )</span></span><span>=</span>
+        <span className="frac"><span>konkordant − diskordant</span><span>√( [konkordant + diskordant + Gleichstand nur bei der Schicht] × [konkordant + diskordant + Gleichstand nur bei der Gesundheit] )</span></span><span>=</span>
         <span className="frac"><span>4</span><span>√(9 × 9)</span></span><span>=</span><span>4 / 9</span><span>=</span><span className="gross">0,44</span>
         <span className="s6-merke">Paare mit Gleichstand zählen mit.</span>
       </div>
-      <p className="s6-probe">Zähler: Überwiegen die gleichläufigen Paare, wird das Maß positiv, überwiegen die gegenläufigen, negativ.</p>
+      <p className="s6-probe">Zähler: Überwiegen die konkordanten Paare, wird das Maß positiv, überwiegen die diskordanten, negativ.</p>
     </div>
     <ul className="sr-only">
-      <li>Gamma gleich gleichläufig minus gegenläufig, geteilt durch gleichläufig plus gegenläufig. Eingesetzt: 6 minus 2 geteilt durch 6 plus 2, also 4 geteilt durch 8 gleich 0,5. Paare mit Gleichstand fallen weg.</li>
-      <li>Tau-b gleich gleichläufig minus gegenläufig, geteilt durch die Wurzel aus dem Produkt von zwei Klammern: gleichläufig plus gegenläufig plus Gleichstand nur bei der Schicht, mal gleichläufig plus gegenläufig plus Gleichstand nur bei der Gesundheit. Eingesetzt: 4 geteilt durch Wurzel aus 9 mal 9, also 4 geteilt durch 9 gleich 0,44. Paare mit Gleichstand zählen mit.</li>
-      <li>Zähler: Überwiegen die gleichläufigen Paare, wird das Maß positiv, überwiegen die gegenläufigen, negativ.</li>
+      <li>Gamma gleich konkordant minus diskordant, geteilt durch konkordant plus diskordant. Eingesetzt: 6 minus 2 geteilt durch 6 plus 2, also 4 geteilt durch 8 gleich 0,5. Paare mit Gleichstand fallen weg.</li>
+      <li>Tau-b gleich konkordant minus diskordant, geteilt durch die Wurzel aus dem Produkt von zwei Klammern: konkordant plus diskordant plus Gleichstand nur bei der Schicht, mal konkordant plus diskordant plus Gleichstand nur bei der Gesundheit. Eingesetzt: 4 geteilt durch Wurzel aus 9 mal 9, also 4 geteilt durch 9 gleich 0,44. Paare mit Gleichstand zählen mit.</li>
+      <li>Zähler: Überwiegen die konkordanten Paare, wird das Maß positiv, überwiegen die diskordanten, negativ.</li>
     </ul>
   </figure>;
 }

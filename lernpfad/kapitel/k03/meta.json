@@ -3,14 +3,14 @@
   "titel": "Erste Auszählung",
   "leitfrage": "Wie viele sagen was – und wen zählst du mit, wenn du Prozent sagst?",
   "ziele": [
-    "eine Häufigkeitstabelle lesen: wie oft jede Antwort vorkommt (absolute Häufigkeit, Spalte N), welcher Anteil das ist (relative Häufigkeit, Raw % und Valid %) und wie viel bis zu einer Stufe zusammenkommt (kumulierte Prozent, Cum. %)",
+    "eine Häufigkeitstabelle lesen: wie oft jede Antwort vorkommt (absolute Häufigkeit, Spalte N), welcher Anteil das ist (relative Häufigkeit, Raw % und Valid %) und wie viel bis zu einer Ausprägung zusammenkommt (kumulierte Prozent, Cum. %)",
     "den häufigsten Wert (Modus) und die Mitte einer geordneten Antwortreihe (Median) aus der Tabelle ablesen, den Mittelwert mit <code>describe()</code>",
     "eine Prozentzahl so in einen Satz schreiben, dass klar ist, von wem sie handelt: von allen Befragten oder nur von denen, die geantwortet haben",
     "Mittelwert und Median vergleichen und sagen, welche Zahl eine schiefe Verteilung ehrlicher beschreibt",
     "fehlende Werte nach ihrem Grund unterscheiden (nie gefragt, nicht beantwortet, beim Erfassen verloren) und wissen, welche Mitte zu welchem Skalenniveau passt",
     "<code>allbus %&gt;% frequency(…)</code> und <code>allbus %&gt;% describe(…)</code> ausführen, die Ausgabe lesen und R als Taschenrechner für eine eigene Prozentbasis nutzen"
   ],
-  "bekannt": "der Startblock, R als Taschenrechner und der erste Blick mit <code>frequency(allbus, …)</code> auf Codes, Wertelabels und die Spalte N (Sitzung 1); die Pipe mit einem Schritt wie <code>frauen &lt;- allbus %&gt;% filter(sex == 2)</code>, das Nachschlagen mit <code>codebook(allbus, …)</code>, die Bauplatte mit ihren Türmen, Steinen und Aufklebern, die Gründe für fehlende Werte (−9, −10, −11, −42 …) und dass Codes für Parteien nur Namen sind (Sitzung 2). Mittelwert und Median kennst du aus Methoden Ia.",
+  "bekannt": "der Startblock, R als Taschenrechner und der erste Blick mit <code>frequency(allbus, …)</code> auf Codes, Wertelabels und die Spalte N (Sitzung 1); die Pipe mit einem Schritt wie <code>frauen &lt;- allbus %&gt;% filter(sex == 2)</code>, das Nachschlagen mit <code>codebook(allbus, …)</code>, die Datenmatrix mit Fällen, Variablen, Werten und Wertelabels (im Bild: Bauplatte, Türme, Steine, Aufkleber), die Gründe für fehlende Werte (−9, −10, −11, −42 …) und dass Codes für Parteien nur Namen sind (Sitzung 2). Mittelwert und Median kennst du aus Methoden Ia.",
   "content": "s03",
   "ersetzungen": [
     [
@@ -41,5 +41,6 @@
       "Zur Kontrolle: R antwortet mit",
       "R antwortet mit"
     ]
-  ]
+  ],
+  "begriffe": ["absolute-haeufigkeit","relative-haeufigkeit","kumulierte-haeufigkeit","prozentbasis","modus","median","standardabweichung","fallzahl","schiefe","verteilung","ausreisser","prozentpunkte","mittelwert","fall","variable","auspraegung","code","wertelabel","codebuch","fehlende-werte","gueltige-werte","tnz","missing-code","skalenniveau","nominal","ordinal","metrisch","datenreihe","pipe","datenmatrix","wert","objekt","funktion","argument","kodieren","skript"]
 }

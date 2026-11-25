@@ -20,11 +20,11 @@ export function VierBoegen() {
   return <>
     <div className="s2-vier">
       {SHEETS.map(s => <div key={s.id} className="v-bogen">
-        <SmallSheet letter={s.letter} crosses={s.letter === 'A' ? [0] : s.letter === 'C' ? [7, 8] : []} missing={s.letter === 'D'} alt={`Bogen ${s.letter}: ${s.picture}.`} />
-        <p className="erkl"><b>{`Bogen ${s.letter}, im Datensatz: ${AUFGELOEST[s.letter].code}.`}</b> {AUFGELOEST[s.letter].text}</p>
+        <SmallSheet letter={s.letter} crosses={s.letter === 'A' ? [0] : s.letter === 'C' ? [7, 8] : []} missing={s.letter === 'D'} alt={`Fragebogen ${s.letter}: ${s.picture}.`} />
+        <p className="erkl"><b>{`Fragebogen ${s.letter}, im Datensatz: ${AUFGELOEST[s.letter].code}.`}</b> {AUFGELOEST[s.letter].text}</p>
       </div>)}
     </div>
-    <h6 className="zwischen">So stehen die vier Bögen in den Türmen</h6>
+    <h6 className="zwischen">So stehen die vier Fragebögen in den Variablen</h6>
     <Luecken />
   </>;
 }
@@ -50,7 +50,7 @@ const STATIONEN: { titel: string; schild?: string; text: string; bild: ReactNode
     </g>)}
     <Plate x={4} y={76} w={192} />
   </Svg> },
-  { titel: 'Bauplatte', text: '5,246 × 579', bild: <Svg w={170} h={96}>
+  { titel: 'Datensatz', text: '5,246 × 579', bild: <Svg w={170} h={96}>
     {Array.from({ length: 5 }, (_, r) => Array.from({ length: 5 }, (_, k) => <rect key={`${r}-${k}`} x={12 + k * 30} y={8 + r * 15} width={26} height={11}
       fill={C.blue} stroke={C.blueLine} strokeWidth={0.6} />))}
     <rect x={8} y={8 + 2 * 15 - 3} width={154} height={17} fill="none" stroke={C.orange} strokeWidth={2.5} rx={2} />

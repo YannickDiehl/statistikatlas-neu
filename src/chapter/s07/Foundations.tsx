@@ -18,8 +18,8 @@ export function Foundation1() {
       <p className="lead">Stell dir vor, der ALLBUS wäre ganz Deutschland. Dort arbeiten erwerbstätige Männer im Mittel 7,99 Stunden pro Woche mehr als erwerbstätige Frauen, und bei der Lebenszufriedenheit (0 bis 10) liegen beide fast gleich: Frauen 0,01 Punkte höher.</p>
       <p className="absatz">Eine Umfrage fragt aber nie alle. Was sieht man, wenn man nur 50 Männer und 50 Frauen zufällig zieht? Zieh selbst.</p>
       <SamplingMachine />
-      <InShort>Der Unterschied in einer Stichprobe schwankt von Stichprobe zu Stichprobe. Wie er schwankt, zeigt die <b>Stichprobenverteilung</b>: Sie hat annähernd die Form einer Normalverteilung (Glocke) um den wahren Unterschied. Ihre Breite heißt <b>Standardfehler</b>: der typische Abstand zwischen dem Unterschied in einer Stichprobe und dem in der Bevölkerung.</InShort>
-      <MoreDetail summary="Warum eine Glocke, und warum wird sie schmaler?">
+      <InShort>Der Unterschied in einer Stichprobe schwankt von Stichprobe zu Stichprobe. Wie er schwankt, zeigt die <b>Stichprobenverteilung</b>: Sie hat annähernd die Form einer Normalverteilung, einer Glocke um den wahren Unterschied. Ihre Breite heißt <b>Standardfehler</b>: der typische Abstand zwischen dem Unterschied in einer Stichprobe und dem in der Bevölkerung.</InShort>
+      <MoreDetail summary="Warum eine Normalverteilung, und warum wird sie schmaler?">
         <p>Die Arbeitsstunden selbst sind nicht normalverteilt: Viele arbeiten genau 40 Stunden, wenige 10 oder 60. Mittelwerte aus 50 Personen verteilen sich trotzdem fast wie eine Glocke. Dahinter steht der <b>zentrale Grenzwertsatz</b>: Je mehr Personen in einen Mittelwert eingehen, desto mehr ähnelt die Verteilung solcher Mittelwerte einer Glocke, egal wie die einzelnen Werte verteilt sind. Als Faustregel reichen etwa 30 Personen je Gruppe; bei sehr schief verteilten Werten braucht es mehr.</p>
         <p>Mit mehr Befragten wird die Glocke schmaler, der Standardfehler also kleiner. Bei 50 Männern und 50 Frauen liegt er für die Arbeitsstunden bei etwa 1,88 Stunden (in den 1.000 Stichproben: 1,83). Mit dem ganzen ALLBUS, über 1.400 je Gruppe, sind es nur noch 0,35 Stunden. Wie man ihn ausrechnet, zeigt <a href="#k1b">Karte 1b</a>.</p>
         <p>Gezogen wird hier so, dass jede Person mit ihrem Gewicht <code>wghtpew</code> zum Zug kommt; so steht der ALLBUS für Deutschland. Gezeigt werden nur Mittelwerte von je 50 Personen, keine einzelnen Antworten.</p>
@@ -28,16 +28,16 @@ export function Foundation1() {
       <MapLink concept="sd">Standardabweichung</MapLink>
     </Card>
 
-    <Card id="k1b" step="1b" title="Signal durch Rauschen: der t-Wert" tag={{ kind: 'picture', label: 'Formel lesen' }}>
+    <Card id="k1b" step="1b" title="Der t-Wert: Unterschied durch Standardfehler" tag={{ kind: 'picture', label: 'Formel lesen' }}>
       <p className="lead">Wir haben nie 1.000 Stichproben, sondern eine. Wie entscheidet man mit einer einzigen, ob ein Unterschied echt ist? Man vergleicht ihn mit dem Standardfehler: Ist der Unterschied viel größer als das, was der Zufall typischerweise anrichtet?</p>
       <TFormula />
-      <p className="absatz">Ein t von 23 heißt: Der Unterschied ist 23-mal so groß wie das, was der Zufall typischerweise anrichtet. Bei der Lebenszufriedenheit ist es umgekehrt: Unterschied −0,010, Standardfehler 0,054, t = −0,19. Der Unterschied ist viel kleiner als das Rauschen.</p>
-      <p className="absatz">Mit nur 50 je Gruppe wäre der Standardfehler der Arbeitsstunden √(8,443² ÷ 50 + 10,287² ÷ 50) = √(1,4257 + 2,1164) ≈ 1,88 Stunden und t ≈ 7,99 ÷ 1,88 ≈ 4,2. Kleinere Stichprobe, mehr Rauschen, kleineres t.</p>
+      <p className="absatz">Ein t von 23 heißt: Der Unterschied ist 23-mal so groß wie das, was der Zufall typischerweise anrichtet. Bei der Lebenszufriedenheit ist es umgekehrt: Unterschied −0,010, Standardfehler 0,054, t = −0,19. Der Unterschied ist viel kleiner als sein Standardfehler.</p>
+      <p className="absatz">Mit nur 50 je Gruppe wäre der Standardfehler der Arbeitsstunden √(8,443² ÷ 50 + 10,287² ÷ 50) = √(1,4257 + 2,1164) ≈ 1,88 Stunden und t ≈ 7,99 ÷ 1,88 ≈ 4,2. Kleinere Stichprobe, größerer Standardfehler, kleineres t.</p>
       <div className="kurzueberlegen">
         <p>Kurz überlegen</p>
         <Questions id="g1b-frage" questions={[G1B_Q]} />
       </div>
-      <InShort>Der <b>t-Wert</b> teilt den Unterschied der Mittelwerte (Signal) durch seinen Standardfehler (Rauschen). Je weiter t von 0 weg ist, desto weniger lässt sich der Unterschied mit Zufall erklären. Der <b>t-Test für unabhängige Stichproben</b> vergleicht so die Mittelwerte zweier Gruppen.</InShort>
+      <InShort>Der <b>t-Wert</b> teilt den Unterschied der Mittelwerte durch seinen Standardfehler, im Bild: Signal durch Rauschen. Je weiter t von 0 weg ist, desto weniger lässt sich der Unterschied mit Zufall erklären. Der <b>t-Test für unabhängige Stichproben</b> vergleicht so die Mittelwerte zweier Gruppen.</InShort>
       <MoreDetail summary="Freiheitsgrade (df)">
         <p>In der Ausgabe steht neben t die Spalte df (Freiheitsgrade). Sie hängt an der Zahl der Befragten und bestimmt, wie streng R das t beurteilt. Bei mehr als etwa 100 Befragten spielt sie kaum noch eine Rolle. Dass df beim Welch-Test eine krumme Zahl ist (2763.588), ist richtig so.</p>
       </MoreDetail>
@@ -61,7 +61,7 @@ export function Foundation1() {
         <Questions id="g1c-frage" questions={[G1C_Q]} />
       </div>
       <InShort>Der <b>p-Wert</b> sagt, wie oft ein mindestens so großer Unterschied vorkäme, wenn es in der Bevölkerung keinen gäbe (Nullhypothese). Unter 0,05 (dem Signifikanzniveau α) heißt <b>signifikant</b>. Das <b>Konfidenzintervall</b> zeigt, wo der wahre Unterschied plausibel liegt; enthält es die 0, ist der Unterschied nicht signifikant.</InShort>
-      <MoreDetail summary="Fehlalarme und Sterne">
+      <MoreDetail summary="Fehler erster Art und Sterne">
         <p>Auch ohne echten Unterschied meldet der Test manchmal „signifikant“: Bei der Lebenszufriedenheit war das in 54 von 1.000 Stichproben so, gut 5 %. Das ist der Preis der 5-%-Grenze, ein <b>Fehler 1. Art</b> (Fehlalarm, auch Alpha-Fehler, weil seine Wahrscheinlichkeit gerade α ist). Er wird in <a href="#thema3">Thema 3</a> wichtig, wenn man viele Tests auf einmal rechnet.</p>
         <p>Die Sterne in der R-Ausgabe übersetzen p: * heißt p &lt; 0,05, ** p &lt; 0,01, *** p &lt; 0,001. In Sitzung 6 standen sie schon neben den Zusammenhangsmaßen; sie bedeuten dort dasselbe.</p>
       </MoreDetail>
@@ -85,7 +85,7 @@ export function Foundation2() {
   return <Foundation id="g2" n={2} title="Signifikant, groß oder beides?" taskHref="#a2"
     intro="Was ein Test braucht und wann man ihm nicht trauen sollte. Drei Schritte, etwa 10 Minuten.">
 
-    <Card id="k2a" step="2a" title="Signifikant heißt nicht wichtig" tag={{ kind: 'picture', label: 'Ausprobieren' }}>
+    <Card id="k2a" step="2a" title="Signifikant oder groß?" tag={{ kind: 'picture', label: 'Ausprobieren' }}>
       <p className="lead">Der ALLBUS fragt auch, wie wichtig einem Politik und öffentliches Leben sind (<code>li07</code>, 1 = unwichtig bis 7 = sehr wichtig). Männer sagen im Mittel 4,52, Frauen 4,41. Der Unterschied ist 0,11 Punkte, p = 0,011: signifikant. Hedges&apos; g ist aber nur 0,07, vernachlässigbar. Wie geht das zusammen?</p>
       <NSlider />
       <InShort>Ob ein Unterschied <b>signifikant</b> ist, hängt an seiner Größe <b>und</b> an der Zahl der Befragten. Mit genug Befragten wird jeder noch so kleine Unterschied signifikant. Ob er <b>bedeutsam</b> ist, sagt die Effektstärke und die inhaltliche Überlegung.</InShort>
@@ -133,12 +133,12 @@ export function Foundation3() {
   return <Foundation id="g3" n={3} title="Mehr als zwei Gruppen" taskHref="#a3"
     intro="Warum man bei drei oder mehr Gruppen nicht einfach viele t-Tests rechnet, und was der F-Wert misst. Drei Schritte, etwa 15 Minuten.">
 
-    <Card id="k3a" step="3a" title="Viele Paare, viele Fehlalarme" tag={{ kind: 'picture', label: 'Ausprobieren' }}>
+    <Card id="k3a" step="3a" title="Viele Paare, viele Tests: Alpha-Fehler-Kumulierung" tag={{ kind: 'picture', label: 'Ausprobieren' }}>
       <p className="lead">Der ALLBUS wurde auf drei Wegen erhoben: persönliches Interview (CAPI), online (CAWI) und auf Papier (MAIL), kennst du aus Sitzung 4. Sind die Befragten auf den drei Wegen unterschiedlich alt? Mit t-Tests bräuchtest du drei Vergleiche: CAPI–CAWI, CAPI–MAIL, CAWI–MAIL. Bei fünf Gruppen wären es schon zehn.</p>
       <PairsCounter />
-      <p className="absatz">Jeder einzelne Test hat 5 % Fehlalarm (<a href="#k1c">Karte 1c</a>: 54 von 1.000). Rechnest du zehn Tests, ist die Chance, dass mindestens einer fälschlich anschlägt, schon etwa 40 %. (Gerechnet als 1 − 0,95 hoch Anzahl der Paare, als wären die Tests unabhängig.)</p>
-      <InShort>Viele Tests auf einmal häufen Fehlalarme an (<b>Alpha-Fehler-Kumulierung</b>). Die <b>einfaktorielle Varianzanalyse (ANOVA)</b> prüft deshalb mit einem einzigen Test, ob sich irgendwelche Gruppenmittelwerte unterscheiden. Welche, sagt danach ein Test für Paare, der die Zahl der Vergleiche einrechnet (<a href="#k3c">Karte 3c</a>).</InShort>
-      <Mixup>„Mehr Tests = gründlicher.“ Ohne Korrektur heißt mehr Tests vor allem: mehr Zufallstreffer.</Mixup>
+      <p className="absatz">Jeder einzelne Test hat ein Risiko von 5 % für einen Fehler 1. Art, einen Fehlalarm (<a href="#k1c">Karte 1c</a>: 54 von 1.000). Rechnest du zehn Tests, ist die Chance, dass mindestens einer fälschlich anschlägt, schon etwa 40 %. (Gerechnet als 1 − 0,95 hoch Anzahl der Paare, als wären die Tests unabhängig.)</p>
+      <InShort>Viele Tests auf einmal häufen Fehler 1. Art an (<b>Alpha-Fehler-Kumulierung</b>). Die <b>einfaktorielle Varianzanalyse (ANOVA)</b> prüft deshalb mit einem einzigen Test, ob sich irgendwelche Gruppenmittelwerte unterscheiden. Welche, sagt danach ein Test für Paare, der die Zahl der Vergleiche einrechnet (<a href="#k3c">Karte 3c</a>).</InShort>
+      <Mixup>„Mehr Tests = gründlicher.“ Ohne Korrektur heißt mehr Tests vor allem: mehr Zufallstreffer, also Fehler 1. Art.</Mixup>
     </Card>
 
     <Card id="k3b" step="3b" title="Zwischen den Gruppen gegen innerhalb der Gruppen: F" tag={{ kind: 'picture', label: 'Formel lesen' }}>
@@ -183,7 +183,7 @@ export function Foundation4() {
       <p className="absatz">Am stärksten hängen Lebenszufriedenheit und Gesundheit zusammen: r = −0,38 (95-%-KI −0,403 bis −0,357). Das Minus erschreckt nur auf den ersten Blick: Bei <code>hs01</code> heißt 1 „sehr gut“ und 5 „schlecht“. Wer seine Gesundheit schlechter einschätzt (höhere Zahl), ist also im Mittel weniger zufrieden. Die Gesundheit hat nur fünf geordnete Stufen; für die Übersicht steht sie hier mit in der Matrix, für eine genaue Aussage über dieses eine Paar wäre Spearman-ρ passender (kennst du aus Sitzung 6). Die Arbeitsstunden hängen mit keiner der drei anderen Variablen signifikant zusammen; sie haben nur rund 2.950 Erwerbstätige angegeben.</p>
       <InShort>Eine <b>Korrelationsmatrix</b> zeigt die Korrelation jedes Paars aus mehreren Variablen. Die Diagonale ist immer 1, die beiden Hälften sind gleich. Jedes Paar hat sein eigenes N (<b>paarweiser Ausschluss</b>) und seinen eigenen Test.</InShort>
       <MoreDetail summary="Viele Paare, viele Tests">
-        <p>Vier Variablen ergeben 6 Paare, zehn Variablen schon 45. Jedes Paar ist ein eigener Test mit 5 % Fehlalarm (<a href="#thema3">Thema 3</a>). Gäbe es zwischen zehn Variablen gar keinen Zusammenhang, würden trotzdem im Mittel etwa zwei Paare (45 × 0,05 = 2,25) Sterne bekommen. Darum achtest du in großen Matrizen vor allem auf starke und inhaltlich erwartete Zusammenhänge, nicht auf einzelne Sterne. Und wie beim t-Test gilt: Bei Tausenden Befragten sind auch sehr kleine r signifikant (age × ls01: r = 0,075).</p>
+        <p>Vier Variablen ergeben 6 Paare, zehn Variablen schon 45. Jedes Paar ist ein eigener Test mit 5 % Risiko für einen Fehler 1. Art (<a href="#thema3">Thema 3</a>). Gäbe es zwischen zehn Variablen gar keinen Zusammenhang, würden trotzdem im Mittel etwa zwei Paare (45 × 0,05 = 2,25) Sterne bekommen. Darum achtest du in großen Matrizen vor allem auf starke und inhaltlich erwartete Zusammenhänge, nicht auf einzelne Sterne. Und wie beim t-Test gilt: Bei Tausenden Befragten sind auch sehr kleine r signifikant (age × ls01: r = 0,075).</p>
       </MoreDetail>
       <Mixup>Ein Minus heißt nicht „schlecht“ oder „kein Zusammenhang“. Es sagt nur die Richtung: Steigt die eine Zahl, sinkt die andere. Was das inhaltlich heißt, hängt davon ab, wie die Variablen kodiert sind.</Mixup>
       <MapLink concept="pearson">Pearson-Korrelation</MapLink>
@@ -214,7 +214,7 @@ export function Overview() {
             <tr><td>t-Test</td><td>metrische Variable, zwei unabhängige Gruppen, genug Befragte je Gruppe (Faustregel 30)</td><td>Welch-Zeile lesen. Signifikant heißt nicht groß: Hedges&apos; g nennen.</td></tr>
             <tr><td>ANOVA</td><td>wie t-Test, drei oder mehr Gruppen</td><td>Klassisches F und Tukey setzen ähnliche Streuungen voraus: Std. Deviation vergleichen, Welch-Zeile prüfen. η² nennen.</td></tr>
             <tr><td>Tukey</td><td>eine ANOVA davor</td><td>Kleine Gruppen machen Vergleiche unsicher; nicht signifikant heißt nicht gleich.</td></tr>
-            <tr><td>Korrelationsmatrix</td><td>metrische Variablen (oder viele geordnete Stufen)</td><td>Viele Paare, viele Fehlalarme; Vorzeichen nach Kodierung lesen; N je Paar verschieden.</td></tr>
+            <tr><td>Korrelationsmatrix</td><td>metrische Variablen (oder viele geordnete Stufen)</td><td>Viele Paare, viele Fehler 1. Art; Vorzeichen nach Kodierung lesen; N je Paar verschieden.</td></tr>
           </tbody>
         </table>
         <p className="box-notiz">Für alle gilt: Ein Test sagt, ob ein Unterschied über den Zufall hinausgeht, nicht warum es ihn gibt. Ob das Abitur, der Wohnort oder etwas Drittes dahintersteckt (Drittvariable, kennst du aus Sitzung 6), klärt kein Mittelwertvergleich. Und für Aussagen über Deutschland gewichtest du.</p>

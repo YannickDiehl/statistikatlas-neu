@@ -40,7 +40,7 @@ test('the text versions of the plan are the accessible names of the pictures', (
   for (const t of [B1_TEXT, B3_TEXT, B5A_TEXT, B6_TEXT, B6B_TEXT, B8_TEXT, B9_BEFORE, B12_TEXT, B12B_TEXT, B13_TEXT, lineImageText('daten')]) assert.ok(names.includes(t), t.slice(0, 50));
   assert.ok(imageNames(render(Foundation3, { [K3B.id]: K3B.options[0] })).includes(B9_TEXT), 'B9 after the guess');
   // Wortlaut der Textfassungen aus dem Plan
-  assert.match(B1_TEXT, /^Ein Turm lm30 aus zehn Steinen, zum Beispiel\. Sieben Steine tragen eine 1/);
+  assert.match(B1_TEXT, /^Die Variable lm30 als Turm aus zehn Steinen, zum Beispiel\. Sieben Werte sind eine 1/);
   assert.match(B4_TEXT, /plus 20, plus 18, plus 9 Prozentpunkte/);
   assert.equal(B2_AFTER, 'Eine Gerade (lineare Regression) sagt für 18-Jährige 106,6 % voraus, für 95-Jährige 70,1 %. Eine S-Kurve (logistische Regression) sagt 99,6 % und 39,4 % voraus und liegt an jeder Altersgruppe höchstens 1,7 Prozentpunkte neben dem Anteil.');
   assert.equal(B11_MODEL, 'Richtig: 4 + 4.393 = 4.397 von 4.813, das sind 91,4 %.');
@@ -71,7 +71,7 @@ test('foundation blocks with ids, skip links and step labels', () => {
 
 test('cards carry the labels of the plan', () => {
   const g1 = textOf(render(Foundation1));
-  assert.match(g1, /Turm und Stein: kennst du aus Sitzung 2/);
+  assert.match(g1, /Variable und Wert \(Turm und Stein\): kennst du aus Sitzung 2/);
   assert.match(g1, /Mittelwert: kennst du aus Sitzung 3/);
   assert.match(g1, /Gerade: kennst du aus Sitzung 9 Kurz überlegen Im Bild/);
   assert.match(textOf(render(Foundation2)), /Sig\.: kennst du aus Sitzung 7 und 9/);

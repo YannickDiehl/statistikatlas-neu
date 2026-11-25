@@ -68,7 +68,7 @@ export function FilterSex({ caption }: { caption?: ReactNode }) {
         </text>
       </Arrow>
       <SexPlate x0={496} name="frauen" size="2,672 × 579" rows={[ROWS[1], ROWS[3], ROWS[5]]} />
-      <T x={666} y={270} fontSize={13} fontStyle="italic">alle Türme bleiben</T>
+      <T x={666} y={270} fontSize={13} fontStyle="italic">alle Variablen bleiben</T>
       <CodeLine x={16} y={366} />
     </Svg>
   </Pic>;
@@ -99,14 +99,14 @@ export function OutputRead({ caption }: { caption?: ReactNode }) {
       <rect x={at(12) - 2} y={52} width={5 * CW + 4} height={19} fill="none" stroke="#B86E0A" strokeWidth={2} rx={3} />
       <rect x={at(20) - 2} y={52} width={3 * CW + 4} height={19} fill="none" stroke={C.green} strokeWidth={2} rx={3} />
       <line x1={at(14.5)} y1={50} x2={110} y2={26} stroke="#B86E0A" strokeWidth={1.5} />
-      <T x={110} y={20} fontSize={13} fontWeight={800} fill="#B86E0A">Reihen = Fälle</T>
+      <T x={110} y={20} fontSize={13} fontWeight={800} fill="#B86E0A">Zeilen = Fälle</T>
       <line x1={at(21.5)} y1={50} x2={300} y2={26} stroke={C.green} strokeWidth={1.5} />
-      <T x={300} y={20} fontSize={13} fontWeight={800} fill="#2f7a4f">Türme = Variablen</T>
+      <T x={300} y={20} fontSize={13} fontWeight={800} fill="#2f7a4f">Spalten = Variablen</T>
       {[1, 2].map(i => <line key={i} x1={512} x2={552} y1={y[i] - 4} y2={y[i] - 4} stroke={C.mute} strokeWidth={1} />)}
-      {note(y[1] - 4, 'Namen der Türme')}
+      {note(y[1] - 4, 'Variablennamen')}
       {note(y[2] - 4, 'Typ (Grundlage 4)')}
       <path d={`M512,${y[3] - 12} h8 v${y[4] - y[3] + 12} h-8 M520,${(y[3] + y[4]) / 2 - 4} h32`} fill="none" stroke={C.mute} />
-      {note((y[3] + y[4]) / 2 - 4, 'die ersten Reihen', C.mute)}
+      {note((y[3] + y[4]) / 2 - 4, 'die ersten Zeilen', C.mute)}
       <path d={`M512,${y[5] - 12} h8 v${y[6] - y[5] + 12} h-8 M520,${(y[5] + y[6]) / 2 - 4} h32`} fill="none" stroke={C.mute} />
       {note((y[5] + y[6]) / 2 - 4, 'nicht gezeigt', C.mute)}
     </Svg>
@@ -188,11 +188,11 @@ export function Luecken() {
       <Brick x={30} y={58 + PITCH} w={210} kind="na" label="−9 KEINE ANGABE" />
       <Brick x={30} y={58 + 2 * PITCH} w={210} kind="na" label="−42 DATENFEHLER: MFN" />
       <Plate x={24} y={161} w={222} />
-      <T x={135} y={188} fontSize={13}>Bogen A, B und C; leere Steine: in R NA</T>
+      <T x={135} y={188} fontSize={13}>Fragebogen A, B und C; fehlend: in R NA</T>
       <Head x={415} y={20} name="ps03" type="dbl+lbl" />
       <Brick x={330} y={58} w={170} kind="na" label="−11 TNZ: SPLIT" />
       <Plate x={324} y={93} w={182} />
-      <T x={415} y={120} fontSize={13}>Bogen D; in R NA</T>
+      <T x={415} y={120} fontSize={13}>Fragebogen D; in R NA</T>
     </Svg>
   </Pic>;
 }
@@ -201,7 +201,7 @@ export function Luecken() {
 export function SmallSheet({ letter, crosses, missing = false, alt }: { letter: string; crosses: number[]; missing?: boolean; alt: string }) {
   return <Pic alt={alt}>
     <Svg w={330} h={112}>
-      <Sheet x={4} y={4} w={322} h={104} title={missing ? `Bogen ${letter}, Version B` : `Bogen ${letter}`}>
+      <Sheet x={4} y={4} w={322} h={104} title={missing ? `Fragebogen ${letter}, Version B` : `Fragebogen ${letter}`}>
         {missing ? <>
           <T x={16} y={46} textAnchor="start" fontSize={12} fill="#2B3540">12. Wie oft lesen Sie Zeitung?</T>
           <rect x={16} y={56} width={298} height={22} rx={3} fill="#F3EFE6" stroke={C.grayLine} strokeDasharray="4 3" />

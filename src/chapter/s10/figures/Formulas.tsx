@@ -29,7 +29,7 @@ export const B2_TEXT = 'Vorhersage gleich Konstante 3,095 plus 0,024 mal Alter p
 export function FormulaTwo() {
   return <div className="formel s10-formel" role="img" aria-label={B2_TEXT}>
     <Row pieces={[
-      { text: 'Vorhersage', tone: 'orange' }, { text: '=' }, { text: 'Konstante 3,095', note: 'Startwert', tone: 'gray' }, { text: '+' },
+      { text: 'Vorhersage', tone: 'orange' }, { text: '=' }, { text: 'Konstante 3,095', note: 'Vorhersage bei 0', tone: 'gray' }, { text: '+' },
       { text: 'B Alter 0,024', note: 'pro Jahr', tone: 'blue' }, { text: '×' }, { text: 'Alter', tone: 'blue' }, { text: '+' },
       { text: 'B Gesundheit 0,861', note: 'pro Stufe', tone: 'green' }, { text: '×' }, { text: 'Gesundheit', tone: 'green' },
     ]} />

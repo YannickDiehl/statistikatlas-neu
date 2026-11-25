@@ -4,7 +4,7 @@ import { BASIS, V4_Q } from '../content';
 import { ChoiceCheck } from './ChoiceCheck';
 import { SvgText, de } from './Bars';
 
-const STEPS = ['Mittelwert', 'Median', 'Quartile', 'Kasten und Antennen'];
+const STEPS = ['Mittelwert', 'Median', 'Quartile', 'Box und Whisker'];
 const Q1 = 34, Q3 = 43, MEDIAN = 40;
 
 function explain(step: number, values: number[]): ReactNode {
@@ -13,7 +13,7 @@ function explain(step: number, values: number[]): ReactNode {
     case 1: return <><b>Mittelwert:</b> Stell dir das Lineal als Wippe vor. Der Mittelwert ist der Punkt, an dem sie im Gleichgewicht ist: alle Stunden zusammen ({sum}) geteilt durch 11 Personen = <b>{`${de(mean, 1)} Stunden`}</b>. Kurz gesagt: der Schwerpunkt.</>;
     case 2: return <><b>Median:</b> Zähl von links. Die sechste Person steht genau in der Mitte: fünf links, fünf rechts. Sie arbeitet <b>40 Stunden</b>. Kurz gesagt: Die eine Hälfte arbeitet weniger, die andere mehr.</>;
     case 3: return <><b>Quartile:</b> Die mittlere Person zählt zu keiner Hälfte. Links von ihr stehen fünf, rechts fünf. Teil jede Hälfte noch einmal in der Mitte: Die dritte Person (<b>34 Stunden</b>) ist das untere Quartil, die neunte (<b>43 Stunden</b>) das obere. Kurz gesagt: Zwischen ihnen steht die mittlere Hälfte der Personen.</>;
-    default: return <><b>Kasten und Antennen:</b> Um die mittlere Hälfte zeichnest du einen Kasten, den Median als Strich hinein. Die <b>Antennen</b> reichen links und rechts bis zum kleinsten und größten Wert (höchstens anderthalb Kastenlängen weit, siehe Genauer erklärt). Fertig ist der <b>Boxplot</b>. Die Länge des Kastens (43 − 34 = 9 Stunden) heißt <b>Interquartilsabstand</b>.</>;
+    default: return <><b>Box und Whisker:</b> Um die mittlere Hälfte zeichnest du einen Kasten, die <b>Box</b>, den Median als Linie hinein. Die <b>Whisker</b> (im Bild: Antennen) reichen links und rechts bis zum kleinsten und größten Wert (höchstens anderthalb Boxlängen weit, siehe Genauer erklärt). Fertig ist der <b>Boxplot</b>. Die Länge der Box (43 − 34 = 9 Stunden) heißt <b>Interquartilsabstand</b>.</>;
   }
 }
 
@@ -22,7 +22,7 @@ export function rulerText(step: number, short: boolean, values: number[]) {
   const mean = values.reduce((a, b) => a + b, 0) / values.length;
   return `Elf Personen auf dem Lineal: ${[...values].sort((a, b) => a - b).join(', ')} Stunden. Mittelwert ${de(mean, 1)}.`
     + (step >= 2 ? ' Median 40.' : '') + (step >= 3 ? ' Quartile 34 und 43.' : '')
-    + (step >= 4 ? (short ? ' Kasten von 34 bis 43, Antennen von 28 bis 45, die 0 ist ein Ausreißer-Punkt.' : ' Kasten von 34 bis 43, Antennen von 22 bis 45.') : '');
+    + (step >= 4 ? (short ? ' Box von 34 bis 43, Whisker von 28 bis 45, die 0 ist ein Ausreißer-Punkt.' : ' Box von 34 bis 43, Whisker von 22 bis 45.') : '');
 }
 
 function Ruler({ step, short, values }: { step: number; short: boolean; values: number[] }) {
@@ -62,8 +62,8 @@ function Ruler({ step, short, values }: { step: number; short: boolean; values: 
         <line x1={x(fence)} x2={x(fence)} y1={by - 26} y2={by + 26} stroke="#a0452f" strokeWidth={1.8} strokeDasharray="4 3" />
         <SvgText x={x(fence)} y={by - 30} fontSize={11.5} fill="#a0452f" fontWeight={800}>Grenze 20,5</SvgText>
       </> : null}
-      <SvgText x={x(lo) + (x(Q1) - x(lo)) / 2} y={by - 8} fontSize={11.5}>Antenne (Whisker)</SvgText>
-      <SvgText x={x(Q1) - 4} y={by + 34} fontSize={11.5} textAnchor="start">Kasten: mittlere Hälfte</SvgText>
+      <SvgText x={x(lo) + (x(Q1) - x(lo)) / 2} y={by - 8} fontSize={11.5}>Whisker</SvgText>
+      <SvgText x={x(Q1) - 4} y={by + 34} fontSize={11.5} textAnchor="start">Box: mittlere Hälfte</SvgText>
     </>;
   }
   return <svg viewBox={`0 0 ${w} ${h}`} width="100%" aria-hidden="true" focusable="false">

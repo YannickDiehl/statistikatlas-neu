@@ -88,7 +88,7 @@ function Stacks({ table }: { table: boolean }) {
 export function TowerToTable() {
   const [step, setStep] = useState(0);
   return <>
-    <StepNav steps={['Turm', 'Stapel', 'Tabelle']} current={step} onSelect={setStep} />
+    <StepNav steps={['Datenreihe', 'Häufigkeiten', 'Tabelle']} current={step} onSelect={setStep} />
     <div className="grafik">
       <svg viewBox={`0 0 ${W} ${H}`} width="100%" aria-hidden="true" focusable="false">
         <SvgText x={16} y={22} textAnchor="start" fontStyle="italic" fontSize={12.5}>zum Beispiel zwölf Befragte</SvgText>

@@ -57,8 +57,8 @@ test('headings in the order of spec §5 (Variante B)', () => {
     'Vorweg: R lesen', 'Ein Modell mit mehreren Prädiktoren', 'Die Ausgabe von summary() lesen', 'Neu: to_dummy()',
     'Thema 1: Mehrere Prädiktoren: konstant halten', 'Mehrere Prädiktoren: konstant halten', 'Aufgabe 1: Eigene Lage oder Lage des Landes?',
     'Thema 2: Gruppen als Prädiktoren: Dummyvariablen', 'Gruppen als Prädiktoren: Dummyvariablen', 'Aufgabe 2: Prägung oder Ort?',
-    'Thema 3: Vergleichen und prüfen', 'Vergleichen und prüfen: Beta, korrigiertes R², Multikollinearität', 'Aufgabe 3: Was wiegt mehr, und was bleibt von der Ost-West-Lücke?',
-    'Thema 4: Grenzen des Modells', 'Grenzen des Modells: Einfluss und Interaktion', 'Aufgabe 4: Ist die Ost-West-Lücke mit Abitur kleiner?',
+    'Thema 3: Vergleichen und prüfen', 'Vergleichen und prüfen: Beta, korrigiertes R², Multikollinearität', 'Aufgabe 3: Was wiegt mehr, und was bleibt vom Ost-West-Unterschied?',
+    'Thema 4: Grenzen des Modells', 'Grenzen des Modells: Einfluss und Interaktion', 'Aufgabe 4: Ist der Ost-West-Unterschied mit Abitur kleiner?',
     'Überblick: Ein Modell bauen und prüfen', 'Ein Modell bauen und prüfen',
     'Zum Schluss: Mitnehmen', 'Das Wichtigste aus dieser Sitzung', 'Prüf dich selbst', 'Dein Skript zum Mitnehmen',
   ];

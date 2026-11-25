@@ -18,12 +18,12 @@ export type TowerStage = 0 | 1 | 2;
 
 /** Text version of the tower picture for each stage. */
 export function towerText(stage: TowerStage): string {
-  if (stage === 0) return `Ein Turm ls01 mit ${ZW.length} Steinen, ungeordnet: ${ZW.map(v => (v === null ? 'NA, ein leerer Stein' : v)).join(', ')}.`;
+  if (stage === 0) return `Die Variable ls01 als Turm mit ${ZW.length} Steinen, je ein Wert, ungeordnet: ${ZW.map(v => (v === null ? 'NA, ein leerer Stein' : v)).join(', ')}.`;
   if (stage === 1) {
     const empty = EMPTY20.length ? ` Die Werte ${EMPTY20[0]} bis ${EMPTY20[EMPTY20.length - 1]} hat niemand angegeben.` : '';
-    return `Sortiert: ${COUNTS20.map((a, i) => (a ? `${a} Steine bei ${i}` : '')).filter(Boolean).join(', ')}. Der leere Stein liegt auf keinem Stapel.${empty}`;
+    return `Sortiert: ${COUNTS20.map((a, i) => (a ? `${a} Steine bei ${i}` : '')).filter(Boolean).join(', ')}. Jeder Stapel zeigt eine Häufigkeit; der fehlende Wert liegt auf keinem Stapel.${empty}`;
   }
-  return `Alle ${whole(LS01_N)} gültigen Antworten, ein Stein für ${PER_STONE} Befragte. Höchster Stapel bei ${MODE} mit ${whole(LS01[MODE])} Befragten.`;
+  return `Alle ${whole(LS01_N)} gültigen Werte, ein Stein für ${PER_STONE} Befragte. Die größte Häufigkeit, der höchste Stapel, liegt bei ${MODE} mit ${whole(LS01[MODE])} Befragten.`;
 }
 
 function Tower() {
@@ -67,7 +67,7 @@ export function TowerToStack() {
       </Bars> : null}
       {stage === 2 ? <>
         <Bars values={VALUES} counts={LS01} h={260} stones={STONES_ALL} highlight={MODE} minStone />
-        <p className="hilfe-zeile">{`Ein Stein steht jetzt für ${PER_STONE} Befragte (gerundet). Hervorgehoben: der Stapel bei ${MODE}.`}</p>
+        <p className="hilfe-zeile">{`Ein Stein steht jetzt für ${PER_STONE} Befragte (gerundet), jeder Wert zählt mit. Hervorgehoben: der Stapel bei ${MODE}, die größte Häufigkeit.`}</p>
       </> : null}
     </div>
     <p className="sr-only" aria-live="polite">{text}</p>

@@ -132,7 +132,7 @@ test('answers in R and German notation, with and without sign', () => {
   assert.match(wrongText(q('a1a'), '0,29'), /^Das ist Beta, gefragt ist B\./);
   assert.equal(judge(q('a4b'), '-0.571'), 'right');
   assert.match(wrongText(q('a4b'), '-0.604'), /^Das ist B von `ost` aus Schritt 1/);
-  assert.match(wrongText(q('a4b'), '-0.631'), /^Das ist die Lücke ohne Abitur/);
+  assert.match(wrongText(q('a4b'), '-0.631'), /^Das ist der Unterschied ohne Abitur/);
   assert.equal(judge(q('k1b'), '1,72'), 'right');
   assert.equal(judge(q('k2b'), '−0,653'), 'right');
   assert.equal(wrongText(q('a1e'), 'macht'), q('a1e').kind === 'choice' ? q('a1e').wrong!.macht : '');

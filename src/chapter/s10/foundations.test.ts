@@ -53,7 +53,7 @@ test('„Kurz überlegen“ gives the plan feedback per option and per special c
   assert.match(render(Foundation1, { k1b: '0,861' }), /Noch nicht\. Das ist eine Stufe\. Von 3 bis 5 sind es zwei\./);
   assert.match(render(Foundation2, { k2b: '0.653' }), /Das Vorzeichen fehlt: Ledige liegen unter den Verheirateten\./);
   assert.match(render(Foundation2, { k2a: '7,69' }), /Richtig\. 7,694: 7,042 plus 0,652/);
-  assert.match(render(Foundation4, { k4b: '1.091' }), /Das ist der Abstand unter 60\./);
+  assert.match(render(Foundation4, { k4b: '1.091' }), /Das ist der Unterschied unter 60\./);
   assert.match(render(Overview, { 'u1-1': '2', 'u1-2': '1' }), /Passt\.<\/b> Vier Gruppen ohne Reihenfolge/);
   assert.match(render(Overview, { 'u1-1': '2', 'u1-2': '1' }), /Noch 1 ohne Zuordnung\./);
   assert.match(render(Overview, { 'u1-1': '2', 'u1-2': '0', 'u1-3': '1' }), /Alles richtig zugeordnet\./);

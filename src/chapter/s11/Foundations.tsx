@@ -17,8 +17,8 @@ export function Foundation1() {
   return <Foundation id="g1" n={1} title="Ja oder nein: warum keine Gerade?" taskHref="#a1"
     intro="Was ist anders, wenn die Antwort nur Ja oder Nein ist? Drei kurze Schritte, etwa 15 Minuten.">
 
-    <Card id="k1a" step="1a" title="Ein Turm aus Nullen und Einsen"
-      badge={<><Known session={2} what="Turm und Stein" /><Known session={3} what="Mittelwert" /></>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+    <Card id="k1a" step="1a" title="Dichotome Variable: ein Turm aus Nullen und Einsen"
+      badge={<><Known session={2} what="Variable und Wert (Turm und Stein)" /><Known session={3} what="Mittelwert" /></>} tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Bisher hast du Variablen mit vielen Stufen erklärt, etwa die Lebenszufriedenheit von 0 bis 10. Manche Fragen haben nur zwei Antworten: Ja oder Nein. Der ALLBUS fragt alle, die das Internet nutzen, mit welchen Geräten sie es tun. Wer das Smartphone nennt, bekommt bei <code>lm30</code> eine 1, wer es nicht nennt, eine 0. Hier siehst du den Turm <code>lm30</code> von zehn Befragten, zum Beispiel.</p>
       <ZeroOneTower />
       <InShort>Eine Variable mit genau zwei Ausprägungen heißt <b>dichotom</b> (oder binär). Man kodiert sie mit 0 und 1. Ihr Mittelwert ist der Anteil der Einsen. Diesen Anteil liest man als <b>Wahrscheinlichkeit</b>: Wie wahrscheinlich hat eine Person aus dieser Gruppe eine 1?</InShort>

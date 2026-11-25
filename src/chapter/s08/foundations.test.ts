@@ -97,13 +97,13 @@ test('every slider has a label and aria-valuetext; switches and toggles expose t
   assert.equal((g3.match(/role="switch" aria-checked="false"/g) ?? []).length, 4);
   const g1 = render(Foundation1);
   assert.match(g1, /<button type="button" aria-pressed="true">min_valid = 3<\/button>/);
-  assert.match(g1, /aria-current="step"[^>]*>Schritt 1: Reihe lesen/);
+  assert.match(g1, /aria-current="step"[^>]*>Schritt 1: Zeile lesen/);
 });
 
 test('live texts follow the state: row, correlations, calculator, output, lab, Inglehart', () => {
   assert.equal(rowText(1, 3), 'Person A: 2, 2, 3 und 4.');
-  assert.match(rowText(2, 3), /Person B: \(1 \+ 1 \+ 2\) \/ 3 = 1,33, der leere Stein zählt nicht mit/);
-  assert.equal(rowText(3, 3), 'Neuer Turm fluechtlinge mit min_valid = 3: Person A 2,75, Person B 1,33, Person C 4.');
+  assert.match(rowText(2, 3), /Person B: \(1 \+ 1 \+ 2\) \/ 3 = 1,33, der fehlende Wert zählt nicht mit/);
+  assert.equal(rowText(3, 3), 'Neue Variable fluechtlinge mit min_valid = 3: Person A 2,75, Person B 1,33, Person C 4.');
   assert.match(rowText(3, 4), /Person B leer \(NA\), nur 3 von 4 gültig/);
 
   assert.equal(corText(null), 'Wähl eine Ebene.');

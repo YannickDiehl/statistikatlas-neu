@@ -1,6 +1,7 @@
 // Kapitel 5, Reiter „Verstehen“ (Muster aus k04/KONZEPT.md): je Aufgabe erklären, was in jedem Schritt passiert und warum.
 // Keine Übungen: keine Eingaben, kein Prüfen, kein Schätzen, kein Zuordnen. Die „Kurz überlegen“-Fragen und „Wer ist 100 %?“
-// des Atlas sind hier Fließtext oder rhetorische Fragen mit Antwort; Gruppen zuschneiden und Basis-Schalter zeigen nur.
+// des Atlas sind hier Fließtext oder rhetorische Fragen mit Antwort; Kategorien zusammenfassen und Basis-Schalter zeigen nur.
+import { Begriff } from '@lernpfad/Begriff';
 import { Card, InShort, Mixup, MoreDetail, Badge } from '@atlas/chapter/blocks/Card';
 import { HeadingLevel } from '@atlas/chapter/blocks/level';
 import { ReadR } from '@atlas/chapter/s05/ReadR';
@@ -27,37 +28,37 @@ export function Vorweg() {
 
 /* ---------- Aufgabe 1 ---------- */
 export function Verstehen1() {
-  return <Abschnitt id="g1" n={1} titel="Zwei Gruppen für die Wahlfrage" frage="Wer misstraut den Politikern, und wer würde nicht wählen?"
-    ziel="zwei neue Variablen mit nur 0 und 1, misstrauen und nichtwahl, und kannst sagen, wie groß jede Gruppe ist und wer herausfällt."
+  return <Abschnitt id="g1" n={1} titel="Zwei neue Variablen für die Wahlfrage" frage="Wer misstraut den Politikern, und wer würde nicht wählen?"
+    ziel="zwei neue Variablen mit nur 0 und 1, misstrauen und nichtwahl, und kannst sagen, wie viele Befragte in jeder Kategorie sind und wer herausfällt."
     weg={[
       ['Schritt 1', '#a1-p', 'Erst festlegen: Wie viele stimmen der Aussage zu?', 'k1-aussage'],
       ['Schritt 2', '#a1-1', 'die Codes von pe01 und der Fragebogensplit', 'k1-codes'],
       ['Schritt 3', '#a1-2', 'eine Regel lesen und anpassen: misstrauen', 'k1-regel'],
-      ['Schritt 3', '#a1-2', 'Hintergrund: Gruppen zuschneiden, leer oder 0', 'k1-zuschnitt'],
+      ['Schritt 3', '#a1-2', 'Hintergrund: Kategorien zusammenfassen, leer oder 0', 'k1-zuschnitt'],
       ['Schritt 4', '#a1-3', 'nichtwahl: wer in keiner Regel steht', 'k1-nichtwahl'],
-      ['Schritt 5', '#a1-4', 'Ergebnis festhalten: Gruppengrößen, wer herausfällt, mean=', 'k1-ergebnis'],
-      ['Schritt 6', '#a1-5', 'Im Bild: zwei neue Türme (nach den richtigen Antworten)', 'k1-ergebnis'],
+      ['Schritt 5', '#a1-4', 'Ergebnis festhalten: Anzahlen, wer herausfällt, mean=', 'k1-ergebnis'],
+      ['Schritt 6', '#a1-5', 'Im Bild: zwei neue Variablen (nach den richtigen Antworten)', 'k1-ergebnis'],
     ]}>
 
-    <Card id="k1-aussage" title="Worum es geht: zwei Fragen, je zwei Gruppen" badge={<Bezug href="#a1-p">zu Schritt 1</Bezug>} tag={{ kind: 'interpret', label: 'Hintergrund' }}>
+    <Card id="k1-aussage" title="Worum es geht: zwei Fragen, je zwei Kategorien" badge={<Bezug href="#a1-p">zu Schritt 1</Bezug>} tag={{ kind: 'interpret', label: 'Hintergrund' }}>
       <p className="lead">Die Leitfrage „Gehen Misstrauende nicht mehr wählen?“ verbindet zwei Fragen aus dem ALLBUS 2023. Bei <code>pe01</code> sagen die Befragten, ob sie der Aussage „Die Politiker kümmern sich nicht viel darum, was Leute wie ich denken.“ zustimmen, von „stimme voll zu“ bis „stimme gar nicht zu“. Bei <code>pv01</code> sagen sie, welche Partei sie wählen würden, wenn am nächsten Sonntag Bundestagswahl wäre; Code 91 heißt „würde nicht wählen“.</p>
-      <Frage>Warum braucht die Aufgabe aus jeder Frage zwei Gruppen?</Frage>
-      <p>Weil eine Kreuztabelle jede Kombination zweier Variablen zählt. Mit vier Stufen bei <code>pe01</code> und allen Parteien bei <code>pv01</code> würde sie unlesbar. Darum fasst du erst zu Gruppen zusammen: misstraut oder nicht, würde wählen oder nicht. Wie du zusammengefasst hast, sagst du später dazu.</p>
+      <Frage>Warum braucht die Aufgabe aus jeder Frage zwei Kategorien?</Frage>
+      <p>Weil eine <Begriff id="kreuztabelle">Kreuztabelle</Begriff> jede Kombination zweier Variablen zählt: wie viele Befragte genau diese zwei Antworten gegeben haben. Mit vier <Begriff id="auspraegung">Ausprägungen</Begriff> bei <code>pe01</code> und allen Parteien bei <code>pv01</code> würde sie unlesbar. Darum fasst du erst zu je zwei Kategorien zusammen: misstraut oder nicht, würde wählen oder nicht. Wie du zusammengefasst hast, sagst du später dazu.</p>
       <Frage>Misst <code>pe01</code> überhaupt Misstrauen?</Frage>
-      <p>Streng genommen fragt <code>pe01</code>, ob man sich von Politikern beachtet fühlt, nicht nach Vertrauen. Die Aufgabe nennt die Gruppe kurz <code>misstrauen</code>. Wenn du über das Ergebnis berichtest, nennst du die genaue Aussage.</p>
-      <InShort><b>Gültigkeit</b> (kennst du aus Sitzung 1) heißt: Eine Frage misst das, was du messen willst. Passt der Name der Variable zu dem, was wirklich gefragt wurde?</InShort>
+      <p>Streng genommen fragt <code>pe01</code>, ob man sich von Politikern beachtet fühlt, nicht nach Vertrauen. Die Aufgabe nennt die Variable kurz <code>misstrauen</code>. Wenn du über das Ergebnis berichtest, nennst du die genaue Aussage.</p>
+      <InShort><b><Begriff id="validitaet">Validität</Begriff></b>, auf Deutsch Gültigkeit (kennst du aus Sitzung 1), heißt: Eine Frage misst das, was du messen willst. Passt der Name der Variable zu dem, was wirklich gefragt wurde?</InShort>
       <Frage>Und warum sollst du vorher festlegen, wie viele zustimmen?</Frage>
       <p>Wer vorher eine Erwartung notiert, merkt hinterher, wo das eigene Bild von der Gesellschaft danebenlag. Ohne Festlegung wirkt jedes Ergebnis im Nachhinein „klar“. Sind in Schritt 5 alle Fragen richtig, erscheint unter den Fragen, was tatsächlich herauskommt, und im Journal steht deine Festlegung neben dem Ergebnis.</p>
     </Card>
 
     <Card id="k1-codes" title="Die Codes von pe01 und der Fragebogensplit" badge={<Bezug href="#a1-1">zu Schritt 2</Bezug>} tag={{ kind: 'picture', label: 'Code lesen' }}>
-      <p className="lead">Bevor du Gruppen bildest, brauchst du die Codes. Die Vorlage in Schritt 2 zählt <code>pe01</code> mit <code>frequency()</code> aus, das kennst du aus Sitzung 3.</p>
+      <p className="lead">Bevor du Antworten zusammenfasst, brauchst du ihre <Begriff id="code">Codes</Begriff>. Die Vorlage in Schritt 2 zählt <code>pe01</code> mit <code>frequency()</code> aus, das kennst du aus Sitzung 3.</p>
       <Code k="a1_freq" />
       <Frage>Was steht in der Ausgabe?</Frage>
-      <p>In der Spalte <b>Value</b> steht der Code jeder Antwort, daneben ihr Wort (Label), dann wie viele Befragte sie gegeben haben (<b>N</b>) und ihr Anteil an allen gültigen Antworten (<b>Valid %</b>). Darunter stehen die fehlenden Werte, jeder mit seinem eigenen Aufkleber. Die Codes aus der Spalte Value brauchst du gleich für die Regel.</p>
+      <p>In der Spalte <b>Value</b> steht der Code jeder Antwort, daneben ihr Wort, das <Begriff id="wertelabel">Wertelabel</Begriff>. Dann folgt, wie viele Befragte sie gegeben haben (<b>N</b>), und ihr Anteil an allen <Begriff id="gueltige-werte">gültigen Werten</Begriff> (<b>Valid %</b>), die <Begriff id="relative-haeufigkeit">relative Häufigkeit</Begriff>. Darunter stehen die <Begriff id="fehlende-werte">fehlenden Werte</Begriff>, jeder mit seinem eigenen Wertelabel. Die Codes aus der Spalte Value brauchst du gleich für die Regel.</p>
       <Frage>Warum fehlen bei <code>pe01</code> so viele?</Frage>
       <p>Unten fällt eine große Zahl auf: 1.596 Befragte bei ‚TNZ: SPLIT‘. Diese Frage stand nur in einem Teil der Fragebögen. Diese Menschen haben also nicht verweigert, sie wurden nicht gefragt. Sie fehlen in jeder Auswertung mit <code>pe01</code>, auch später in der Kreuztabelle.</p>
-      <InShort>Ein <b>Fragebogensplit</b> heißt: Nicht alle Befragten bekommen alle Fragen. Wer eine Frage nicht bekam, hat keine Antwort, ohne verweigert zu haben.</InShort>
+      <InShort>Ein <b><Begriff id="tnz">Fragebogensplit</Begriff></b> heißt: Nicht alle Befragten bekommen alle Fragen. Wer eine Frage nicht bekam, hat keine Antwort, ohne verweigert zu haben.</InShort>
       <Mixup>Links vom <code>=</code> einer Regel stehen Codes aus der Spalte Value, keine Wörter. Schreibst du ein Wort hin, meldet R <code>Invalid old value: "STIMME VOLL ZU"</code>.</Mixup>
     </Card>
 
@@ -66,44 +67,44 @@ export function Verstehen1() {
       <Code k="a1_misstrauen" />
       <Frage>Was tut jede Zeile?</Frage>
       <ul className="v-liste">
-        <li><code>allbus %&gt;%</code> nimmt den ALLBUS und reicht ihn weiter („und dann“).</li>
-        <li><code>mutate(misstrauen = …)</code> fügt eine Variable mit dem Namen <code>misstrauen</code> hinzu. <code>pe01</code> bleibt, wie es war.</li>
-        <li><code>rec(pe01, rules = "…")</code> kodiert die Codes von <code>pe01</code> nach den Regeln um.</li>
-        <li><code>frequency(misstrauen)</code> zählt die neue Variable gleich aus. So prüfst du sofort, ob die Gruppen stimmen.</li>
+        <li><code>allbus %&gt;%</code> nimmt den ALLBUS und reicht ihn mit der <Begriff id="pipe">Pipe</Begriff> weiter („und dann“).</li>
+        <li><code>mutate(misstrauen = …)</code> fügt eine <Begriff id="variable">Variable</Begriff> mit dem Namen <code>misstrauen</code> hinzu. <code>pe01</code> bleibt, wie es war.</li>
+        <li><code>rec(pe01, rules = "…")</code> kodiert die Codes von <code>pe01</code> nach den Regeln um. Das heißt <Begriff id="rekodieren">Umkodieren</Begriff>.</li>
+        <li><code>frequency(misstrauen)</code> zählt die neue Variable gleich aus. So prüfst du sofort, ob die Kategorien stimmen.</li>
       </ul>
       <Frage>Wie liest du die Regel?</Frage>
-      <p>Jeder Teil heißt ‚aus diesen alten Codes wird dieser neue Code, mit diesem Aufkleber‘. <code>1=1 [misstraut]</code>: Aus Code 1 wird 1 mit dem Aufkleber ‚misstraut‘. <code>2:4=0 [misstraut nicht]</code>: Aus 2 bis 4 wird 0. <code>else=NA</code>: Alles andere wird leer. Gelb markiert sind die alten Codes links vom <code>=</code>. Genau sie passt du im Journal an.</p>
+      <p>Jeder Teil heißt ‚aus diesen alten Codes wird dieser neue Code, mit diesem Wertelabel‘. <code>1=1 [misstraut]</code>: Aus Code 1 wird 1 mit dem Wertelabel ‚misstraut‘. <code>2:4=0 [misstraut nicht]</code>: Aus 2 bis 4 wird 0. <code>else=NA</code>: Alles andere wird leer. Gelb markiert sind die alten Codes links vom <code>=</code>. Genau sie passt du im Journal an.</p>
       <Frage>Woher weißt du, welche Codes zu ‚misstraut‘ gehören?</Frage>
-      <p>Aus der Aussage und den Wörtern in Schritt 2. Wer der Aussage zustimmt, sagt, dass sich Politiker nicht kümmern, und Zustimmung gibt es in zwei Stärken. Welche Codes diese Antworten haben, liest du in der Spalte Value neben ihren Wörtern ab. Mehrere Codes nacheinander schreibst du von bis mit Doppelpunkt, wie <code>2:3</code> bei <code>teilzeit</code>; Regeln trennt ein Semikolon.</p>
+      <p>Aus der Aussage und den Wertelabels in Schritt 2. Wer der Aussage zustimmt, sagt, dass sich Politiker nicht kümmern, und Zustimmung gibt es in zwei Stärken. Welche Codes diese Antworten haben, liest du in der Spalte Value neben ihren Wörtern ab. Mehrere Codes nacheinander schreibst du von bis mit Doppelpunkt, wie <code>2:3</code> bei <code>teilzeit</code>; Regeln trennt ein Semikolon.</p>
       <Frage>Und was zeigt <code>mean=</code> über der Tabelle?</Frage>
-      <p>Bei einer Variable mit nur 0 und 1 zählt jede 1 als eins und jede 0 als null. Der Mittelwert ist dann der Anteil der Einsen. Bei <code>teilzeit</code> aus „R lesen“ steht <code>mean=0.35</code>, und 34,77 % der gültigen Antworten sind 1. Ein Mittelwert von 0,35 heißt also: 35 % sind in Gruppe 1.</p>
-      <InShort>Eine <b>Dummyvariable</b> hat nur 0 und 1. 1 heißt „trifft zu“, 0 heißt „trifft nicht zu“. Ihr Mittelwert ist der Anteil der Einsen.</InShort>
+      <p>Bei einer Variable mit nur 0 und 1 zählt jede 1 als eins und jede 0 als null. Der <Begriff id="mittelwert">Mittelwert</Begriff> ist dann der Anteil der Einsen. Bei <code>teilzeit</code> aus „R lesen“ steht <code>mean=0.35</code>, und 34,77 % der gültigen Antworten sind 1. Ein Mittelwert von 0,35 heißt also: 35 % haben den Code 1.</p>
+      <InShort>Eine <b><Begriff id="dummy">Dummyvariable</Begriff></b> hat nur 0 und 1. 1 heißt „trifft zu“, 0 heißt „trifft nicht zu“. Ihr Mittelwert ist der Anteil der Einsen.</InShort>
       <Mixup>Regeln trennt ein Semikolon <code>;</code>, kein Komma. Mit Komma meldet R <code>Invalid new value</code>.</Mixup>
     </Card>
 
-    <Card id="k1-zuschnitt" title="Gruppen zuschneiden: jede Einteilung ist eine Entscheidung" badge={<Bezug href="#a1-2">zu Schritt 3</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Wie viel eine Regel entscheidet, siehst du gut an einer Frage, die in der Aufgabe nicht vorkommt. Der ALLBUS 2023 fragt, ob jemand berufstätig ist: Vollzeit, Teilzeit, nebenher oder nicht erwerbstätig. Für die Frage „Wie viele Erwerbstätige arbeiten Teilzeit?“ braucht man zwei Gruppen. Wer kommt in welche Gruppe, und wer zählt gar nicht mit? Schalte durch sechs Einteilungen.</p>
+    <Card id="k1-zuschnitt" title="Kategorien zusammenfassen: jede Umkodierung ist eine Entscheidung" badge={<Bezug href="#a1-2">zu Schritt 3</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+      <p className="lead">Wie viel eine Regel entscheidet, siehst du gut an einer Frage, die in der Aufgabe nicht vorkommt. Der ALLBUS 2023 fragt, ob jemand berufstätig ist: Vollzeit, Teilzeit, nebenher oder nicht erwerbstätig. Für die Frage „Wie viele Erwerbstätige arbeiten Teilzeit?“ braucht man zwei Kategorien. Wer kommt in welche Kategorie, und wer zählt gar nicht mit? Schalte durch sechs Umkodierungen, A bis F.</p>
       <ZuschnittZeigen />
       <Frage>Warum kommt jedes Mal eine andere Zahl heraus?</Frage>
-      <p>Weil jede Einteilung eine andere Frage beantwortet. Bleibt eine Antwort leer, fällt sie aus dem Nenner. Kommt sie in Gruppe 0, zählt sie im Nenner mit. Bei Einteilung D zählen die nicht Erwerbstätigen als Vollzeit: Die Basis sind dann fast alle Befragten, nicht die Erwerbstätigen. Bei F heißt die Gruppe Teilzeit, misst aber etwas anderes. Nur die Einteilung passt, bei der jede Antwort zum Namen ihrer Gruppe passt.</p>
-      <InShort><b>Umkodieren</b> heißt, Antworten nach festen Regeln zu neuen Gruppen zusammenzufassen. aus vielen Antworten wenige Gruppen machen. Wer in keine Gruppe passt, wird <b>leer (NA)</b> und zählt nicht mit. Jede dieser Entscheidungen verändert das Ergebnis.</InShort>
+      <p>Weil jede Umkodierung eine andere Frage beantwortet. Bleibt eine Antwort leer, fällt sie aus dem Nenner, der <Begriff id="prozentbasis">Prozentbasis</Begriff>. Kommt sie in Kategorie 0, zählt sie im Nenner mit. Bei Umkodierung D zählen die nicht Erwerbstätigen als Vollzeit: Die Basis sind dann fast alle Befragten, nicht die Erwerbstätigen. Bei F heißt die Kategorie Teilzeit, misst aber etwas anderes. Nur die Umkodierung passt, bei der jede Antwort zum Namen ihrer Kategorie passt.</p>
+      <InShort><b>Umkodieren</b> (auch Rekodieren) heißt, Antworten nach festen Regeln neue Codes zu geben. So machst du aus vielen Antworten wenige Kategorien. Wer in keine Kategorie passt, wird zum <b>fehlenden Wert (NA)</b> und zählt nicht mit. Jede dieser Entscheidungen verändert das Ergebnis.</InShort>
       <MoreDetail summary="Was beim Zusammenfassen verloren geht">
         <p>Zusammenfassen kostet Information. Nach dem Umkodieren weißt du nicht mehr, wer Teilzeit und wer nebenher arbeitet. Darum legst du immer eine <b>neue</b> Variable an und behältst die alte.</p>
-        <p>Welche Gruppen sinnvoll sind, entscheidet die Frage, nicht die Statistik. Prüf bei jeder Antwort: Passt sie zum Namen der Gruppe? Und sag in deinem Bericht, wie du zusammengefasst hast.</p>
+        <p>Welche Kategorien sinnvoll sind, entscheidet die Frage, nicht die Statistik. Prüf bei jeder Antwort: Passt sie zum Namen der Kategorie? Und sag in deinem Bericht, wie du zusammengefasst hast.</p>
       </MoreDetail>
       <Mixup>„leer“ und „0“. Eine 0 ist eine Antwort („trifft nicht zu“) und zählt im Nenner mit. Leer (NA) heißt „gehört nicht dazu“ und fällt aus der Rechnung. Wer nicht erwerbstätig ist, arbeitet nicht Vollzeit, gehört aber gar nicht in die Frage nach Teilzeit unter Erwerbstätigen.</Mixup>
     </Card>
 
     <Card id="k1-nichtwahl" title="nichtwahl: Wer in keiner Regel steht" badge={<Bezug href="#a1-3">zu Schritt 4</Bezug>} tag={{ kind: 'picture', label: 'Code lesen' }}>
-      <p className="lead">Die Regel für <code>nichtwahl</code> ist schon fertig. In Schritt 4 führst du sie aus und schaust, wer in welcher Gruppe landet.</p>
+      <p className="lead">Die Regel für <code>nichtwahl</code> ist schon fertig. In Schritt 4 führst du sie aus und schaust, wer in welcher Kategorie landet.</p>
       <Code k="a1_nichtwahl" />
       <Frage>Was heißen die beiden Regeln?</Frage>
-      <p><code>91=1 [würde nicht wählen]</code>: Aus Code 91 wird 1. <code>1:90=0 [würde wählen]</code>: Aus 1 bis 90 wird 0; das sind alle Parteien. Die Gruppe 1 ist also die, nach der die Leitfrage fragt, die Gruppe 0 alle, die eine Partei nennen.</p>
+      <p><code>91=1 [würde nicht wählen]</code>: Aus Code 91 wird 1. <code>1:90=0 [würde wählen]</code>: Aus 1 bis 90 wird 0; das sind alle Parteien. Code 1 haben also die, nach denen die Leitfrage fragt, Code 0 alle, die eine Partei nennen.</p>
       <Frage>Und alle übrigen Codes?</Frage>
       <p>Jeder Code, der in keiner Regel vorkommt, fällt unter <code>else</code>. Mit <code>else=NA</code> wird er leer. Dazu kommen alle, die in <code>pv01</code> schon einen fehlenden Wert hatten, etwa „weiß nicht“. Bei <code>teilzeit</code> aus „R lesen“ ist es genauso: Die nicht Erwerbstätigen (Code 4) stehen in keiner Regel. Leer sind dort 1.884: die 1.849 nicht Erwerbstätigen und 35 ohne gültige Angabe.</p>
       <Frage>Wo stehen die Leeren in der Ausgabe?</Frage>
       <p>Bei neuen Variablen fasst <code>frequency()</code> alle Leeren in einer Zeile zusammen: <b>System</b>. Wer dort steht, fehlt später in jeder Kreuztabelle mit <code>nichtwahl</code>.</p>
-      <InShort><code>else</code> steht für alle Codes, die in keiner Regel vorkommen. <code>else=NA</code> macht den Rest leer, <code>else=0</code> würde ihn als 0 mitzählen (<a href="#k1-zuschnitt">Einteilung E</a>).</InShort>
+      <InShort><code>else</code> steht für alle Codes, die in keiner Regel vorkommen. <code>else=NA</code> macht den Rest leer, <code>else=0</code> würde ihn als 0 mitzählen (<a href="#k1-zuschnitt">Umkodierung E</a>).</InShort>
       <Mixup>Codes für fehlende Werte, etwa −8, kannst du in einer Regel nicht ansprechen. <code>rec()</code> sieht sie nur als leer; eine Regel wie <code>-8=2</code> ändert nichts und meldet auch keinen Fehler.</Mixup>
     </Card>
 
@@ -115,7 +116,7 @@ export function Verstehen1() {
         <li><b>Was mit den nicht Wahlberechtigten passiert:</b> Prüf, ob ihr Code in einer der beiden Regeln vorkommt. Wenn nicht, greift <code>else</code> (<a href="#k1-nichtwahl">Wer in keiner Regel steht</a>).</li>
         <li><b>Was <code>mean=</code> heißt:</b> Bei 0 und 1 ist der Mittelwert ein Anteil. Vergleiche ihn mit Valid % in der Zeile ‚misstraut‘.</li>
       </ul>
-      <p className="absatz">Holst du die Ergebnisse ins Journal, steht dort deine Festlegung aus Schritt 1 daneben. Lag sie daneben, ist das kein Fehler, sondern genau der Moment, für den man vorher festlegt. Sind alle Fragen richtig, zeigt Schritt 6 im Bild, was <code>mutate()</code> mit den Türmen gemacht hat.</p>
+      <p className="absatz">Holst du die Ergebnisse ins Journal, steht dort deine Festlegung aus Schritt 1 daneben. Lag sie daneben, ist das kein Fehler, sondern genau der Moment, für den man vorher festlegt. Sind alle Fragen richtig, zeigt Schritt 6 im Bild, was <code>mutate()</code> gemacht hat: Jede Variable ist dort ein Turm, jeder <Begriff id="wert">Wert</Begriff> ein Stein.</p>
     </Card>
   </Abschnitt>;
 }
@@ -134,7 +135,7 @@ export function Verstehen2() {
     ]}>
 
     <Card id="k2-drei" title="Prozent von wem? Drei Fragen an eine Zelle" badge={<Bezug href="#a2-p">zu Schritt 1</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Eine Prozentzahl sagt erst etwas, wenn klar ist, wer 100 % ist. Am Beispiel der Erwerbstätigkeit: 860 erwerbstätige Frauen im ALLBUS 2023 arbeiten Teilzeit oder nebenher. Ist das viel? Das hängt davon ab, womit du sie vergleichst: mit allen erwerbstätigen Frauen, mit allen Teilzeitkräften oder mit allen Erwerbstätigen. Jede dieser Gruppen kann die <b>Basis</b> sein, also die 100 %.</p>
+      <p className="lead">Eine Prozentzahl sagt erst etwas, wenn klar ist, wer 100 % ist. Am Beispiel der Erwerbstätigkeit: 860 erwerbstätige Frauen im ALLBUS 2023 arbeiten Teilzeit oder nebenher. Ist das viel? Das hängt davon ab, womit du sie vergleichst: mit allen erwerbstätigen Frauen, mit allen Teilzeitkräften oder mit allen Erwerbstätigen. Jede davon kann die <b><Begriff id="prozentbasis">Prozentbasis</Begriff></b> sein, kurz Basis, also die 100 %.</p>
       <p className="absatz">Die Idee kennst du aus Sitzung 3: Dort ergab dieselbe Zahl von CDU/CSU-Wählenden mit drei Basen drei verschiedene Prozent (Raw %, Valid % und eine eigene Basis). In einer Kreuztabelle gibt es für jede Zelle wieder drei Basen.</p>
       <ThreeBasesFigure caption={<>Dieselben 860 Frauen in Teilzeit, dreimal gerechnet. Gelb ist jeweils die Basis, also die 100 %. Die Anzahl in der Zelle bleibt gleich, nur der Nenner wechselt. <span>ALLBUS 2023, Erwerbstätige mit gültiger Angabe bei Geschlecht und Erwerbsform, n = 3.359, ungewichtet; Teilzeit heißt Teilzeit oder nebenher.</span></>} />
       <PercentFormula />
@@ -142,11 +143,12 @@ export function Verstehen2() {
       <p className="unter-zwischen">Stell die Prozent um und wähle eine Zelle. Gelb umrahmt ist die Basis der gewählten Zelle, der Satz darunter sagt, welche Frage die Zahl beantwortet.</p>
       <BasisSchalter />
       <Frage>Wie findest du in einem Satz die Basis?</Frage>
-      <p>Lies, wie der Satz gebaut ist: „Wie viele <b>der</b> Teilzeitkräfte sind Frauen?“ Die Gruppe nach „der“ ist die Basis, hier die Teilzeitkräfte. Genauso: „Wie viel Prozent der Teilzeitkräfte sind Männer?“, sind die 1.167 Teilzeitkräfte 100 %, davon sind 301 Männer: 25,8 %, ein Spaltenprozent. 17,9 % wäre der Anteil der Männer, die Teilzeit arbeiten, ein Zeilenprozent; 9,0 % der Anteil der Männer in Teilzeit an allen Erwerbstätigen, ein Gesamtprozent. Eine Schlagzeile wie „74 % der Teilzeitkräfte sind Frauen“ beantwortet darum die Frage nach den Teilzeitkräften, nicht die Frage, ob Frauen häufiger Teilzeit arbeiten als Männer.</p>
-      <InShort>Eine Prozentzahl in einer Kreuztabelle braucht immer eine <b>Basis</b>, den Nenner, also die Gruppe, die 100 % ist. <b>Zeilenprozente</b> nehmen jede Zeile als 100 %, <b>Spaltenprozente</b> jede Spalte, <b>Gesamtprozente</b> (auch <b>Zellenprozente</b>) die ganze Tabelle. „Wie viele der …?“ – die Gruppe nach „der“ ist die Basis.</InShort>
+      <p>Lies, wie der Satz gebaut ist: „Wie viele <b>der</b> Teilzeitkräfte sind Frauen?“ Die Kategorie nach „der“ ist die Basis, hier die Teilzeitkräfte. Genauso: „Wie viel Prozent der Teilzeitkräfte sind Männer?“, sind die 1.167 Teilzeitkräfte 100 %, davon sind 301 Männer: 25,8 %, ein Spaltenprozent. 17,9 % wäre der Anteil der Männer, die Teilzeit arbeiten, ein Zeilenprozent; 9,0 % der Anteil der Männer in Teilzeit an allen Erwerbstätigen, ein Gesamtprozent. Eine Schlagzeile wie „74 % der Teilzeitkräfte sind Frauen“ beantwortet darum die Frage nach den Teilzeitkräften, nicht die Frage, ob Frauen häufiger Teilzeit arbeiten als Männer.</p>
+      <InShort>Eine Prozentzahl in einer <Begriff id="kreuztabelle">Kreuztabelle</Begriff> braucht immer eine <b>Basis</b>, den Nenner, also die Menschen, die 100 % sind. <b><Begriff id="zeilenprozente">Zeilenprozente</Begriff></b> nehmen jede Zeile als 100 %, <b><Begriff id="spaltenprozente">Spaltenprozente</Begriff></b> jede Spalte, <b><Begriff id="gesamtprozente">Gesamtprozente</Begriff></b> (auch Zellenprozente) die ganze Tabelle. Bei „Wie viele der …?“ ist die Kategorie nach „der“ die Basis.</InShort>
       <MoreDetail summary="Wo sich 100 % ergeben">
         <p>Bei Zeilenprozenten ergibt jede <b>Zeile</b> zusammen 100 % (48,3 + 51,7). Bei Spaltenprozenten jede <b>Spalte</b> (36,7 + 62,9 + 0,4 = 100). Bei Gesamtprozenten nur alle Zellen zusammen. So erkennst du in jeder Tabelle, welche Basis gemeint ist, auch wenn es nicht dabeisteht: Such die 100 %.</p>
-        <p>Alle Zahlen sind ungewichtet. Gewichtet arbeiten {de(WEIGHTED.womenPart)} % der Frauen und {de(WEIGHTED.menPart)} % der Männer Teilzeit. Warum man gewichtet, ist Thema in Sitzung 6.</p>
+        <p>Die Nenner stehen am Rand der Tabelle, in der Zeile und der Spalte Total. Diese Summen heißen <Begriff id="randhaeufigkeit">Randhäufigkeiten</Begriff>: Sie zählen, wie viele Befragte eine Zeile oder Spalte insgesamt hat.</p>
+        <p>Alle Zahlen sind <Begriff id="gewichte">ungewichtet</Begriff>. Gewichtet arbeiten {de(WEIGHTED.womenPart)} % der Frauen und {de(WEIGHTED.menPart)} % der Männer Teilzeit. Warum man gewichtet, ist Thema in Sitzung 6.</p>
       </MoreDetail>
       <Mixup>Spaltenprozente lesen und eine Aussage über die Zeile machen. „73,7 % der Teilzeitkräfte sind Frauen“ heißt nicht „73,7 % der Frauen arbeiten Teilzeit“. Das sind 51,7 %. Wer die Basis wechselt, ohne es zu merken, verdreht die Aussage.</Mixup>
     </Card>
@@ -164,11 +166,11 @@ export function Verstehen2() {
     <Card id="k2-neu" title="Warum jede Vorlage neu umkodiert" badge={<Bezug href="#a2-1">zu Schritt 2</Bezug>} tag={{ kind: 'interpret', label: 'Code lesen' }}>
       <p className="lead">Ab Aufgabe 2 beginnt jede Vorlage mit einem <code>mutate()</code>, das <code>misstrauen</code> und <code>nichtwahl</code> noch einmal bildet, genau wie in Aufgabe 1. Die Kommentarzeile sagt es: „misstrauen und nichtwahl bilden: kennst du aus Aufgabe 1“.</p>
       <Frage>Hast du die Variablen in Aufgabe 1 nicht schon gebildet?</Frage>
-      <p>Gebildet ja, abgelegt nein. Eine Kette wie <code>allbus %&gt;% mutate(…) %&gt;% frequency(…)</code> stellt die neue Variable nur auf die Bauplatte, die durch diese eine Kette gereicht wird. <code>allbus</code> selbst bleibt, wie es war, denn vorne steht kein <code>allbus &lt;-</code>. In der nächsten Vorlage kennt R <code>misstrauen</code> darum nicht. Fehlt die <code>mutate()</code>-Zeile, meldet R, dass es die Variable nicht gibt.</p>
+      <p>Gebildet ja, abgelegt nein. Eine Kette wie <code>allbus %&gt;% mutate(…) %&gt;% frequency(…)</code> reicht den <Begriff id="datenmatrix">Datensatz</Begriff> mit der <Begriff id="pipe">Pipe</Begriff> von Schritt zu Schritt. Die neue Variable steht nur in diesem weitergereichten Datensatz. <code>allbus</code> selbst bleibt, wie es war, denn vorne steht kein <code>allbus &lt;-</code>. In der nächsten Vorlage kennt R <code>misstrauen</code> darum nicht. Fehlt die <code>mutate()</code>-Zeile, meldet R, dass es die Variable nicht gibt.</p>
       <Frage>Warum ist das hier so gewollt?</Frage>
-      <p>Weil jede Vorlage dann für sich allein läuft. Du kannst sie in beliebiger Reihenfolge ins Journal holen und ausführen, auch wenn du eine frühere Aufgabe übersprungen hast. Und du siehst in jeder Vorlage, nach welcher Regel die Gruppen gebildet wurden, die in der Tabelle stehen.</p>
+      <p>Weil jede Vorlage dann für sich allein läuft. Du kannst sie in beliebiger Reihenfolge ins Journal holen und ausführen, auch wenn du eine frühere Aufgabe übersprungen hast. Und du siehst in jeder Vorlage, nach welcher Regel die Kategorien gebildet wurden, die in der Tabelle stehen.</p>
       <Frage>Und in RStudio?</Frage>
-      <p>Dort kannst du neue Variablen auch einmal ablegen und dann in vielen Auswertungen nutzen. So ist das Skript zum Mitnehmen gebaut: oben einmal <code>allbus &lt;- allbus %&gt;% mutate(…)</code>, danach kurze Aufrufe. Am Beispiel aus „R lesen“:</p>
+      <p>Dort kannst du neue Variablen auch einmal ablegen und dann in vielen Auswertungen nutzen. So ist das <Begriff id="skript">Skript</Begriff> zum Mitnehmen gebaut: oben einmal <code>allbus &lt;- allbus %&gt;% mutate(…)</code>, danach kurze Aufrufe. Am Beispiel aus „R lesen“:</p>
       <div className="v-vorlage"><div className="cb"><div className="cb-kopf"><span className="cb-titel">Beispiel: eine neue Variable einmal ablegen</span><span className="cb-notiz">zum Lesen</span></div><pre aria-label="Beispiel: eine neue Variable einmal ablegen">{`allbus <- allbus %>%
   mutate(
     teilzeit = rec(work, rules = "2:3=1 [Teilzeit]; 1=0 [Vollzeit]; else=NA")
@@ -176,7 +178,7 @@ export function Verstehen2() {
 
 allbus %>%
   crosstab(sex, teilzeit, percentages = "row")`}</pre></div></div>
-      <InShort>Mit <code>&lt;-</code> legst du ein Ergebnis unter einem Namen ab (kennst du aus Sitzung 1). Ohne <code>&lt;-</code> zeigt R das Ergebnis einer Kette nur an und vergisst es dann wieder.</InShort>
+      <InShort>Mit <code>&lt;-</code> legst du ein Ergebnis als <Begriff id="objekt">Objekt</Begriff> unter einem Namen ab (kennst du aus Sitzung 1). Ohne <code>&lt;-</code> zeigt R das Ergebnis einer Kette nur an und vergisst es dann wieder.</InShort>
       <Mixup>Wer die Vorlagen dieses Kapitels kürzt und die <code>mutate()</code>-Zeilen weglässt, bekommt <code>Column `misstrauen` doesn't exist</code>. Kopiere die Vorlage dann neu und ändere nur die markierten Stellen.</Mixup>
     </Card>
 
@@ -184,10 +186,10 @@ allbus %>%
       <p className="lead">Mit <code>"all"</code> stehen in jeder Zelle unter der Anzahl drei Prozentzahlen: <code>row %</code>, <code>col %</code> und <code>total %</code>. Alle drei gehören zu denselben Menschen in dieser Zelle.</p>
       <Code k="a2_all" />
       <Frage>Warum sind die drei Zahlen so verschieden?</Frage>
-      <p>Weil sie dieselbe Anzahl durch verschiedene Nenner teilen. Prozent ist Anzahl in der Zelle geteilt durch Anzahl in der Basis, mal 100. Im Bild ein Beispiel mit 40 Befragten: Dieselben 6 Menschen sind ein großer Teil einer kleinen Gruppe und ein kleiner Teil aller.</p>
+      <p>Weil sie dieselbe Anzahl durch verschiedene Nenner teilen. Prozent ist die Anzahl in der Zelle, ihre <Begriff id="absolute-haeufigkeit">absolute Häufigkeit</Begriff>, geteilt durch die Anzahl in der Basis, mal 100. Im Bild ein Beispiel mit 40 Befragten: Dieselben 6 Menschen sind ein großer Teil einer kleinen Kategorie und ein kleiner Teil aller.</p>
       <NennerBeispiel />
       <Frage>Wie findest du zu einer Frage die passende der drei Zahlen?</Frage>
-      <p>Such die Gruppe nach „der“: Sie ist die Basis. Steht diese Gruppe in den Zeilen, ist es <code>row %</code>; steht sie in den Spalten, <code>col %</code>; sind es alle in der Tabelle, <code>total %</code>. In Schritt 5 erscheint das Bild mit den echten Zahlen, sobald deine Antworten in Schritt 4 stimmen.</p>
+      <p>Such die Kategorie nach „der“: Sie ist die Basis. Steht diese Kategorie in den Zeilen, ist es <code>row %</code>; steht sie in den Spalten, <code>col %</code>; sind es alle in der Tabelle, <code>total %</code>. In Schritt 5 erscheint das Bild mit den echten Zahlen, sobald deine Antworten in Schritt 4 stimmen.</p>
       <Mixup>Die drei Prozentzahlen einer Zelle ergeben zusammen keine 100 %. Jede hat ihren eigenen Nenner; 100 % ergeben sich nur entlang einer Zeile, einer Spalte oder der ganzen Tabelle.</Mixup>
     </Card>
 
@@ -196,13 +198,13 @@ allbus %>%
       <ul className="v-liste">
         <li><b>Einstellung:</b> Probier in Schritt 2 alle drei und schau immer auf dieselbe Zelle (<a href="#k2-code">Prozentbasis einstellen</a>).</li>
         <li><b>Anzahl in der Zelle:</b> die obere Zahl in der Zelle, nicht die Summe am Rand.</li>
-        <li><b>Basis:</b> die Summe der Gruppe, die 100 % ist, steht am Rand in der Zeile oder Spalte <b>Total</b>.</li>
-        <li><b>Zuordnung:</b> Gruppe nach „der“ suchen (<a href="#k2-all">Eine Zelle, drei Prozentbasen</a>).</li>
+        <li><b>Basis:</b> Wie viele die 100 % bilden, steht am Rand in der Zeile oder Spalte <b>Total</b>, als Randhäufigkeit.</li>
+        <li><b>Zuordnung:</b> Kategorie nach „der“ suchen (<a href="#k2-all">Eine Zelle, drei Prozentbasen</a>).</li>
         <li><b>Stimmt die Zahl?</b> Ob sie in der Ausgabe steht, prüfst du in Schritt 2. Ob sie die Leitfrage beantwortet, ist eine andere Frage; sie kommt in Aufgabe 3.</li>
       </ul>
       <Frage>Wer steht überhaupt in der Tabelle?</Frage>
       <p>Nur wer bei <b>beiden</b> Variablen eine gültige Angabe hat. Wer <code>pe01</code> im Split nicht bekam oder bei <code>nichtwahl</code> leer ist, fehlt. Darum nennst du zu jeder Tabelle das N, das R in der Kopfzeile unter <code>N (valid)</code> angibt; <code>Missing</code> zählt, wer fehlt. Alle Zahlen sind ungewichtet; wie man gewichtet, lernst du in Sitzung 6.</p>
-      <InShort><b>N (valid)</b> zählt alle, die bei beiden Variablen eine gültige Angabe haben. Nur sie stehen in der Tabelle.</InShort>
+      <InShort><b>N (valid)</b> zählt alle <Begriff id="fall">Fälle</Begriff>, die bei beiden Variablen einen gültigen Wert haben. Nur sie stehen in der Tabelle.</InShort>
       <Mixup>Die Zahl der Nichtwählenden in der Tabelle ist nicht die aus <code>frequency(nichtwahl)</code>. In der Tabelle fehlen alle, die bei <code>pe01</code> keine gültige Angabe haben. Lies sie in der Tabelle selbst ab, in der Zeile Total.</Mixup>
     </Card>
   </Abschnitt>;
@@ -211,21 +213,21 @@ allbus %>%
 /* ---------- Aufgabe 3 ---------- */
 export function Verstehen3() {
   return <Abschnitt id="g3" n={3} titel="Gehen Misstrauende nicht mehr wählen?" frage="Gehen Misstrauende nicht mehr wählen?"
-    ziel="mit der passenden Prozentbasis gesagt, ob Misstrauende häufiger nicht wählen wollen als die übrigen, um wie viele Prozentpunkte, und was die Tabelle nicht zeigt."
+    ziel="mit der passenden Prozentbasis gesagt, ob Misstrauen und Nichtwahl zusammenhängen, wie groß der Unterschied in Prozentpunkten ist und was die Tabelle nicht zeigt."
     weg={[
-      ['Schritt 1', '#a3-p', 'Erst festlegen: Welche Gruppen vergleichst du?', 'k3-vergleich'],
+      ['Schritt 1', '#a3-p', 'Erst festlegen: Wen vergleichst du mit wem?', 'k3-vergleich'],
       ['Schritt 2', '#a3-1', 'die Prozentbasis für den Vergleich einstellen', 'k3-code'],
       ['Schritt 3', '#a3-2', 'vergleichen und deuten: Prozentpunkte, Ursachen', 'k3-deuten'],
       ['Schritt 4', '#a3-3', 'Ergebnis festhalten und Faktencheck', 'k3-ergebnis'],
     ]}>
 
-    <Card id="k3-vergleich" title="Innerhalb der Gruppen prozentuieren, zwischen den Gruppen vergleichen" badge={<Bezug href="#a3-p">zu Schritt 1</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
+    <Card id="k3-vergleich" title="Innerhalb der Gruppen der UV prozentuieren, zwischen ihnen vergleichen" badge={<Bezug href="#a3-p">zu Schritt 1</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
       <p className="lead">Die Leitfrage fragt nach einem Unterschied. Wie man einen Unterschied fair misst, zeigt wieder die Erwerbstätigkeit: Arbeiten Frauen häufiger Teilzeit als Männer? Damit der Vergleich fair ist, muss jede Gruppe für sich 100 % sein. Sonst hinge das Ergebnis auch davon ab, wie viele Frauen und Männer überhaupt in der Tabelle stehen.</p>
-      <p className="absatz">Aus der Vorlesung kennst du die <b>unabhängige Variable (UV)</b>, die mögliche Ursache, hier das Geschlecht, und die <b>abhängige Variable (AV)</b>, das, was erklärt werden soll, hier die Erwerbsform. Die Faustregel: <b>Jede Gruppe der UV ist 100 %. Dann vergleichst du die Gruppen miteinander.</b></p>
+      <p className="absatz">Aus der Vorlesung kennst du die <b><Begriff id="unabhaengige-variable">unabhängige Variable</Begriff> (UV)</b>, die mögliche Ursache, hier das Geschlecht, und die <b><Begriff id="abhaengige-variable">abhängige Variable</Begriff> (AV)</b>, das, was erklärt werden soll, hier die Erwerbsform. Die Gruppen der UV sind ihre Kategorien: Frauen, Männer und divers. Die Faustregel: <b>Jede Gruppe der UV ist 100 %. Dann vergleichst du die Gruppen miteinander.</b></p>
       <ReadingDirectionFigure caption={<>Jede Zeile ist eine Gruppe der UV und für sich 100 %. Verglichen wird von oben nach unten: Frauen arbeiten 33,8 Prozentpunkte häufiger Teilzeit als Männer. <span>ALLBUS 2023, Erwerbstätige, n = 3.359, ungewichtet. In R sind das die Zeilenprozente aus ‚R lesen‘.</span></>} />
       <Frage>Welche Gruppen vergleicht man also?</Frage>
       <p>Die Gruppen der UV, jede mit ihrem eigenen Anteil an der AV. Bei der Erwerbstätigkeit vergleicht man den Teilzeit-Anteil der Frauen mit dem der Männer, nicht den Frauenanteil unter Teilzeit- und Vollzeitkräften. Welche Variable die UV ist, ergibt sich aus der Frage: Was soll was erklären?</p>
-      <InShort>Für einen Vergleich setzt du <b>jede Gruppe der UV auf 100 %</b> und vergleichst dann die Anteile der AV zwischen den Gruppen. innerhalb der Gruppen prozentuieren, zwischen den Gruppen vergleichen. Steht die UV in den Zeilen, sind das die Zeilenprozente.</InShort>
+      <InShort>Für einen Vergleich setzt du <b>jede Gruppe der UV auf 100 %</b> und vergleichst dann die Anteile der AV zwischen den Gruppen. Die Faustregel heißt: innerhalb der Gruppen prozentuieren, zwischen den Gruppen vergleichen. Steht die UV in den Zeilen, sind das die Zeilenprozente.</InShort>
     </Card>
 
     <Card id="k3-code" title="Die Leserichtung in R einstellen" badge={<Bezug href="#a3-1">zu Schritt 2</Bezug>} tag={{ kind: 'picture', label: 'Code lesen' }}>
@@ -239,15 +241,15 @@ export function Verstehen3() {
       <Mixup>Die passende Einstellung hängt nicht an den Wörtern „Zeile“ und „Spalte“, sondern daran, wo die UV steht. Tauschst du die Reihenfolge in <code>crosstab()</code>, tauscht auch die passende Einstellung.</Mixup>
     </Card>
 
-    <Card id="k3-deuten" title="Vergleichen und deuten: Prozentpunkte, kleine Gruppen, Ursachen" badge={<Bezug href="#a3-2">zu Schritt 3</Bezug>} tag={{ kind: 'interpret', label: 'Deuten' }}>
+    <Card id="k3-deuten" title="Vergleichen und deuten: Prozentpunkte, kleine Fallzahlen, Ursachen" badge={<Bezug href="#a3-2">zu Schritt 3</Bezug>} tag={{ kind: 'interpret', label: 'Deuten' }}>
       <p className="lead">In Schritt 3 liest du in der Spalte ‚würde nicht wählen‘ beide Gruppen ab und beschreibst den Unterschied.</p>
       <Frage>Wie beschreibst du einen Unterschied zwischen zwei Anteilen?</Frage>
-      <p>Durch Abziehen: Das ergibt den Abstand in <b>Prozentpunkten</b>. Teilen ergibt das Verhältnis, „wievielmal so häufig“. Beides ist richtig, aber nicht dasselbe. Am Beispiel der Erwerbstätigkeit:</p>
+      <p>Durch Abziehen: Das ergibt den Abstand in <b><Begriff id="prozentpunkte">Prozentpunkten</Begriff></b>. Teilen ergibt das Verhältnis, „wievielmal so häufig“. Beides ist richtig, aber nicht dasselbe. Am Beispiel der Erwerbstätigkeit:</p>
       <PointsFormula />
       <Frage>Warum sollst du auch in die Spalte ‚würde wählen‘ schauen?</Frage>
       <p>Weil ein Unterschied zwischen zwei Gruppen noch nicht sagt, wie es innerhalb einer Gruppe aussieht. Ein Satz über eine ganze Gruppe („alle“, „keiner mehr“) muss auch zum Anteil innerhalb der Gruppe passen.</p>
       <Frage>Was zeigt eine Kreuztabelle über Ursachen?</Frage>
-      <p>Eine Kreuztabelle zeigt, was zusammen vorkommt, nicht warum. Die Tabelle zur Erwerbstätigkeit zeigt, dass Frauen häufiger Teilzeit arbeiten. Warum, zeigt sie nicht; dafür bräuchte man weitere Variablen, etwa Kinder im Haushalt. Bei Einstellungen ist oft sogar unklar, was die UV ist; was zuerst kommt, ist dann eine Annahme, die du begründen musst.</p>
+      <p>Eine Kreuztabelle zeigt einen <Begriff id="zusammenhang">Zusammenhang</Begriff>, also was zusammen vorkommt. Ob das eine das andere bewirkt, also <Begriff id="kausalitaet">Kausalität</Begriff>, zeigt sie nicht. Die Tabelle zur Erwerbstätigkeit zeigt, dass Frauen häufiger Teilzeit arbeiten. Warum, zeigt sie nicht; dafür bräuchte man weitere Variablen, etwa Kinder im Haushalt. Bei Einstellungen ist oft sogar unklar, was die UV ist; was zuerst kommt, ist dann eine Annahme, die du begründen musst.</p>
       <Frage>Und wenn eine Gruppe sehr klein ist?</Frage>
       <p>Dann wackeln ihre Prozent. 42,9 % bei den Befragten mit der Angabe divers klingt genau, sind aber 6 von 14 Menschen. Arbeitete eine dieser Personen Teilzeit statt Vollzeit, wären es 50 %. Nenne deshalb zu jeder Gruppe ihr n und deute kleine Gruppen vorsichtig.</p>
       <InShort>Einen <b>Zusammenhang</b> zeigt eine Kreuztabelle, wenn sich die Anteile der AV zwischen den Gruppen der UV unterscheiden. Was zusammen vorkommt, ist noch keine Erklärung, warum.</InShort>
@@ -271,18 +273,18 @@ export function Verstehen3() {
 /* ---------- Aufgabe 4 ---------- */
 export function Verstehen4() {
   return <Abschnitt id="g4" n={4} titel="Gegenprobe mit einer umgedrehten Aussage" frage="Kommt dasselbe heraus, wenn man Misstrauen mit einer anderen Aussage misst?"
-    ziel="eine zweite Aussage umgepolt, daraus eine Misstrauens-Gruppe gebildet und weißt, warum die Regel aus Aufgabe 1 ohne Umpolen das Gegenteil misst."
+    ziel="eine zweite Aussage umgepolt, daraus eine neue Variable für Misstrauen gebildet und geprüft, was die Regel aus Aufgabe 1 ohne Umpolen misst."
     weg={[
       ['Schritt 1', '#a4-p', 'Erst festlegen: Was misst die Regel ohne Umpolen?', 'k4-richtung'],
       ['Schritt 2', '#a4-1', 'pe05 umpolen mit rules = "rev"', 'k4-umpolen'],
-      ['Schritt 3', '#a4-2', 'die Misstrauens-Gruppe aus pe05_um bilden', 'k4-gegenprobe'],
+      ['Schritt 3', '#a4-2', 'die Variable misstrauen_pe05 aus pe05_um bilden', 'k4-gegenprobe'],
       ['Schritt 4', '#a4-3', 'zum Vergleich: ohne Umpolen', 'k4-ohne'],
       ['Schritt 5', '#a4-4', 'Ergebnis festhalten: Bestätigt die Gegenprobe Aufgabe 3?', 'k4-ohne'],
       ['Schritt 6', '#a4-5', 'Im Bild: pe05 umgepolt (nach den richtigen Antworten)', 'k4-ohne'],
     ]}>
 
     <Card id="k4-richtung" title="Zwei Aussagen, zwei Richtungen" badge={<Bezug href="#a4-p">zu Schritt 1</Bezug>} tag={{ kind: 'interpret', label: 'Hintergrund' }}>
-      <p className="lead">Manchmal sollen mehrere Fragen dasselbe messen, sind aber in verschiedene Richtungen gestellt. Zum Beispiel: „Ich fühle mich in meinem Viertel sicher.“ und „Nachts habe ich in meinem Viertel Angst.“ Wer der ersten Aussage zustimmt, fühlt sich sicher. Wer der zweiten zustimmt, fühlt sich unsicher. Ein „stimme voll zu“ (Code 1) heißt also einmal das eine, einmal das Gegenteil.</p>
+      <p className="lead">Manchmal sollen mehrere Fragen dasselbe messen, sind aber in verschiedene Richtungen gestellt: Sie haben eine unterschiedliche <Begriff id="polung">Polung</Begriff>. Zum Beispiel: „Ich fühle mich in meinem Viertel sicher.“ und „Nachts habe ich in meinem Viertel Angst.“ Wer der ersten Aussage zustimmt, fühlt sich sicher. Wer der zweiten zustimmt, fühlt sich unsicher. Ein „stimme voll zu“ (Code 1) heißt also einmal das eine, einmal das Gegenteil.</p>
       <p className="absatz">Genau so liegen <code>pe01</code> und <code>pe05</code>: Bei <code>pe01</code> („Die Politiker kümmern sich nicht viel darum, was Leute wie ich denken.“) zeigt Zustimmung Misstrauen. Bei <code>pe05</code> („Die Politiker vertreten die Interessen der Bevölkerung.“) zeigt Zustimmung Vertrauen. Beide reichen von 1 „stimme voll zu“ bis 4 „stimme gar nicht zu“.</p>
       <Frage>Was heißt das für eine Regel, die für die eine Aussage passt?</Frage>
       <p>Eine Regel arbeitet nur mit Codes. Sie weiß nicht, wie die Aussage dahinter lautet. Bevor du solche Fragen gemeinsam auswertest oder für beide dieselbe Regel nimmst, polst du eine um. Dann heißt Code 1 bei beiden dasselbe.</p>
@@ -293,15 +295,15 @@ export function Verstehen4() {
     </Card>
 
     <Card id="k4-umpolen" title="Umpolen: eine Skala umdrehen" badge={<Bezug href="#a4-1">zu Schritt 2</Bezug>} tag={{ kind: 'picture', label: 'Im Bild' }}>
-      <p className="lead">Am Beispiel einer anderen Frage: Der ALLBUS fragt, wie man die wirtschaftliche Lage in Deutschland heute beurteilt. Gespeichert ist: 1 = sehr gut, 2 = gut, 3 = teils/teils, 4 = schlecht, 5 = sehr schlecht. Eine höhere Zahl heißt also: schlechter. Wer sagen will „je höher, desto besser“, dreht die Skala um. Das heißt <b>umpolen</b>.</p>
-      <UmpolenFigure caption={<>Umpolen dreht nur die Zahlen um. Jeder Aufkleber wandert mit seinem Stein, und in jeder Stufe stehen gleich viele Menschen wie vorher. Aus ‚höher heißt schlechter‘ wird ‚höher heißt besser‘. <span>Anzahlen: ALLBUS 2023, n = 5.194, ungewichtet.</span></>} />
+      <p className="lead">Am Beispiel einer anderen Frage: Der ALLBUS fragt, wie man die wirtschaftliche Lage in Deutschland heute beurteilt. Gespeichert ist: 1 = sehr gut, 2 = gut, 3 = teils/teils, 4 = schlecht, 5 = sehr schlecht. Eine höhere Zahl heißt also: schlechter. Wer sagen will „je höher, desto besser“, dreht die Skala um. Das heißt <b><Begriff id="umpolen">umpolen</Begriff></b>.</p>
+      <UmpolenFigure caption={<>Umpolen dreht nur die Zahlen um. Jedes Wertelabel wandert mit seinem Code, und in jeder Kategorie stehen gleich viele Menschen wie vorher. Aus ‚höher heißt schlechter‘ wird ‚höher heißt besser‘. <span>Anzahlen: ALLBUS 2023, n = 5.194, ungewichtet.</span></>} />
       <Frage>Wie rechnet R beim Umpolen?</Frage>
-      <p><code>rec()</code> polt mit <code>rules = "rev"</code> um. Es nimmt dafür den kleinsten und den größten Code der Skala, so wie die Wertelabels sie angeben (bei der Wirtschaftslage 1 und 5), und rechnet kleinster plus größter minus alter Code: Aus 2 „gut“ wird 6 − 2 = 4. Fehlende Werte bleiben leer, die Aufkleber wandern mit. Bei <code>pe05</code> mit vier Stufen ist es 1 + 4 = 5 minus alter Code.</p>
+      <p><code>rec()</code> polt mit <code>rules = "rev"</code> um. Es nimmt dafür den kleinsten und den größten Code der Skala, so wie die Wertelabels sie angeben (bei der Wirtschaftslage 1 und 5), und rechnet kleinster plus größter minus alter Code: Aus 2 „gut“ wird 6 − 2 = 4. Fehlende Werte bleiben leer, die Wertelabels wandern mit. Bei <code>pe05</code> mit vier Ausprägungen ist es 1 + 4 = 5 minus alter Code.</p>
       <Code k="a4_um" />
       <p className="absatz">Die Kette polt um und zählt gleich aus. Mit <code>frequency(pe05_um)</code> prüfst du, ob die Wörter jetzt bei den neuen Codes stehen.</p>
       <InShort><b>Umpolen</b> dreht die Codes einer Skala um: Der kleinste wird der größte und umgekehrt. Die Antworten bleiben dieselben, nur die Richtung der Zahlen ändert sich. Man polt um, damit eine höhere Zahl immer „mehr“ von dem heißt, was man messen will.</InShort>
       <MoreDetail summary="Umpolen oder anders zusammenfassen?">
-        <p>Willst du nur zwei Gruppen bilden, geht es auch ohne Umpolen: Du schreibst die Regel einfach andersherum. Umpolen lohnt sich, wenn du danach mit mehreren Fragen gleich weiterarbeiten willst, etwa dieselbe Regel für alle oder später einen Mittelwert über mehrere Fragen (Sitzung 8).</p>
+        <p>Willst du nur zwei Kategorien bilden, geht es auch ohne Umpolen: Du schreibst die Regel einfach andersherum. Umpolen lohnt sich, wenn du danach mit mehreren Fragen gleich weiterarbeiten willst, etwa dieselbe Regel für alle oder später einen Mittelwert über mehrere Fragen (Sitzung 8).</p>
       </MoreDetail>
     </Card>
 
@@ -310,7 +312,7 @@ export function Verstehen4() {
       <Code k="a4_mutate" />
       <ul className="v-liste">
         <li><code>pe05_um = rec(pe05, rules = "rev")</code> polt <code>pe05</code> um wie in Schritt 2.</li>
-        <li><code>misstrauen_pe05 = rec(pe05_um, …)</code> bildet die Misstrauens-Gruppe aus der <b>umgepolten</b> Variable. Die gelben Stellen sind wieder die alten Codes, die du anpasst.</li>
+        <li><code>misstrauen_pe05 = rec(pe05_um, …)</code> bildet die Variable für Misstrauen aus der <b>umgepolten</b> Variable. Die gelben Stellen sind wieder die alten Codes, die du anpasst.</li>
         <li><code>nichtwahl = …</code> bildet die Wahlabsicht wie in Aufgabe 1.</li>
         <li><code>crosstab(misstrauen_pe05, nichtwahl, percentages = "row")</code> vergleicht die Gruppen wie in Aufgabe 3.</li>
       </ul>
@@ -323,8 +325,8 @@ export function Verstehen4() {
     <Card id="k4-ohne" title="Ohne Umpolen: dieselbe Regel, eine andere Richtung" badge={<Bezug href="#a4-3">zu Schritt 4 bis 6</Bezug>} tag={{ kind: 'interpret', label: 'Deuten' }}>
       <p className="lead">Schritt 4 zeigt, was passiert wäre, wenn du die Regel aus Aufgabe 1 einfach auf <code>pe05</code> übertragen hättest. Die Zeile mit <code>rev</code> fehlt.</p>
       <Code k="a4_ohne" />
-      <Frage>Was steckt dann in der Gruppe ‚misstraut‘?</Frage>
-      <p>Die Regel zählt die Codes 1 und 2 von <code>pe05</code> als ‚misstraut‘, genau wie bei <code>pe01</code>. Welche Antworten hinter diesen Codes stehen und was Zustimmung zu <code>pe05</code> bedeutet, steht in der Aufgabe und in <a href="#k4-richtung">Zwei Aussagen, zwei Richtungen</a>. Der Aufkleber <code>[misstraut]</code> ist nur ein Name, den die Regel vergibt. R prüft nicht, ob er zu den Antworten passt.</p>
+      <Frage>Was steckt dann in der Kategorie ‚misstraut‘?</Frage>
+      <p>Die Regel zählt die Codes 1 und 2 von <code>pe05</code> als ‚misstraut‘, genau wie bei <code>pe01</code>. Welche Antworten hinter diesen Codes stehen und was Zustimmung zu <code>pe05</code> bedeutet, steht in der Aufgabe und in <a href="#k4-richtung">Zwei Aussagen, zwei Richtungen</a>. Das Wertelabel <code>[misstraut]</code> ist nur ein Name, den die Regel vergibt. R prüft nicht, ob er zu den Antworten passt.</p>
       <Frage>Und wie hältst du in Schritt 5 das Ergebnis fest?</Frage>
       <ul className="v-liste">
         <li><b>Wort bei Code 1:</b> die Ausgabe von Schritt 2, Zeile mit Value 1.</li>
@@ -347,7 +349,7 @@ export function Ueberblick() {
     <p className="g-intro">Alle vier Aufgaben zusammen: welche Prozentbasis welche Frage beantwortet, was eine Kreuztabelle braucht und was der Chi-Quadrat-Test dazu sagt.</p>
     <HeadingLevel.Provider value={5}>
       <Card id="k5-basis" title="Wer ist 100 %?" badge={<Badge>Aufgaben 2 und 3</Badge>} tag={{ kind: 'interpret', label: 'Hintergrund' }}>
-        <p className="lead">Such in jeder Frage die Gruppe nach „der“ oder „von“: Sie ist die Basis. Fragst du nach einem Unterschied zwischen Gruppen, ist jede Gruppe für sich 100 %. Vier Fragen an eine Tabelle mit Wohngebiet (West, Ost) und Misstrauen (misstraut, misstraut nicht):</p>
+        <p className="lead">Such in jeder Frage die Kategorie nach „der“ oder „von“: Sie ist die <Begriff id="prozentbasis">Prozentbasis</Begriff>. Fragst du nach einem Unterschied zwischen den Gruppen der UV, ist jede Gruppe für sich 100 %. Vier Fragen an eine Tabelle mit Wohngebiet (West, Ost) und Misstrauen (misstraut, misstraut nicht):</p>
         <ul className="v-liste">
           {U1.map(u => <li key={u.question}><b>{u.question}</b> Basis: {U1_OPTIONS[u.answer]}. {u.right.replace(/^Basis: [^.]*\.\s*/, '')}</li>)}
         </ul>
@@ -364,9 +366,9 @@ export function Ueberblick() {
       </Card>
 
       <Card id="k5-chi" title="Zufall oder Zusammenhang?" badge={<Badge>Wiederholung aus der Vorlesung</Badge>} tag={{ kind: 'interpret', label: 'Hintergrund' }}>
-        <p className="lead">Die {CHI.n.toLocaleString('de-DE')} Befragten in deiner Tabelle aus Aufgabe 3 sind eine <b>Stichprobe</b> aus einer <b>Grundgesamtheit</b>, beim ALLBUS den Erwachsenen, die in Deutschland in Privathaushalten leben. Auch wenn es dort keinen Zusammenhang gäbe, wären die Anteile in einer Stichprobe nie ganz gleich. Ob der Unterschied zwischen Misstrauenden und übrigen größer ist, als der Zufall erwarten lässt, prüft der <b>Chi-Quadrat-Test</b> aus der Vorlesung. In R:</p>
+        <p className="lead">Die {CHI.n.toLocaleString('de-DE')} Befragten in deiner Tabelle aus Aufgabe 3 sind eine <b><Begriff id="stichprobe">Stichprobe</Begriff></b> aus einer <b><Begriff id="grundgesamtheit">Grundgesamtheit</Begriff></b>, beim ALLBUS den Erwachsenen, die in Deutschland in Privathaushalten leben. Auch wenn es dort keinen Zusammenhang gäbe, wären die Anteile in einer Stichprobe nie ganz gleich. Ob der Unterschied zwischen Misstrauenden und übrigen größer ist, als der Zufall erwarten lässt, prüft der <b><Begriff id="chi-quadrat">Chi-Quadrat-Test</Begriff></b> aus der Vorlesung. In R:</p>
         <Code k="ueb_chi" />
-        <p className="absatz">R meldet <code>{`chi2(${CHI.df}) = ${CHI.chi2.toFixed(3)}, p < 0.001 ***`}</code> bei N = {CHI.n.toLocaleString('de-DE')}. Gäbe es in der Grundgesamtheit keinen Zusammenhang, wäre ein so großer Unterschied in einer Stichprobe dieser Größe sehr unwahrscheinlich. Der Test sagt aber nichts darüber, wie stark der Zusammenhang ist und was die Ursache ist. Die Stärke steht in derselben Zeile: <code>{`V = ${CHI.v.toFixed(3)} (negligible)`}</code>, auf Deutsch „vernachlässigbar“. Was V ist, lernst du in Sitzung 6.</p>
+        <p className="absatz">R meldet <code>{`chi2(${CHI.df}) = ${CHI.chi2.toFixed(3)}, p < 0.001 ***`}</code> bei N = {CHI.n.toLocaleString('de-DE')}. Das p ist der <Begriff id="p-wert">p-Wert</Begriff>. Er sagt hier: Gäbe es in der Grundgesamtheit keinen Zusammenhang, wäre ein so großer Unterschied in einer Stichprobe dieser Größe sehr unwahrscheinlich. Liegt p unter einer vorher festgelegten Schwelle, meist 5 %, dem <Begriff id="signifikanzniveau">Signifikanzniveau</Begriff>, nennt man den Unterschied <b>signifikant</b>. Der Test sagt aber nichts darüber, wie stark der Zusammenhang ist und was die Ursache ist. Die Stärke steht in derselben Zeile: <code>{`V = ${CHI.v.toFixed(3)} (negligible)`}</code>, auf Deutsch „vernachlässigbar“. Was V ist, lernst du in Sitzung 6.</p>
         <p className="absatz">Der Test hat selbst eine Voraussetzung: In jeder Zelle müssten ohne Zusammenhang genug Befragte zu erwarten sein (Faustregel: mindestens 5). Hier ist die kleinste erwartete Zahl gut 43; sonst warnt R (mehr dazu in Sitzung 6). Die Zahlen sind ungewichtet.</p>
         <InShort>Der <b>Chi-Quadrat-Test</b> prüft, ob ein Zusammenhang in der Stichprobe größer ist, als der Zufall erwarten lässt. Er sagt „wahrscheinlich kein Zufall“, aber nicht „groß“ und nicht „warum“.</InShort>
         <Mixup>„Signifikant“ heißt nicht „groß“ oder „wichtig“. Bei vielen Befragten wird auch ein Unterschied von wenigen Prozentpunkten signifikant; R nennt ihn hier zugleich „negligible“.</Mixup>
@@ -379,12 +381,12 @@ export function Ueberblick() {
 export const THEMEN: Thema[] = [
   { id: 'vorweg', n: 'R', kurz: 'R lesen', titel: 'Vorweg: R lesen', minuten: 10, Inhalt: Vorweg,
     karten: [['r1', 'Startblock und <-'], ['r2', 'Neue Variable: mutate() und rec()'], ['r3', 'Kreuztabelle: crosstab()']] },
-  { id: 'g1', n: '1', kurz: 'Aufgabe 1', titel: 'Zwei Gruppen für die Wahlfrage', minuten: 15, Inhalt: Verstehen1, aufgabe: 1,
-    karten: [['k1-aussage', 'Zwei Fragen, je zwei Gruppen'], ['k1-codes', 'Codes und Fragebogensplit'], ['k1-regel', 'Eine Regel lesen: misstrauen'], ['k1-zuschnitt', 'Gruppen zuschneiden'], ['k1-nichtwahl', 'Wer in keiner Regel steht'], ['k1-ergebnis', 'Ergebnis festhalten']] },
+  { id: 'g1', n: '1', kurz: 'Aufgabe 1', titel: 'Zwei neue Variablen für die Wahlfrage', minuten: 15, Inhalt: Verstehen1, aufgabe: 1,
+    karten: [['k1-aussage', 'Zwei Fragen, je zwei Kategorien'], ['k1-codes', 'Codes und Fragebogensplit'], ['k1-regel', 'Eine Regel lesen: misstrauen'], ['k1-zuschnitt', 'Kategorien zusammenfassen'], ['k1-nichtwahl', 'Wer in keiner Regel steht'], ['k1-ergebnis', 'Ergebnis festhalten']] },
   { id: 'g2', n: '2', kurz: 'Aufgabe 2', titel: 'Stimmt die 87 %?', minuten: 15, Inhalt: Verstehen2, aufgabe: 2,
     karten: [['k2-drei', 'Drei Fragen an eine Zelle'], ['k2-code', 'Prozentbasis einstellen'], ['k2-neu', 'Warum jede Vorlage neu umkodiert'], ['k2-all', 'Eine Zelle, drei Prozentbasen'], ['k2-ergebnis', 'Wer in der Tabelle steht']] },
   { id: 'g3', n: '3', kurz: 'Aufgabe 3', titel: 'Gehen Misstrauende nicht mehr wählen?', minuten: 12, Inhalt: Verstehen3, aufgabe: 3,
-    karten: [['k3-vergleich', 'Gruppen vergleichen'], ['k3-code', 'Leserichtung einstellen'], ['k3-deuten', 'Vergleichen und deuten'], ['k3-ergebnis', 'Ergebnis und Faktencheck']] },
+    karten: [['k3-vergleich', 'Prozentuieren und vergleichen'], ['k3-code', 'Leserichtung einstellen'], ['k3-deuten', 'Vergleichen und deuten'], ['k3-ergebnis', 'Ergebnis und Faktencheck']] },
   { id: 'g4', n: '4', kurz: 'Aufgabe 4', titel: 'Gegenprobe mit einer umgedrehten Aussage', minuten: 10, Inhalt: Verstehen4, aufgabe: 4,
     karten: [['k4-richtung', 'Zwei Aussagen, zwei Richtungen'], ['k4-umpolen', 'Umpolen'], ['k4-gegenprobe', 'Die Gegenprobe bauen'], ['k4-ohne', 'Ohne Umpolen']] },
   { id: 'g5', n: '✓', kurz: 'Überblick', titel: 'Basis wählen, Grenzen kennen', minuten: 8, Inhalt: Ueberblick,
@@ -397,6 +399,6 @@ function Leserichtung() {
   return <ReadingDirectionFigure caption={<>Jede Zeile ist eine Gruppe der UV und für sich 100 %. Verglichen wird von oben nach unten: Frauen arbeiten 33,8 Prozentpunkte häufiger Teilzeit als Männer. <span>ALLBUS 2023, Erwerbstätige, n = 3.359, ungewichtet.</span></>} />;
 }
 function Umpolen() {
-  return <UmpolenFigure caption={<>Umpolen dreht nur die Zahlen um. Jeder Aufkleber wandert mit seinem Stein, und in jeder Stufe stehen gleich viele Menschen wie vorher. Aus ‚höher heißt schlechter‘ wird ‚höher heißt besser‘. <span>Anzahlen: ALLBUS 2023, n = 5.194, ungewichtet.</span></>} />;
+  return <UmpolenFigure caption={<>Umpolen dreht nur die Zahlen um. Jedes Wertelabel wandert mit seinem Code, und in jeder Kategorie stehen gleich viele Menschen wie vorher. Aus ‚höher heißt schlechter‘ wird ‚höher heißt besser‘. <span>Anzahlen: ALLBUS 2023, n = 5.194, ungewichtet.</span></>} />;
 }
 export const BILDER = { Regel: RuleFigure, BasisSchalter, NennerBeispiel, Leserichtung, Prozentpunkte: PointsFormula, Umpolen };

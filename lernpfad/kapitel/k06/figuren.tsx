@@ -47,12 +47,12 @@ function Raster({ pair }: { pair: Pair | null }) {
   </svg>;
 }
 
-const art = (p: Pair) => p.kind.startsWith('Gleichstand') ? 'Gleichstand' : p.kind;
+const art = (p: Pair) => p.kind.startsWith('Bindung') ? 'Bindung' : p.kind;
 
 /** Die zehn Paare zum Durchklicken: Jedes Paar zeigt seine Einordnung und den Satz dazu, ohne Frage und ohne Prüfung. */
 export function PaareZeigen() {
   const [i, setI] = useState(0); const pair = PAIRS[i];
-  const bild = `Raster mit Schicht (1 bis 4) nach rechts und Gesundheit (1 bis 4) nach oben. ${PERSONS.map(p => `${p.name}: Schicht ${p.layer}, Gesundheit ${p.health}`).join('. ')}. Verbunden ist das Paar ${pair.a.name} und ${pair.b.name}: ${art(pair)}.`;
+  const bild = `Gitter mit Schicht (1 bis 4) nach rechts und Gesundheit (1 bis 4) nach oben. ${PERSONS.map(p => `${p.name}: Schicht ${p.layer}, Gesundheit ${p.health}`).join('. ')}. Verbunden ist das Paar ${pair.a.name} und ${pair.b.name}: ${art(pair)}.`;
   return <div className="s6-paare">
     <ul className="schritt-nav" aria-label="Paar wählen">
       {PAIRS.map((p, k) => <li key={p.id}><button type="button" aria-current={k === i ? 'step' : 'false'} onClick={() => setI(k)}>{p.id}</button></li>)}

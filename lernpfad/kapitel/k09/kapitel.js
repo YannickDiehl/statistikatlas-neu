@@ -19,7 +19,7 @@ const FRAGEN = k => D.QUESTIONS[k].map(frage);
 for (const k of Object.keys(D.HINTS)) D.HINTS[k] = D.HINTS[k].map(schritt);
 // Fehlerhilfe: Der Satz über die Code-Werkstatt gilt im Lernjournal nicht.
 D.ERROR_HELP = D.ERROR_HELP.map(r => ({ ...r, helps: r.helps.map(p => typeof p === 'string'
-  ? p.replace('In der Code-Werkstatt startet jede Vorlage frisch; das Umpolen muss in jeder Vorlage stehen, die ', 'Eine Kette ohne allbus <- speichert nichts; darum muss das Umpolen in jeder Vorlage stehen, die ')
+  ? p.replace('In der Code-Werkstatt startet jede Vorlage frisch; das Umpolen muss in jeder Vorlage stehen, die ', 'Eine Pipe-Kette ohne allbus <- speichert nichts; darum muss das Umpolen in jeder Vorlage stehen, die ')
   : p) }));
 
 /** Festlegung aus PREDICTIONS; die Auflösung (resolution) erscheint, sobald alle Fragen der Aufgabe richtig sind. */
@@ -35,7 +35,7 @@ const TASKS = [
     schritte: [
       { id: 'a1-p', art: 'festlegen', titel: 'Erst festlegen', vorhersage: P('a1'),
         mehr: [denk('Wie lege ich mich fest?', { grund: 'k1-gerade',
-          kurz: 'Du schätzt, wie weit die Vorhersagen für „gar kein Vertrauen“ (1) und „großes Vertrauen“ (7) auseinanderliegen. Das ist der Anstieg der Geraden über sechs Stufen. Es zählt nicht, ob du richtig liegst: Deine Festlegung ist der Vergleichspunkt, an dem du später merkst, ob dich das Ergebnis überrascht.',
+          kurz: 'Du schätzt, wie weit die ⟪Vorhersagen|vorhersage⟫ für „gar kein Vertrauen“ (1) und „großes Vertrauen“ (7) auseinanderliegen. Das ist der Anstieg der Geraden über sechs Stufen. Es zählt nicht, ob du richtig liegst: Deine Festlegung ist der Vergleichspunkt, an dem du später merkst, ob dich das Ergebnis überrascht.',
           denken: [
             'Schau auf die Skala: Die Zufriedenheit mit der Demokratie (<code>demo</code>) reicht von 1 bis 6.',
             'Stell dir zwei Gruppen vor: Menschen, die dem Bundestag gar nicht vertrauen, und Menschen, die ihm sehr vertrauen. Wie verschieden zufrieden mit der Demokratie sind sie wohl im Mittel?',
@@ -43,19 +43,19 @@ const TASKS = [
           ],
           verwechslung: 'Die Vorhersage gilt für eine Gruppe im Mittel, nicht für jede einzelne Person. Gefragt ist der Abstand zweier solcher Mittel.' })] },
       { id: 'a1-1', art: 'code', titel: 'Vorlage ausführen', wk: ['a1'], neu: true, bekannt: 'rec() aus Sitzung 5, summary() aus Sitzung 7',
-        text: 'Die Vorlage polt ps03 um und rechnet die Regression von <code>demo</code> auf pt03, gewichtet. Neu ist <code>linear_regression()</code> mit der Formel <code>demo ~ pt03</code>: links, was vorhergesagt wird, rechts, woraus.',
+        text: 'Die Vorlage polt ps03 um und rechnet die ⟪lineare Regression|lineare-regression⟫ von <code>demo</code> auf pt03, gewichtet. Neu ist <code>linear_regression()</code> mit der Formel <code>demo ~ pt03</code>: links, was vorhergesagt wird, rechts, woraus.',
         mehr: [denk('Was macht die Vorlage?', { grund: 'k1-vorlage',
-          kurz: 'Die Vorlage hat zwei Teile. Erst polt <code>rec(ps03, rules = "rev")</code> die Zufriedenheit um: In <code>demo</code> heißt 6 „sehr zufrieden“. Dann rechnet <code>linear_regression()</code> die Gerade, gewichtet. Die Formel <code>demo ~ pt03</code> liest du als „demo aus pt03“: links die abhängige Variable (AV), rechts die unabhängige (UV, in der Regression auch <b>Prädiktor</b>).',
+          kurz: 'Die Vorlage hat zwei Teile. Erst polt <code>rec(ps03, rules = "rev")</code> die Zufriedenheit um: In <code>demo</code> heißt 6 „sehr zufrieden“. Dann rechnet <code>linear_regression()</code> die Gerade, gewichtet. Die Formel <code>demo ~ pt03</code> liest du als „demo aus pt03“: links die abhängige Variable (AV), rechts die unabhängige (UV, in der Regression auch <b>⟪Prädiktor⟫</b>).',
           denken: [
             'Lies die Zeile mit <code>mutate()</code>: Welche Variable wird umgepolt, und wie heißt sie danach?',
             'Frag dich, warum: Bei ps03 heißt eine kleine Zahl „zufrieden“, bei pt03 heißt eine große Zahl „viel Vertrauen“. Zeigt „mehr“ ohne Umpolen auf beiden Seiten in dieselbe Richtung?',
             'Such die Tilde <code>~</code>: Was steht links, was rechts? Zwischen beiden steht immer die Tilde, kein Komma.',
-            'Schau oben in die Ausgabe: Steht dort <code>- Weights: wghtpew</code>? Dann ist das Gewicht dabei.',
+            'Schau oben in die Ausgabe: Steht dort <code>- Weights: wghtpew</code>? Dann ist das ⟪Gewicht⟫ dabei.',
           ],
-          verwechslung: 'Umpolen ändert nicht die Antworten, nur die Richtung der Codes. Wer „sehr zufrieden“ gesagt hat, steht danach bei 6 statt bei 1.' }),
-          warum('Lieber in RStudio?', 'Dann führst du dort vorher den Startblock aus (Pakete laden, ALLBUS einlesen). Danach kopierst du die Vorlage mit <b>Kopieren</b> in dein Skript.<pre>' + esc(T.start.code) + '</pre>', 'r1')] },
+          verwechslung: '⟪Umpolen⟫ ändert nicht die Antworten, nur die Richtung der Codes. Wer „sehr zufrieden“ gesagt hat, steht danach bei 6 statt bei 1.' }),
+          warum('Lieber in RStudio?', 'Dann führst du dort vorher den Startblock aus (Pakete laden, ALLBUS einlesen). Danach kopierst du die Vorlage mit <b>Kopieren</b> in dein ⟪Skript⟫.<pre>' + esc(T.start.code) + '</pre>', 'r1')] },
       { id: 'a1-2', art: 'lesen', titel: 'Konstante, Steigung und N ablesen',
-        text: 'Such in der Tabelle Coefficients die Spalte <b>B</b>: die Konstante in der Zeile <code>(Intercept)</code>, die Steigung in der Zeile <code>pt03</code>. Oben unter <code>- N:</code> steht, wie viele Befragte mitrechnen.',
+        text: 'Such in der Tabelle Coefficients die Spalte <b>B</b>: die Konstante in der Zeile <code>(Intercept)</code>, die ⟪Steigung|regressionskoeffizient⟫ in der Zeile <code>pt03</code>. Oben unter <code>- N:</code> steht die ⟪Fallzahl⟫: wie viele Befragte mitrechnen.',
         mehr: [denk('Wo steht was?', { grund: 'k1-ablesen',
           kurz: 'Für die Gerade brauchst du drei Zahlen von zwei Stellen der Ausgabe. Die <b>Konstante</b> (Zeile <code>(Intercept)</code>) und die <b>Steigung</b> B (Zeile <code>pt03</code>) legen die Gerade fest; <b>N</b> sagt, wie viele Befragte mitrechnen. Was die beiden Zahlen bedeuten, steht in Verstehen.',
           denken: [
@@ -65,11 +65,11 @@ const TASKS = [
             'Unsicher, wie die Ausgabe aufgebaut ist? In „R lesen“ wählst du am Beispiel der Lebenszufriedenheit eine Zahl, und sie wird markiert.',
           ],
           verwechslung: 'In jeder Zeile stehen mehrere Zahlen nebeneinander. Lies den Spaltenkopf, bevor du eine Zahl nimmst.' }),
-          warum('Warum rechnen nicht alle mit?', 'ps03 und pt03 standen nur in einem Teil der Fragebögen; 1.596 Befragten wurden sie nicht gestellt (TNZ: SPLIT, kennst du aus Sitzung 1). Es rechnen nur die mit, die beide Fragen gültig beantwortet haben, deutlich weniger als die 5.246 Befragten.', 'k1-ablesen')] },
+          warum('Warum rechnen nicht alle mit?', 'ps03 und pt03 standen nur in einem Teil der Fragebögen; 1.596 Befragten wurden sie nicht gestellt (⟪TNZ: SPLIT⟫, kennst du aus Sitzung 1). Es rechnen nur die mit, die beide Fragen gültig beantwortet haben, deutlich weniger als die 5.246 Befragten.', 'k1-ablesen')] },
       { id: 'a1-3', art: 'code', titel: 'Vorhersage von Hand', wk: ['a1r'], bekannt: 'R als Taschenrechner aus Sitzung 1',
         text: 'Rechne die Vorhersage für Menschen mit großem Vertrauen (pt03 = 7) aus. Die Vorlage rechnet noch das Beispiel aus Verstehen (im Kommentar „Grundlage 1“: Lebenszufriedenheit bei Lage 4). Tausch im Journal die drei markierten Zahlen: Konstante, Steigung und den Wert 7.',
         mehr: [denk('Wie rechne ich von Hand?', { grund: 'k1-formel',
-          kurz: 'Jede Gerade ist durch zwei Zahlen festgelegt. Die <b>Vorhersage</b> für einen Wert der UV ist Konstante plus Steigung mal Wert. Die Vorlage rechnet das noch für das Beispiel aus Verstehen; du setzt die Zahlen dieser Aufgabe ein.',
+          kurz: 'Jede Gerade ist durch zwei Zahlen festgelegt. Die <b>Vorhersage</b> für einen Wert der UV ist Konstante plus Steigung mal Wert; fachlich heißt sie ⟪linearer Prädiktor|vorhersage⟫. Die Vorlage rechnet das noch für das Beispiel aus Verstehen; du setzt die Zahlen dieser Aufgabe ein.',
           denken: [
             'Such die drei gelben Stellen: Welche ist die Konstante, welche die Steigung, welche der Wert der UV?',
             'Nimm Konstante und Steigung, die du in Schritt 3 abgelesen hast (Ausgabe aus Schritt 2, Coefficients, Spalte B), so wie R sie zeigt.',
@@ -98,14 +98,14 @@ const TASKS = [
             '<b>Was Steigung und Konstante bedeuten:</b> Leg die Möglichkeiten neben deine Sätze aus Schritt 5.',
             '<b>N:</b> ganz oben in der Ausgabe, Zeile <code>- N:</code>.',
           ],
-          verwechslung: 'Neben B stehen Beta und Std. Error. Für Konstante und Steigung zählt nur die Spalte B.' })] },
+          verwechslung: 'Neben B stehen ⟪Beta⟫ und Std. Error. Für Konstante und Steigung zählt nur die Spalte B.' })] },
     ],
     probier: { idee: 'Was passiert, wenn du die Seiten tauschst und das Vertrauen aus der Zufriedenheit vorhersagst?', code: T.frei_a1.code },
     ohneGrafik: 'Diese Aufgabe hat keine Grafik. Alle Zahlen stehen in der Ausgabe von Schritt 2 und im Ergebnis von Schritt 4.' },
 
   { id: 'a2', n: 2, titel: 'Vertrauen oder Schicht: Was sagt mehr?', pflicht: true, grund: 'g2',
     frage: 'Sagt das Vertrauen in den Bundestag die Zufriedenheit mit der Demokratie besser vorher als die eigene Schicht?',
-    ziel: 'du kannst R² und den typischen Fehler einer Regression lesen und begründen, was eine fast gleich steile Gerade über die Güte der Vorhersage sagt und was nicht.',
+    ziel: 'du kannst R² und den Standardfehler der Schätzung einer Regression lesen und begründen, was eine fast gleich steile Gerade über die Güte der Vorhersage sagt und was nicht.',
     info: 'In Aufgabe 1 hast du die Gerade für das Vertrauen in den Bundestag gerechnet. Jetzt vergleichst du sie mit einer zweiten Frage: Welcher Schicht rechnen sich die Befragten zu? (<code>id02</code>, 1 = Unterschicht, 2 = Arbeiterschicht, 3 = Mittelschicht, 4 = obere Mittelschicht, 5 = Oberschicht). Eine hohe Zahl heißt hier schon „höher“; umpolen musst du id02 nicht.',
     schritte: [
       { id: 'a2-p', art: 'festlegen', titel: 'Erst festlegen', vorhersage: P('a2'),
@@ -117,16 +117,16 @@ const TASKS = [
             'Wähl eine Antwort. Ob sie passt, siehst du, sobald alle Fragen in Schritt 5 richtig sind.',
           ] })] },
       { id: 'a2-1', art: 'code', titel: 'Regression mit dem Vertrauen', wk: ['a2'],
-        text: 'Führe die Vorlage aus, wie sie ist. Sie rechnet noch einmal die Regression aus Aufgabe 1; das Umpolen steht wieder drin, weil die Kette aus Aufgabe 1 <code>demo</code> nicht gespeichert hat. Lies im Abschnitt Model Summary <b>R Square</b> und <b>Std. Error of the Estimate</b>, in Descriptive Statistics die Standardabweichung von demo.',
-        mehr: [denk('Was sagen R² und der typische Fehler?', { grund: 'k2-r2',
-          kurz: '<b>R²</b> (erklärter Varianzanteil) setzt die Fehler der Geraden ins Verhältnis zu den Fehlern einer Vorhersage, die nur den Mittelwert kennt. Der <b>typische Fehler</b> (Std. Error of the Estimate) sagt in Punkten der Zufriedenheit, wie weit die Vorhersage typischerweise danebenliegt.',
+        text: 'Führe die Vorlage aus, wie sie ist. Sie rechnet noch einmal die Regression aus Aufgabe 1; das Umpolen steht wieder drin, weil die Kette mit der ⟪Pipe⟫ aus Aufgabe 1 <code>demo</code> nicht gespeichert hat. Lies im Abschnitt Model Summary <b>R Square</b> und den ⟪Standardfehler der Schätzung|standardfehler-schaetzung⟫ (<b>Std. Error of the Estimate</b>): so weit liegt die Vorhersage typischerweise daneben. In Descriptive Statistics liest du die ⟪Standardabweichung⟫ von demo.',
+        mehr: [denk('Was sagen R² und der Std. Error of the Estimate?', { grund: 'k2-r2',
+          kurz: '<b>R²</b> (erklärter Varianzanteil) setzt die quadrierten ⟪Residuen|residuum⟫ der Geraden ins Verhältnis zu denen einer Vorhersage, die nur den Mittelwert kennt. <b>Std. Error of the Estimate</b> sagt in Punkten der Zufriedenheit, wie weit die Vorhersage typischerweise danebenliegt.',
           denken: [
             'Such den Abschnitt Model Summary: Dort stehen R Square und Std. Error of the Estimate.',
             'Wie weit läge man typischerweise daneben, wenn man allen nur den Mittelwert vorhersagt? Such dafür in Descriptive Statistics die Standardabweichung von demo.',
             'Vergleich die beiden Fehler: Um wie viel liegt die Gerade näher an den Befragten als der Mittelwert allein?',
             'Notier dir die Zahlen mit <b>+ Notiz</b>: In Schritt 3 ersetzt die neue Ausgabe die alte.',
           ],
-          bild: 'R2Squares', bildtext: 'Ein Beispiel mit acht Befragten: die Fehlerquadrate mit dem Mittelwert allein und mit der Geraden.',
+          bild: 'R2Squares', bildtext: 'Ein Beispiel mit acht Befragten: die quadrierten Residuen mit dem Mittelwert allein und mit der Geraden.',
           verwechslung: 'R und R Square stehen direkt untereinander. Lies die Zeilenbeschriftung genau, bevor du eine Zahl nimmst.' })] },
       { id: 'a2-2', art: 'anpassen', titel: 'Die Schicht einsetzen', haken: 'Im Journal getauscht und ausgeführt',
         text: 'Tausch in deinem Journal-Block aus Schritt 2 die markierte Stelle <code>pt03</code> gegen <code>id02</code> und führe ihn erneut aus. Lies wieder <b>R Square</b> und dazu die Steigung <b>B</b> in der Zeile id02. Notier dir vorher die Zahlen für pt03, denn die neue Ausgabe ersetzt die alte. Oder du kopierst die Vorlage aus Schritt 2 mit <b>Kopieren</b> in einen Block <b>+ Eigener Code</b> und tauschst dort; dann stehen beide Ausgaben untereinander.',
@@ -141,12 +141,12 @@ const TASKS = [
           verwechslung: 'Umgepolt wird nur die AV ps03, nicht die neue UV. Bei id02 heißt eine hohe Zahl schon „höher“.',
           zusatz: 'Willst du beide Ausgaben untereinander sehen, kopier die Vorlage aus Schritt 2 mit <b>Kopieren</b> in einen Block <b>+ Eigener Code</b> und tausch dort.' })] },
       { id: 'a2-3', art: 'lesen', titel: 'Die beiden Ausgaben vergleichen',
-        text: 'Vergleiche die beiden Ausgaben: erst die Steigungen B, dann R² und den typischen Fehler. Was passt nicht zusammen?',
+        text: 'Vergleiche die beiden Ausgaben: erst die Steigungen B, dann R² und Std. Error of the Estimate. Was passt nicht zusammen?',
         mehr: [denk('Wie vergleiche ich die beiden Ausgaben?', { grund: 'k2-vergleich',
-          kurz: 'Du legst zwei Ausgaben nebeneinander und liest zwei Arten von Zahlen: die <b>Steigung</b> B in Coefficients und <b>R²</b> mit dem typischen Fehler in Model Summary. Dabei achtest du darauf, ob beide dasselbe Bild ergeben.',
+          kurz: 'Du legst zwei Ausgaben nebeneinander und liest zwei Arten von Zahlen: die <b>Steigung</b> B in Coefficients und <b>R²</b> mit Std. Error of the Estimate in Model Summary. Dabei achtest du darauf, ob beide dasselbe Bild ergeben.',
           denken: [
             'Leg die beiden Ausgaben nebeneinander. Vergleich zuerst nur die Steigungen B.',
-            'Vergleich dann R² und den typischen Fehler.',
+            'Vergleich dann R² und den Std. Error of the Estimate.',
             'Passt die Reihenfolge bei B zur Reihenfolge bei R²? Wenn nicht: Was misst jede der beiden Zahlen?',
           ],
           verwechslung: 'B steht in Coefficients, R² in Model Summary. Achte darauf, aus welcher der beiden Ausgaben du gerade liest.' })] },
@@ -154,7 +154,7 @@ const TASKS = [
         mehr: [denk('Wo lese ich das ab?', { grund: 'k2-ergebnis',
           kurz: 'Du hältst Zahlen aus zwei Ausgaben fest, der mit dem Vertrauen (Schritt 2) und der mit der Schicht (Schritt 3), dazu zwei Deutungen.',
           denken: [
-            '<b>R² und typischer Fehler mit dem Vertrauen:</b> Ausgabe aus Schritt 2, Model Summary. Gib R² als Anteil ein, so wie R es zeigt, nicht in Prozent.',
+            '<b>R² mit dem Vertrauen, dazu Std. Error of the Estimate:</b> Ausgabe aus Schritt 2, Model Summary. Gib R² als Anteil ein, so wie R es zeigt, nicht in Prozent.',
             '<b>R² und Steigung mit der Schicht:</b> Ausgabe aus Schritt 3; die Steigung in der Zeile <code>id02</code>, Spalte B.',
             '<b>Was R² heißt:</b> Leg jede Möglichkeit neben die Erklärung von R² in Verstehen.',
             '<b>Steigung gegen R²:</b> Nimm deinen Vergleich aus Schritt 4.',
@@ -179,18 +179,18 @@ const TASKS = [
           ],
           verwechslung: 'Gleiche Fehlervarianz heißt nicht, dass die Gruppen gleich zufrieden sind. Es geht darum, wie weit die Menschen jeder Gruppe um die Gerade herum streuen.' })] },
       { id: 'a3-1', art: 'code', titel: 'Residuum bilden und je Stufe beschreiben', wk: ['a3'], neu: true, bekannt: 'mutate() aus Sitzung 5',
-        text: 'Die Vorlage bildet für jede Person die Vorhersage (Konstante + Steigung mal pt03) und das Residuum (beobachtet minus vorhergesagt). Noch stehen dort die Zahlen aus dem Beispiel in Verstehen zu Aufgabe 1. Tausch im Journal die beiden markierten Zahlen gegen Konstante und Steigung aus Aufgabe 1 (2.288 und 0.465, mit Punkt) und führe den Block aus. Neu sind <code>group_by()</code> und <code>levene_test()</code>.',
+        text: 'Die Vorlage bildet für jede Person die Vorhersage (Konstante + Steigung mal pt03) und das ⟪Residuum⟫ (beobachtet minus vorhergesagt). Noch stehen dort die Zahlen aus dem Beispiel in Verstehen zu Aufgabe 1. Tausch im Journal die beiden markierten Zahlen gegen ⟪Konstante⟫ und Steigung aus Aufgabe 1 (2.288 und 0.465, mit Punkt) und führe den Block aus. Neu sind <code>group_by()</code> und <code>levene_test()</code>.',
         mehr: [denk('Was macht die Vorlage?', { grund: 'k3-vorlage',
           kurz: 'Die Vorlage hat drei Teile. Erst bildet sie für jede Person die <b>Vorhersage</b> (Konstante plus Steigung mal pt03) und das <b>Residuum</b>, kurz gesagt: beobachtet minus vorhergesagt. Dann beschreibt sie das Residuum für jede Stufe von pt03 getrennt, und zuletzt testet sie, ob es überall gleich stark streut.',
           denken: [
             'Such die zwei gelben Zahlen: Noch stehen dort Konstante und Steigung aus dem Beispiel der Lebenszufriedenheit. Tausch sie gegen die Konstante und die Steigung, die du in Aufgabe 1 abgelesen hast, mit Punkt.',
-            'Lies <code>allbus &lt;- allbus %&gt;%</code>: Die neuen Spalten werden im Datensatz gespeichert, damit die beiden Ketten darunter sie benutzen können.',
+            'Lies <code>allbus &lt;- allbus %&gt;%</code>: Die neuen Spalten werden im ⟪Datensatz⟫ gespeichert, damit die beiden Pipe-Ketten darunter sie benutzen können.',
             'Lies <code>group_by(pt03)</code>: In wie viele Gruppen teilt es die Befragten, und was rechnet <code>describe()</code> danach für jede?',
             'Ganz unten steht <code>levene_test()</code>: Welche Variable wird verglichen, und was steht nach <code>group =</code>?',
           ],
-          bild: 'GroupBy', bildtext: 'Zum Beispiel sechs Befragte: <code>group_by(pt03)</code> legt alle mit derselben Antwort bei pt03 auf eine eigene Platte.',
+          bild: 'GroupBy', bildtext: 'Zum Beispiel sechs Befragte: <code>group_by(pt03)</code> fasst alle mit derselben Antwort bei pt03 zu einer eigenen Gruppe zusammen.',
           verwechslung: 'Ein Komma in der Zahl, etwa <code>vorhersage = 3,570 + …</code>: R meldet keinen Fehler, liest aber nur 3 und bildet aus dem Rest eine eigene, unbenannte Spalte. In R schreibst du Kommazahlen mit Punkt.' }),
-          warum('Was macht group_by()?', '<code>group_by(pt03)</code> teilt die Befragten nach ihrer Antwort bei pt03 in sieben Gruppen. Alles, was danach kommt, rechnet R für jede Gruppe getrennt. <code>describe()</code> gibt darum sieben kleine Tabellen aus, eine je Stufe, in der Reihenfolge 1 bis 7. Nur 1 und 7 haben einen Namen (GAR KEIN VERTRAUEN, GROSSES VERTRAUEN); die Stufen 2 bis 6 zeigt R als „..“. N ist gewichtet gezählt. <code>drop_na(residuum)</code> lässt alle weg, für die es kein Residuum gibt, weil ps03 oder pt03 fehlt (kennst du aus Sitzung 4).', 'k3-groupby')] },
+          warum('Was macht group_by()?', '<code>group_by(pt03)</code> teilt die Befragten nach ihrer Antwort bei pt03 in sieben Gruppen, eine je ⟪Ausprägung⟫. Alles, was danach kommt, rechnet R für jede Gruppe getrennt. <code>describe()</code> gibt darum sieben kleine Tabellen aus, eine je Stufe, in der Reihenfolge 1 bis 7. Nur 1 und 7 haben einen Namen (GAR KEIN VERTRAUEN, GROSSES VERTRAUEN); die Stufen 2 bis 6 zeigt R als „..“. N ist gewichtet gezählt. <code>drop_na(residuum)</code> lässt alle weg, für die es kein Residuum gibt, weil ps03 oder pt03 fehlt (kennst du aus Sitzung 4).', 'k3-groupby')] },
       { id: 'a3-2', art: 'lesen', titel: 'Die Streuung je Stufe lesen',
         text: 'Lies in jeder der sieben Tabellen die Spalte <b>SD</b>: So stark streut das Residuum in dieser Stufe. Wo ist sie am größten, wo am kleinsten?',
         mehr: [denk('Wie lese ich die Streuung je Stufe?', { grund: 'k3-sd',
@@ -213,7 +213,7 @@ const TASKS = [
             'Vergleich das Ergebnis mit 2: Ist die größte mehr als doppelt so groß?',
             'Leg beides zusammen: Was sagt der Test, was die Faustregel?',
           ],
-          verwechslung: 'Der p-Wert steht in der letzten Zeile, die SD-Werte stehen in den sieben Tabellen. Für diesen Schritt brauchst du beide Stellen.' })] },
+          verwechslung: 'Der ⟪p-Wert⟫ steht in der letzten Zeile, die SD-Werte stehen in den sieben Tabellen. Für diesen Schritt brauchst du beide Stellen.' })] },
       { id: 'a3-4', art: 'lesen', titel: 'Deuten: Was heißt das für einen Bericht?',
         text: 'Überleg dir einen Satz für einen Bericht, gern mit <b>+ Notiz</b> im Journal: Für wen sagt die Gerade die Zufriedenheit genauer vorher, für wen ungenauer? Die Fragen im nächsten Schritt greifen das auf.',
         mehr: [denk('Wie wird daraus ein Satz?', { grund: 'k3-bericht',
@@ -245,7 +245,7 @@ const TASKS = [
     info: 'Die Befragten stufen sich politisch selbst ein, von 1 (links) bis 10 (rechts) (<code>pa01</code>).',
     schritte: [
       { id: 'a4-p', art: 'festlegen', titel: 'Erst festlegen', vorhersage: P('a4'),
-        mehr: [denk('Wie lege ich mich fest?', { grund: 'k4-kurve',
+        mehr: [denk('Wie lege ich mich fest?', { grund: 'k4-vorlage',
           kurz: 'Du legst fest, welche Form der Zusammenhang hat: wie die Zufriedenheit mit der Demokratie von links (1) nach rechts (10) verläuft. Es zählt nicht, ob du richtig liegst; deine Festlegung ist der Vergleichspunkt für Schritt 4.',
           denken: [
             'Geh in Gedanken von links (1) nach rechts (10): Wie zufrieden ist man wohl an jeder Stelle?',
@@ -256,7 +256,7 @@ const TASKS = [
         mehr: [denk('Warum Mittelwerte je Stufe?', { grund: 'k4-vorlage',
           kurz: 'Die Vorlage rechnet zwei Dinge, die du danach vergleichst: die Gerade (<code>demo ~ pa01</code>) und die Mittelwerte von demo je Stufe von pa01. Eine Gerade kann nur steigen oder fallen. Ob sie den Zusammenhang richtig beschreibt, zeigen erst die Mittelwerte daneben.',
           denken: [
-            'Lies den ersten Teil: <code>allbus &lt;- allbus %&gt;% mutate(…)</code> polt ps03 um und speichert demo, damit beide Ketten darunter es benutzen können.',
+            'Lies den ersten Teil: <code>allbus &lt;- allbus %&gt;% mutate(…)</code> polt ps03 um und speichert demo, damit beide Pipe-Ketten darunter es benutzen können.',
             'Lies die Regression: Konstante und Steigung stehen danach wie in Aufgabe 1 unter Coefficients, Spalte B.',
             'Lies den letzten Teil: <code>drop_na()</code>, <code>group_by(pa01)</code>, <code>describe()</code>. Wie viele Tabellen erwartest du?',
             'Achte auf die Richtung der Codes: pa01 ist nicht umgepolt, 1 heißt links, 10 rechts.',
@@ -276,7 +276,7 @@ const TASKS = [
       { id: 'a4-3', art: 'lesen', titel: 'Vergleichen: Gerade gegen Mittelwerte',
         text: 'Vergleiche die Vorhersage für ganz links mit dem Mittelwert der ersten Tabelle (LINKS). Lies dann die Mittelwerte der zehn Tabellen der Reihe nach: Fallen sie gleichmäßig, so wie die Gerade?',
         mehr: [denk('Wie prüfe ich, ob die Gerade passt?', { grund: 'k4-vergleich',
-          kurz: '<b>Linearität</b> heißt: Der Zusammenhang lässt sich durch eine Gerade beschreiben. Prüfen kannst du das, indem du die Mittelwerte jeder Stufe neben die Gerade legst, erst an einer Stelle, dann im Ganzen.',
+          kurz: 'Ob eine Gerade den Zusammenhang gut beschreibt, prüfst du, indem du die Mittelwerte jeder Stufe neben die Gerade legst: erst an einer Stelle, dann im Ganzen.',
           denken: [
             'Vergleich deine Vorhersage für ganz links aus Schritt 3 mit Mean in der ersten Tabelle (LINKS): Wie weit liegen sie auseinander?',
             'Lies dann Mean in allen zehn Tabellen der Reihe nach, von 1 bis 10, und schreib die Werte als Reihe auf.',
@@ -319,12 +319,12 @@ const FREI = {
   ],
   a2: [
     { stufe: 'Abwandeln', text: 'Sagt die Wirtschaftslage in Deutschland (ep01, 1 = sehr gut … 5 = sehr schlecht) die Zufriedenheit besser vorher als die Schicht? Und warum ist ihre Steigung negativ?', tipp: 'Nimm die Vorlage aus Schritt 2 und tausch die markierte Stelle gegen <code>ep01</code>. Achte auf die Richtung der Codes: Bei ep01 heißt 1 „sehr gut“.' },
-    { stufe: 'Erweitern', text: 'Rechne R² selbst aus dem typischen Fehler und der Standardabweichung von demo nach.', tipp: '<code>1 - (Fehler / SD)^2</code>, mit den beiden Zahlen aus deiner Ausgabe statt der Wörter. Es kommt R² heraus, bis auf Rundung.' },
+    { stufe: 'Erweitern', text: 'Rechne R² selbst aus dem ⟪Standardfehler der Schätzung⟫ und der Standardabweichung von demo nach.', tipp: '<code>1 - (Fehler / SD)^2</code>, mit den beiden Zahlen aus deiner Ausgabe statt der Wörter. Es kommt R² heraus, bis auf Rundung.' },
     { stufe: 'Eigene Frage', text: 'Welche andere Frage sagt die Zufriedenheit mit der Demokratie gut vorher?', tipp: 'Tausch die markierte Stelle gegen eine Variable deiner Wahl. Tipp im Journal ein paar Buchstaben, dann <kbd>Tab</kbd>: Die Vorschläge zeigen Variablen mit ihrer Frage. Prüf, in welche Richtung ihre Codes laufen.' },
   ],
   a3: [
-    { stufe: 'Abwandeln', text: 'Zeig die Streuung des Residuums je Stufe als Boxplots.', tipp: '<code>to_label(pt03)</code> schreibt die Stufen an die Achse, <code>geom_boxplot()</code> zeichnet je Stufe einen Kasten (kennst du aus Sitzung 4). Ein langer Kasten heißt: Das Residuum streut dort stark.' },
-    { stufe: 'Erweitern', text: 'Prüf die gleiche Fehlervarianz auch für das Beispiel aus Verstehen: Lebenszufriedenheit nach der eigenen wirtschaftlichen Lage.', tipp: 'Wie in der Vorlage, nur mit <code>lage = rec(ep03, rules = "rev")</code>, <code>vorhersage = 3.570 + 1.073 * lage</code> und <code>residuum = ls01 - vorhersage</code>; danach <code>group_by(lage)</code> und <code>levene_test(residuum, group = lage, weights = wghtpew)</code>.' },
+    { stufe: 'Abwandeln', text: 'Zeig die Streuung des Residuums je Stufe als Boxplots.', tipp: '<code>to_label(pt03)</code> schreibt die Stufen an die Achse, <code>geom_boxplot()</code> zeichnet je Stufe einen ⟪Boxplot⟫ (kennst du aus Sitzung 4). Eine lange Box heißt: Das Residuum streut dort stark.' },
+    { stufe: 'Erweitern', text: 'Prüf die ⟪gleiche Fehlervarianz⟫ auch für das Beispiel aus Verstehen: Lebenszufriedenheit nach der eigenen wirtschaftlichen Lage.', tipp: 'Wie in der Vorlage, nur mit <code>lage = rec(ep03, rules = "rev")</code>, <code>vorhersage = 3.570 + 1.073 * lage</code> und <code>residuum = ls01 - vorhersage</code>; danach <code>group_by(lage)</code> und <code>levene_test(residuum, group = lage, weights = wghtpew)</code>.' },
     { stufe: 'Eigene Frage', text: 'Liegt die Gerade für Frauen und Männer gleich weit daneben?', tipp: 'Nach der Vorlage: <code>group_by(sex)</code> statt <code>group_by(pt03)</code> (sex: 1 Mann, 2 Frau, 3 divers) und <code>levene_test(residuum, group = sex, weights = wghtpew)</code>.' },
   ],
   a4: [

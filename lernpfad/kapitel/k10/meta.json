@@ -5,12 +5,12 @@
   "ziele": [
     "eine lineare Regression mit mehreren Prädiktoren rechnen und Gruppen als Dummyvariablen mit einer Referenzgruppe ins Modell nehmen",
     "einen Regressionskoeffizienten B in einem Modell mit mehreren Prädiktoren als „bei gleichen Werten der anderen Prädiktoren“ lesen und erklären, warum sich B ändert, wenn ein zweiter Prädiktor dazukommt",
-    "B einer Dummyvariable als Abstand zur Referenzgruppe lesen und die Konstante als Mittelwert der Referenzgruppe",
+    "B einer Dummyvariable als Unterschied zur Referenzgruppe lesen und die Konstante als Mittelwert der Referenzgruppe",
     "Prädiktoren mit dem standardisierten Koeffizienten Beta vergleichen und R² gegen das korrigierte R² abwägen",
     "die Voraussetzungen einer multiplen Regression nennen und prüfen: keine starke Multikollinearität (VIF), keine Dummyfalle, keine einzelnen Fälle mit großem Einfluss, ein Zusammenhang, der für alle gleich gilt oder als Interaktion ins Modell kommt; dazu, was man kontrollieren sollte und was nicht",
     "<code>y ~ x1 + x2</code> in <code>linear_regression()</code> lesen und anpassen, mit <code>to_dummy()</code> Dummies bilden, in der Ausgabe von <code>summary()</code> Model Summary, Coefficients und Collinearity Statistics finden; <code>*</code> für eine Interaktion lesen"
   ],
-  "bekannt": "der Startblock und TNZ: SPLIT (Sitzung 1), <code>filter()</code> und dass Codes oft nur Namen sind (Sitzung 2), die Standardabweichung (Sitzung 3), Ketten mit <code>%&gt;%</code> und Ausreißer im Boxplot (Sitzung 4), AV und UV, <code>mutate()</code> mit <code>rec()</code>, <code>rules = \"rev\"</code> zum Umpolen und Dummyvariablen mit 0 und 1 (Sitzung 5), Gewichten mit <code>weights = wghtpew</code> und die Drittvariable (Sitzung 6), t-Test, Konfidenzintervall und p-Wert (Sitzung 7), der Index (Sitzung 8), <code>linear_regression()</code> mit <code>summary()</code>, Prädiktor, Konstante, Steigung B, Beta bei einer UV, Residuum, R², Linearität, Ausreißer und gleiche Fehlervarianz sowie die Variablen <code>demo</code> und <code>lage</code> (Sitzung 9).",
+  "bekannt": "der Startblock und TNZ: SPLIT (Sitzung 1), <code>filter()</code> und dass Codes oft nur Namen sind (Sitzung 2), die Standardabweichung (Sitzung 3), die Pipe <code>%&gt;%</code> und Ausreißer im Boxplot (Sitzung 4), AV und UV, <code>mutate()</code> mit <code>rec()</code>, <code>rules = \"rev\"</code> zum Umpolen und Dummyvariablen mit 0 und 1 (Sitzung 5), Gewichten mit <code>weights = wghtpew</code> und die Drittvariable (Sitzung 6), t-Test, Konfidenzintervall und p-Wert (Sitzung 7), der Index (Sitzung 8), <code>linear_regression()</code> mit <code>summary()</code>, Prädiktor, Konstante, Steigung B, Beta bei einer UV, Residuum, R², Linearität, Ausreißer und gleiche Fehlervarianz sowie die Variablen <code>demo</code> und <code>lage</code> (Sitzung 9).",
   "content": "s10",
   "ersetzungen": [
     [
@@ -53,5 +53,6 @@
       "{`Zur Kontrolle: Zeile 0",
       "{`So sieht die Ausgabe aus: Zeile 0"
     ]
-  ]
+  ],
+  "begriffe": ["kontrollvariable","suppression","mediator","referenzgruppe","dummyfalle","multikollinearitaet","interaktion","einfluss","bruttoeffekt","nettoeffekt","korrigiertes-r2","lineare-regression","praediktor","konstante","regressionskoeffizient","vorhersage","beta","r-quadrat","residuum","ausreisser","linear","gleiche-fehlervarianz","dummy","abhaengige-variable","unabhaengige-variable","standardabweichung","drittvariable","confounding","kausalitaet","konfidenzintervall","p-wert","signifikanzniveau","kreuztabelle","umpolen","gewichte","ausschluss","pipe","datenmatrix","fall","variable","wert","code","wertelabel","codebuch","tnz","fehlende-werte","skalenniveau","metrisch","relative-haeufigkeit","mittelwert","streuung","zusammenhang","pearson","t-test","standardfehler","skript"]
 }

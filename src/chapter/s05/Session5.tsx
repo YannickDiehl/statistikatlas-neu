@@ -23,7 +23,7 @@ const TOC: TocGroup[] = [
 ];
 
 const TAKE_AWAY = [
-  <><b>Umkodieren</b> fasst Antworten nach festen Regeln zu Gruppen zusammen. Wer in keine Gruppe gehört, wird <b>leer (NA)</b>, nicht 0. Jede Einteilung ist eine Entscheidung, die du nennst.</>,
+  <><b>Umkodieren</b> fasst Antworten nach festen Regeln zu wenigen Kategorien zusammen. Wer in keine Kategorie gehört, wird ein <b>fehlender Wert (NA)</b>, nicht 0. Jede Umkodierung ist eine Entscheidung, die du nennst.</>,
   <>Eine <b>Dummyvariable</b> hat nur 0 und 1; ihr Mittelwert ist der Anteil der Einsen.</>,
   <>Eine <b>Kreuztabelle</b> zählt die Kombinationen zweier Variablen. Jede Prozentzahl darin hat eine <b>Basis</b>: <b>Zeilenprozente</b> (jede Zeile 100 %), <b>Spaltenprozente</b> (jede Spalte 100 %), <b>Gesamtprozente</b> (alle 100 %).</>,
   <>Dieselbe Zelle beantwortet je nach Basis eine andere Frage: 87,0 % der Nichtwählenden misstrauen, aber nur 6,5 % der Misstrauenden würden nicht wählen.</>,
@@ -44,7 +44,7 @@ export function Session5() {
       { href: '#ueberblick', title: 'Zum Schluss', note: 'Überblick, Wichtigstes, Selbsttest, Skript' },
     ]}
     goals={[
-      <><b>Verfahren:</b> aus einer Frage mit vielen Antworten Gruppen bilden (umkodieren), auch eine Dummyvariable mit nur 0 und 1; zwei Variablen in einer Kreuztabelle gegenüberstellen</>,
+      <><b>Verfahren:</b> aus einer Frage mit vielen Antworten wenige Kategorien bilden (umkodieren), auch eine Dummyvariable mit nur 0 und 1; zwei Variablen in einer Kreuztabelle gegenüberstellen</>,
       <><b>Interpretation:</b> dieselbe Zelle als Zeilen-, Spalten- und Gesamtprozent lesen und sagen, welche Frage jede Zahl beantwortet; Gruppen vergleichen und den Unterschied in Prozentpunkten angeben</>,
       <><b>Voraussetzungen:</b> wissen, wer in der Tabelle fehlt (fehlende Werte, Split), warum kleine Gruppen wackelige Prozent liefern und warum ein Zusammenhang noch keine Ursache ist</>,
       <><b>Code lesen:</b> eine neue Variable mit <code>mutate()</code> und <code>rec()</code> lesen und ihre Regel anpassen; mit <code>crosstab()</code> und <code>percentages =</code> die passende Prozentbasis einstellen; eine Skala mit <code>rules = "rev"</code> umpolen</>,
@@ -57,7 +57,7 @@ export function Session5() {
     <Part id="werkzeug" tone="yellow" title="Vorweg: R lesen" />
     <ReadR />
 
-    <TopicHeading id="thema1" n={1} title="Thema 1: Gruppen bilden: Umkodieren" />
+    <TopicHeading id="thema1" n={1} title="Thema 1: Kategorien bilden: Umkodieren" />
     <Foundation1 />
     <Task1 />
 
@@ -65,7 +65,7 @@ export function Session5() {
     <Foundation2 />
     <Task2 />
 
-    <TopicHeading id="thema3" n={3} title="Thema 3: Leserichtung: Gruppen vergleichen" />
+    <TopicHeading id="thema3" n={3} title="Thema 3: Leserichtung: prozentuieren und vergleichen" />
     <Foundation3 />
     <Task3 />
 

@@ -1,5 +1,5 @@
 // Erklärfassungen von Atlas-Bildern aus Kapitel 5, die dort eine Übung oder Eingabe eingebaut haben:
-// Gruppen zuschneiden (Radioknöpfe je Zeile), Basis-Schalter (Radioknöpfe) und ein Nenner-Bild mit kleinem Beispiel
+// Kategorien zusammenfassen (Radioknöpfe je Zeile), Basis-Schalter (Radioknöpfe) und ein Nenner-Bild mit kleinem Beispiel
 // statt der echten Zahlen (das Atlas-Bild verrät die Antworten zu Aufgabe 2).
 import { useState } from 'react';
 import '@atlas/chapter/s05/s05.css';
@@ -8,7 +8,7 @@ import { cutResult, ruleInWords, baseSentence } from '@atlas/chapter/s05/figures
 import { BASIS_TITLE, countOf, frame, pctText } from '@atlas/chapter/s05/figures/Tables';
 import { COLORS, Canvas, Fig, T, de, whole } from '@atlas/chapter/s05/figures/parts';
 
-/* ---------- Gruppen zuschneiden: sechs fertige Einteilungen zum Durchschalten ---------- */
+/* ---------- Kategorien zusammenfassen: sechs fertige Umkodierungen zum Durchschalten ---------- */
 
 const NAMEN: Record<string, string> = {
   A: 'wie in R lesen',
@@ -22,17 +22,17 @@ const NAMEN: Record<string, string> = {
 /** Die Rückmeldung zu C endet mit einer Frage; hier steht die Antwort gleich dabei. */
 const ANTWORT: Record<string, string> = { C: ' Nein: Wer nebenher arbeitet, arbeitet nicht Vollzeit.' };
 
-/** Gruppen zuschneiden ohne Eingabe: Man schaltet durch die Einteilungen A bis F (CUTS) und sieht Anteil und Rückmeldung. */
+/** Kategorien zusammenfassen ohne Eingabe: Man schaltet durch die Umkodierungen A bis F (CUTS) und sieht Anteil und Rückmeldung. */
 export function ZuschnittZeigen() {
   const [i, setI] = useState(0);
   const cut = CUTS[i], r = cutResult(cut.groups), sum = r.n1 + r.n0;
   return <div className="s5-zuschnitt">
-    <ul className="schritt-nav" aria-label="Einteilungen zum Durchschalten">
+    <ul className="schritt-nav" aria-label="Umkodierungen zum Durchschalten">
       {CUTS.map((c, k) => <li key={c.id}><button type="button" aria-current={k === i ? 'step' : 'false'} onClick={() => setI(k)}>{`${c.id}: ${NAMEN[c.id]}`}</button></li>)}
     </ul>
     <table className="daten s5-zuschnitt-tabelle">
-      <caption>{`Einteilung ${cut.id}: Antworten auf die Frage nach der Erwerbstätigkeit und ihre Gruppe`}</caption>
-      <thead><tr><th scope="col">Antwort (Code)</th><th scope="col">Befragte</th><th scope="col">Gruppe</th></tr></thead>
+      <caption>{`Umkodierung ${cut.id}: Antworten auf die Frage nach der Erwerbstätigkeit und ihre neue Kategorie`}</caption>
+      <thead><tr><th scope="col">Antwort (Code)</th><th scope="col">Befragte</th><th scope="col">neue Kategorie</th></tr></thead>
       <tbody>{WORK.map((w, k) => <tr key={w.id}>
         <th scope="row">{w.label}</th>
         <td>{whole(w.n)}</td>
@@ -41,8 +41,8 @@ export function ZuschnittZeigen() {
     </table>
     <div className="s5-zuschnitt-ergebnis" aria-live="polite">
       <ul>
-        <li>{`Gruppe 1 (Teilzeit): ${whole(r.n1)}`}</li>
-        <li>{`Gruppe 0 (Vollzeit): ${whole(r.n0)}`}</li>
+        <li>{`Kategorie 1 (Teilzeit): ${whole(r.n1)}`}</li>
+        <li>{`Kategorie 0 (Vollzeit): ${whole(r.n0)}`}</li>
         <li>{`leer: ${whole(r.nL)}`}</li>
       </ul>
       {r.share !== null ? <>

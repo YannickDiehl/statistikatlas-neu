@@ -702,7 +702,7 @@ allbus %>%
 3. „Zum Vergleich die Ost-West-Lücke ohne weitere Prädiktoren. Führe die zweite Vorlage aus und vergleiche B von `ost` mit dem aus Schritt 1.“
 
 ```r
-# Zum Vergleich: die Ost-West-Lücke ohne weitere Prädiktoren
+# Zum Vergleich: der Ost-West-Unterschied ohne weitere Prädiktoren
 # demo wie in Aufgabe 1, ost wie oben
 allbus %>%
   mutate(
@@ -842,7 +842,7 @@ Einleitung: „In Aufgabe 3 ist die Ost-West-Lücke mit Lage und Abitur im Model
 1. „Führe die Vorlage aus. Sie rechnet `demo ~ ost + abitur`: eine Lücke für alle. Lies B von `ost`.“
 
 ```r
-# Ost-West-Lücke und Abitur
+# Ost-West-Unterschied und Abitur
 # demo wie in Aufgabe 1, ost und abitur wie in Aufgabe 3
 allbus %>%
   mutate(
@@ -861,7 +861,7 @@ allbus %>%
 3. „Rechne die Lücke für Befragte mit Abitur aus: B von `ost` plus B von `ost:abitur`. B von `ost` ist jetzt die Lücke ohne Abitur. Die Vorlage rechnet noch das Beispiel aus Grundlage 4b (Abstand der Erwerbstätigen ab 60). Tausch beide markierten Zahlen gegen deine aus Schritt 2.“ Hilfezeile: „Kommazahlen mit Punkt, ein Minus gehört mit dazu.“
 
 ```r
-# Abstand in der zweiten Gruppe: B des Prädiktors plus B der Interaktion
+# Unterschied in der zweiten Gruppe: B des Prädiktors plus B der Interaktion
 # (hier noch das Beispiel aus Grundlage 4b: Erwerbstätige ab 60)
 ⟦1.091⟧ + ⟦-1.035⟧
 ```
@@ -873,7 +873,7 @@ allbus %>%
 **Weiterdenken in der Probier-Werkstatt (für die Aufgabe nicht nötig),** zugeklappt: „Für die Aufgabe reichen die Vorlagen oben. Hier ist Platz für eigene Fragen. Eine Idee: Ist die Lücke bei Menschen, die sich politisch links einstufen, anders? Die Probier-Werkstatt startet mit einem Vorschlag.“
 
 ```r
-# Eine Idee: Ist die Lücke bei Menschen, die sich links einstufen, anders?
+# Eine Idee: Ist der Ost-West-Unterschied bei Menschen, die sich links einstufen, anders?
 # links: pa01 1 bis 4 = links, 5 bis 10 = Mitte oder rechts
 allbus %>%
   mutate(

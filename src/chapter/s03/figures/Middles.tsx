@@ -16,7 +16,7 @@ export function ScaleLevels() {
   return <div className="s3-tabelle">
     <table className="daten voll s3-stufen">
       <caption>Welche Mitte passt zu welchem Skalenniveau?</caption>
-      <thead><tr>{['Stufe', 'Was die Codes sagen', 'Beispiel', 'Modus', 'Median', 'Mittelwert'].map(h => <th key={h} scope="col">{h}</th>)}</tr></thead>
+      <thead><tr>{['Skalenniveau', 'Was die Codes sagen', 'Beispiel', 'Modus', 'Median', 'Mittelwert'].map(h => <th key={h} scope="col">{h}</th>)}</tr></thead>
       <tbody>{SCALE_LEVELS.map((s, i) => <tr key={s.level}>
         <th scope="row"><span className="s3-treppe" aria-hidden="true">{Array.from({ length: i + 1 }, (_, k) => <i key={k}></i>)}</span>{s.level}</th>
         <td>{s.codes}</td><td>{s.example}</td><Cell v={s.mode} /><Cell v={s.median} /><Cell v={s.mean} />

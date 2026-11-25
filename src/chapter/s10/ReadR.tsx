@@ -1,5 +1,6 @@
 // Sitzung 10 „Regression vertiefen“: Vorweg R lesen (#r1 Modell mit mehreren Prädiktoren, #r2 Ausgabe von summary(), #r3 to_dummy()).
 import { Badge, Card, InShort, Known, Mixup, MoreDetail } from '../blocks/Card';
+import { Begriff } from '../Begriff';
 import { MSTAT_1_FREQ } from './content';
 import { FormulaLine } from './figures/Formulas';
 import { OutputReader } from './figures/Output';
@@ -18,8 +19,8 @@ export function ReadR() {
       <FormulaLine />
       <p className="hilfe-zeile">Sag die Lebenszufriedenheit aus Alter und Gesundheit vorher, gewichtet.</p>
       <Workshop k="r_modell" live />
-      <p className="absatz"><code>hs01</code> zählt von 1 „sehr gut“ bis 5 „schlecht“. Umgepolt heißt <code>gesund</code> 5 „sehr gut“ und 1 „schlecht“, damit eine höhere Zahl „gesünder“ heißt (umpolen kennst du aus Sitzung 5).</p>
-      <InShort>In der Formel steht links vom <code>~</code> die abhängige Variable (AV), rechts stehen die Prädiktoren, verbunden mit <code>+</code>. Prädiktor ist ein anderes Wort für unabhängige Variable (Prädiktor kennst du aus Sitzung 9, AV und UV aus Sitzung 5). Jeder Prädiktor bekommt in der Ausgabe eine eigene Zeile mit seinem B.</InShort>
+      <p className="absatz"><code>hs01</code> zählt von 1 „sehr gut“ bis 5 „schlecht“. Umgepolt heißt <code>gesund</code> 5 „sehr gut“ und 1 „schlecht“, damit eine höhere Zahl „gesünder“ heißt (<Begriff id="umpolen">umpolen</Begriff> kennst du aus Sitzung 5).</p>
+      <InShort>In der Formel steht links vom <code>~</code> die <Begriff id="abhaengige-variable">abhängige Variable</Begriff> (AV), rechts stehen die Prädiktoren, verbunden mit <code>+</code>. <Begriff id="praediktor">Prädiktor</Begriff> ist ein anderes Wort für <Begriff id="unabhaengige-variable">unabhängige Variable</Begriff> (Prädiktor kennst du aus Sitzung 9, AV und UV aus Sitzung 5). Jeder Prädiktor bekommt in der Ausgabe eine eigene Zeile mit seinem B.</InShort>
       <MoreDetail summary="Plus in der Formel und Plus bei ggplot">
         <ul>
           <li>Das <code>+</code> in der Formel heißt „und dieser Prädiktor auch“. Es rechnet nichts zusammen. Mit dem <code>+</code> zwischen ggplot-Schichten aus Sitzung 4 hat es nur das Zeichen gemeinsam.</li>
@@ -38,7 +39,7 @@ export function ReadR() {
       <OutputReader />
       <InShort>Für ein Modell mit mehreren Prädiktoren liest du drei Blöcke: <b>Model Summary</b> (R² und korrigiertes R²), <b>Coefficients</b> (B, Beta, Sig., Konfidenzintervall je Prädiktor) und <b>Collinearity Statistics</b> (VIF). Im Kopf prüfst du Formel, Gewicht und N.</InShort>
       <MoreDetail summary="Warum N kleiner ist als bei einer Variable allein">
-        <p>Im Modell zählt nur, wer bei allen Variablen der Formel einen gültigen Wert hat. Fehlt einer Person die Gesundheit, fällt sie ganz heraus. Darum kann N von Modell zu Modell schwanken, wenn du Prädiktoren hinzunimmst. Das nennt man fallweisen Ausschluss (listwise).</p>
+        <p>Im Modell zählt nur, wer bei allen Variablen der Formel einen gültigen Wert hat. Fehlt einer Person die Gesundheit, fällt sie ganz heraus. Darum kann N von Modell zu Modell schwanken, wenn du Prädiktoren hinzunimmst. Das nennt man <Begriff id="ausschluss">fallweisen Ausschluss</Begriff> (listwise).</p>
       </MoreDetail>
       <Mixup>Descriptive Statistics zeigt Mittelwerte und Standardabweichungen der Variablen, nicht die Ergebnisse des Modells. B und Beta stehen erst unter Coefficients.</Mixup>
     </Card>
@@ -48,8 +49,8 @@ export function ReadR() {
       <Workshop k="r_dummy" live />
       <p className="hilfe-zeile">{`Zur Kontrolle: Zeile 0 mit N ${MSTAT_1_FREQ.zero.n} und Valid % ${MSTAT_1_FREQ.zero.valid.toFixed(2)}, Zeile 1 mit N ${MSTAT_1_FREQ.one.n} und Valid % ${MSTAT_1_FREQ.one.valid.toFixed(2)}; „System“ ${MSTAT_1_FREQ.system} (Befragte ohne Familienstand bekommen auch bei den Dummies keinen Wert).`}</p>
       <InShort><code>to_dummy(mstat)</code> hängt an die Daten für jede Gruppe eine 0/1-Variable an: 1 heißt „gehört zu dieser Gruppe“, 0 heißt „gehört nicht dazu“. Die Namen sind Variable, Unterstrich, Code.</InShort>
-      <MoreDetail summary="to_dummy() in der Kette">
-        <p><code>to_dummy()</code> steht direkt in der Kette, ohne <code>mutate()</code>, wie <code>to_label()</code> aus Sitzung 4. Danach kannst du die neuen Variablen in derselben Kette benutzen, etwa in der Formel von <code>linear_regression()</code>. Welcher Code welche Gruppe ist, steht im Codebuch oder in <code>frequency(mstat)</code>. Mehr im R-Workshop, Kapitel 9.3 (Dummy-Codierung).</p>
+      <MoreDetail summary="to_dummy() in der Pipe">
+        <p><code>to_dummy()</code> steht direkt in der <Begriff id="pipe">Pipe</Begriff>, ohne <code>mutate()</code>, wie <code>to_label()</code> aus Sitzung 4. Danach kannst du die neuen Variablen in derselben Pipe benutzen, etwa in der Formel von <code>linear_regression()</code>. Welcher Code welche Gruppe ist, steht im <Begriff id="codebuch">Codebuch</Begriff> oder in <code>frequency(mstat)</code>. Mehr im R-Workshop, Kapitel 9.3 (Dummy-Codierung).</p>
       </MoreDetail>
       <Mixup><code>mstat_1</code> heißt nicht „die erste Zeile“ oder „die erste Person“, sondern „Gruppe mit dem Code 1“. Bei <code>dg03</code> in Aufgabe 2 ist <code>dg03_4</code> die Gruppe mit dem Code 4.</Mixup>
     </Card>

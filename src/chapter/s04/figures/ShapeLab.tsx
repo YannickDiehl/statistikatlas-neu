@@ -30,8 +30,8 @@ export function labText(k: number, two: boolean): string {
   const d = s.mean - s.median;
   const where = two ? 'Mittelwert und Median liegen zwischen den Gipfeln, also genau dort, wo wenige stehen.'
     : Math.abs(d) < 0.25 ? 'Mittelwert und Median liegen fast gleich.'
-      : d < 0 ? 'Der Mittelwert liegt links vom Median: Der lange Auslauf zieht ihn nach links.'
-        : 'Der Mittelwert liegt rechts vom Median: Der lange Auslauf zieht ihn nach rechts.';
+      : d < 0 ? 'Der Mittelwert liegt links vom Median: Die Verteilung ist schief, ihr langer Ausläufer zieht ihn nach links.'
+        : 'Der Mittelwert liegt rechts vom Median: Die Verteilung ist schief, ihr langer Ausläufer zieht ihn nach rechts.';
   return `${two ? 'zweigipflig' : LAB_NAMES[k]}: Mittelwert ${de(s.mean, 1)}, Median ${de(s.median, 1)}. ${where}`;
 }
 

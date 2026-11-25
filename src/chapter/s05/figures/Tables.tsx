@@ -7,8 +7,8 @@ import { Fig, de, whole } from './parts';
 
 type Brick = { text: string; kind: 'num' | 'lbl' | 'op' | 'kw'; note?: string };
 const RULES: { bricks: Brick[]; sum: string; empty?: boolean }[] = [
-  { bricks: [{ text: '2:3', kind: 'num', note: 'alte Codes: 2 bis 3' }, { text: '=', kind: 'op', note: 'werden zu' }, { text: '1', kind: 'num', note: 'neuer Code' }, { text: '[Teilzeit]', kind: 'lbl', note: 'Aufkleber (Wertelabel)' }], sum: 'Teilzeit und nebenher werden 1, Aufkleber Teilzeit' },
-  { bricks: [{ text: '1', kind: 'num' }, { text: '=', kind: 'op' }, { text: '0', kind: 'num' }, { text: '[Vollzeit]', kind: 'lbl' }], sum: 'Vollzeit wird 0, Aufkleber Vollzeit' },
+  { bricks: [{ text: '2:3', kind: 'num', note: 'alte Codes: 2 bis 3' }, { text: '=', kind: 'op', note: 'werden zu' }, { text: '1', kind: 'num', note: 'neuer Code' }, { text: '[Teilzeit]', kind: 'lbl', note: 'Aufkleber (Wertelabel)' }], sum: 'Teilzeit und nebenher werden 1, Wertelabel Teilzeit' },
+  { bricks: [{ text: '1', kind: 'num' }, { text: '=', kind: 'op' }, { text: '0', kind: 'num' }, { text: '[Vollzeit]', kind: 'lbl' }], sum: 'Vollzeit wird 0, Wertelabel Vollzeit' },
   { bricks: [{ text: 'else', kind: 'kw' }, { text: '=', kind: 'op' }, { text: 'NA', kind: 'kw' }], sum: 'alles andere wird leer: nicht erwerbstätig, keine Angabe', empty: true },
 ];
 

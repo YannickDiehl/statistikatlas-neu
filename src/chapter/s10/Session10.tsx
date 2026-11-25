@@ -24,7 +24,7 @@ const TAKE_AWAY = [
   <>Gruppen kommen als Dummies ins Modell: k Gruppen, k − 1 Dummies. Die Konstante ist der Mittelwert der Referenzgruppe, jedes B ein Abstand zu ihr. Andere Referenz, andere B, gleiche Vorhersagen.</>,
   <>Beta vergleicht Prädiktoren in derselben Einheit. Das größte B ist nicht automatisch der stärkste Prädiktor.</>,
   <>R² steigt mit jedem Prädiktor; das korrigierte R² nur, wenn er mehr erklärt als Zufall.</>,
-  <>VIF ab 10 heißt: Prädiktoren sagen fast dasselbe. Einzelne Fälle weit draußen können B kippen, vor allem in kleinen Gruppen. Gilt ein Abstand nicht für alle, gehört eine Interaktion mit <code>*</code> ins Modell.</>,
+  <>VIF ab 10 heißt: Prädiktoren sagen fast dasselbe (Multikollinearität). Einflussreiche Fälle können B stark verschieben, vor allem in kleinen Gruppen. Gilt ein Unterschied nicht für alle, gehört eine Interaktion mit <code>*</code> ins Modell.</>,
   <>In R: <code>linear_regression(y ~ x1 + x2, weights = wghtpew) %&gt;% summary()</code>, Dummies mit <code>to_dummy()</code>, Interaktion mit <code>*</code>.</>,
 ];
 
@@ -46,7 +46,7 @@ export function Session10() {
       'die Voraussetzungen einer multiplen Regression nennen und prüfen: keine starke Multikollinearität (VIF), keine Dummyfalle, keine einzelnen Fälle mit großem Einfluss, ein Zusammenhang, der für alle gleich gilt oder als Interaktion ins Modell kommt; dazu, was man kontrollieren sollte und was nicht',
       <><code>y ~ x1 + x2</code> in <code>linear_regression()</code> lesen und anpassen, mit <code>to_dummy()</code> Dummies bilden, in der Ausgabe von <code>summary()</code> Model Summary, Coefficients und Collinearity Statistics finden; <code>*</code> für eine Interaktion lesen</>,
     ]}
-    known={<>der Startblock und TNZ: SPLIT (Sitzung 1), <code>filter()</code> und dass Codes oft nur Namen sind (Sitzung 2), die Standardabweichung (Sitzung 3), Ketten mit <code>%&gt;%</code> und Ausreißer im Boxplot (Sitzung 4), AV und UV, <code>mutate()</code> mit <code>rec()</code>, <code>rules = "rev"</code> zum Umpolen und Dummyvariablen mit 0 und 1 (Sitzung 5), Gewichten mit <code>weights = wghtpew</code> und die Drittvariable (Sitzung 6), t-Test, Konfidenzintervall und p-Wert (Sitzung 7), der Index (Sitzung 8), <code>linear_regression()</code> mit <code>summary()</code>, Prädiktor, Konstante, Steigung B, Beta bei einer UV, Residuum, R², Linearität, Ausreißer und gleiche Fehlervarianz sowie die Variablen <code>demo</code> und <code>lage</code> (Sitzung 9).</>}
+    known={<>der Startblock und TNZ: SPLIT (Sitzung 1), <code>filter()</code> und dass Codes oft nur Namen sind (Sitzung 2), die Standardabweichung (Sitzung 3), die Pipe <code>%&gt;%</code> und Ausreißer im Boxplot (Sitzung 4), AV und UV, <code>mutate()</code> mit <code>rec()</code>, <code>rules = "rev"</code> zum Umpolen und Dummyvariablen mit 0 und 1 (Sitzung 5), Gewichten mit <code>weights = wghtpew</code> und die Drittvariable (Sitzung 6), t-Test, Konfidenzintervall und p-Wert (Sitzung 7), der Index (Sitzung 8), <code>linear_regression()</code> mit <code>summary()</code>, Prädiktor, Konstante, Steigung B, Beta bei einer UV, Residuum, R², Linearität, Ausreißer und gleiche Fehlervarianz sowie die Variablen <code>demo</code> und <code>lage</code> (Sitzung 9).</>}
     jumps={[1, 2, 3, 4].map(n => ({ href: `#a${n}`, label: `Aufgabe ${n}` }))}
     toc={TOC}>
 

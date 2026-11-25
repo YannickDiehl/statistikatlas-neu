@@ -147,7 +147,7 @@ allbus %>%
   ) %>%
   describe(fluechtlinge, weights = wghtpew)'
 
-V$r_reliability <- '# Wie stimmig sind die vier Fragen zur Verbundenheit? Kurz
+V$r_reliability <- '# Wie zuverlässig messen die vier Fragen zur Verbundenheit zusammen? Kurz
 allbus %>%
   reliability(pn12, pn13, pn16, pn17)
 
@@ -182,7 +182,7 @@ allbus %>%
   summary()
 '
 
-V$a2 <- '# Wie stimmig sind die sieben Populismus-Aussagen? Ausführlich mit summary()
+V$a2 <- '# Wie zuverlässig messen die sieben Populismus-Aussagen zusammen? Ausführlich mit summary()
 allbus %>%
   reliability(pa29, pa30, pa31, pa32, pa33, pa34, pa35) %>%
   summary()'
@@ -191,18 +191,18 @@ V$a2ohne <- '# Gegenprobe: dieselbe Rechnung ohne ein Item
 allbus %>%
   reliability(⟦pa29, ⟧pa30, pa31, pa32, pa33, pa34, pa35)'
 
-V$frei_a2 <- '# Eine Idee: Wie stimmig sind nur drei der sieben Aussagen?
+V$frei_a2 <- '# Eine Idee: Wie zuverlässig messen nur drei der sieben Aussagen zusammen?
 allbus %>%
   reliability(pa31, pa32, pa33)
 '
 
-V$a3 <- '# Wie stimmig sind die sechs Aussagen zum Islam, so wie sie im Datensatz stehen?
+V$a3 <- '# Wie zuverlässig messen die sechs Aussagen zum Islam zusammen, so wie sie im Datensatz stehen?
 allbus %>%
   reliability(mm01, mm02, mm03, mm04, mm05, mm06) %>%
   summary()'
 
 V$a3um <- '# Zwei Items umpolen: aus 1 wird 7, aus 2 wird 6 und so weiter
-# Dann die Stimmigkeit mit den umgepolten Items statt der alten
+# Dann die Reliabilität mit den umgepolten Items statt der alten
 allbus %>%
   mutate(
     mm02_um = rec(mm02, rules = "rev"),

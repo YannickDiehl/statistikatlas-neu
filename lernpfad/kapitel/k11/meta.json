@@ -3,12 +3,12 @@
   "titel": "Logistische Regression",
   "leitfrage": "Wer geht wählen – und wie wahrscheinlich?",
   "ziele": [
-    "erklären, warum man für eine Variable mit nur zwei Ausprägungen (0 und 1) keine Gerade nimmt, und eine Wahrscheinlichkeit in eine Chance (Odds) und einen Logit übersetzen und zurück",
+    "erklären, warum man für eine Variable mit nur zwei Ausprägungen (0 und 1) keine Gerade nimmt, und eine Wahrscheinlichkeit in Odds (Chance) und einen Logit übersetzen und zurück",
     "ein logistisches Modell gewichtet schätzen und in der Ausgabe B, Exp(B) und Sig. finden",
     "Exp(B) in Alltagssprache deuten: ein Faktor für die Chance, nicht für die Wahrscheinlichkeit",
     "vorhergesagte Wahrscheinlichkeiten für Beispielpersonen ausrechnen und erklären, warum derselbe Faktor je nach Ausgangspunkt verschieden viele Prozentpunkte bringt; den durchschnittlichen marginalen Effekt (AME) als Mittelwert lesen",
-    "die Güte eines Modells einschätzen: Trefferquote gegen die einfachste Regel, −2LL und Omnibus-Test, Pseudo-R²",
-    "die Voraussetzungen nennen: richtig kodierte 0/1-Variable, genug Fälle in der selteneren Gruppe, gleichmäßiger Verlauf im Logit, unabhängige Fälle, Gewichtung für Aussagen über Deutschland, keine Ursache aus Zusammenhang",
+    "die Güte eines Modells einschätzen: Trefferquote, −2LL und Omnibus-Test, Pseudo-R²",
+    "die Voraussetzungen nennen: richtig kodierte 0/1-Variable, genug Fälle in der selteneren Gruppe, Linearität im Logit, unabhängige Fälle, Gewichtung für Aussagen über Deutschland, keine Ursache aus Zusammenhang",
     "<code>logistic_regression()</code>, <code>exp()</code>, <code>tibble()</code> mit <code>c()</code>, <code>predict(…, type = \"response\")</code> und <code>marginal_effects()</code> lesen und anpassen"
   ],
   "bekannt": "der Startblock und <code>lm30</code> mit seinem TNZ: FILTER (Sitzung 1), Ketten mit <code>%&gt;%</code> (Sitzung 4), neue Variablen mit <code>rec()</code> in <code>mutate()</code>, auch Umpolen mit <code>rules = \"rev\"</code>, und Kreuztabellen mit Zeilenprozent (Sitzung 5), Gewichten mit <code>weights = wghtpew</code> (Sitzung 6), <code>summary()</code>, Sig. und Konfidenzintervall (Sitzung 7), die lineare Regression mit Konstante, B und Vorhersage = Konstante + B × Wert (Sitzung 9), mehrere Prädiktoren mit <code>+</code> und „bei gleichem …“ (Sitzung 10).",
@@ -21,5 +21,6 @@
     ["Ausgabe der Kurzzeile zur Kontrolle:", "So sieht die Kurzzeile aus:"],
     ["Ausgabe zur Kontrolle:", "So sieht die Ausgabe aus:"],
     ["<a href=\"#ueberblick\">Überblick</a>", "<a href=\"#k5-voraus\">Überblick</a>"]
-  ]
+  ],
+  "begriffe": ["dichotom","odds","logit","logistische-regression","odds-ratio","likelihood","minus-2ll","nullmodell","vorhergesagte-wahrscheinlichkeit","marginale-effekte","deckeneffekt","trefferquote","basisrate","pseudo-r2","klassifikationstabelle","sensitivitaet","spezifitaet","dummy","kreuztabelle","zeilenprozente","prozentpunkte","lineare-regression","praediktor","konstante","regressionskoeffizient","vorhersage","kontrollvariable","abhaengige-variable","signifikanzniveau","p-wert","konfidenzintervall","gewichte","r-quadrat","linear","kausalitaet","umpolen","tnz","fall","variable","wert","auspraegung","funktion","fehlende-werte","gueltige-werte","kodieren","metrisch","relative-haeufigkeit","mittelwert","spaltenprozente","zusammenhang","residuum","gleiche-fehlervarianz","referenzgruppe","multikollinearitaet","standardfehler","varianz","skript"]
 }

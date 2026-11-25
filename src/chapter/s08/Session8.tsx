@@ -40,7 +40,7 @@ export function Session8() {
     session={8}
     lead="Wie misst man Populismus mit mehreren Fragen – und woran erkennst du, ob die Fragen zusammenpassen?"
     route={[
-      { href: '#werkzeug', title: 'Vorweg: R lesen', note: 'Umpolen erinnert, ein Wert je Person, Stimmigkeit prüfen' },
+      { href: '#werkzeug', title: 'Vorweg: R lesen', note: 'Umpolen erinnert, ein Wert je Person, Reliabilität prüfen' },
       { href: '#thema1', title: 'Vier Themen', note: 'je erst die Grundlage, dann die Aufgabe; im Seminar direkt zur Aufgabe springen' },
       { href: '#ueberblick', title: 'Zum Schluss', note: 'Überblick, Wichtigstes, Selbsttest, Skript' },
     ]}

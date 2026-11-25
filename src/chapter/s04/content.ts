@@ -16,10 +16,10 @@ export type Form = {
 };
 /** Grundlage 2: vier Formen von Verteilungen. */
 export const FORMS: Form[] = [
-  { id: 'mp05', name: 'Ungefähr symmetrisch', question: '„Ausländer stützen die Rentensicherung“', scale: '1 = stimme gar nicht zu … 7 = stimme voll und ganz zu', values: [1, 2, 3, 4, 5, 6, 7], counts: [443, 420, 454, 792, 601, 427, 420], recognize: 'Gipfel in der Mitte, beide Seiten ähnlich hoch.', means: 'Die Meinungen streuen breit, die Mitte ist am häufigsten.' },
-  { id: 'ls01', name: 'Linksschief', question: 'Lebenszufriedenheit', scale: '0 = ganz unzufrieden … 10 = ganz zufrieden', values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], counts: LS01, recognize: 'Gipfel rechts, flacher Auslauf nach links.', means: 'Die meisten sind zufrieden. Wenige sehr Unzufriedene ziehen den Mittelwert unter den Median.' },
-  { id: 'dk11', name: 'Rechtsschief', question: 'Kinder im Haushalt', scale: 'Anzahl, 0 bis 7', values: [0, 1, 2, 3, 4, 5, 6, 7], counts: [3602, 724, 571, 146, 18, 7, 4, 2], recognize: 'Gipfel ganz links, Auslauf nach rechts.', means: 'Bei 71 % der Befragten lebt kein Kind im Haushalt. Wenige große Familien ziehen den Mittelwert über den Median.' },
-  { id: 'vm18', name: 'Mehrgipflig', question: 'Bewertung der Leihmutterschaft', scale: '−3 sehr falsch … +3 sehr richtig', values: [-3, -2, -1, 0, 1, 2, 3], counts: [835, 359, 275, 664, 291, 254, 352], recognize: 'Mehrere Gipfel: bei −3, bei 0 und kleiner bei +3.', means: 'Die Befragten sind gespalten. Mittelwert und Median liegen in der Mitte, wo vergleichsweise wenige stehen.' },
+  { id: 'mp05', name: 'Ungefähr symmetrisch', question: '„Ausländer stützen die Rentensicherung“', scale: '1 = stimme gar nicht zu … 7 = stimme voll und ganz zu', values: [1, 2, 3, 4, 5, 6, 7], counts: [443, 420, 454, 792, 601, 427, 420], recognize: 'Modus in der Mitte, beide Seiten ähnlich hoch.', means: 'Die Meinungen streuen breit, die Mitte ist am häufigsten.' },
+  { id: 'ls01', name: 'Linksschief', question: 'Lebenszufriedenheit', scale: '0 = ganz unzufrieden … 10 = ganz zufrieden', values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], counts: LS01, recognize: 'Modus rechts, nach links flach auslaufend.', means: 'Die meisten sind zufrieden. Wenige sehr Unzufriedene ziehen den Mittelwert unter den Median.' },
+  { id: 'dk11', name: 'Rechtsschief', question: 'Kinder im Haushalt', scale: 'Anzahl, 0 bis 7', values: [0, 1, 2, 3, 4, 5, 6, 7], counts: [3602, 724, 571, 146, 18, 7, 4, 2], recognize: 'Modus ganz links, nach rechts lang auslaufend.', means: 'Bei 71 % der Befragten lebt kein Kind im Haushalt. Wenige große Familien ziehen den Mittelwert über den Median.' },
+  { id: 'vm18', name: 'Mehrgipflig', question: 'Bewertung der Leihmutterschaft', scale: '−3 sehr falsch … +3 sehr richtig', values: [-3, -2, -1, 0, 1, 2, 3], counts: [835, 359, 275, 664, 291, 254, 352], recognize: 'Mehrgipflig: hohe Balken bei −3 und bei 0, ein kleinerer bei +3.', means: 'Die Befragten sind gespalten. Mittelwert und Median liegen in der Mitte, wo vergleichsweise wenige stehen.' },
 ];
 
 /** Alter age, Häufigkeiten für 18 bis 99 Jahre (n = 5.223). */
@@ -81,14 +81,14 @@ export const RIDDLE: Record<'A' | 'B' | 'C' | 'D', { counts: number[]; answer: R
 };
 export const RIDDLE_NAMES: Record<RiddleVar, string> = { dw15: 'Arbeitsstunden', pa01: 'Links-rechts', pa02a: 'Politisches Interesse', vm20: 'Sterbehilfe', pt03: 'Vertrauen Bundestag' };
 export const RIDDLE_FEATURES: Record<'A' | 'B' | 'C' | 'D', string> = {
-  A: 'sieben Stufen, Gipfel ganz rechts',
-  B: 'viele Werte, die Säule bei 40 ragt weit heraus, Spitzen bei runden Zahlen',
-  C: 'fünf Stufen, Gipfel in der Mitte',
-  D: 'zehn Stufen, Gipfel bei 5',
+  A: 'sieben Ausprägungen, Modus ganz rechts',
+  B: 'viele Werte, der Balken bei 40 ragt weit heraus, Spitzen bei runden Zahlen',
+  C: 'fünf Ausprägungen, Modus in der Mitte',
+  D: 'zehn Ausprägungen, Modus bei 5',
 };
 /** Textfassung von Bild B (die anderen Bilder beschreibt der Prototyp über relative Höhen aus den Zahlen). */
-export const RIDDLE_B_TEXT = 'viele schmale Säulen von 0 bis 90, Achse in Zehnerschritten. Bei 40 steht mit Abstand die höchste Säule (Höhe 10). Deutlich niedriger, etwa Höhe 3: bei 30 und 39; etwa Höhe 2: bei 20, 35, 38, 45 und 50. Dazwischen fast nichts.';
-export const RIDDLE_ALL_RIGHT = 'Alle vier richtig. Übrig bleibt das Vertrauen in den Bundestag: sieben Stufen, Gipfel in der Mitte.';
+export const RIDDLE_B_TEXT = 'viele schmale Balken von 0 bis 90, Achse in Zehnerschritten. Bei 40 steht mit Abstand der höchste Balken (Höhe 10). Deutlich niedriger, etwa Höhe 3: bei 30 und 39; etwa Höhe 2: bei 20, 35, 38, 45 und 50. Dazwischen fast nichts.';
+export const RIDDLE_ALL_RIGHT = 'Alle vier richtig. Übrig bleibt das Vertrauen in den Bundestag: sieben Ausprägungen, Modus in der Mitte.';
 
 /* ---------- Codevorlagen ---------- */
 
@@ -136,28 +136,28 @@ allbus %>%
 allbus %>%
   ggplot(aes(x = xt10)) +
   geom_histogram()` },
-  a3m: { title: 'Histogramm mit Ausschnitt und Kistenbreite', code: `# Nur Bögen bis 180 Minuten, Kisten von 5 Minuten
+  a3m: { title: 'Histogramm mit Ausschnitt und Klassenbreite', code: `# Nur Fälle bis 180 Minuten, Klassen von 5 Minuten
 allbus %>%
   filter(xt10 <= 180) %>%
   ggplot(aes(x = xt10)) +
   geom_histogram(binwidth = ⟦5⟧, boundary = 0)` },
-  a3n: { title: 'Kennzahlen nach dem Ausschnitt', code: `# Kennzahlen nur für Bögen bis 180 Minuten
+  a3n: { title: 'Kennzahlen nach dem Ausschnitt', code: `# Kennzahlen nur für Fälle bis 180 Minuten
 allbus %>%
   filter(xt10 <= 180) %>%
   describe(xt10)` },
-  a4: { title: 'Boxplots, hineingezoomt (alle Bögen zählen)', code: `# Dauer nach Erhebungsweg, Blick auf 0 bis 180 Minuten
+  a4: { title: 'Boxplots, hineingezoomt (alle Fälle zählen)', code: `# Dauer nach Erhebungsweg, Blick auf 0 bis 180 Minuten
 allbus %>%
   to_label(mode) %>%
   ggplot(aes(x = mode, y = xt10)) +
   geom_boxplot() +
   coord_cartesian(ylim = c(0, ⟦180⟧))` },
-  a4f: { title: 'Boxplots, abgeschnitten (nur Bögen bis 180 Minuten)', code: `# Dauer nach Erhebungsweg, lange Bögen vorher entfernt
+  a4f: { title: 'Boxplots, abgeschnitten (nur Fälle bis 180 Minuten)', code: `# Dauer nach Erhebungsweg, lange Fälle vorher entfernt
 allbus %>%
   filter(xt10 <= 180) %>%
   to_label(mode) %>%
   ggplot(aes(x = mode, y = xt10)) +
   geom_boxplot()` },
-  a4z: { title: 'Zahlen für einen Erhebungsweg, alle Bögen', code: `# Median, Quartile und N für einen Erhebungsweg
+  a4z: { title: 'Zahlen für einen Erhebungsweg, alle Fälle', code: `# Median, Quartile und N für einen Erhebungsweg
 allbus %>%
   filter(mode == ⟦4⟧) %>%
   describe(xt10, show = c("median", "quantiles"))` },
@@ -172,7 +172,7 @@ allbus %>%
   ggplot(aes(x = pt03)) +
   geom_bar()
 ` },
-  frei_a3: { tryOut: true, title: 'Deine Probier-Werkstatt', code: `# Eine Idee: Bögen, die länger als einen Tag (1440 Minuten) dauerten
+  frei_a3: { tryOut: true, title: 'Deine Probier-Werkstatt', code: `# Eine Idee: Fälle, die länger als einen Tag (1440 Minuten) dauerten
 allbus %>%
   filter(xt10 > 1440) %>%
   frequency(mode)
@@ -183,7 +183,7 @@ allbus %>%
   ggplot(aes(x = mode, y = age)) +
   geom_boxplot()
 ` },
-  a4zf: { title: 'Zahlen für einen Erhebungsweg, nur bis 180 Minuten', code: `# Dieselben Zahlen, aber nur für Bögen bis 180 Minuten
+  a4zf: { title: 'Zahlen für einen Erhebungsweg, nur bis 180 Minuten', code: `# Dieselben Zahlen, aber nur für Fälle bis 180 Minuten
 allbus %>%
   filter(mode == ⟦4⟧, xt10 <= 180) %>%
   describe(xt10, show = c("median", "quantiles"))` },
@@ -213,33 +213,33 @@ export const QUESTIONS: Record<'a1' | 'a3' | 'a4', Question[]> = {
   a3: [
     number('a3a', 'Median der Bearbeitungsdauer in Minuten (alle Befragten):', 65,
       '65 Minuten. R schreibt 65.000 – der Punkt ist dort ein Komma.', 'Lies in describe(xt10) die Spalte Median. Achtung: R schreibt 65.000, gemeint ist 65.', { short: 'Median', help: 'R schreibt Kommazahlen mit Punkt: 65.000 heißt 65.' }),
-    choice('a3b', 'Warum zeigt das Histogramm ohne Angaben fast nur eine Säule?', [['fehler', 'R hat einen Fehler gemacht'], ['max', 'Einzelne Bögen dauerten wochenlang, die Achse reicht bis über 60.000 Minuten'], ['gleich', 'Alle haben gleich lange gebraucht']], 'max',
-      'Range 61.887 Minuten, also gut sechs Wochen zwischen dem kürzesten und dem längsten Bogen. Die Achse reicht so weit, alle anderen landen in der ersten Kiste.', 'R rechnet richtig. Schau in describe(xt10) auf Range: Die Achse muss bis zum größten Wert reichen.', { short: 'eine Säule' }),
-    number('a3c', 'Wie viele Bögen bleiben mit `filter(xt10 <= 180)` übrig?', 4529,
-      '4.529 von 5.026 Bögen.', 'Führe allbus %>% filter(xt10 <= 180) %>% describe(xt10) aus und lies N.', { short: 'übrige Bögen', help: 'Aus der Vorlage in Schritt 3, Spalte N.' }),
-    choice('a3d', 'Bei `binwidth = 1`: Bei welcher Minutenzahl steht die höchste Säule?', [['45', 'bei 45 Minuten'], ['60', 'bei 60 Minuten'], ['150', 'bei 150 Minuten']], '60',
-      'Bei 60 Minuten stehen 216 Bögen, bei 59 nur 38: Wer die Dauer schätzt, rundet auf volle Stunden.', 'Stell binwidth = 1 ein und such die höchste Säule. Achte auf runde Zahlen.', { short: 'Spitze' }),
-    choice('a3e', 'Was passiert mit diesen Spitzen bei `binwidth = 30`?', [['weg', 'Sie verschwinden in breiten Kisten'], ['hoeher', 'Sie werden noch deutlicher']], 'weg',
-      'In 30-Minuten-Kisten fallen die Spitzen mit ihren Nachbarn zusammen und verschwinden.', 'Probier binwidth = 30 aus und vergleiche.', { short: 'breite Kisten' }),
+    choice('a3b', 'Warum zeigt das Histogramm ohne Angaben fast nur eine Säule?', [['fehler', 'R hat einen Fehler gemacht'], ['max', 'Einzelne Fälle dauerten wochenlang, die Achse reicht bis über 60.000 Minuten'], ['gleich', 'Alle haben gleich lange gebraucht']], 'max',
+      'Die ⟪Spannweite⟫ (Range) beträgt 61.887 Minuten, gut sechs Wochen zwischen kürzestem und längstem Fall. Solche ⟪Ausreißer⟫ dehnen die Achse, alle anderen landen in der ersten Klasse.', 'R rechnet richtig. Schau in describe(xt10) auf Range: Die Achse muss bis zum größten Wert reichen.', { short: 'Histogramm mit einer Säule' }),
+    number('a3c', 'Wie viele Fälle bleiben mit `filter(xt10 <= 180)` übrig?', 4529,
+      '4.529 von 5.026 Fällen; das ist die neue ⟪Fallzahl⟫ n.', 'Führe allbus %>% filter(xt10 <= 180) %>% describe(xt10) aus und lies N.', { short: 'übrige Fälle', help: 'Aus der Vorlage in Schritt 3, Spalte N.' }),
+    choice('a3d', 'Bei `binwidth = 1`: Bei welcher Minutenzahl steht die höchste Säule im Histogramm?', [['45', 'bei 45 Minuten'], ['60', 'bei 60 Minuten'], ['150', 'bei 150 Minuten']], '60',
+      'Bei 60 Minuten stehen 216 Fälle, bei 59 nur 38: Wer die Dauer schätzt, rundet auf volle Stunden. So entstehen ⟪Rundungsspitzen⟫.', 'Stell binwidth = 1 ein und such die höchste Säule im Histogramm. Achte auf runde Zahlen.', { short: 'Spitze' }),
+    choice('a3e', 'Was passiert mit diesen Spitzen bei `binwidth = 30`?', [['weg', 'Sie verschwinden in breiten Klassen'], ['hoeher', 'Sie werden noch deutlicher']], 'weg',
+      'In Klassen von 30 Minuten fallen die Rundungsspitzen mit ihren Nachbarn zusammen und verschwinden.', 'Probier binwidth = 30 aus und vergleiche.', { short: 'breite Klassen' }),
   ],
   a4: [
-    choice('a4a', 'Hineinzoomen (alle Bögen): Welcher Weg hat den höchsten Median?', [['CAPI', 'CAPI'], ['CAWI', 'CAWI'], ['MAIL', 'MAIL']], 'MAIL',
-      'Papier (MAIL) mit 75 Minuten, dann Interview 70 und online 49.', 'Schau auf den Strich im Kasten im ersten Bild (coord_cartesian) oder nimm die Vorlage „alle Bögen“ für jeden Weg.', { short: 'Hineinzoomen' }),
-    choice('a4b', 'Abschneiden mit `filter()`: Welcher Weg hat jetzt den höchsten Median?', [['CAPI', 'CAPI'], ['CAWI', 'CAWI'], ['MAIL', 'MAIL']], 'CAPI',
+    choice('a4a', 'Hineinzoomen (alle Fälle): Welcher Erhebungsweg hat den höchsten Median?', [['CAPI', 'CAPI'], ['CAWI', 'CAWI'], ['MAIL', 'MAIL']], 'MAIL',
+      'Papier (MAIL) mit 75 Minuten, dann Interview 70 und online 49.', 'Schau auf die Medianlinie in der Box im ersten Bild (coord_cartesian) oder nimm die Vorlage „alle Fälle“ für jeden Erhebungsweg.', { short: 'Hineinzoomen' }),
+    choice('a4b', 'Abschneiden mit `filter()`: Welcher Erhebungsweg hat jetzt den höchsten Median?', [['CAPI', 'CAPI'], ['CAWI', 'CAWI'], ['MAIL', 'MAIL']], 'CAPI',
       'Jetzt liegt das Interview vorn (70), Papier fällt auf 60.', 'Schau ins zweite Bild (filter) oder nimm die Vorlage „nur bis 180 Minuten“.', { short: 'Abschneiden' }),
     number('a4c', 'Wie viele Papierbögen (MAIL) fallen durch den Filter heraus?', 306,
-      '1.436 minus 1.130 sind 306 Bögen, gut jeder fünfte Papierbogen.', 'Lies N für mode == 4 einmal ohne (1.436) und einmal mit Filter und zieh ab.', { short: 'herausgefallene Papierbögen', help: 'Vergleiche N für `mode == 4` ohne und mit Filter.' }),
+      '1.436 minus 1.130 sind 306 Fälle, gut jeder fünfte Papierbogen.', 'Lies N für mode == 4 einmal ohne (1.436) und einmal mit Filter und zieh ab.', { short: 'herausgefallene Papierbögen', help: 'Vergleiche N für `mode == 4` ohne und mit Filter.' }),
     choice('a4d', 'Warum dreht sich die Reihenfolge?', [['lang', 'Der Filter wirft vor allem lange Papierbögen hinaus, aber kaum Interviews'], ['falsch', 'R rechnet beim Filtern falsch'], ['zoom', 'Beim Hineinzoomen werden die Werte verändert']], 'lang',
-      'Der Filter wirft 306 Papierbögen hinaus, aber nur 14 Interviews. Übrig bleiben vor allem die schnellen Papierbögen.', 'R rechnet richtig, und Hineinzoomen ändert keine Werte. Vergleiche, wie viele Bögen je Weg herausfallen.', { short: 'Reihenfolge' }),
-    choice('a4e', 'Was gehört in deinen Bericht?', [['capi', '„Das Interview dauert am längsten.“'], ['ehrlich', '„Mit allen Bögen dauert Papier am längsten. Die Papier-Dauer ist aber oft geschätzt, und bei 220 Papierbögen fehlt sie ganz.“']], 'ehrlich',
-      'Genau: alle Bögen zeigen und sagen, was die Zahlen einschränkt.', 'Diese Aussage stimmt nur, wenn man vorher die langen Papierbögen hinauswirft. Ein Bericht sagt, wer im Bild fehlt.', { short: 'Bericht' }),
+      'Der Filter wirft 306 Papierbögen hinaus, aber nur 14 Interviews. Übrig bleiben vor allem die schnellen Papierbögen.', 'R rechnet richtig, und Hineinzoomen ändert keine Werte. Zähl je Erhebungsweg, wie viele Fälle herausfallen.', { short: 'Reihenfolge' }),
+    choice('a4e', 'Was gehört in deinen Bericht?', [['capi', '„Das Interview dauert am längsten.“'], ['ehrlich', '„Mit allen Fällen dauert Papier am längsten. Die Papier-Dauer ist aber oft geschätzt, und bei 220 Papierbögen fehlt sie ganz.“']], 'ehrlich',
+      'Genau: alle Fälle zeigen und sagen, was die Zahlen einschränkt. Wer die langen Fälle wegfiltert, bekommt ein ⟪verzerrtes|verzerrung⟫ Bild: Papier sieht schneller aus, als es ist.', 'Diese Aussage stimmt nur, wenn man vorher die langen Papierbögen hinauswirft. Ein Bericht sagt, wer im Bild fehlt.', { short: 'Bericht' }),
   ],
 };
 
 /** Pflichtaufgaben: Aufgabe 1 und Aufgabe 4. */
 export const REQUIRED: Question[] = [...QUESTIONS.a1, ...QUESTIONS.a4];
 
-const AXIS_FEEDBACK = 'Bei Balken liest das Auge die Länge. Ab 0 ist „gut“ (2.071) 2,4-mal so lang wie „sehr gut“ (864). Ab 500 wäre er 4,3-mal so lang, und „schlecht“ (188) verschwände ganz unter der Achse. Die Zahlen bleiben gleich, aber das Bild sagt etwas anderes.';
+const AXIS_FEEDBACK = 'Bei einem ⟪Balkendiagramm⟫ liest das Auge die Länge. Ab 0 ist „gut“ (2.071) 2,4-mal so lang wie „sehr gut“ (864). Ab 500 wäre er 4,3-mal so lang, und „schlecht“ (188) verschwände ganz unter der Achse. Die Zahlen bleiben gleich, aber das Bild sagt etwas anderes.';
 /** Aufgabe 1, Schritt 4: Kurz überlegen zur y-Achse (gleiche Begründung bei jeder Wahl). */
 export const A1_AXIS: Question = choice('a1-achse',
   'Eine Kollegin schlägt vor, die y-Achse deiner Grafik erst bei 500 beginnen zu lassen, damit man die Unterschiede besser sieht. Was antwortest du?',
@@ -267,7 +267,7 @@ export const V4_Q2_WRONG: Record<'40' | '43', string> = {
 
 /** Grundlage 1: Kurz überlegen zum Anteil der 7 (Toleranz wie im Prototyp: 19,3 ± 0,8). */
 export const V2_Q: Question = number('v2-frage', 'Wie viel Prozent der gültigen Antworten sind eine 7?', 19.3,
-  '998 geteilt durch 5.164 ergibt 19,3 %.', 'Rechne Steine im Stapel geteilt durch alle gültigen: 998 / 5.164. Mal 100 ergibt Prozent.',
+  '998 geteilt durch 5.164 ergibt 19,3 %.', 'Teil die absolute Häufigkeit der 7 durch alle gültigen Antworten: 998 / 5.164. Mal 100 ergibt Prozent.',
   { tolerance: 0.8, short: 'Anteil der 7', help: '998 Befragte haben 7 angegeben. Eine Kommazahl reicht, zum Beispiel 12,5.' });
 
 const INCOME_FEEDBACK = 'Beim Einkommen liegen die meisten im unteren Bereich, wenige sehr hohe Einkommen bilden einen langen Auslauf nach rechts: rechtsschief. Der Mittelwert liegt deshalb über dem Median – darum berichtet man beim Einkommen meist den Median.';
@@ -283,7 +283,7 @@ export const V3_Q: Question = choice('v3-frage',
 export const PREDICTIONS: Record<'a1' | 'a3' | 'a4', { id: string; prompt: string; options?: string[] }> = {
   a1: { id: 'a1', prompt: 'Welche Antwort wird wohl am häufigsten gegeben?', options: ['sehr gut', 'gut', 'zufriedenstellend', 'weniger gut', 'schlecht'] },
   a3: { id: 'a3', prompt: 'Wie viele Minuten braucht die Hälfte der Befragten höchstens?' },
-  a4: { id: 'a4', prompt: 'Auf welchem Weg dauert es am längsten?', options: ['Interview (CAPI)', 'online (CAWI)', 'Papier (MAIL)'] },
+  a4: { id: 'a4', prompt: 'Bei welchem Erhebungsweg dauert es am längsten?', options: ['Interview (CAPI)', 'online (CAWI)', 'Papier (MAIL)'] },
 };
 
 /* ---------- Hilfe in drei Stufen ---------- */
@@ -291,24 +291,24 @@ export const PREDICTIONS: Record<'a1' | 'a3' | 'a4', { id: string; prompt: strin
 /** Stufe 1 Denkanstoß, Stufe 2 Wo schaue ich?, Stufe 3 Lösung; Code in `Backticks`. */
 export const HINTS: Record<'a1' | 'a2' | 'a3' | 'a4', [string, string, string]> = {
   a1: [
-    'Bei Wörtern auf der Achse zeigt ggplot fehlende Werte als eigenen Balken „NA“. `drop_na(hs01)` lässt genau diese Personen weg. Die Zahl für die Bildunterschrift sind alle, die übrig bleiben.',
+    'Schau dir jeden Balken der ersten Grafik an: Steht einer für Personen ohne gültige Antwort? `drop_na(hs01)` lässt genau diese Personen weg. Die Zahl für die Bildunterschrift sind alle, die übrig bleiben.',
     'Führe `allbus %>% frequency(hs01)` aus. Die Zeile „Total missing“ zählt den NA-Balken, „Total valid“ ist dein n. Den häufigsten Wert erkennst du an der größten Zahl in der Spalte N.',
     'Im NA-Balken stecken 37 Personen, übrig bleiben 5.209. Am häufigsten ist „gut“ (2.071 Personen, 40 %). In der zweiten Vorlage ersetzt du den Titel durch `"Gesundheitszustand"` und n durch `5.209`.',
   ],
   a2: [
-    'Zähl zuerst die Säulen. Fünf Stufen hat nur eine der Fragen. Viele schmale Säulen, eine davon ragt weit heraus: Das deutet auf eine offene Zahlenangabe, bei der Menschen runden.',
-    'Zähl die Säulen von A bis D und vergleiche mit den Stufen in der Liste: fünf Stufen hat `pa02a`, zehn `pa01`, sieben `vm20` und `pt03`, viele Werte `dw15`. Bei den beiden mit sieben Stufen entscheidet die Lage des Gipfels.',
-    'A: Sterbehilfe (sieben Stufen, Gipfel ganz rechts). B: Arbeitsstunden (viele Werte, die Säule bei 40 ragt weit heraus, Spitzen bei runden Zahlen). C: Politisches Interesse (fünf Stufen, Gipfel bei „mittel“). D: Links-rechts (zehn Stufen, Gipfel bei 5). Übrig bleibt das Vertrauen in den Bundestag.',
+    'Zähl zuerst die Balken. Fünf ⟪Ausprägungen⟫ hat nur eine der Fragen. Viele schmale Balken, einer davon ragt weit heraus: Das deutet auf eine offene Zahlenangabe, bei der Menschen runden.',
+    'Zähl die Balken von A bis D und vergleiche mit den Fragen in der Liste: fünf Ausprägungen hat `pa02a`, zehn `pa01`, sieben `vm20` und `pt03`, viele Werte `dw15`. Bei den beiden mit sieben Ausprägungen entscheidet die Lage des ⟪Modus⟫.',
+    'A: Sterbehilfe (sieben Ausprägungen, Modus ganz rechts). B: Arbeitsstunden (viele Werte, der Balken bei 40 ragt weit heraus, Spitzen bei runden Zahlen). C: Politisches Interesse (fünf Ausprägungen, Modus bei „mittel“). D: Links-rechts (zehn Ausprägungen, Modus bei 5). Übrig bleibt das Vertrauen in den Bundestag. Hinter der Zahl der Ausprägungen steckt das ⟪Skalenniveau⟫: Die Arbeitsstunden sind ⟪metrisch⟫, die anderen Fragen haben ⟪geordnete Kategorien|ordinal⟫.',
   ],
   a3: [
-    'Ein Histogramm reicht vom kleinsten bis zum größten Wert. Liegt ein einziger Wert sehr weit draußen, quetscht er alle anderen in die erste Kiste. Wer eine Dauer einträgt oder schätzt, rundet gern auf volle Stunden.',
-    'Median und Spannweite (Range) stehen in der Ausgabe von Schritt 1. Die Zahl der Bögen nach dem Ausschnitt steht in Schritt 3 in der Spalte N. Die Spitzen siehst du in Schritt 4 mit `binwidth = 1`.',
-    'Median 65 Minuten, Range 61.887 Minuten, also gut sechs Wochen (vermutlich unterbrochene Bögen). Mit dem Filter bleiben 4.529 von 5.026 Bögen; `filter()` lässt dabei auch die 220 fehlenden Angaben weg. Mit Kisten von 1 Minute ragt die Säule bei 60 heraus (216 Bögen, bei 59 nur 38), kleinere Spitzen bei 45, 75 und 90: Menschen runden. Bei 30 Minuten verschwinden die Spitzen. In die Bildunterschrift gehört: nur Bögen bis 180 Minuten, n = 4.529.',
+    'Ein Histogramm reicht vom kleinsten bis zum größten Wert. Was passiert mit den übrigen Säulen, wenn ein einziger Wert sehr weit draußen liegt? Und überleg: Wie schreibt man eine Dauer auf, die man nur schätzt?',
+    'Median und Spannweite (Range) stehen in der Ausgabe von Schritt 1. Die Zahl der Fälle nach dem Ausschnitt steht in Schritt 3 in der Spalte N. Die Spitzen siehst du in Schritt 4 mit `binwidth = 1`.',
+    'Median 65 Minuten, Range 61.887 Minuten, also gut sechs Wochen (vermutlich unterbrochene Fragebögen, also ⟪Ausreißer⟫). Mit dem Filter bleiben 4.529 von 5.026 Fällen; `filter()` lässt dabei auch die 220 fehlenden Angaben weg. Mit Klassen von 1 Minute ragt im Histogramm die Säule bei 60 heraus (216 Fälle, bei 59 nur 38), kleinere Spitzen bei 45, 75 und 90: Menschen runden, es entstehen ⟪Rundungsspitzen⟫. Bei Klassen von 30 Minuten verschwinden die Spitzen. In die Bildunterschrift gehört: nur Fälle bis 180 Minuten, n = 4.529.',
   ],
   a4: [
-    'Der Strich im Kasten ist der Median. Hineinzoomen ändert nur, was du siehst. `filter()` ändert, wer mitgerechnet wird. Frag dich: Bei welchem Erhebungsweg gibt es besonders viele sehr lange Bögen?',
-    'Die Mediane liest du in den Ausgaben von Schritt 3 ab, je Weg einmal ohne und einmal mit Filter. Wie viele herausfallen, siehst du an N. Wie viele Angaben ganz fehlen, steht unter „Missing“.',
-    'Mit allen Bögen: Papier 75, Interview 70, online 49 Minuten. Mit Filter: Interview 70, Papier 60, online 45. Der Filter wirft 306 von 1.436 Papierbögen hinaus (21 %), aber nur 14 von 2.003 Interviews. Dazu kommt: 71,5 % der Papier-Angaben sind Vielfache von 5, beim Interview 39,5 %, online 20 %; auf Papier wurde also vermutlich oft geschätzt. Bei 220 Papierbögen fehlt die Dauer ganz. Ehrlich ist: Hineinzoomen, und in der Bildunterschrift sagen, dass die Papier-Dauer geschätzt ist und 220 Angaben fehlen.',
+    'Der Median ist die Linie in der Box. Hineinzoomen ändert nur das Bild, `filter()` ändert, wer mitgerechnet wird. Frag dich: Bei welchem Erhebungsweg gibt es besonders viele sehr lange Fälle?',
+    'Die Mediane liest du in den Ausgaben von Schritt 3 ab, je Erhebungsweg einmal ohne und einmal mit Filter. Wie viele herausfallen, siehst du an N. Wie viele Angaben ganz fehlen, steht unter „Missing“.',
+    'Mit allen Fällen: Papier 75, Interview 70, online 49 Minuten. Mit Filter: Interview 70, Papier 60, online 45. Der Filter wirft 306 von 1.436 Papierbögen hinaus (21 %), aber nur 14 von 2.003 Interviews. Dazu kommt: 71,5 % der Papier-Angaben sind Vielfache von 5, beim Interview 39,5 %, online 20 %; auf Papier wurde also vermutlich oft geschätzt. Bei 220 Papierbögen fehlt die Dauer ganz. Mit dem Filter wäre der Vergleich ⟪verzerrt|verzerrung⟫. Ehrlich ist: Hineinzoomen, und in der Bildunterschrift sagen, dass die Papier-Dauer geschätzt ist und 220 Angaben fehlen.',
   ],
 };
 
@@ -328,10 +328,10 @@ export const BASIS = [22, 28, 34, 34, 38, 40, 40, 43, 43, 44, 45];
 /** V6 Zuordnung: welche Form passt zu welcher Frage (answer = Index in FR_OPTIONS). */
 export const FR_OPTIONS = ['Balken', 'Histogramm', 'Boxplots', 'Balken auf 100 %', 'Punkte'];
 export const FR: { question: string; answer: number; why: string }[] = [
-  { question: 'Wie viele Kinder leben in den Haushalten? (dk11)', answer: 0, why: 'Eine Variable mit wenigen Stufen (0 bis 7): Balken.' },
+  { question: 'Wie viele Kinder leben in den Haushalten? (dk11)', answer: 0, why: 'Eine Variable mit wenigen Ausprägungen (0 bis 7): Balken.' },
   { question: 'Wie alt sind die Befragten? (age)', answer: 1, why: 'Eine Variable mit vielen Werten (18 bis 99): Histogramm.' },
   { question: 'Ist das Alter im Osten anders verteilt als im Westen? (age nach eastwest)', answer: 2, why: 'Viele Werte (Alter) nach zwei Gruppen: Boxplots nebeneinander.' },
-  { question: 'Bewerten Ost und West die Leihmutterschaft unterschiedlich? (vm18 nach eastwest)', answer: 3, why: 'Zwei Variablen mit wenigen Stufen: Balken auf 100 %, damit die ungleich großen Gruppen vergleichbar werden.' },
+  { question: 'Bewerten Ost und West die Leihmutterschaft unterschiedlich? (vm18 nach eastwest)', answer: 3, why: 'Zwei Variablen mit wenigen Ausprägungen: Balken auf 100 %, damit die ungleich großen Gruppen vergleichbar werden.' },
   { question: 'Hängt das Alter der Befragten mit dem Alter ihrer Ehepartner zusammen? (age und scage)', answer: 4, why: 'Zwei Variablen mit vielen Werten: Punkte, ein Paar je Punkt.' },
 ];
 
@@ -353,11 +353,11 @@ export const ERROR_HELP: { says: Rich; helps: Rich }[] = [
 /* ---------- Prüf dich selbst ---------- */
 
 export const SELF_TEST: { question: string; options: string[]; answer: number; why: string }[] = [
-  { question: 'Eine Verteilung hat einen Gipfel ganz rechts und läuft nach links flach aus. Wie heißt sie?', options: ['rechtsschief', 'linksschief', 'symmetrisch'], answer: 1, why: 'Sie heißt nach der Seite, auf der sie ausläuft: linksschief (Grundlage 2).' },
+  { question: 'Eine Verteilung hat ihren Modus ganz rechts und läuft nach links flach aus. Wie heißt sie?', options: ['rechtsschief', 'linksschief', 'symmetrisch'], answer: 1, why: 'Links liegt der lange, flache Teil, darum heißt sie linksschief (Grundlage 2).' },
   { question: 'Ein paar Personen arbeiten 80 Stunden. Welche Zahl bleibt eher in der Mitte?', options: ['Mittelwert', 'Median'], answer: 1, why: 'Der Median: Er hängt nur an der mittleren Person, nicht an den Extremen (Grundlage 4).' },
   { question: 'Du willst das Alter in Ost und West vergleichen. Welche Grafik?', options: ['Balken', 'Boxplots', 'Punkte'], answer: 1, why: 'Viele Werte nach Gruppen: Boxplots nebeneinander (Überblick).' },
   { question: 'Was macht drop_na(hs01)?', options: ['setzt fehlende Werte auf 0', 'lässt Personen ohne gültige Antwort bei hs01 weg', 'löscht die Variable hs01'], answer: 1, why: 'Es lässt nur die Zeilen weg, in denen hs01 fehlt. Alle anderen bleiben (Vorweg: „Eine Grafik entsteht in Schichten“, und Aufgabe 1).' },
-  { question: 'Ein Balkendiagramm beginnt bei 7. Was musst du tun?', options: ['nichts, das ist üblich', 'die Achse bei 0 beginnen lassen oder den Ausschnitt in der Bildunterschrift nennen', 'die Balken dicker machen'], answer: 1, why: 'Bei Balken liest das Auge die Länge. Ein abgeschnittener Balken übertreibt Unterschiede (Grundlage 1c).' },
+  { question: 'Ein Balkendiagramm beginnt bei 7. Was musst du tun?', options: ['nichts, das ist üblich', 'die Achse bei 0 beginnen lassen oder den Ausschnitt in der Bildunterschrift nennen', 'die Balken dicker machen'], answer: 1, why: 'Bei einem Balkendiagramm liest das Auge die Länge. Ein abgeschnittener Balken übertreibt Unterschiede (Grundlage 1c).' },
 ];
 
 /* ---------- Skript zum Mitnehmen ---------- */

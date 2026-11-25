@@ -48,7 +48,7 @@ export function Foundation1() {
       <NumberThink question={THINK.k1b} />
       <InShort>Die <b>Vorhersage</b> einer multiplen Regression ist Konstante plus jedes B mal seinem Wert. Unterscheiden sich zwei Personen nur in einem Prädiktor, ist ihr Unterschied genau dieses B mal den Unterschied im Prädiktor.</InShort>
       <MoreDetail summary="Was die Konstante hier heißt">
-        <p>Die Konstante 3,095 ist die Vorhersage für Alter 0 und Gesundheit 0. Beides gibt es nicht (gesund reicht von 1 bis 5). Die Konstante ist hier nur der Startwert der Rechnung, keine Aussage über Menschen. Das kennst du aus Sitzung 9. Bei Dummies (Grundlage 2) bekommt sie wieder eine Bedeutung.</p>
+        <p>Die Konstante 3,095 ist die Vorhersage für Alter 0 und Gesundheit 0. Beides gibt es nicht (gesund reicht von 1 bis 5). Die Konstante ist hier nur ein Rechenschritt, keine Aussage über Menschen. Das kennst du aus Sitzung 9. Bei Dummies (Grundlage 2) bekommt sie wieder eine Bedeutung.</p>
       </MoreDetail>
       <Mixup>B der Gesundheit (0,861) ist viel größer als B des Alters (0,024). Das heißt nicht, dass die Gesundheit 36-mal so wichtig ist: Ein Jahr ist ein viel kleinerer Schritt als eine Gesundheitsstufe. Wie man fair vergleicht, zeigt Grundlage 3.</Mixup>
     </Card>
@@ -106,7 +106,7 @@ export function Foundation2() {
       <Mixup>B eines Dummys ist nicht der Mittelwert der Gruppe, sondern ihr Abstand zur Referenz. Der Mittelwert ist Konstante plus B.</Mixup>
     </Card>
 
-    <Card id="v2c" step="2c" title="Die Dummyfalle, und warum die Codes nicht als Zahl ins Modell gehören" tag={{ kind: 'estimate', label: 'Kurz überlegen' }}>
+    <Card id="v2c" step="2c" title="Ein Dummy zu viel, und warum die Codes nicht als Zahl ins Modell gehören" tag={{ kind: 'estimate', label: 'Kurz überlegen' }}>
       <p className="lead">Was passiert, wenn du alle fünf Dummies ins Modell nimmst? R meldet: <code>ℹ Excluded due to perfect collinearity (matching SPSS): `mstat_5`</code> und rechnet mit vier.</p>
       <ChoiceThink question={THINK.k2c} />
       <InShort>Die <b>Dummyfalle</b>: Alle Dummies einer Variable zusammen sagen nichts Neues, weil jede Person in genau einer Gruppe ist. Darum bleibt eine draußen. mariposa wirft sie selbst hinaus und meldet es; welche Gruppe dann die Referenz ist, steht in der Meldung.</InShort>
@@ -183,7 +183,7 @@ export function Foundation4() {
   return <Foundation id="g4" n={4} title="Grenzen des Modells: Einfluss und Interaktion" taskHref="#a4"
     intro="Wann kippt ein einzelner Fall die Gerade, und was, wenn ein Zusammenhang nicht für alle gleich ist? Zwei Schritte, etwa 12 Minuten.">
 
-    <Card id="v4a" step="4a" title="Ein einzelner Fall kann die Gerade kippen: Ausreißer und Einfluss"
+    <Card id="v4a" step="4a" title="Ein zwölfter Fall: Person L"
       badge={<><Badge>Ausreißer: kennst du aus Sitzung 4 und 9</Badge> <Badge>Einfluss: neu heute</Badge></>} tag={{ kind: 'estimate', label: 'Ausprobieren' }}>
       <p className="lead">Elf Befragte, zum Beispiel, mit Alter und Lebenszufriedenheit. Die Gerade steigt leicht. Jetzt kommt eine zwölfte Person dazu, Person L. Sie ist sehr unzufrieden (1). Wo sie steht, entscheidet, was mit der Geraden passiert.</p>
       <ChoiceThink question={THINK.k4a} />
@@ -200,7 +200,7 @@ export function Foundation4() {
       <MapHint concept="outliers_influence">Ausreißer und Einfluss</MapHint>
     </Card>
 
-    <Card id="v4b" step="4b" title="Gilt ein Abstand für alle? Interaktion" badge={<Badge>Im Bild</Badge>} tag={{ kind: 'estimate', label: 'Kurz überlegen' }}>
+    <Card id="v4b" step="4b" title="Gilt ein Unterschied für alle? Interaktion" badge={<Badge>Im Bild</Badge>} tag={{ kind: 'estimate', label: 'Kurz überlegen' }}>
       <p className="lead">Sind Erwerbstätige zufriedener mit ihrem Leben als Nicht-Erwerbstätige? Das hängt vom Alter ab. Unter 60 heißt „nicht erwerbstätig“ oft arbeitslos, krank oder in Ausbildung, ab 60 meist in Rente.</p>
       <InteractionPlot />
       <p className="absatz">Im Modell schreibt man dafür <code>ls01 ~ erwerb * ab60</code>. R gibt vier Zeilen aus: Konstante 6,339 (nicht erwerbstätig, unter 60), <code>erwerb</code> 1,091 (Abstand der Erwerbstätigen unter 60), <code>ab60</code> 1,233 (Abstand der Älteren zu den Jüngeren, beide nicht erwerbstätig), <code>erwerb:ab60</code> −1,035 (um so viel ist der Erwerbs-Abstand ab 60 anders). Der Doppelpunkt bezeichnet die Interaktion.</p>
@@ -234,7 +234,7 @@ export function Overview() {
         <tbody>
           <tr><td>gemeinsame Ursache: steht vor beiden fest</td><td>das Alter, wenn du fragst, wie Gesundheit und Lebenszufriedenheit zusammenhängen</td><td>ja</td></tr>
           <tr><td>Folge oder Zwischenschritt</td><td>Gesundheit beim Alter</td><td>nur, wenn du genau nach „bei gleicher …“ fragst; dann so berichten</td></tr>
-          <tr><td>misst sehr Ähnliches wie die abhängige Variable oder ist eher ihre Folge</td><td>Vertrauen in den Bundestag, wenn du nach der Ost-West-Lücke in der Demokratiezufriedenheit fragst (der enge Zusammenhang der beiden: Sitzung 9)</td><td>nein, es rechnet einen Teil dessen heraus, was du messen willst</td></tr>
+          <tr><td>misst sehr Ähnliches wie die abhängige Variable oder ist eher ihre Folge</td><td>Vertrauen in den Bundestag, wenn du nach dem Ost-West-Unterschied in der Demokratiezufriedenheit fragst (der enge Zusammenhang der beiden: Sitzung 9)</td><td>nein, es rechnet einen Teil dessen heraus, was du messen willst</td></tr>
           <tr><td>misst fast dasselbe wie ein anderer Prädiktor</td><td>Alter und Altersgruppe</td><td>nein, einen weglassen oder Index bilden</td></tr>
         </tbody>
       </table>

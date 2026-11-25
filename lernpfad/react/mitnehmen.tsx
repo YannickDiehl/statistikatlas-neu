@@ -2,12 +2,15 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import * as C from '@content';
 import { MITNEHMEN } from '@kapitel/mitnehmen';
+import { Begriff } from '@lernpfad/Begriff';
+import type { Eintrag } from '../../src/lib/begriffe';
 
 type Fenster = Window & {
   tabWechsel?: (name: string, ziel?: string) => void;
   K4Vorlage?: { journalStand(): { aufgaben: { n: number; titel: string; code: number; notizen: number }[]; frei: number; leer: boolean }; download(art: 'qmd' | 'html'): void };
 };
 const w = window as Fenster;
+const fenster = window as unknown as { BEGRIFFE?: Record<string, Eintrag>; KMETA?: { nr?: number; begriffe?: string[] } };
 
 /** Verweis auf eine Karte in „Verstehen“. */
 function Nachlesen({ k, children }: { k: string; children: ReactNode }) {
@@ -51,6 +54,25 @@ function SelbstFrage({ n, item, karte }: { n: number; item: SelbstItem; karte?: 
   </form>;
 }
 
+/** Fachbegriffe dieses Kapitels: „Neu“ (hier eingeführt) und „Schon bekannt“ (früher eingeführt). */
+function Fachbegriffe() {
+  const verzeichnis = fenster.BEGRIFFE ?? {};
+  const nr = fenster.KMETA?.nr;
+  const ids = (fenster.KMETA?.begriffe ?? []).filter(id => Object.hasOwn(verzeichnis, id));
+  if (!ids.length) return null;
+  const neu = ids.filter(id => verzeichnis[id].kapitel === nr);
+  const bekannt = ids.filter(id => verzeichnis[id].kapitel !== nr);
+  const liste = (titel: string, gruppe: string[]) => gruppe.length ? <>
+    <p className="m-klein"><b>{titel}</b></p>
+    <ul className="m-begriffe-liste">{gruppe.map(id => <li key={id}><Begriff id={id}>{verzeichnis[id].name}</Begriff> <span>{verzeichnis[id].kurz}</span></li>)}</ul>
+  </> : null;
+  return <section className="karte" id="m-begriffe" aria-labelledby="m-begriffe-h">
+    <div className="karte-kopf"><span className="st m c7" aria-hidden="true">B</span><h3 id="m-begriffe-h">Fachbegriffe dieses Kapitels</h3></div>
+    {liste('Neu', neu)}
+    {liste('Schon bekannt', bekannt)}
+  </section>;
+}
+
 function Lernjournal() {
   const panel = document.getElementById('p-mitnehmen')!;
   const [stand, setStand] = useState(() => w.K4Vorlage?.journalStand());
@@ -91,6 +113,8 @@ export function Mitnehmen() {
       <h3 id="wichtig-h">Das Wichtigste aus dieser Sitzung</h3>
       <ul>{WICHTIG.map(([p, k, t], i) => <li key={i}>{p} <Nachlesen k={k}>{`${t} →`}</Nachlesen></li>)}</ul>
     </section>
+
+    <Fachbegriffe />
 
     <section className="karte" id="selbsttest" aria-labelledby="selbsttest-h">
       <div className="karte-kopf">

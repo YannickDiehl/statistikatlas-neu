@@ -55,7 +55,7 @@ test('headings in the order of spec §5 (Variante B)', () => {
     assert.ok(i > at, `„${t}“ after position ${at} (found ${texts.indexOf(t)})`);
     at = i;
   }
-  assert.ok(texts.indexOf('R lesen: Startblock, Zeile, Kette') > texts.indexOf('Vorweg: R lesen'));
+  assert.ok(texts.indexOf('R lesen: Startblock, Zeile, Pipe') > texts.indexOf('Vorweg: R lesen'));
   assert.ok(texts.indexOf('Eine Grafik entsteht in Schichten') < texts.indexOf('Thema 1: Balken und Häufigkeiten'));
 });
 
@@ -121,10 +121,10 @@ test('task 2: template a2 with two marks, the riddle, and no required question',
     assert.match(a2, new RegExp(`<label for="a2-${k}"[^>]*>Frage zu ${k}</label>`));
   }
   const text = textOf(a2);
-  assert.match(text, /Verteilung A: 7 Säulen, relative Höhen von links nach rechts: 5, 3, 3, 8, 6, 7, 10\./);
-  assert.match(text, /Verteilung B: viele schmale Säulen von 0 bis 90/);
-  assert.match(text, /Verteilung C: 5 Säulen, relative Höhen von links nach rechts: 2, 7, 10, 3, 1\./);
-  assert.match(text, /Verteilung D: 10 Säulen/);
+  assert.match(text, /Verteilung A: 7 Balken, relative Höhen von links nach rechts: 5, 3, 3, 8, 6, 7, 10\./);
+  assert.match(text, /Verteilung B: viele schmale Balken von 0 bis 90/);
+  assert.match(text, /Verteilung C: 5 Balken, relative Höhen von links nach rechts: 2, 7, 10, 3, 1\./);
+  assert.match(text, /Verteilung D: 10 Balken/);
 });
 
 test('task 4: introduction with 71,5 % and 220 Papierbögen, plenum box', () => {
@@ -146,7 +146,7 @@ test('solvable without the graphics: a text route for every task and every numer
   }
   const noGraphic = (id: string) => textOf(elementById(withoutHelp(html), id).match(/<p class="ohne-grafik">[\s\S]*?<\/p>/)?.[0] ?? '');
   assert.match(noGraphic('a1'), /frequency\(hs01\)/);
-  assert.match(noGraphic('a2'), /Unter jedem Bild steht eine Textfassung mit Stufenzahl und Höhen\. Prüfen kannst du in R mit allbus %>% frequency\(pa01\) ?\./);
+  assert.match(noGraphic('a2'), /Unter jedem Bild steht eine Textfassung mit der Zahl der Balken und ihren Höhen\. Prüfen kannst du in R mit allbus %>% frequency\(pa01\) ?\./);
   assert.match(noGraphic('a3'), /describe\(xt10\)/);
   assert.match(noGraphic('a4'), /Median, Quartile, N und Missing/);
   // Each numeric target has a describe()/frequency() route: a line in the task or a template that prints it.
@@ -216,7 +216,7 @@ test('workshops: start block and layers copy-only, task templates live, try-out 
   const byTitle = (t: string) => textareas.filter(x => x.title === t);
   assert.equal(byTitle('Startblock')[0]?.readOnly, true);
   assert.equal(byTitle('Vorlage: Balkendiagramm')[0]?.readOnly, true);
-  for (const t of ['Vorlage 1: Gesundheit, mit fehlenden Werten', 'Vorlage 2: ohne fehlende Werte, beschriftet', 'Vorlage: eine Verteilung prüfen', 'Kennzahlen der Bearbeitungsdauer', 'Histogramm ohne Angaben', 'Kennzahlen nach dem Ausschnitt', 'Histogramm mit Ausschnitt und Kistenbreite', 'Boxplots, hineingezoomt (alle Bögen zählen)', 'Boxplots, abgeschnitten (nur Bögen bis 180 Minuten)', 'Zahlen für einen Erhebungsweg, alle Bögen', 'Zahlen für einen Erhebungsweg, nur bis 180 Minuten']) {
+  for (const t of ['Vorlage 1: Gesundheit, mit fehlenden Werten', 'Vorlage 2: ohne fehlende Werte, beschriftet', 'Vorlage: eine Verteilung prüfen', 'Kennzahlen der Bearbeitungsdauer', 'Histogramm ohne Angaben', 'Kennzahlen nach dem Ausschnitt', 'Histogramm mit Ausschnitt und Klassenbreite', 'Boxplots, hineingezoomt (alle Fälle zählen)', 'Boxplots, abgeschnitten (nur Fälle bis 180 Minuten)', 'Zahlen für einen Erhebungsweg, alle Fälle', 'Zahlen für einen Erhebungsweg, nur bis 180 Minuten']) {
     assert.equal(byTitle(t).length, 1, t);
     assert.equal(byTitle(t)[0].readOnly, false, t);
   }
@@ -232,7 +232,7 @@ test('read R: start block, reading a line, chain, objects, = and <-; layers step
   assert.match(r1, /Neu heute: die Kette\./);
   const r2 = elementById(html, 'r2');
   assert.deepEqual([...r2.matchAll(/<button[^>]*>(Schritt \d: [^<]*)<\/button>/g)].map(m => m[1]),
-    ['Schritt 1: Daten', 'Schritt 2: Leinwand', 'Schritt 3: Form', 'Schritt 4: Fehlende weglassen', 'Schritt 5: Beschriftung']);
+    ['Schritt 1: Daten', 'Schritt 2: Achsen', 'Schritt 3: Form', 'Schritt 4: Fehlende weglassen', 'Schritt 5: Beschriftung']);
   assert.match(r2, /aria-current="step"[^>]*>Schritt 1: Daten/);
   assert.match(textOf(r2), /Bild: noch leer\./);
 });
